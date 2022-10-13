@@ -1,0 +1,24 @@
+name: Build for PRs
+
+on:
+    pull_request:
+        branches: [main, dev]
+    workflow_dispatch:
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+                  registry-url: 'https://npm.pkg.github.com'
+            - name: dependencies
+              run: npm ci
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GH_PAT}}
+            - name: build
+              run: npm run build
+            - name: test
+              run: npm test
