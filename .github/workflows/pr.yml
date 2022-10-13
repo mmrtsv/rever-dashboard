@@ -1,4 +1,4 @@
-name: Build for PRs
+name: Test and Build for PRs
 
 on:
     pull_request:
