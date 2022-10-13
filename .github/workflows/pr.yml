@@ -17,10 +17,10 @@ jobs:
                   node-version: 14
                   registry-url: 'https://npm.pkg.github.com'
             - name: dependencies
-              run: npm ci
+              run: yarn install --frozen-lockfile
               env:
                   NODE_AUTH_TOKEN: ${{secrets.GH_PAT}}
             - name: build
-              run: npm run build
-            - name: test
-              run: npm test
+              run: yarn build
+            # - name: test
+            #   run: npm test
