@@ -1,6 +1,8 @@
-import Lottie from 'lottie-react';
-import ComingSoon from './ComingSoon.json';
+import Lottie from 'lottie-react'
+import ComingSoon from './ComingSoon.json'
 
-const ComingSoonAnimation = () => <Lottie animationData={ComingSoon} />;
+const ComingSoonAnimation = () => (
+    <Lottie animationData={ComingSoon} className="h-3/5" />
+)
 
-export default ComingSoonAnimation;
+export default ComingSoonAnimation

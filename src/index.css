@@ -1,70 +1,413 @@
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@layer base {
+    @font-face {
+        font-family: 'Tusker Grotesk';
+        src: url('/src/assets/fonts/tusker-grotesk/TuskerGrotesk-7600Semibold.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/tusker-grotesk/TuskerGrotesk-7600Semibold.woff')
+                format('woff');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+    }
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-RegularItalic.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-RegularItalic.woff')
+                format('woff');
+        font-weight: normal;
+        font-style: italic;
+        font-display: swap;
+    }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-Medium.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-Medium.woff') format('woff');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+    }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-HeavyItalic.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-HeavyItalic.woff')
+                format('woff');
+        font-weight: 900;
+        font-style: italic;
+        font-display: swap;
+    }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-Heavy.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-Heavy.woff') format('woff');
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+    }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-SemiBoldItalic.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-SemiBoldItalic.woff')
+                format('woff');
+        font-weight: 600;
+        font-style: italic;
+        font-display: swap;
+    }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-Light.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-Light.woff') format('woff');
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+    }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-Regular.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-Regular.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-SemiBold.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-SemiBold.woff')
+                format('woff');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-MediumItalic.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-MediumItalic.woff')
+                format('woff');
+        font-weight: 500;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-LightItalic.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-LightItalic.woff')
+                format('woff');
+        font-weight: 300;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-BoldItalic.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-BoldItalic.woff')
+                format('woff');
+        font-weight: bold;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/Roobert-Bold.woff2') format('woff2'),
+            url('/src/assets/fonts/roobert/Roobert-Bold.woff') format('woff');
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Roobert';
+        src: url('/src/assets/fonts/roobert/RoobertItalic-Regular.woff2')
+                format('woff2'),
+            url('/src/assets/fonts/roobert/RoobertItalic-Regular.woff')
+                format('woff');
+        font-weight: normal;
+        font-style: italic;
+        font-display: swap;
+    }
+
+    html {
+        letter-spacing: 0em;
+    }
+    html,
+    body,
+    div,
+    span,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    svg {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    svg {
+        min-width: fit-content;
+        min-height: fit-content;
+    }
+    @supports (-webkit-backdrop-filter: blur(1px)) {
+        svg {
+            height: intrinsic;
+            width: intrinsic;
+        }
+    }
+    @media (max-width: 599px) {
+        /* S */
+
+        h1 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 36px;
+            line-height: 40px;
+        }
+        h2 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 36px;
+        }
+        h3 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 24px;
+            line-height: 32px;
+        }
+        h4 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        h5 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 18px;
+            line-height: 28px;
+        }
+        h6 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 16px;
+            line-height: 24px;
+        }
+        p {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+    @media (min-width: 600px) {
+        /* M */
+        h1 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 48px;
+        }
+        h2 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 36px;
+            line-height: 40px;
+        }
+        h3 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 30px;
+            line-height: 36px;
+        }
+        h4 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 24px;
+            line-height: 32px;
+        }
+        h5 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        h6 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 18px;
+            line-height: 28px;
+        }
+        p {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+    @media (min-width: 900px) {
+        /* L */
+        h1 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 48px;
+        }
+        h2 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 36px;
+            line-height: 40px;
+        }
+        h3 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 30px;
+            line-height: 36px;
+        }
+        h4 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 24px;
+            line-height: 32px;
+        }
+        h5 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        h6 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 18px;
+            line-height: 28px;
+        }
+        p {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+    @media (min-width: 1200px) {
+        /* XL */
+        h1 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 60px;
+            line-height: 60px;
+        }
+        h2 {
+            font-family: 'Tusker Grotesk';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 48px;
+        }
+        h3 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 36px;
+            line-height: 40px;
+        }
+        h4 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 30px;
+            line-height: 36px;
+        }
+        h5 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 24px;
+            line-height: 32px;
+        }
+        h6 {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 750;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        p {
+            font-family: 'Roobert';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        position: relative;
+    }
+    body::after {
+        content: '';
+        display: block;
+        height: 48px; /* Set same as footer's height */
+    }
 }
