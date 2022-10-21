@@ -1,8 +1,8 @@
-import configuration, { initialApiState, ApiCallBase } from './apiConfiguration'
+import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { AuthApi, AuthUserResponse, LoginInput } from '@itsrever/dashboard-api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-const authApi = new AuthApi(configuration)
+const authApi = new AuthApi()
 
 interface LoginCall extends ApiCallBase {
     response: AuthUserResponse
