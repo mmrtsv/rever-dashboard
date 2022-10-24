@@ -489,7 +489,7 @@
 
 "@itsrever/design-system@^1.0.46":
   version "1.0.46"
-  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.46/aad2e93c187bbde68e1b9cdbca0a4457cd6032af"
+  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.46/aad2e93c187bbde68e1b9cdbca0a4457cd6032af#aad2e93c187bbde68e1b9cdbca0a4457cd6032af"
   integrity sha512-Qg9tzw2uz9orRXtPk+SdRXBocYe2cUN7UusQYqAETOB0Ir+je+cWaKptWbEdJGsBSfPJFl1OA1+Gw5XsjaWHTg==
   dependencies:
     "@emotion/react" "^11.10.4"
@@ -3108,7 +3108,7 @@ lodash.once@^4.1.1:
 
 lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.21:
   version "4.17.21"
-  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 log-symbols@^4.0.0, log-symbols@^4.1.0:

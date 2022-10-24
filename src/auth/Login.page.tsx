@@ -5,6 +5,8 @@ import Paper from '@mui/material/Paper'
 import LogoLogin from '../assets/images/icons/LogoLogin.svg'
 import TextField from '@mui/material/TextField'
 import * as yup from 'yup'
+import _ from 'lodash'
+import { Button } from '@mui/material'
 
 // Form validation
 const schema = yup.object().shape({
@@ -12,19 +14,16 @@ const schema = yup.object().shape({
         .string()
         .email('You must enter a valid email')
         .required('You must enter an email'),
-    password: yup
-        .string()
-        .required('Please enter your password.')
-        .min(4, 'Password is too short - must be at least 4 chars.')
+    password: yup.string().required('Please enter your password.')
 })
 
 function LoginPage() {
     // React Hook Forms set up
-    const { register, handleSubmit, control, formState } = useForm({
+    const { handleSubmit, control, formState } = useForm({
         mode: 'onChange',
         resolver: yupResolver(schema)
     })
-    const { errors } = formState
+    const { errors, dirtyFields, isValid } = formState
 
     let count = 1
     const onSubmit = () => {
@@ -42,9 +41,9 @@ function LoginPage() {
                             alt="Rever Logo"
                         />
                     </UtilsContainer>
-                    <h4 className="mt-6">Sign in</h4>
+                    <h4 className="my-6">Sign in</h4>
                     <form
-                        className="flex flex-col justify-center w-full mt-8"
+                        className="flex flex-col justify-center w-full"
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <Controller
@@ -63,22 +62,32 @@ function LoginPage() {
                                 />
                             )}
                         />
-                        <Controller
-                            name="password"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Password"
-                                    type="password"
-                                    error={!!errors.password}
-                                    helperText=""
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                />
-                            )}
-                        />
+                        <div className="my-6">
+                            <Controller
+                                name="password"
+                                control={control}
+                                render={({ field }) => (
+                                    <TextField
+                                        {...field}
+                                        label="Password"
+                                        type="password"
+                                        error={!!errors.password}
+                                        helperText=""
+                                        required
+                                        fullWidth
+                                    />
+                                )}
+                            />
+                        </div>
+                        <Button
+                            variant="contained"
+                            aria-label="Sign in"
+                            disabled={_.isEmpty(dirtyFields) || !isValid}
+                            type="submit"
+                            size="large"
+                        >
+                            Sign in
+                        </Button>
                     </form>
                 </FormContainer>
             </LeftBox>
