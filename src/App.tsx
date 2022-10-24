@@ -29,8 +29,8 @@ function App() {
                 alt="Rever Logo"
                 onClick={handleContinue}
             />
-            <ComingSoonAnimation />
-            <h3>Coming soon...</h3>
+            {/* <ComingSoonAnimation /> */}
+            {/* <h3>Coming soon...</h3> */}
         </div>
     )
 }

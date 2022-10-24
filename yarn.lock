@@ -475,12 +475,12 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@itsrever/dashboard-api@^1.0.47":
-  version "1.0.47"
-  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.47/90d9b2d70cfe2a78d76e31a8f9606ced1490eb3d"
-  integrity sha512-2nHCZ6X3j8KTmLiqfZZRrELQA1dUtGk1Ck+eo2FEdO0KnzMBN41Qfze4yDUE4iQddedM+e9O/qonFM/DjHIE7Q==
+"@itsrever/dashboard-api@^1.0.49":
+  version "1.0.49"
+  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.49/007dfce10ad07d3da92fa0eb3358d7892ca4bb7f#007dfce10ad07d3da92fa0eb3358d7892ca4bb7f"
+  integrity sha512-efaqSFe4sAIzPKr28OQ9+vCWvhk6Jvw95VtCGI48rIcS0/9Or5kc6ey4PxDMWFsilvOHktMr9Xz/32po1JjqXg==
   dependencies:
-    axios "^0.26.1"
+    axios "^1.1.3"
 
 "@itsrever/design-system@^1.0.46":
   version "1.0.46"
@@ -1152,13 +1152,6 @@ aws4@^1.8.0:
   version "1.11.0"
   resolved "https://registry.npmjs.org/aws4/-/aws4-1.11.0.tgz"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
-
-axios@^0.26.1:
-  version "0.26.1"
-  resolved "https://registry.npmjs.org/axios/-/axios-0.26.1.tgz"
-  integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
-  dependencies:
-    follow-redirects "^1.14.8"
 
 axios@^1.1.3:
   version "1.1.3"
@@ -2276,7 +2269,7 @@ flatted@^3.1.0:
   resolved "https://registry.npmjs.org/flatted/-/flatted-3.2.7.tgz"
   integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
 
-follow-redirects@^1.14.8, follow-redirects@^1.15.0:
+follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
