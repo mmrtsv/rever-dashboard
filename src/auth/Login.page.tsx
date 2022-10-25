@@ -5,6 +5,9 @@ import Paper from '@mui/material/Paper'
 import LogoLogin from '../assets/images/icons/LogoLogin.svg'
 import LandingImage from '../assets/images/icons/LandingImage.svg'
 import TextField from '@mui/material/TextField'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 import * as yup from 'yup'
 import _ from 'lodash'
 import { Button } from '@mui/material'
@@ -19,10 +22,17 @@ const schema = yup.object().shape({
     password: yup.string().required('Please enter your password.')
 })
 
+const defaultValues = {
+    email: '',
+    password: '',
+    remember: true
+}
+
 function LoginPage() {
     // React Hook Forms set up
     const { handleSubmit, control, formState } = useForm({
         mode: 'onChange',
+        defaultValues,
         resolver: yupResolver(schema)
     })
     const { errors, dirtyFields, isValid } = formState
@@ -80,6 +90,26 @@ function LoginPage() {
                                 )}
                             />
                         </div>
+                        <div className="mb-2 flex flex-col items-center justify-center">
+                            <Controller
+                                name="remember"
+                                control={control}
+                                render={({ field }) => (
+                                    <FormControl>
+                                        <FormControlLabel
+                                            label="Remember me"
+                                            control={
+                                                <Checkbox
+                                                    size="small"
+                                                    {...field}
+                                                />
+                                            }
+                                        />
+                                    </FormControl>
+                                )}
+                            />
+                        </div>
+
                         <Button
                             variant="contained"
                             aria-label="Sign in"
