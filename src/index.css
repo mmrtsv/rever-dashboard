@@ -400,6 +400,20 @@
         }
     }
 
+    /* html,
+    body,
+    #app,
+    #app > div {
+        height: 100%;
+    } */
+
+    html,
+    body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+
     body {
         min-height: 100vh;
         margin: 0;

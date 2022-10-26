@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import ComingSoonAnimation from './Lottie/ComingSoon/ComingSoon'
+import ComingSoonAnimation from './assets/Lottie/ComingSoon/ComingSoon'
 import LogoWide from './assets/images/icons/logoWide.svg'
 import { login, resetAuthApiCalls } from './redux/api/authApi'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
@@ -29,8 +29,8 @@ function App() {
                 alt="Rever Logo"
                 onClick={handleContinue}
             />
-            {/* <ComingSoonAnimation /> */}
-            {/* <h3>Coming soon...</h3> */}
+            <ComingSoonAnimation />
+            <h3>Coming soon...</h3>
         </div>
     )
 }
