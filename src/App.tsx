@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import ComingSoonAnimation from './Lottie/ComingSoon/ComingSoon'
+import ComingSoonAnimation from './assets/Lottie/ComingSoon/ComingSoon'
 import LogoWide from './assets/images/icons/logoWide.svg'
 import { login, logout, resetAuthApiCalls } from './redux/api/authApi'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
