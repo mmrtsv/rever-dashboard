@@ -1,53 +1,31 @@
 import { useEffect } from 'react'
-import ComingSoonAnimation from './assets/Lottie/ComingSoon/ComingSoon'
-import LogoWide from './assets/images/icons/logoWide.svg'
-import { login, logout, resetAuthApiCalls } from './redux/api/authApi'
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    useNavigate
+} from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
-import { LoginInput } from '@itsrever/dashboard-api'
-import processesApi, {
-    getProcesses,
-    resetProcessesApiCalls
-} from './redux/api/processesApi'
-
+import ProtectedRoute from './auth/ProtectedRouting/ProtectedRoute'
+import LoginPage from './auth/Login.page'
+import { setUserData } from './redux/features/userData/userDataSlice'
+import { resetAuthApiCalls } from './redux/api/authApi'
+import Layout from './components/LayoutComponent/Layout'
 function App() {
     const dispatch = useAppDispatch()
-    const ProcessApi = useAppSelector((store) => store.processesApi)
-
-    useEffect(() => {
-        if (ProcessApi.getProcesses.loading === 'succeeded') {
-            // dispatch(resetProcessesApiCalls())
-            console.log(typeof ProcessApi.getProcesses.response)
-        }
-    }, [ProcessApi.getProcesses.loading])
-    const handleLogin = () => {
-        dispatch(
-            login({
-                username: 'admin@oky.com',
-                password: 'Rever2022DashboardPassword'
-            })
-        )
-    }
-    const handleLogout = () => {
-        dispatch(logout())
-    }
-
-    const handleContinue = () => {
-        dispatch(getProcesses())
-    }
 
     return (
-        <div className="flex h-screen w-full flex-col  content-center items-center">
-            <img
-                className="h-24  pt-12"
-                src={LogoWide}
-                alt="Rever Logo"
-                onClick={handleContinue}
-            />
-            <button onClick={handleLogin}>Login</button>
-            <button onClick={handleLogout}>Logout</button>
-            {/* <ComingSoonAnimation /> */}
-            {/* <h3>Coming soon...</h3> */}
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<Layout />}>
+                        <Route path="/" element={<div>Home</div>} />
+                        <Route path="/about" element={<div>About</div>} />
+                    </Route>
+                </Route>
+            </Routes>
+        </Router>
     )
 }
 
