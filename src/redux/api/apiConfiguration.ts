@@ -1,4 +1,4 @@
-import { Configuration, createConfiguration } from '@itsrever/dashboard-api'
+// import { Configuration, createConfiguration } from '@itsrever/dashboard-api'
 // const API_URL = import.meta.env.VITE_API_URL as string
 
 // export default createConfiguration({

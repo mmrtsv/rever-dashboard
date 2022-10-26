@@ -12,23 +12,30 @@ import * as yup from 'yup'
 import _ from 'lodash'
 import { Button } from '@mui/material'
 import Box from '@mui/material/Box'
-
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { login } from '../redux/api/authApi'
+import { LoginInput } from '@itsrever/dashboard-api'
+import { useNavigate } from 'react-router-dom'
+import { resetAuthApiCalls } from '../redux/api/authApi'
+import { useEffect } from 'react'
+import { setUserData } from '../redux/features/userData/userDataSlice'
 // Form validation
 const schema = yup.object().shape({
-    email: yup
+    username: yup
         .string()
-        .email('You must enter a valid email')
-        .required('You must enter an email'),
+        .email('You must enter a valid username')
+        .required('You must enter an username'),
     password: yup.string().required('Please enter your password.')
 })
 
-const defaultValues = {
-    email: '',
-    password: '',
-    remember: true
+const defaultValues: LoginInput = {
+    username: '',
+    password: ''
+    // remember: false
 }
 
 function LoginPage() {
+    const dispatch = useAppDispatch()
     // React Hook Forms set up
     const { handleSubmit, control, formState } = useForm({
         mode: 'onChange',
@@ -37,9 +44,27 @@ function LoginPage() {
     })
     const { errors, dirtyFields, isValid } = formState
 
-    const onSubmit = () => {
-        const count = 1
+    function onSubmit({ username, password }: LoginInput) {
+        dispatch(login({ username, password } as LoginInput))
     }
+    const navigate = useNavigate()
+    const authApi = useAppSelector((store) => store.authApi)
+    useEffect(() => {
+        if (authApi.login.loading === 'succeeded') {
+            if (authApi.login.response.user) {
+                dispatch(setUserData(authApi.login.response.user))
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(authApi.login.response.user)
+                )
+            }
+            dispatch(resetAuthApiCalls())
+            navigate('/')
+        } else if (authApi.login.loading === 'failed') {
+            dispatch(resetAuthApiCalls())
+            alert('Login failed')
+        }
+    }, [authApi.login.response, authApi.login.loading])
 
     return (
         <MainDiv>
@@ -58,15 +83,15 @@ function LoginPage() {
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <Controller
-                            name="email"
+                            name="username"
                             control={control}
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="Email"
+                                    label="username"
                                     autoFocus
                                     type="email"
-                                    error={!!errors.email}
+                                    error={!!errors.username}
                                     helperText=""
                                     required
                                     fullWidth
@@ -90,7 +115,7 @@ function LoginPage() {
                                 )}
                             />
                         </div>
-                        <div className="mb-2 flex flex-col items-center justify-center">
+                        {/* <div className="mb-2 flex flex-col items-center justify-center">
                             <Controller
                                 name="remember"
                                 control={control}
@@ -108,7 +133,7 @@ function LoginPage() {
                                     </FormControl>
                                 )}
                             />
-                        </div>
+                        </div> */}
 
                         <Button
                             variant="contained"
@@ -181,7 +206,7 @@ const LeftBox = styled(Paper)`
     }
 `
 
-const FormContainer = styled.form`
+const FormContainer = styled.div`
     height: 100%;
     width: 100%;
     max-width: 32rem;

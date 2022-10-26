@@ -22,8 +22,13 @@ const initialState: State = {
 }
 
 export const getProcesses = createAsyncThunk('/getProcesses', async () => {
-    const getProcessesResponse = await processesApi.findProcesses()
-    console.log('getProcessesResponse', getProcessesResponse)
+    const getProcessesResponse = await processesApi.findProcesses(
+        undefined,
+        undefined,
+        undefined,
+        3
+    )
+    // console.log('getProcessesResponse', getProcessesResponse)
 
     return getProcessesResponse
 })
@@ -45,7 +50,7 @@ const processesSlice = createSlice({
         })
         builder.addCase(getProcesses.fulfilled, (state, action) => {
             state.getProcesses.loading = 'succeeded'
-            state.getProcesses.response = action.payload
+            state.getProcesses.response = action.payload.data
         })
         builder.addCase(getProcesses.rejected, (state, action) => {
             state.getProcesses.loading = 'failed'

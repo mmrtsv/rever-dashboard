@@ -31,6 +31,11 @@ export const login = createAsyncThunk(
         return loginResponse
     }
 )
+export const logout = createAsyncThunk('/logout', async () => {
+    const logoutResponse = await authApi.logout()
+    console.log('logoutResponse', logoutResponse)
+    return logoutResponse
+})
 
 //Slice
 const authSlice = createSlice({
@@ -51,7 +56,7 @@ const authSlice = createSlice({
         })
         builder.addCase(login.fulfilled, (state, action) => {
             state.login.loading = 'succeeded'
-            state.login.response = action.payload
+            state.login.response = action.payload.data
         })
         builder.addCase(login.rejected, (state, action) => {
             state.login.loading = 'failed'
