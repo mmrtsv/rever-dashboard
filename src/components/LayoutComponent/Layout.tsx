@@ -1,11 +1,9 @@
 import { Outlet } from 'react-router-dom'
-import Header from '../HeaderComponent/Header'
-import SideBar from '../SideBarComponent/SideBar'
+import Header from './HeaderComponent/Header'
 const Layout = () => {
     return (
         <>
             <Header />
-            <SideBar />
             <Outlet />
         </>
     )

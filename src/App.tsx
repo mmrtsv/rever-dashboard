@@ -11,6 +11,7 @@ import LoginPage from './auth/Login.page'
 import { setUserData } from './redux/features/userData/userDataSlice'
 import { resetAuthApiCalls } from './redux/api/authApi'
 import Layout from './components/LayoutComponent/Layout'
+import Home from './pages/Home.page'
 function App() {
     const dispatch = useAppDispatch()
 
@@ -20,7 +21,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route element={<ProtectedRoute />}>
                     <Route element={<Layout />}>
-                        <Route path="/" element={<div>Home</div>} />
+                        <Route path="/" element={<Home />} />
                         <Route path="/about" element={<div>About</div>} />
                     </Route>
                 </Route>
