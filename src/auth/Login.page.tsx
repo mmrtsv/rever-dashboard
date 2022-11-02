@@ -88,7 +88,7 @@ function LoginPage() {
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="username"
+                                    label="Username"
                                     autoFocus
                                     type="email"
                                     error={!!errors.username}
