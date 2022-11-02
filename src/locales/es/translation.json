@@ -1,0 +1,8 @@
+{
+    "login_page": {
+        "sign_in": "Iniciar sesión",
+        "username": "Usuario",
+        "password": "Contraseña",
+        "button_submit": "Iniciar sesión"
+    }
+}
