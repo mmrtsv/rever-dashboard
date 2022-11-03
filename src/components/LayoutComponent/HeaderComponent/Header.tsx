@@ -18,6 +18,7 @@ import Divider from '@mui/material/Divider'
 import HomeIcon from '@mui/icons-material/Store'
 import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
+import LanguageSwitcher from '../../LanguageSwitcher'
 
 const drawerWidth = 240
 
@@ -86,7 +87,8 @@ const Header = () => {
                         <img src={logoWide} alt="logo" className="ml-4" />
                     </div>
 
-                    <div className="flex h-full items-center overflow-x-auto ">
+                    <LanguageSwitcher />
+                    <div className="mx-2 flex h-full items-center overflow-x-auto ">
                         <UserMenu />
                     </div>
                 </ReverToolbar>

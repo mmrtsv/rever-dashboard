@@ -21,6 +21,7 @@ import { resetAuthApiCalls } from '../redux/api/authApi'
 import { useEffect } from 'react'
 import { setUserData } from '../redux/features/userData/userDataSlice'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 // Form validation
 const schema = yup.object().shape({
@@ -80,7 +81,9 @@ function LoginPage() {
                             src={LogoLogin}
                             alt="Rever Logo"
                         />
+                        <LanguageSwitcher />
                     </UtilsContainer>
+
                     <h4 className="my-6">{t('login_page.sign_in')}</h4>
                     <form
                         className="flex w-full flex-col justify-center"
