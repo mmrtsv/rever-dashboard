@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../redux/hooks'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../redux/hooks'
 import { setUserData } from '../../redux/features/userData/userDataSlice'
 import ComingSoonAnimation from '../../assets/Lottie/ComingSoon/ComingSoon'

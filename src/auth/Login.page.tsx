@@ -6,9 +6,9 @@ import Paper from '@mui/material/Paper'
 import LogoLogin from '../assets/images/icons/LogoLogin.svg'
 import LandingImage from '../assets/images/icons/LandingImage.svg'
 import TextField from '@mui/material/TextField'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
+// import FormControl from '@mui/material/FormControl'
+// import FormControlLabel from '@mui/material/FormControlLabel'
+// import Checkbox from '@mui/material/Checkbox'
 import * as yup from 'yup'
 import _ from 'lodash'
 import { Button } from '@mui/material'
@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom'
 import { resetAuthApiCalls } from '../redux/api/authApi'
 import { useEffect } from 'react'
 import { setUserData } from '../redux/features/userData/userDataSlice'
+import { useTranslation } from 'react-i18next'
+
 // Form validation
 const schema = yup.object().shape({
     username: yup
@@ -37,6 +39,7 @@ const defaultValues: LoginInput = {
 
 function LoginPage() {
     const dispatch = useAppDispatch()
+    const { t } = useTranslation()
     // React Hook Forms set up
     const { handleSubmit, control, formState } = useForm({
         mode: 'onChange',
@@ -78,7 +81,7 @@ function LoginPage() {
                             alt="Rever Logo"
                         />
                     </UtilsContainer>
-                    <h4 className="my-6">Sign in</h4>
+                    <h4 className="my-6">{t('login_page.sign_in')}</h4>
                     <form
                         className="flex w-full flex-col justify-center"
                         onSubmit={handleSubmit(onSubmit)}
@@ -89,7 +92,7 @@ function LoginPage() {
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="username"
+                                    label={t('login_page.username')}
                                     autoFocus
                                     type="email"
                                     error={!!errors.username}
@@ -106,7 +109,7 @@ function LoginPage() {
                                 render={({ field }) => (
                                     <TextField
                                         {...field}
-                                        label="Password"
+                                        label={t('login_page.password')}
                                         type="password"
                                         error={!!errors.password}
                                         helperText=""
@@ -144,7 +147,7 @@ function LoginPage() {
                             size="medium"
                             sx={{ borderRadius: 73 }}
                         >
-                            Sign in
+                            {t('login_page.button_submit')}
                         </Button>
                     </form>
                 </FormContainer>
