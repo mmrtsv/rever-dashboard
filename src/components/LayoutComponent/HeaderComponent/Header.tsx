@@ -88,7 +88,7 @@ const Header = () => {
                     </div>
 
                     <LanguageSwitcher />
-                    <div className="flex h-full items-center overflow-x-auto ">
+                    <div className="mx-2 flex h-full items-center overflow-x-auto ">
                         <UserMenu />
                     </div>
                 </ReverToolbar>
