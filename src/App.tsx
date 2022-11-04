@@ -3,6 +3,7 @@ import ProtectedRoute from './auth/ProtectedRouting/ProtectedRoute'
 import LoginPage from './auth/Login.page'
 import Layout from './components/LayoutComponent/Layout'
 import Home from './pages/Home.page'
+import Orders from './pages/Orders.page'
 function App() {
     return (
         <Router>
@@ -11,7 +12,7 @@ function App() {
                 <Route element={<ProtectedRoute />}>
                     <Route element={<Layout />}>
                         <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<div>About</div>} />
+                        <Route path="/orders" element={<Orders />} />
                     </Route>
                 </Route>
             </Routes>
