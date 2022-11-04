@@ -1,10 +1,7 @@
 import React from 'react'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, it, expect } from 'vitest'
-import {
-    LanguageSwitcher,
-    languageLabels
-} from '../../components/LanguageSwitcher/LanguageSwitcher'
+import { LanguageSwitcher, languageLabels } from './LanguageSwitcher'
 
 describe('Language Switcher Component', () => {
     afterEach(cleanup)
