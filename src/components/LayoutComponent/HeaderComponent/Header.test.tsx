@@ -26,7 +26,7 @@ describe('Header Component', () => {
 
     afterEach(cleanup)
 
-    it('should render', () => {
+    it('should render the elements: DrawerLogo - ReverLogo - LanguageSwitcher - UserMenu', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
@@ -35,5 +35,9 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
+        screen.getByTestId('DrawerLogo')
+        screen.getByTestId('ReverLogo')
+        screen.getByTestId('LanguageSwitcher')
+        screen.getByTestId('UserMenu')
     })
 })

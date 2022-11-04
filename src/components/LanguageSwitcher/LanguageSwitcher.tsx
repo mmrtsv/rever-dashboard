@@ -32,7 +32,7 @@ export const LanguageSwitcher = () => {
 
     return (
         <>
-            <Button data-testid="Title" onClick={menuOpen}>
+            <Button data-testid="LanguageSwitcher" onClick={menuOpen}>
                 <div className="flex items-center">
                     <img
                         className="mx-2"

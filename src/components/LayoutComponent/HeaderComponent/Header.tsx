@@ -72,7 +72,7 @@ const Header = () => {
             >
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
-                        <>
+                        <div data-testid="DrawerLogo">
                             {!openDrawer && (
                                 <Hidden lgDown>
                                     <NavBarBurgerMenu
@@ -83,9 +83,14 @@ const Header = () => {
                             <Hidden lgUp>
                                 <NavBarBurgerMenu onClick={handleDrawerOpen} />
                             </Hidden>
-                        </>
+                        </div>
 
-                        <img src={logoWide} alt="logo" className="ml-4" />
+                        <img
+                            data-testid="ReverLogo"
+                            src={logoWide}
+                            alt="logo"
+                            className="ml-4"
+                        />
                     </div>
 
                     <LanguageSwitcher />
