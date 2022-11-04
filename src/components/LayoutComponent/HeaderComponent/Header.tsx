@@ -1,3 +1,4 @@
+import React from 'react'
 import { Hidden, Toolbar } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -62,7 +63,7 @@ const Header = () => {
         setOpenDrawer(false)
     }
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box data-testid="Header" sx={{ display: 'flex' }}>
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"

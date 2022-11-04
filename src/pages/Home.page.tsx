@@ -1,7 +1,7 @@
-import ComingSoonAnimation from '../assets/Lottie/ComingSoon/ComingSoon'
+import React from 'react'
 
 const Home = () => {
-    return <ComingSoonAnimation />
+    return <h1>HOME!</h1>
 }
 
 export default Home
