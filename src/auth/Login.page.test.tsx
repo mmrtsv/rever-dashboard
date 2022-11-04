@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, it, expect, vi } from 'vitest'
 
 import LoginPage from './Login.page'
@@ -27,7 +27,7 @@ describe('Login Page', () => {
 
     afterEach(cleanup)
 
-    it('should render', () => {
+    it('should render all components', () => {
         store = mockStore(initialState)
         render(
             <Router>
@@ -36,17 +36,11 @@ describe('Login Page', () => {
                 </Provider>
             </Router>
         )
-        screen.getAllByText('Sign in')
+        screen.getByTestId('sign-in')
+        screen.getByTestId('login-form')
+        screen.getByTestId('username-input')
+        screen.getByTestId('password-input')
+        screen.getByTestId('sign-in-button')
+        screen.getByTestId('landing-image')
     })
-    // it('should login', () => {
-    //     store = mockStore(loggedInState)
-    //     render(
-    //         <Router>
-    //             <Provider store={store}>
-    //                 <LoginPage />
-    //             </Provider>
-    //         </Router>
-    //     )
-    //     // expect(mockedNavigator).toHaveBeenCalledWith('/')
-    // })
 })
