@@ -54,6 +54,7 @@ function LoginPage() {
     }
     const navigate = useNavigate()
     const authApi = useAppSelector((store) => store.authApi)
+
     useEffect(() => {
         if (authApi.login.loading === 'succeeded') {
             if (authApi.login.response.user) {
@@ -83,11 +84,13 @@ function LoginPage() {
                         />
                         <LanguageSwitcher />
                     </UtilsContainer>
-
-                    <h4 className="my-6">{t('login_page.sign_in')}</h4>
+                    <h4 data-testid="sign-in" className="my-6">
+                        {t('login_page.sign_in')}
+                    </h4>
                     <form
                         className="flex w-full flex-col justify-center"
                         onSubmit={handleSubmit(onSubmit)}
+                        data-testid="login-form"
                     >
                         <Controller
                             name="username"
@@ -97,6 +100,7 @@ function LoginPage() {
                                     {...field}
                                     label={t('login_page.username')}
                                     autoFocus
+                                    data-testid="username-input"
                                     type="email"
                                     error={!!errors.username}
                                     helperText=""
@@ -114,6 +118,7 @@ function LoginPage() {
                                         {...field}
                                         label={t('login_page.password')}
                                         type="password"
+                                        data-testid="password-input"
                                         error={!!errors.password}
                                         helperText=""
                                         required
@@ -145,19 +150,26 @@ function LoginPage() {
                         <Button
                             variant="contained"
                             aria-label="Sign in"
+                            data-testid="sign-in-button"
                             disabled={_.isEmpty(dirtyFields) || !isValid}
                             type="submit"
                             size="medium"
                             sx={{ borderRadius: 73 }}
                         >
-                            {t('login_page.button_submit')}
+                            <a data-testid="sign-in-text">
+                                {t('login_page.button_submit')}
+                            </a>
                         </Button>
                     </form>
                 </FormContainer>
             </LeftBox>
 
             <RightBox>
-                <img src={LandingImage} alt="BackgroundImage" />
+                <img
+                    src={LandingImage}
+                    alt="BackgroundImage"
+                    data-testid="landing-image"
+                />
             </RightBox>
         </MainDiv>
     )
