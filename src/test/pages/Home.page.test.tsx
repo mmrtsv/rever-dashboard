@@ -9,5 +9,6 @@ describe('Home Page', () => {
 
     it('should render', () => {
         render(<Home />)
+        screen.getByTestId('home-page')
     })
 })
