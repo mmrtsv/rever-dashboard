@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
     Avatar,
     Box,
@@ -53,7 +53,7 @@ const UserMenu = () => {
     }
 
     return (
-        <Box sx={{ flexGrow: 0 }}>
+        <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
                     <Hidden lgDown>

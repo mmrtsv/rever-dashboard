@@ -1,3 +1,4 @@
+import React from 'react'
 import { Hidden, Toolbar } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -19,6 +20,13 @@ import HomeIcon from '@mui/icons-material/Store'
 import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
 import LanguageSwitcher from '../../LanguageSwitcher'
+
+export const drawerList1 = [
+    { en: 'Home', es: 'Inicio' },
+    { en: 'Dashboard', es: 'Tablero' }
+]
+
+export const drawerList2 = [{ en: 'Orders', es: 'Pedidos' }]
 
 const drawerWidth = 240
 
@@ -62,7 +70,7 @@ const Header = () => {
         setOpenDrawer(false)
     }
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box data-testid="Header" sx={{ display: 'flex' }}>
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"
@@ -71,7 +79,7 @@ const Header = () => {
             >
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
-                        <>
+                        <div data-testid="DrawerOutLogo">
                             {!openDrawer && (
                                 <Hidden lgDown>
                                     <NavBarBurgerMenu
@@ -82,9 +90,14 @@ const Header = () => {
                             <Hidden lgUp>
                                 <NavBarBurgerMenu onClick={handleDrawerOpen} />
                             </Hidden>
-                        </>
+                        </div>
 
-                        <img src={logoWide} alt="logo" className="ml-4" />
+                        <img
+                            data-testid="ReverLogo"
+                            src={logoWide}
+                            alt="logo"
+                            className="ml-4"
+                        />
                     </div>
 
                     <LanguageSwitcher />
@@ -111,7 +124,7 @@ const Header = () => {
                 anchor="left"
                 open={openDrawer}
             >
-                <DrawerHeader>
+                <DrawerHeader data-testid="DrawerInLogo">
                     <IconButton onClick={handleDrawerClose}>
                         <div style={{ color: 'white' }}>
                             <NavBarBurgerMenu />
