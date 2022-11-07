@@ -8,7 +8,7 @@ describe('Language Switcher Component', () => {
 
     it('should render title correctly', () => {
         render(<LanguageSwitcher />)
-        screen.getByTestId('Title')
+        screen.getByTestId('LanguageSwitcher')
     })
 
     it('should open when clicked', () => {
@@ -16,7 +16,7 @@ describe('Language Switcher Component', () => {
         const popover = screen.queryByTestId('Popover')
         expect(popover).toBeNull()
 
-        const title = screen.getByTestId('Title')
+        const title = screen.getByTestId('LanguageSwitcher')
         fireEvent.click(title)
 
         expect(popover).toBeDefined()
@@ -27,7 +27,7 @@ describe('Language Switcher Component', () => {
         const popover = screen.queryByTestId('Popover')
         expect(popover).toBeNull()
 
-        const title = screen.getByTestId('Title')
+        const title = screen.getByTestId('LanguageSwitcher')
         fireEvent.click(title)
 
         const option = screen.getByText('English')
@@ -38,7 +38,7 @@ describe('Language Switcher Component', () => {
 
     it('should have as many options as languages available', () => {
         render(<LanguageSwitcher />)
-        const switcher = screen.getByTestId('Title')
+        const switcher = screen.getByTestId('LanguageSwitcher')
         fireEvent.click(switcher)
         Object.entries(languageLabels).forEach((label) => {
             screen.getByText(label[1])
@@ -47,7 +47,7 @@ describe('Language Switcher Component', () => {
 
     it('should display title in corresponding language', () => {
         render(<LanguageSwitcher />)
-        const menu = screen.getByTestId('Title')
+        const menu = screen.getByTestId('LanguageSwitcher')
         fireEvent.click(menu)
 
         const option = screen.getByText('English')
