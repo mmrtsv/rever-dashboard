@@ -43,6 +43,7 @@ describe('Header Component', () => {
         screen.getByTestId('UserMenu')
     })
 
+    // TO BE FINISHED
     it('should display correct pages when DrawerLogo is clicked', () => {
         store = mockStore(loggedInState)
         render(
@@ -56,6 +57,6 @@ describe('Header Component', () => {
         const DrawerOutLogo = screen.getByTestId('DrawerOutLogo')
         fireEvent.click(DrawerOutLogo)
 
-        Object.entries(drawerList1).forEach((item) => {})
+        //Object.entries(drawerList1).forEach((item) => {})
     })
 })
