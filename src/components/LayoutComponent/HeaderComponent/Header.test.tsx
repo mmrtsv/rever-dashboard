@@ -1,11 +1,13 @@
 import React from 'react'
-import { render, screen, cleanup } from '@testing-library/react'
-import { afterEach, describe, it } from 'vitest'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { afterEach, describe, expect, it } from 'vitest'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import Header from './Header'
+import drawerList1 from './Header'
+import drawerList2 from './Header'
 
 describe('Header Component', () => {
     const loggedInState = {
@@ -35,9 +37,25 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-        screen.getByTestId('DrawerLogo')
+        screen.getByTestId('DrawerOutLogo')
         screen.getByTestId('ReverLogo')
         screen.getByTestId('LanguageSwitcher')
         screen.getByTestId('UserMenu')
+    })
+
+    it('should display correct pages when DrawerLogo is clicked', () => {
+        store = mockStore(loggedInState)
+        render(
+            <Router>
+                <Provider store={store}>
+                    <Header />
+                </Provider>
+            </Router>
+        )
+
+        const DrawerOutLogo = screen.getByTestId('DrawerOutLogo')
+        fireEvent.click(DrawerOutLogo)
+
+        Object.entries(drawerList1).forEach((item) => {})
     })
 })
