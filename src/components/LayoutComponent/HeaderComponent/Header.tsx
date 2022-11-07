@@ -20,6 +20,7 @@ import HomeIcon from '@mui/icons-material/Store'
 import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
 import LanguageSwitcher from '../../LanguageSwitcher'
+import { useNavigate } from 'react-router-dom'
 
 export const drawerList1 = [
     { en: 'Home', es: 'Inicio' },
@@ -62,6 +63,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Header = () => {
     const [openDrawer, setOpenDrawer] = useState(false)
+    const navigate = useNavigate()
     const handleDrawerOpen = () => {
         setOpenDrawer(true)
     }
@@ -157,7 +159,7 @@ const Header = () => {
                 <List sx={{ color: 'white' }}>
                     {['Orders'].map((text) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={() => navigate('/orders')}>
                                 <ListItemIcon>
                                     {text === 'Orders' && (
                                         <div style={{ color: 'white' }}>
