@@ -1,6 +1,4 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import {
     FindPaginatedResults,
@@ -10,55 +8,8 @@ import {
     getProcesses,
     resetProcessesApiCalls
 } from '../../../redux/api/processesApi'
+import styled from 'styled-components'
 
-const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Return ID', width: 120 },
-    {
-        field: 'name',
-        headerName: 'Name',
-        width: 200
-        // editable: true
-    },
-    {
-        field: 'address',
-        headerName: 'Address',
-        width: 400
-    },
-    {
-        field: 'status',
-        headerName: 'Status',
-
-        width: 110
-    }
-    // {
-    //     field: 'fullName',
-    //     headerName: 'Full name',
-    //     description: 'This column has a value getter and is not sortable.',
-    //     sortable: false,
-    //     width: 160,
-    //     valueGetter: (params: GridValueGetterParams) =>
-    //         `${params.row.firstName || ''} ${params.row.lastName || ''}`
-    // }
-]
-
-// const rows = [
-//     {
-//         id: 1,
-//         name: 'Jon Snow',
-//         address: ' jejejejejejeje',
-//         status: 'completed'
-//     },
-//     {
-//         customer_order_id: 2,
-//         customer: {
-//             name: 'Jon',
-//             surname: 'Snow'
-//         },
-//         address: {
-
-//         }
-//     }
-// ]
 interface RowsTypes {
     id: any
     name: any
@@ -74,8 +25,8 @@ const OrdersTable = () => {
         ModelsReturnProcess[] | undefined
     >([])
     const [PaginationResponse, setPaginationResponse] = React.useState<
-        number | undefined
-    >(0)
+        string | undefined
+    >()
     const [Rows, setRows] = React.useState<any>([
         {
             id: '',
@@ -89,9 +40,11 @@ const OrdersTable = () => {
     React.useEffect(() => {
         dispatch(getProcesses())
     }, [])
+
     React.useEffect(() => {
         if (processesApi.getProcesses.loading === 'succeeded') {
             setProcesses(processesApi.getProcesses.response.processes)
+            setPaginationResponse(processesApi.getProcesses.response.next)
             dispatch(resetProcessesApiCalls())
         } else if (processesApi.getProcesses.loading === 'failed') {
             dispatch(resetProcessesApiCalls())
@@ -137,19 +90,111 @@ const OrdersTable = () => {
         }
     }, [Processes])
 
+    // function that onclick fetches api for next page
+    const fetchNextPage = () => {
+        if (PaginationResponse) {
+            //fetch next page
+            dispatch(getProcesses(PaginationResponse))
+        }
+    }
     return (
-        <Box sx={{ height: 650, width: '100%' }}>
-            <DataGrid
-                rows={Rows}
-                columns={columns}
-                pageSize={20}
-                rowsPerPageOptions={[5]}
-                disableSelectionOnClick
-                pagination={true}
-                experimentalFeatures={{ newEditingApi: true }}
-            />
-        </Box>
+        <Main>
+            <ReverTable>
+                <thead>
+                    <tr>
+                        <th>Return ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Rows.map((row: any) => {
+                        return (
+                            <tr key={row.id}>
+                                <td>{row.id}</td>
+                                <td>{row.name}</td>
+                                <td>{row.address}</td>
+                                <td>{row.status}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </ReverTable>
+            <TableFooter>
+                <button>Previous</button>
+                <button onClick={fetchNextPage}>Next</button>
+            </TableFooter>
+        </Main>
     )
 }
+const TableFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    height: 3rem;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e0e0e0;
+    position: sticky;
+    bottom: 0;
+`
+
+const Main = styled.div`
+    height: 70vh;
+    width: 100%;
+    overflow: scroll;
+    padding: 0 1rem 0 1rem;
+    margin-top: 1rem;
+`
+const ReverTable = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #e1e8ee;
+    thead {
+        background-color: #f8f8f8;
+        border: 1px solid #e1e8ee;
+        position: sticky;
+        top: 0;
+        margin: 0 0 0 0;
+        tr {
+            th {
+                padding: 10px 15px;
+                font-weight: 500;
+                font-size: 14px;
+                color: #172b4d;
+                text-align: left;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding: 10px 15px;
+                font-size: 14px;
+                color: #172b4d;
+                border-bottom: 1px solid #e1e8ee;
+                &:first-child {
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+    /* tfoot {
+        position: sticky;
+        bottom: -100px;
+        margin: 0 0 0 0;
+        tr {
+            td {
+                padding: 10px 15px;
+                font-size: 14px;
+                color: #172b4d;
+                border-top: 1px solid #e1e8ee;
+                text-align: center;
+            }
+        }
+    } */
+`
 
 export default OrdersTable

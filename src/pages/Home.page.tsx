@@ -1,7 +1,11 @@
 import React from 'react'
-
+import PageComponent from '../components/PageComponent'
 const Home = () => {
-    return <h1>HOME!</h1>
+    return (
+        <PageComponent>
+            <h1>HOME!</h1>
+        </PageComponent>
+    )
 }
 
 export default Home

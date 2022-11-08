@@ -21,6 +21,8 @@ import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
 import LanguageSwitcher from '../../LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../../../redux/hooks'
+import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 
 export const drawerList1 = [
     { en: 'Home', es: 'Inicio' },
@@ -63,13 +65,28 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Header = () => {
     const [openDrawer, setOpenDrawer] = useState(false)
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const handleDrawerOpen = () => {
         setOpenDrawer(true)
+        dispatch(toggleSidebar())
     }
 
     const handleDrawerClose = () => {
         setOpenDrawer(false)
+        dispatch(toggleSidebar())
+    }
+    const navigateMenuOnClick = (text: string) => {
+        switch (text) {
+            case 'Home':
+                navigate('/')
+                break
+            case 'Orders':
+                navigate('/orders')
+                break
+            default:
+                break
+        }
     }
     return (
         <Box data-testid="Header" sx={{ display: 'flex' }}>
@@ -137,7 +154,9 @@ const Header = () => {
                 <List sx={{ color: 'white' }}>
                     {['Home', 'Dashboard'].map((text) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton
+                                onClick={() => navigateMenuOnClick(text)}
+                            >
                                 <ListItemIcon>
                                     {text === 'Home' && (
                                         <div style={{ color: 'white' }}>
@@ -159,7 +178,9 @@ const Header = () => {
                 <List sx={{ color: 'white' }}>
                     {['Orders'].map((text) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton onClick={() => navigate('/orders')}>
+                            <ListItemButton
+                                onClick={() => navigateMenuOnClick(text)}
+                            >
                                 <ListItemIcon>
                                     {text === 'Orders' && (
                                         <div style={{ color: 'white' }}>
