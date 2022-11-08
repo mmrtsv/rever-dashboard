@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import { afterEach, describe, expect, it, test } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -50,7 +50,7 @@ describe('Header Component', () => {
         expect(screen.getByTestId('UserMenu')).toBeDefined()
     })
 
-    it('should display correct pages when DrawerLogo is clicked', () => {
+    it('should have the correct pages', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
@@ -61,16 +61,12 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-        //expect(screen.getByTestId('DrawerOutLogo'))
 
-        // const DrawerOutLogo = screen.getByTestId('DrawerOutLogo')
-        // fireEvent.click(DrawerOutLogo)
-
-        // Object.values(drawerList1).forEach((entry) => {
-        //     expect(screen.getByText(entry)).toBeDefined()
-        // })
-        // Object.values(drawerList2).forEach((entry) => {
-        //     screen.getByText(entry)
-        // })
+        Object.values(drawerList1).forEach((entry) => {
+            expect(screen.getByText(entry)).toBeDefined()
+        })
+        Object.values(drawerList2).forEach((entry) => {
+            expect(screen.getByText(entry)).toBeDefined()
+        })
     })
 })
