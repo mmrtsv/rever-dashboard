@@ -7,6 +7,8 @@ import LoginPage from '../../auth/Login.page'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { I18nextProvider } from 'react-i18next'
+import i18n from '../../i18nForTests'
 
 // const mockedNavigator = vi.fn()
 
@@ -17,11 +19,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 // }))
 describe('Login Page', () => {
     const initialState = { authApi: { login: { loading: 'idle' } } }
-    const loggedInState = {
-        authApi: {
-            login: { loading: 'idle', response: { user: { name: 'Test' } } }
-        }
-    }
     const mockStore = configureStore()
     let store
 
@@ -32,7 +29,9 @@ describe('Login Page', () => {
         render(
             <Router>
                 <Provider store={store}>
-                    <LoginPage />
+                    <I18nextProvider i18n={i18n}>
+                        <LoginPage />
+                    </I18nextProvider>
                 </Provider>
             </Router>
         )

@@ -12,6 +12,7 @@ const NavBarBurgerMenu: React.FC<NavBarBurgerMenuProps> = ({
     return (
         <>
             <MenuIcon
+                data-testid="NavBarBurgerMenu"
                 onClick={onClick}
                 fontSize="large"
                 style={disabled ? { cursor: 'auto' } : { cursor: 'pointer' }}

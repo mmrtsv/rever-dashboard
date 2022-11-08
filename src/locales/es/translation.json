@@ -4,5 +4,10 @@
         "username": "Usuario",
         "password": "Contraseña",
         "button_submit": "Iniciar sesión"
+    },
+    "drawer_pages": {
+        "home": "Inicio",
+        "dashboard": "Tablero",
+        "orders": "Pedidos"
     }
 }

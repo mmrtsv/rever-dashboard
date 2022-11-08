@@ -4,5 +4,10 @@
         "username": "Username",
         "password": "Password",
         "button_submit": "Sign in"
+    },
+    "drawer_pages": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "orders": "Orders"
     }
 }
