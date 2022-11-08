@@ -94,7 +94,7 @@ const OrdersTable = () => {
     const fetchNextPage = () => {
         if (PaginationResponse) {
             //fetch next page
-            dispatch(getProcesses(PaginationResponse))
+            dispatch(getProcesses())
         }
     }
     return (
