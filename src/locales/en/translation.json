@@ -1,0 +1,13 @@
+{
+    "login_page": {
+        "sign_in": "Sign in",
+        "username": "Username",
+        "password": "Password",
+        "button_submit": "Sign in"
+    },
+    "drawer_pages": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "orders": "Orders"
+    }
+}

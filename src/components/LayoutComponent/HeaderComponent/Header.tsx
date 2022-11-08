@@ -1,30 +1,31 @@
+import React from 'react'
 import { Hidden, Toolbar } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
-// import styled from 'styled-components'
 import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
 import UserMenu from '../SharedComponents/UserMenu'
 import logoWide from '../../../assets/images/icons/logoWide.svg'
-import { useState } from 'react'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
-import MailIcon from '@mui/icons-material/Mail'
-import { styled, useTheme } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import List from '@mui/material/List'
 import Divider from '@mui/material/Divider'
 import HomeIcon from '@mui/icons-material/Store'
 import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
-import { makeStyles } from '@mui/material'
+import LanguageSwitcher from '../../LanguageSwitcher'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
+import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
+import { useTranslation } from 'react-i18next'
+
+export const drawerList1 = ['home', 'dashboard']
+export const drawerList2 = ['orders']
+
 const drawerWidth = 240
 
 interface AppBarProps extends MuiAppBarProps {
@@ -58,46 +59,68 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 const Header = () => {
-    const [openDrawer, setOpenDrawer] = useState(false)
+    const { t } = useTranslation()
+
+    const isSidebarOpen = useAppSelector(
+        (store) => store.appState.isSidebarOpen
+    )
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const handleDrawerOpen = () => {
-        setOpenDrawer(true)
+        // setOpenDrawer(true)
+        dispatch(toggleSidebar())
     }
 
     const handleDrawerClose = () => {
-        setOpenDrawer(false)
+        // setOpenDrawer(false)
+        dispatch(toggleSidebar())
+    }
+    const navigateMenuOnClick = (text: string) => {
+        switch (text) {
+            case 'home':
+                navigate('/')
+                break
+            case 'orders':
+                navigate('/orders')
+                break
+            default:
+                break
+        }
     }
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box data-testid="Header" sx={{ display: 'flex' }}>
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"
-                open={openDrawer}
+                open={isSidebarOpen}
                 sx={{ backgroundColor: 'white', color: '#24446D' }}
             >
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
-                        <>
-                            {!openDrawer && (
-                                <Hidden lgDown>
+                        {!isSidebarOpen && (
+                            <div data-testid="DrawerOutLogo" className="mr-4">
+                                <Hidden>
                                     <NavBarBurgerMenu
                                         onClick={handleDrawerOpen}
                                     />
                                 </Hidden>
-                            )}
-                            <Hidden lgUp>
-                                <NavBarBurgerMenu onClick={handleDrawerOpen} />
-                            </Hidden>
-                        </>
+                            </div>
+                        )}
 
-                        <img src={logoWide} alt="logo" className="ml-4" />
+                        <img
+                            data-testid="ReverLogo"
+                            src={logoWide}
+                            alt="logo"
+                        />
                     </div>
 
-                    <div className="flex h-full items-center overflow-x-auto ">
+                    <LanguageSwitcher />
+                    <div className="mx-2 flex h-full items-center overflow-x-auto ">
                         <UserMenu />
                     </div>
                 </ReverToolbar>
             </ReverNavbar>
-            <ReverDrawer
+            <Drawer
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -113,9 +136,9 @@ const Header = () => {
                 }}
                 variant="persistent"
                 anchor="left"
-                open={openDrawer}
+                open={isSidebarOpen}
             >
-                <DrawerHeader>
+                <DrawerHeader data-testid="DrawerInLogo">
                     <IconButton onClick={handleDrawerClose}>
                         <div style={{ color: 'white' }}>
                             <NavBarBurgerMenu />
@@ -124,44 +147,52 @@ const Header = () => {
                 </DrawerHeader>
                 <Divider />
                 <List sx={{ color: 'white' }}>
-                    {['Home', 'Dashboard'].map((text) => (
+                    {drawerList1.map((text) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton
+                                onClick={() => navigateMenuOnClick(text)}
+                            >
                                 <ListItemIcon>
-                                    {text === 'Home' && (
+                                    {text === 'home' && (
                                         <div style={{ color: 'white' }}>
                                             <HomeIcon />
                                         </div>
                                     )}
-                                    {text === 'Dashboard' && (
+                                    {text === 'dashboard' && (
                                         <div style={{ color: 'white' }}>
                                             <AnalyticsIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText
+                                    primary={t(`drawer_pages.${text}`)}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
                 <Divider />
                 <List sx={{ color: 'white' }}>
-                    {['Orders'].map((text) => (
+                    {drawerList2.map((text) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton
+                                onClick={() => navigateMenuOnClick(text)}
+                            >
                                 <ListItemIcon>
-                                    {text === 'Orders' && (
+                                    {text === 'orders' && (
                                         <div style={{ color: 'white' }}>
                                             <OrdersIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText
+                                    primary={t(`drawer_pages.${text}`)}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
-            </ReverDrawer>
+            </Drawer>
         </Box>
     )
 }
@@ -180,9 +211,6 @@ const ReverToolbar = styled(Toolbar)`
     @media (min-width: 900px) {
         min-height: 4rem;
     }
-`
-const ReverDrawer = styled(Drawer)`
-    border: solid red 1px;
 `
 
 export default Header

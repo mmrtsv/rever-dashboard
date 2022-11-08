@@ -21,16 +21,38 @@ const initialState: State = {
     getProcesses: initialApiState
 }
 
+// export interface getProcessesParams {
+//     customerPrintedOrderId?: string
+//     freetext?: string
+//     fullyRefunded?: string
+//     limit?: number
+//     offset?: number
+//     order?: string
+//     orderId?: string
+//     platform?: string
+//     processId?: string
+//     returnMethod?: string
+//     sortby?: string
+// }
+// const defaultValue: getPro = {
+//     customerPrintedOrderId: undefined,
+//     freetext: undefined,
+//     fullyRefunded: undefined,
+//     limit: undefined,
+//     offset: undefined,
+//     order: undefined,
+//     orderId: undefined,
+//     platform: undefined,
+//     processId: undefined,
+//     returnMethod: undefined,
+//     sortby: undefined
+// }
 export const getProcesses = createAsyncThunk('/getProcesses', async () => {
-    const getProcessesResponse = await processesApi.findProcesses(
-        undefined,
-        undefined,
-        undefined,
-        3
-    )
+    // const { limit, offset } = args
+    const getProcessesResponse = await processesApi.findProcesses()
     // console.log('getProcessesResponse', getProcessesResponse)
 
-    return getProcessesResponse
+    return getProcessesResponse.data
 })
 
 const processesSlice = createSlice({
@@ -50,7 +72,7 @@ const processesSlice = createSlice({
         })
         builder.addCase(getProcesses.fulfilled, (state, action) => {
             state.getProcesses.loading = 'succeeded'
-            state.getProcesses.response = action.payload.data
+            state.getProcesses.response = action.payload
         })
         builder.addCase(getProcesses.rejected, (state, action) => {
             state.getProcesses.loading = 'failed'

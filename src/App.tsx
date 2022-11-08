@@ -1,31 +1,26 @@
-import { useEffect } from 'react'
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    useNavigate
-} from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from './redux/hooks'
+import React, { lazy, Suspense } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './auth/ProtectedRouting/ProtectedRoute'
-import LoginPage from './auth/Login.page'
-import { setUserData } from './redux/features/userData/userDataSlice'
-import { resetAuthApiCalls } from './redux/api/authApi'
 import Layout from './components/LayoutComponent/Layout'
-import Home from './pages/Home.page'
-function App() {
-    const dispatch = useAppDispatch()
 
+const LoginPage = lazy(() => import('./auth/Login.page'))
+const Home = lazy(() => import('./pages/Home.page'))
+const Orders = lazy(() => import('./pages/Orders.page'))
+
+function App() {
     return (
         <Router>
-            <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route element={<ProtectedRoute />}>
-                    <Route element={<Layout />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<div>About</div>} />
+            <Suspense fallback={<div>Loading...</div>}>
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route element={<Layout />}>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/orders" element={<Orders />} />
+                        </Route>
                     </Route>
-                </Route>
-            </Routes>
+                </Routes>
+            </Suspense>
         </Router>
     )
 }

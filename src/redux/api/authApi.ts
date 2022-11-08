@@ -1,5 +1,5 @@
 import { initialApiState, ApiCallBase } from './apiConfiguration'
-import { AuthApi, AuthUserResponse, LoginInput } from '@itsrever/dashboard-api'
+import { AuthApi, AuthUserResponse } from '@itsrever/dashboard-api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
