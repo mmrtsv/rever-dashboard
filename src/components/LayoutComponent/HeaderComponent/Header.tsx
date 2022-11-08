@@ -77,10 +77,10 @@ const Header = () => {
     }
     const navigateMenuOnClick = (text: string) => {
         switch (text) {
-            case 'Home':
+            case 'home':
                 navigate('/')
                 break
-            case 'Orders':
+            case 'orders':
                 navigate('/orders')
                 break
             default:
@@ -97,24 +97,20 @@ const Header = () => {
             >
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
-                        <div data-testid="DrawerOutLogo">
-                            {!isSidebarOpen && (
-                                <Hidden lgDown>
+                        {!isSidebarOpen && (
+                            <div data-testid="DrawerOutLogo" className="mr-4">
+                                <Hidden>
                                     <NavBarBurgerMenu
                                         onClick={handleDrawerOpen}
                                     />
                                 </Hidden>
-                            )}
-                            <Hidden lgUp>
-                                <NavBarBurgerMenu onClick={handleDrawerOpen} />
-                            </Hidden>
-                        </div>
+                            </div>
+                        )}
 
                         <img
                             data-testid="ReverLogo"
                             src={logoWide}
                             alt="logo"
-                            className="ml-4"
                         />
                     </div>
 
