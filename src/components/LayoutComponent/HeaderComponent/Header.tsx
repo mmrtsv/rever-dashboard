@@ -3,7 +3,6 @@ import { Hidden, Toolbar } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
-// import styled from 'styled-components'
 import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
 import UserMenu from '../SharedComponents/UserMenu'
 import logoWide from '../../../assets/images/icons/logoWide.svg'
@@ -22,13 +21,10 @@ import LanguageSwitcher from '../../LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
+import { useTranslation } from 'react-i18next'
 
-export const drawerList1 = [
-    { en: 'Home', es: 'Inicio' },
-    { en: 'Dashboard', es: 'Tablero' }
-]
-
-export const drawerList2 = [{ en: 'Orders', es: 'Pedidos' }]
+export const drawerList1 = ['home', 'dashboard']
+export const drawerList2 = ['orders']
 
 const drawerWidth = 240
 
@@ -63,6 +59,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 const Header = () => {
+    const { t } = useTranslation()
+
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
@@ -126,7 +124,7 @@ const Header = () => {
                     </div>
                 </ReverToolbar>
             </ReverNavbar>
-            <ReverDrawer
+            <Drawer
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
@@ -153,26 +151,25 @@ const Header = () => {
                 </DrawerHeader>
                 <Divider />
                 <List sx={{ color: 'white' }}>
-                    {['Home', 'Dashboard'].map((text) => (
+                    {drawerList1.map((text) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton
                                 onClick={() => navigateMenuOnClick(text)}
                             >
                                 <ListItemIcon>
-                                    {text === 'Home' && (
+                                    {text === 'home' && (
                                         <div style={{ color: 'white' }}>
                                             <HomeIcon />
                                         </div>
                                     )}
-                                    {text === 'Dashboard' && (
+                                    {text === 'dashboard' && (
                                         <div style={{ color: 'white' }}>
                                             <AnalyticsIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
                                 <ListItemText
-                                    data-testid={text}
-                                    primary={text}
+                                    primary={t(`drawer_pages.${text}`)}
                                 />
                             </ListItemButton>
                         </ListItem>
@@ -180,24 +177,26 @@ const Header = () => {
                 </List>
                 <Divider />
                 <List sx={{ color: 'white' }}>
-                    {['Orders'].map((text) => (
+                    {drawerList2.map((text) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton
                                 onClick={() => navigateMenuOnClick(text)}
                             >
                                 <ListItemIcon>
-                                    {text === 'Orders' && (
+                                    {text === 'orders' && (
                                         <div style={{ color: 'white' }}>
                                             <OrdersIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText
+                                    primary={t(`drawer_pages.${text}`)}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}
                 </List>
-            </ReverDrawer>
+            </Drawer>
         </Box>
     )
 }
@@ -216,9 +215,6 @@ const ReverToolbar = styled(Toolbar)`
     @media (min-width: 900px) {
         min-height: 4rem;
     }
-`
-const ReverDrawer = styled(Drawer)`
-    border: solid red 1px;
 `
 
 export default Header
