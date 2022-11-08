@@ -21,7 +21,7 @@ import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
 import LanguageSwitcher from '../../LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
-import { useAppDispatch } from '../../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 
 export const drawerList1 = [
@@ -65,15 +65,18 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Header = () => {
     const [openDrawer, setOpenDrawer] = useState(false)
+    const isSidebarOpen = useAppSelector(
+        (store) => store.appState.isSidebarOpen
+    )
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const handleDrawerOpen = () => {
-        setOpenDrawer(true)
+        // setOpenDrawer(true)
         dispatch(toggleSidebar())
     }
 
     const handleDrawerClose = () => {
-        setOpenDrawer(false)
+        // setOpenDrawer(false)
         dispatch(toggleSidebar())
     }
     const navigateMenuOnClick = (text: string) => {
@@ -93,13 +96,13 @@ const Header = () => {
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"
-                open={openDrawer}
+                open={isSidebarOpen}
                 sx={{ backgroundColor: 'white', color: '#24446D' }}
             >
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
                         <div data-testid="DrawerOutLogo">
-                            {!openDrawer && (
+                            {!isSidebarOpen && (
                                 <Hidden lgDown>
                                     <NavBarBurgerMenu
                                         onClick={handleDrawerOpen}
@@ -141,7 +144,7 @@ const Header = () => {
                 }}
                 variant="persistent"
                 anchor="left"
-                open={openDrawer}
+                open={isSidebarOpen}
             >
                 <DrawerHeader data-testid="DrawerInLogo">
                     <IconButton onClick={handleDrawerClose}>

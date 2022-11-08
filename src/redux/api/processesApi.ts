@@ -49,13 +49,7 @@ const initialState: State = {
 // }
 export const getProcesses = createAsyncThunk('/getProcesses', async () => {
     // const { limit, offset } = args
-    const getProcessesResponse = await processesApi.findProcesses(
-        undefined,
-        undefined,
-        undefined,
-        20,
-        60
-    )
+    const getProcessesResponse = await processesApi.findProcesses()
     // console.log('getProcessesResponse', getProcessesResponse)
 
     return getProcessesResponse.data
