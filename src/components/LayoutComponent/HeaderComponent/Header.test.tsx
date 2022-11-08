@@ -4,6 +4,8 @@ import { afterEach, describe, expect, it } from 'vitest'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { I18nextProvider } from 'react-i18next'
+import i18n from '../../../i18nForTests'
 
 import Header from './Header'
 import drawerList1 from './Header'
@@ -21,6 +23,9 @@ describe('Header Component', () => {
                 role: 'admin',
                 group: 'REVER'
             }
+        },
+        appState: {
+            isSidebarOpen: false
         }
     }
     const mockStore = configureStore()
@@ -28,12 +33,14 @@ describe('Header Component', () => {
 
     afterEach(cleanup)
 
-    it('should render the elements: DrawerLogo - ReverLogo - LanguageSwitcher - UserMenu', () => {
+    it('should render the components: DrawerLogo - ReverLogo - LanguageSwitcher - UserMenu', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
                 <Provider store={store}>
-                    <Header />
+                    <I18nextProvider i18n={i18n}>
+                        <Header />
+                    </I18nextProvider>
                 </Provider>
             </Router>
         )
@@ -43,7 +50,6 @@ describe('Header Component', () => {
         screen.getByTestId('UserMenu')
     })
 
-    // TO BE FINISHED
     it('should display correct pages when DrawerLogo is clicked', () => {
         store = mockStore(loggedInState)
         render(
@@ -57,6 +63,8 @@ describe('Header Component', () => {
         const DrawerOutLogo = screen.getByTestId('DrawerOutLogo')
         fireEvent.click(DrawerOutLogo)
 
-        //Object.entries(drawerList1).forEach((item) => {})
+        // Object.entries(drawerList1).forEach((item) => {
+        //     screen.getByTestId(item[1].en)
+        // })
     })
 })

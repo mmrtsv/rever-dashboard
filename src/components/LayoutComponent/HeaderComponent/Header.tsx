@@ -7,7 +7,6 @@ import Drawer from '@mui/material/Drawer'
 import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
 import UserMenu from '../SharedComponents/UserMenu'
 import logoWide from '../../../assets/images/icons/logoWide.svg'
-import { useState } from 'react'
 import IconButton from '@mui/material/IconButton'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -64,7 +63,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 const Header = () => {
-    const [openDrawer, setOpenDrawer] = useState(false)
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
@@ -172,7 +170,10 @@ const Header = () => {
                                         </div>
                                     )}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemText
+                                    data-testid={text}
+                                    primary={text}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}
