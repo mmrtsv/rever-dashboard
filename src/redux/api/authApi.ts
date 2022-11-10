@@ -1,8 +1,12 @@
 import { initialApiState, ApiCallBase } from './apiConfiguration'
-import { AuthApi, AuthUserResponse } from '@itsrever/dashboard-api'
+import {
+    AuthApi,
+    AuthUserResponse,
+    AuthApiLoginRequest
+} from '@itsrever/dashboard-api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-
+import { LoginInput } from '@itsrever/dashboard-api'
 const axiosInstance = axios.create({
     withCredentials: true
 })
@@ -22,15 +26,13 @@ const initialState: State = {
 }
 
 //Api actions
-export const login = createAsyncThunk(
-    '/login',
-    async (args: { username: string; password: string }) => {
-        const { username, password } = args
-        const loginResponse = await authApi.login({ username, password })
-        console.log('loginResponse', loginResponse)
-        return loginResponse
-    }
-)
+export const login = createAsyncThunk('/login', async (args: LoginInput) => {
+    const { username, password } = args
+    const loginResponse = await authApi.login({
+        loginInput: { username, password }
+    })
+    return loginResponse
+})
 export const logout = createAsyncThunk('/logout', async () => {
     const logoutResponse = await authApi.logout()
     console.log('logoutResponse', logoutResponse)
