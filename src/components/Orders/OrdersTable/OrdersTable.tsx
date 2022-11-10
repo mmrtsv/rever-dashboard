@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import {
     FindPaginatedResults,
@@ -21,13 +21,13 @@ interface Row {
 }
 
 const OrdersTable = () => {
-    const [Processes, setProcesses] = React.useState<
+    const [Processes, setProcesses] = useState<
         ModelsReturnProcess[] | undefined
     >([])
-    const [PaginationResponse, setPaginationResponse] = React.useState<
-        string | undefined
+    const [PaginationResponse, setPaginationResponse] = useState<
+        number | undefined
     >()
-    const [Rows, setRows] = React.useState<any>([
+    const [Rows, setRows] = useState<any>([
         {
             id: '',
             name: '',
@@ -37,14 +37,14 @@ const OrdersTable = () => {
     ])
     const dispatch = useAppDispatch()
     const processesApi = useAppSelector((store) => store.processesApi)
-    React.useEffect(() => {
-        dispatch(getProcesses())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getProcesses())
+    // }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (processesApi.getProcesses.loading === 'succeeded') {
             setProcesses(processesApi.getProcesses.response.processes)
-            setPaginationResponse(processesApi.getProcesses.response.next)
+            setPaginationResponse(processesApi.getProcesses.response.rowcount)
             dispatch(resetProcessesApiCalls())
         } else if (processesApi.getProcesses.loading === 'failed') {
             dispatch(resetProcessesApiCalls())
@@ -84,19 +84,46 @@ const OrdersTable = () => {
             return setRows(rows)
         }
     }
-    React.useEffect(() => {
+    //react state for pagination with start on 20
+    const [Pagination, setPagination] = useState<number>(0)
+    const [ActualPage, setActualPage] = useState<number>(1)
+    useEffect(() => {
         if (Processes) {
             mapProcessesToRows()
         }
     }, [Processes])
 
     // function that onclick fetches api for next page
-    const fetchNextPage = () => {
-        if (PaginationResponse) {
-            //fetch next page
-            dispatch(getProcesses())
+    // const fetchNextPage = () => {
+    //     if (PaginationResponse) {
+    //         //fetch next page
+    //         dispatch(getProcesses({ offset: 20 }))
+    //     }
+    // }
+    useEffect(() => {
+        if (Pagination >= 0) {
+            dispatch(getProcesses({ offset: Pagination }))
+        }
+    }, [Pagination])
+
+    // function that on click fetches api for previous page
+    const fetchPreviousPage = () => {
+        if (ActualPage > 1) {
+            setPagination(Pagination - 20)
+            setActualPage(ActualPage - 1)
         }
     }
+    // function that on click fetches api for next page
+    const fetchNextPage = () => {
+        if (
+            PaginationResponse &&
+            Math.ceil(PaginationResponse / 20) >= ActualPage + 1
+        ) {
+            setPagination(Pagination + 20)
+            setActualPage(ActualPage + 1)
+        }
+    }
+
     return (
         <Main>
             <ReverTable>
@@ -122,8 +149,12 @@ const OrdersTable = () => {
                 </tbody>
             </ReverTable>
             <TableFooter>
-                <button>Previous</button>
-                <button onClick={fetchNextPage}>Next</button>
+                <button onClick={() => fetchPreviousPage()}>Previous</button>
+                <a>
+                    {ActualPage} of{' '}
+                    {PaginationResponse && Math.ceil(PaginationResponse / 20)}
+                </a>
+                <button onClick={() => fetchNextPage()}>Next</button>
             </TableFooter>
         </Main>
     )

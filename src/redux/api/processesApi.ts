@@ -1,6 +1,10 @@
 import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { FindPaginatedResults, ProcessesApi } from '@itsrever/dashboard-api'
+import {
+    FindPaginatedResults,
+    ProcessesApi,
+    ProcessesApiFindProcessesRequest
+} from '@itsrever/dashboard-api'
 import axios from 'axios'
 
 // axios.defaults.withCredentials = true
@@ -21,7 +25,7 @@ const initialState: State = {
     getProcesses: initialApiState
 }
 
-// export interface getProcessesParams {
+// export interface getProcessesParamsTypes {
 //     customerPrintedOrderId?: string
 //     freetext?: string
 //     fullyRefunded?: string
@@ -34,26 +38,53 @@ const initialState: State = {
 //     returnMethod?: string
 //     sortby?: string
 // }
-// const defaultValue: getPro = {
-//     customerPrintedOrderId: undefined,
-//     freetext: undefined,
-//     fullyRefunded: undefined,
-//     limit: undefined,
-//     offset: undefined,
-//     order: undefined,
-//     orderId: undefined,
-//     platform: undefined,
-//     processId: undefined,
-//     returnMethod: undefined,
-//     sortby: undefined
-// }
-export const getProcesses = createAsyncThunk('/getProcesses', async () => {
-    // const { limit, offset } = args
-    const getProcessesResponse = await processesApi.findProcesses()
-    // console.log('getProcessesResponse', getProcessesResponse)
+const defaultValue: ProcessesApiFindProcessesRequest = {
+    customerPrintedOrderId: undefined,
+    freetext: undefined,
+    fullyRefunded: undefined,
+    limit: undefined,
+    offset: undefined,
+    order: undefined,
+    orderId: undefined,
+    platform: undefined,
+    processId: undefined,
+    returnMethod: undefined,
+    sortby: undefined
+}
+export const getProcesses = createAsyncThunk(
+    '/getProcesses',
+    async (args?: ProcessesApiFindProcessesRequest) => {
+        const {
+            customerPrintedOrderId,
+            freetext,
+            fullyRefunded,
+            limit,
+            offset,
+            order,
+            orderId,
+            platform,
+            processId,
+            returnMethod,
+            sortby
+        } = args || defaultValue
+        const getProcessesResponse = await processesApi.findProcesses({
+            customerPrintedOrderId,
+            freetext,
+            fullyRefunded,
+            limit,
+            offset,
+            order,
+            orderId,
+            platform,
+            processId,
+            returnMethod,
+            sortby
+        })
+        // console.log('getProcessesResponse', getProcessesResponse)
 
-    return getProcessesResponse.data
-})
+        return getProcessesResponse.data
+    }
+)
 
 const processesSlice = createSlice({
     name: 'processes',
