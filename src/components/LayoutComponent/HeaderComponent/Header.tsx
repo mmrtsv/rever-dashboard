@@ -99,11 +99,7 @@ const Header = () => {
                     <div className="flex flex-1 px-1">
                         {!isSidebarOpen && (
                             <div data-testid="DrawerOutLogo" className="mr-4">
-                                <Hidden>
-                                    <NavBarBurgerMenu
-                                        onClick={handleDrawerOpen}
-                                    />
-                                </Hidden>
+                                <NavBarBurgerMenu onClick={handleDrawerOpen} />
                             </div>
                         )}
 
