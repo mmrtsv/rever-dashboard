@@ -37,9 +37,6 @@ const OrdersTable = () => {
     ])
     const dispatch = useAppDispatch()
     const processesApi = useAppSelector((store) => store.processesApi)
-    // useEffect(() => {
-    //     dispatch(getProcesses())
-    // }, [])
 
     useEffect(() => {
         if (processesApi.getProcesses.loading === 'succeeded') {
@@ -50,6 +47,7 @@ const OrdersTable = () => {
             dispatch(resetProcessesApiCalls())
         }
     }, [processesApi.getProcesses.response, processesApi.getProcesses.loading])
+
     // a function that maps processes to rows
     const mapProcessesToRows = () => {
         if (Processes) {
@@ -125,7 +123,7 @@ const OrdersTable = () => {
     }
 
     return (
-        <Main>
+        <Main data-testid="OrdersTable">
             <ReverTable>
                 <thead>
                     <tr>
