@@ -21,5 +21,3 @@ i18next.use(initReactI18next).use(Backend).init({
     //fallbackLng: 'en',
     resources
 })
-
-export default i18next

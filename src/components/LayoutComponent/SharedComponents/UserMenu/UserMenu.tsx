@@ -16,9 +16,10 @@ import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
 import { logout } from '../../../../redux/api/authApi'
 import { resetUserData } from '../../../../redux/features/userData/userDataSlice'
 
+export const settings = ['Account', 'Logout']
+
 const UserMenu = () => {
     const UserData = useAppSelector((store) => store.userData.user)
-    const settings = ['Account', 'Logout']
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     // const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
@@ -56,13 +57,17 @@ const UserMenu = () => {
         <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
-                    <Hidden lgDown>
+                    <Hidden smDown>
                         <a className="mr-2">{UserData?.name}</a>
                     </Hidden>
 
                     <IconButton sx={{ p: 0, color: 'white' }}>
                         {UserData?.avatar ? (
-                            <Avatar alt="avatar" src={UserData?.avatar} />
+                            <Avatar
+                                data-testid="avatar"
+                                alt="avatar"
+                                src={UserData?.avatar}
+                            />
                         ) : (
                             <AccountCircle fontSize="large" />
                         )}
@@ -90,12 +95,12 @@ const UserMenu = () => {
                         key={setting}
                         onClick={() => handleSelectSetting(setting)}
                     >
-                        {setting === 'Logout' ? (
+                        {setting === 'Logout' && (
                             <LogoutIcon className="mr-2" />
-                        ) : null}
-                        {setting === 'Account' ? (
+                        )}
+                        {setting === 'Account' && (
                             <AccountCircle className="mr-2" />
-                        ) : null}
+                        )}
                         <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                 ))}
