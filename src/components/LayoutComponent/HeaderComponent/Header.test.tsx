@@ -44,10 +44,10 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-        expect(screen.getByTestId('DrawerOutLogo')).toBeDefined()
-        expect(screen.getByTestId('ReverLogo')).toBeDefined()
-        expect(screen.getByTestId('LanguageSwitcher')).toBeDefined()
-        expect(screen.getByTestId('UserMenu')).toBeDefined()
+        screen.getByTestId('DrawerOutLogo')
+        screen.getByTestId('ReverLogo')
+        screen.getByTestId('LanguageSwitcher')
+        screen.getByTestId('UserMenu')
     })
 
     it('should have the correct pages', () => {
@@ -77,12 +77,9 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-
-        Object.values(drawerList1).forEach((entry) => {
-            expect(screen.getByText(entry)).toBeDefined()
-        })
+        Object.values(drawerList1).forEach((entry) => screen.getByText(entry))
         Object.values(drawerList2).forEach((entry) => {
-            expect(screen.getByText(entry)).toBeDefined()
+            screen.getByText(entry)
         })
     })
 

@@ -10,7 +10,11 @@ const PageComponent: React.FC<Props> = ({ children }) => {
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
-    return <ReverMain isSidebarOpen={isSidebarOpen}>{children}</ReverMain>
+    return (
+        <ReverMain data-testid="PageComponent" isSidebarOpen={isSidebarOpen}>
+            {children}
+        </ReverMain>
+    )
 }
 interface ReverMainProps {
     isSidebarOpen: boolean
