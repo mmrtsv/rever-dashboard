@@ -1,0 +1,56 @@
+{
+    "lineItems": [
+        {
+            "customer": {
+                "email": "ivanfeernaandeez@gmail.com",
+                "first_name": "Jose ivan",
+                "last_name": "Fernandez gomez"
+            },
+            "product": {
+                "images": [
+                    {
+                        "alt": "",
+                        "name": "",
+                        "src": "https://cdn.shopify.com/s/files/1/0025/3725/9054/products/prettyblack_b_1400x_beb78c3e-96a9-4dc9-ade2-4c316631c968.png?v=1663256969"
+                    }
+                ]
+            },
+            "customer_printed_order_id": "#1186",
+            "comment": "",
+            "id": "12973146472609",
+            "name": "LA VIE EN NUDE HOOD BROWN - XL",
+            "product_id": "7521686945953",
+            "quantity": 1,
+            "return_reason": 3,
+            "return_method": 1,
+            "rever_id": "retl_2HcrwycnABer8Sj9ZjxVP9UY6kz",
+            "process_id": "retp_2HcrwwnCFxXbdtmsuKl1Ke87iuz",
+            "sku": "1735-XL",
+            "subtotal": 5822,
+            "total": 6210,
+            "total_discounts": 690,
+            "total_taxes": 1078,
+            "unit_price": 5822,
+            "variant_id": "42449766449313",
+            "variant_name": "XL",
+            "weight": 0,
+            "type": "product",
+            "refund_payment_method": 1,
+            "status": 0,
+            "bank_transfer_refund_amount": 8500,
+            "coupon_refund_amount": 0,
+            "exchange_refund_amount": 0,
+            "gift_refund_amount": 0,
+            "instant_refund_amount": 0,
+            "original_pm_refund_amount": 0,
+            "refund_timing": 1,
+            "refund_transactions": null,
+            "carrier_name": "CORREOS",
+            "exchange_order_number": "",
+            "exchange_shipping_address": null,
+            "group": "Nude",
+            "ecommerce_id": "Nude Project",
+            "tracking_number": "XXX"
+        }
+    ]
+}
