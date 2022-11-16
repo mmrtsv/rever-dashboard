@@ -3,7 +3,7 @@ import { useAppSelector } from '../../redux/hooks'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../redux/hooks'
 import { setUserData } from '../../redux/features/userData/userDataSlice'
-import ComingSoonAnimation from '../../assets/Lottie/ComingSoon/ComingSoon'
+import Loading from '../../components/Loading/Loading'
 
 const ProtectedRoute = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -23,7 +23,7 @@ const ProtectedRoute = () => {
     }, [])
 
     if (!isAuthenticated) {
-        return <ComingSoonAnimation />
+        return <Loading loading={true} />
     }
 
     return <Outlet />

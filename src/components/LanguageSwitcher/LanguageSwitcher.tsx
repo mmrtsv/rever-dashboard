@@ -6,6 +6,8 @@ import {
     Typography
 } from '@mui/material'
 import React, { useState } from 'react'
+import EN from '../../assets/images/languages/EN.svg'
+import ES from '../../assets/images/languages/ES.svg'
 import { useTranslation } from 'react-i18next'
 
 export const languageTitles = { en: 'EN', es: 'ES' }
@@ -34,10 +36,7 @@ export const LanguageSwitcher = () => {
         <>
             <Button data-testid="LanguageSwitcher" onClick={menuOpen}>
                 <div className="flex items-center">
-                    <img
-                        className="mx-2"
-                        src={`src/assets/images/flags/${language}.svg`}
-                    />
+                    <img className="mx-2" src={language === 'en' ? EN : ES} />
                     <Typography
                         fontFamily="Roobert"
                         fontStyle="normal"
