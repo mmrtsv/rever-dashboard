@@ -1,5 +1,5 @@
 import React from 'react'
-import { Hidden, Toolbar } from '@mui/material'
+import { Toolbar } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'

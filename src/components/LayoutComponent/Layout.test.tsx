@@ -13,6 +13,12 @@ describe('Layout Component', () => {
         authApi: {
             login: { loading: 'idle', response: {} }
         },
+        processesApi: {
+            getProcesses: {
+                response: {},
+                loading: 'idle'
+            }
+        },
         userData: {
             user: {
                 name: 'admin@partner.com',

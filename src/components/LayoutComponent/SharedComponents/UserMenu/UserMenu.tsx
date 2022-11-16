@@ -15,14 +15,19 @@ import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
 import { logout } from '../../../../redux/api/authApi'
 import { resetUserData } from '../../../../redux/features/userData/userDataSlice'
+import { useTranslation } from 'react-i18next'
 
-export const settings = ['Account', 'Logout']
+export const userOptions = [
+    { en: 'Account', es: 'Cuenta' },
+    { en: 'Logout', es: 'Cerrar sesión' }
+]
 
-const UserMenu = () => {
+export const UserMenu = () => {
     const UserData = useAppSelector((store) => store.userData.user)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    // const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
+    const { i18n } = useTranslation()
+    const lang = i18n.language
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
 
     const handleCloseUserMenu = () => {
@@ -90,18 +95,20 @@ const UserMenu = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-                {settings.map((setting) => (
+                {userOptions.map((option, i) => (
                     <MenuItem
-                        key={setting}
-                        onClick={() => handleSelectSetting(setting)}
+                        key={i}
+                        onClick={() => handleSelectSetting(option.en)}
                     >
-                        {setting === 'Logout' && (
+                        {option.en === 'Logout' && (
                             <LogoutIcon className="mr-2" />
                         )}
-                        {setting === 'Account' && (
+                        {option.en === 'Account' && (
                             <AccountCircle className="mr-2" />
                         )}
-                        <Typography textAlign="center">{setting}</Typography>
+                        <Typography textAlign="center">
+                            {lang === 'en' ? option.en : option.es}
+                        </Typography>
                     </MenuItem>
                 ))}
             </Menu>
