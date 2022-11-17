@@ -51,6 +51,58 @@
             "group": "Nude",
             "ecommerce_id": "Nude Project",
             "tracking_number": "XXX"
+        },
+        {
+            "customer": {
+                "email": "lmoyapacheco@gmail.com",
+                "first_name": "Laura",
+                "last_name": "Moya"
+            },
+            "product": {
+                "images": [
+                    {
+                        "alt": "",
+                        "name": "",
+                        "src": "https://cdn.shopify.com/s/files/1/0066/2070/8946/products/seashell-full.jpg?v=1666709050"
+                    }
+                ]
+            },
+            "customer_printed_order_id": "#36686",
+            "comment": "",
+            "id": "11901548462162",
+            "name": "Seashell Top - S",
+            "product_id": "6995620855890",
+            "quantity": 2,
+            "return_reason": 0,
+            "return_method": 2,
+            "rever_id": "retl_2HcrwycnABer8Sj9ZjxVP9UY6kz",
+            "process_id": "retp_2Hg3SIXBQgn6GOpnmJMxe53sCtu",
+            "sku": "xxx",
+            "subtotal": 3719,
+            "total": 4500,
+            "total_discounts": 0,
+            "total_taxes": 781,
+            "unit_price": 3719,
+            "variant_id": "40209103781970",
+            "variant_name": "S",
+            "weight": 100,
+            "type": "product",
+            "refund_payment_method": 1,
+            "status": 0,
+            "bank_transfer_refund_amount": 8500,
+            "coupon_refund_amount": 0,
+            "exchange_refund_amount": 0,
+            "gift_refund_amount": 0,
+            "instant_refund_amount": 0,
+            "original_pm_refund_amount": 0,
+            "refund_timing": 1,
+            "refund_transactions": null,
+            "carrier_name": "CORREOS",
+            "exchange_order_number": "",
+            "exchange_shipping_address": null,
+            "group": "GOI",
+            "ecommerce_id": "GOI",
+            "tracking_number": "XX123"
         }
     ]
 }
