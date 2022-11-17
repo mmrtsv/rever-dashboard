@@ -15,6 +15,20 @@
                     }
                 ]
             },
+            "drop_off_address": {
+                "address_line_1": "Calle Albudeiteros n3 3d",
+                "address_line_2": "",
+                "city": "Murcia",
+                "company": "",
+                "country": "Spain",
+                "country_code": "ES",
+                "email": "",
+                "first_name": "",
+                "last_name": "",
+                "phone": "622 56 95 95",
+                "postcode": "30001",
+                "state_province": ""
+            },
             "customer_printed_order_id": "#1186",
             "comment": "",
             "id": "12973146472609",
@@ -58,6 +72,20 @@
                 "first_name": "Laura",
                 "last_name": "Moya"
             },
+            "drop_off_address": {
+                "address_line_1": "Calle Albudeiteros n3 3d",
+                "address_line_2": "",
+                "city": "Murcia",
+                "company": "",
+                "country": "Spain",
+                "country_code": "ES",
+                "email": "",
+                "first_name": "",
+                "last_name": "",
+                "phone": "622 56 95 95",
+                "postcode": "30001",
+                "state_province": ""
+            },
             "product": {
                 "images": [
                     {
@@ -89,7 +117,7 @@
             "type": "product",
             "refund_payment_method": 1,
             "status": 0,
-            "bank_transfer_refund_amount": 8500,
+            "bank_transfer_refund_amount": 4201,
             "coupon_refund_amount": 0,
             "exchange_refund_amount": 0,
             "gift_refund_amount": 0,
@@ -97,7 +125,7 @@
             "original_pm_refund_amount": 0,
             "refund_timing": 1,
             "refund_transactions": null,
-            "carrier_name": "CORREOS",
+            "carrier_name": "UPS",
             "exchange_order_number": "",
             "exchange_shipping_address": null,
             "group": "GOI",
