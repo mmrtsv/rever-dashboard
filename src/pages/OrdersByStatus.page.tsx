@@ -4,7 +4,14 @@ import styled from '@emotion/styled'
 import returnedLineItemsJSON from '../assets/returnedLineItems.json'
 
 const OrdersByStatus = () => {
-    const returnedLineItems = returnedLineItemsJSON
+    const pendingItems = returnedLineItemsJSON.lineItems.filter((lineItem) => {
+        return lineItem.process.last_known_shipping_status === 0
+    })
+    const completedItems = returnedLineItemsJSON.lineItems.filter(
+        (lineItem) => {
+            return lineItem.process.last_known_shipping_status === 1
+        }
+    )
 
     return (
         <PageComponent>
@@ -15,10 +22,28 @@ const OrdersByStatus = () => {
                 </TopDiv>
                 <TableDiv>
                     <PendingToReceive>
-                        <h6>Pending to receive</h6>
+                        <Title>
+                            Pending to Receive {'(' + pendingItems.length + ')'}
+                        </Title>
+                        {pendingItems.map((retLineItem, i) => {
+                            return (
+                                <LineItemCard key={i}>
+                                    {retLineItem.name}
+                                </LineItemCard>
+                            )
+                        })}
                     </PendingToReceive>
                     <Completed>
-                        <h6>Completed</h6>
+                        <Title>
+                            Completed {'(' + completedItems.length + ')'}
+                        </Title>
+                        {completedItems.map((retLineItem, i) => {
+                            return (
+                                <LineItemCard key={i}>
+                                    {retLineItem.name}
+                                </LineItemCard>
+                            )
+                        })}
                     </Completed>
                 </TableDiv>
             </MainDiv>
@@ -31,7 +56,7 @@ export default OrdersByStatus
 const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
     padding-left: 4rem;
     padding-right: 4rem;
     margin-top: 2rem;
@@ -41,26 +66,38 @@ const TopDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
 `
 
 const TableDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    width: 70%;
 `
 
 const PendingToReceive = styled.div`
-    display: flex;
-    justify-content: center;
-    border: 1px solid red;
-    width: 30%;
+    margin-top: 3rem;
 `
 
 const Completed = styled.div`
+    margin-top: 3rem;
+`
+
+const Title = styled.h6`
     display: flex;
     justify-content: center;
-    border: 1px solid blue;
-    width: 30%;
+    border: 1px solid;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 1rem;
+    background-color: rgb(235, 238, 245);
+    color: rgb(115, 118, 132);
+`
+
+const LineItemCard = styled.div`
+    margin-top: 0.5rem;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 6px;
 `

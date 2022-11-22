@@ -284,7 +284,7 @@
                 "return_method": 1,
                 "iban": "",
                 "tracking_number": "",
-                "last_known_shipping_status": 0,
+                "last_known_shipping_status": 1,
                 "shipping_id": "",
                 "carrier_name": "",
                 "label_url": "",
