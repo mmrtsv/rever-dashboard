@@ -1,8 +1,11 @@
 import React from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
+import returnedLineItemsJSON from '../assets/returnedLineItems.json'
 
 const OrdersByStatus = () => {
+    const returnedLineItems = returnedLineItemsJSON
+
     return (
         <PageComponent>
             <MainDiv>
@@ -12,10 +15,10 @@ const OrdersByStatus = () => {
                 </TopDiv>
                 <TableDiv>
                     <PendingToReceive>
-                        <p>Pending to receive</p>
+                        <h6>Pending to receive</h6>
                     </PendingToReceive>
                     <Completed>
-                        <p>Completed</p>
+                        <h6>Completed</h6>
                     </Completed>
                 </TableDiv>
             </MainDiv>
@@ -43,11 +46,21 @@ const TopDiv = styled.div`
 const TableDiv = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin-top: 2rem;
     margin-bottom: 1rem;
 `
 
-const PendingToReceive = styled.div``
+const PendingToReceive = styled.div`
+    display: flex;
+    justify-content: center;
+    border: 1px solid red;
+    width: 30%;
+`
 
-const Completed = styled.div``
+const Completed = styled.div`
+    display: flex;
+    justify-content: center;
+    border: 1px solid blue;
+    width: 30%;
+`
