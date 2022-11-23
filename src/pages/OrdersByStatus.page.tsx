@@ -2,7 +2,7 @@ import React from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import returnedLineItemsJSON from '../assets/returnedLineItems.json'
-import LineItemByStatus from '../components/LineItemByStatus'
+import RetLineItemStatusCard from '../components/RetLineItemStatusCard'
 
 const OrdersByStatus = () => {
     const pendingItems = returnedLineItemsJSON.lineItems.filter((lineItem) => {
@@ -28,7 +28,7 @@ const OrdersByStatus = () => {
                         </Title>
                         {pendingItems.map((retLineItem, i) => {
                             return (
-                                <LineItemByStatus
+                                <RetLineItemStatusCard
                                     key={i}
                                     lineItem={retLineItem}
                                 />
@@ -41,7 +41,7 @@ const OrdersByStatus = () => {
                         </Title>
                         {completedItems.map((retLineItem, i) => {
                             return (
-                                <LineItemByStatus
+                                <RetLineItemStatusCard
                                     key={i}
                                     lineItem={retLineItem}
                                 />

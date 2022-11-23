@@ -8,18 +8,21 @@ interface LineItemByStatusProps {
 
 const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
     const imgSrc = lineItem.images ? lineItem.images[0].src : NoAvailable
-    const imgAlt = lineItem.images ? lineItem.images[0].alt : NoAvailable
 
     return (
-        <LineItemCard>
+        <LineItemCard data-testid="retLineItemCard">
             <div>
                 <span className="text-xs">Order ID: </span>
                 <span> {lineItem.process.customer_printed_order_id}</span>
             </div>
             <ProductDisplay>
-                <img className="mr-4 h-16 w-fit" src={imgSrc} alt={imgAlt} />
+                <img
+                    className="mr-4 h-16 w-fit"
+                    src={imgSrc}
+                    alt="ProductImage"
+                />
                 <div>
-                    <span> {lineItem.name}</span>
+                    <span data-testid="ProductName"> {lineItem.name}</span>
                 </div>
             </ProductDisplay>
         </LineItemCard>
