@@ -63,7 +63,7 @@ const MainDiv = styled.div`
     padding-left: 4rem;
     padding-right: 4rem;
     background-color: rgb(241, 245, 249);
-    height: 100vh;
+    height: 100%;
     padding-top: 2rem;
 `
 

@@ -37,10 +37,12 @@ const LineItemCard = styled.div`
     flex-direction: column;
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    cursor: pointer;
 `
 
 const ProductDisplay = styled.div`
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
     margin-top: 1rem;
 `
