@@ -23,6 +23,13 @@
             "payment_method": 0,
             "action": 2,
             "refund_payment_method": 4,
+            "images": [
+                {
+                    "alt": "",
+                    "name": "",
+                    "src": "https://cdn.shopify.com/s/files/1/0066/2070/8946/products/seashell-full.jpg?v=1666709050"
+                }
+            ],
             "process": {
                 "process_id": "retp_2Hr6NC4BEibJtWixKNrpyFrpenh",
                 "started_at": {

@@ -2,6 +2,7 @@ import React from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import returnedLineItemsJSON from '../assets/returnedLineItems.json'
+import LineItemByStatus from '../components/LineItemByStatus'
 
 const OrdersByStatus = () => {
     const pendingItems = returnedLineItemsJSON.lineItems.filter((lineItem) => {
@@ -27,9 +28,10 @@ const OrdersByStatus = () => {
                         </Title>
                         {pendingItems.map((retLineItem, i) => {
                             return (
-                                <LineItemCard key={i}>
-                                    {retLineItem.name}
-                                </LineItemCard>
+                                <LineItemByStatus
+                                    key={i}
+                                    lineItem={retLineItem}
+                                />
                             )
                         })}
                     </PendingToReceive>
@@ -39,9 +41,10 @@ const OrdersByStatus = () => {
                         </Title>
                         {completedItems.map((retLineItem, i) => {
                             return (
-                                <LineItemCard key={i}>
-                                    {retLineItem.name}
-                                </LineItemCard>
+                                <LineItemByStatus
+                                    key={i}
+                                    lineItem={retLineItem}
+                                />
                             )
                         })}
                     </Completed>
@@ -59,7 +62,9 @@ const MainDiv = styled.div`
     align-items: center;
     padding-left: 4rem;
     padding-right: 4rem;
-    margin-top: 2rem;
+    background-color: rgb(241, 245, 249);
+    height: 100vh;
+    padding-top: 2rem;
 `
 
 const TopDiv = styled.div`
@@ -87,17 +92,10 @@ const Completed = styled.div`
 const Title = styled.h6`
     display: flex;
     justify-content: center;
-    border: 1px solid;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     padding: 1rem;
     background-color: rgb(235, 238, 245);
     color: rgb(115, 118, 132);
-`
-
-const LineItemCard = styled.div`
-    margin-top: 0.5rem;
-    padding: 1rem;
-    border: 1px solid;
-    border-radius: 6px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 0.5px;
 `
