@@ -163,7 +163,6 @@
     html {
         letter-spacing: 0em;
     }
-    html,
     body,
     div,
     span,
@@ -400,25 +399,22 @@
         }
     }
 
-    /* html,
-    body,
-    #app,
-    #app > div {
+    html {
         height: 100%;
-    } */
-
-    html,
-    body {
-        margin: 0;
-        height: 100%;
-        overflow: hidden;
     }
-
     body {
-        min-height: 100vh;
+        height: 100%;
         margin: 0;
+        overflow: hidden;
         position: relative;
     }
+    div#root {
+        height: 100%;
+    }
+    div.app {
+        height: 100%;
+    }
+
     body::after {
         content: '';
         display: block;
