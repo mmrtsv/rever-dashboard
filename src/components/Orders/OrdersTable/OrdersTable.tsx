@@ -9,6 +9,7 @@ import {
     resetProcessesApiCalls
 } from '../../../redux/api/processesApi'
 import styled from 'styled-components'
+import OrderListItem from '../OrderListItem'
 
 interface RowsTypes {
     id: any
@@ -135,14 +136,7 @@ const OrdersTable = () => {
                 </thead>
                 <tbody>
                     {Rows.map((row: any) => {
-                        return (
-                            <tr key={row.id}>
-                                <td>{row.id}</td>
-                                <td>{row.name}</td>
-                                <td>{row.address}</td>
-                                <td>{row.status}</td>
-                            </tr>
-                        )
+                        return <OrderListItem row={row} key={row.id} />
                     })}
                 </tbody>
             </ReverTable>
