@@ -10,7 +10,12 @@ import {
 } from '../../../redux/api/processesApi'
 import styled from 'styled-components'
 import OrderListItem from '../OrderListItem'
-
+import TableCell from '@mui/material/TableCell'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import { Box } from '@mui/system'
 interface RowsTypes {
     id: any
     name: any
@@ -124,22 +129,49 @@ const OrdersTable = () => {
     }
 
     return (
-        <Main data-testid="OrdersTable">
-            <ReverTable>
-                <thead>
-                    <tr>
-                        <th>Return ID</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <Main
+            data-testid="OrdersTable"
+            className="flex min-h-full w-full flex-col"
+        >
+            <ReverTablev2 stickyHeader className="min-w-xl">
+                <ReverTableHeader>
+                    <TableRow>
+                        <TableCell
+                            className="p-4 md:p-16"
+                            component="th"
+                            scope="row"
+                        >
+                            Return ID
+                        </TableCell>
+                        <TableCell
+                            className="p-4 md:p-16"
+                            component="th"
+                            scope="row"
+                        >
+                            Name
+                        </TableCell>
+                        <TableCell
+                            className="p-4 md:p-16"
+                            component="th"
+                            scope="row"
+                        >
+                            Address
+                        </TableCell>
+                        <TableCell
+                            className="p-4 md:p-16"
+                            component="th"
+                            scope="row"
+                        >
+                            Status
+                        </TableCell>
+                    </TableRow>
+                </ReverTableHeader>
+                <TableBody>
                     {Rows.map((row: any) => {
                         return <OrderListItem row={row} key={row.id} />
                     })}
-                </tbody>
-            </ReverTable>
+                </TableBody>
+            </ReverTablev2>
             <TableFooter>
                 <button onClick={() => fetchPreviousPage()}>Previous</button>
                 <a>
@@ -151,6 +183,20 @@ const OrdersTable = () => {
         </Main>
     )
 }
+
+const ReverTableHeader = styled(TableHead)`
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+`
+const ReverTablev2 = styled(Table)`
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+`
 const TableFooter = styled.div`
     display: flex;
     justify-content: space-between;
@@ -164,60 +210,61 @@ const TableFooter = styled.div`
 `
 
 const Main = styled.div`
-    height: 70vh;
-    width: 100%;
+    height: 90vh;
+    margin-left: 10%;
+    width: 80%;
     overflow: scroll;
     padding: 0 1rem 0 1rem;
     margin-top: 1rem;
 `
-const ReverTable = styled.table`
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 1px solid #e1e8ee;
-    thead {
-        background-color: #f8f8f8;
-        border: 1px solid #e1e8ee;
-        position: sticky;
-        top: 0;
-        margin: 0 0 0 0;
-        tr {
-            th {
-                padding: 10px 15px;
-                font-weight: 500;
-                font-size: 14px;
-                color: #172b4d;
-                text-align: left;
-            }
-        }
-    }
-    tbody {
-        tr {
-            td {
-                padding: 10px 15px;
-                font-size: 14px;
-                color: #172b4d;
-                border-bottom: 1px solid #e1e8ee;
-                &:first-child {
-                    font-weight: 500;
-                }
-            }
-        }
-    }
-    /* tfoot {
-        position: sticky;
-        bottom: -100px;
-        margin: 0 0 0 0;
-        tr {
-            td {
-                padding: 10px 15px;
-                font-size: 14px;
-                color: #172b4d;
-                border-top: 1px solid #e1e8ee;
-                text-align: center;
-            }
-        }
-    } */
-`
+// const ReverTable = styled.table`
+//     width: 100%;
+//     border-collapse: collapse;
+//     border-spacing: 0;
+//     border: 1px solid #e1e8ee;
+//     thead {
+//         background-color: #f8f8f8;
+//         border: 1px solid #e1e8ee;
+//         position: sticky;
+//         top: 0;
+//         margin: 0 0 0 0;
+//         tr {
+//             th {
+//                 padding: 10px 15px;
+//                 font-weight: 500;
+//                 font-size: 14px;
+//                 color: #172b4d;
+//                 text-align: left;
+//             }
+//         }
+//     }
+//     tbody {
+//         tr {
+//             td {
+//                 padding: 10px 15px;
+//                 font-size: 14px;
+//                 color: #172b4d;
+//                 border-bottom: 1px solid #e1e8ee;
+//                 &:first-child {
+//                     font-weight: 500;
+//                 }
+//             }
+//         }
+//     }
+//     /* tfoot {
+//         position: sticky;
+//         bottom: -100px;
+//         margin: 0 0 0 0;
+//         tr {
+//             td {
+//                 padding: 10px 15px;
+//                 font-size: 14px;
+//                 color: #172b4d;
+//                 border-top: 1px solid #e1e8ee;
+//                 text-align: center;
+//             }
+//         }
+//     } */
+// `
 
 export default OrdersTable

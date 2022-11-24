@@ -1,4 +1,6 @@
 import React from 'react'
+import TableRow from '@mui/material/TableRow'
+import TableCell from '@mui/material/TableCell'
 
 interface OrderListItemProps {
     row: {
@@ -12,12 +14,20 @@ interface OrderListItemProps {
 
 const OrderListItem: React.FC<OrderListItemProps> = ({ row, key }) => {
     return (
-        <tr key={key}>
-            <td>{row.id}</td>
-            <td>{row.name}</td>
-            <td>{row.address}</td>
-            <td>{row.status}</td>
-        </tr>
+        <TableRow key={key} className="cursor-pointer" hover role="checkbox">
+            <TableCell className="p-4 md:p-16" component="th" scope="row">
+                {row.id}
+            </TableCell>
+            <TableCell className="p-4 md:p-16" component="th" scope="row">
+                {row.name}
+            </TableCell>
+            <TableCell className="p-4 md:p-16" component="th" scope="row">
+                {row.address}
+            </TableCell>
+            <TableCell className="p-4 md:p-16" component="th" scope="row">
+                {row.status}
+            </TableCell>
+        </TableRow>
     )
 }
 
