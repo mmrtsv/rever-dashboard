@@ -1,9 +1,11 @@
 import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
+    FindPaginatedInlineItemsResults,
     FindPaginatedResults,
     ProcessesApi,
-    ProcessesApiFindProcessesRequest
+    ProcessesApiFindProcessesRequest,
+    ProcessesApiFindLineItemsRequest
 } from '@itsrever/dashboard-api'
 import axios from 'axios'
 
@@ -17,28 +19,21 @@ interface GetProcessesCall extends ApiCallBase {
     response: FindPaginatedResults
 }
 
+interface GetLineItemsCall extends ApiCallBase {
+    response: FindPaginatedInlineItemsResults
+}
+
 interface State {
     getProcesses: GetProcessesCall
+    getLineItems: GetLineItemsCall
 }
 
 const initialState: State = {
-    getProcesses: initialApiState
+    getProcesses: initialApiState,
+    getLineItems: initialApiState
 }
 
-// export interface getProcessesParamsTypes {
-//     customerPrintedOrderId?: string
-//     freetext?: string
-//     fullyRefunded?: string
-//     limit?: number
-//     offset?: number
-//     order?: string
-//     orderId?: string
-//     platform?: string
-//     processId?: string
-//     returnMethod?: string
-//     sortby?: string
-// }
-const defaultValue: ProcessesApiFindProcessesRequest = {
+const defaultValueProcesses: ProcessesApiFindProcessesRequest = {
     customerPrintedOrderId: undefined,
     freetext: undefined,
     fullyRefunded: undefined,
@@ -51,6 +46,48 @@ const defaultValue: ProcessesApiFindProcessesRequest = {
     returnMethod: undefined,
     sortby: undefined
 }
+
+const defaultValueLineItems: ProcessesApiFindLineItemsRequest = {
+    ecommerceId: undefined,
+    freetext: undefined,
+    fullyRefunded: undefined,
+    limit: undefined,
+    offset: undefined,
+    orderId: undefined,
+    platform: undefined,
+    processId: undefined,
+    status: undefined
+}
+
+export const getLineItems = createAsyncThunk(
+    '/getLineItems',
+    async (args?: ProcessesApiFindLineItemsRequest) => {
+        const {
+            ecommerceId,
+            freetext,
+            fullyRefunded,
+            limit,
+            offset,
+            orderId,
+            platform,
+            processId,
+            status
+        } = args || defaultValueLineItems
+        const getLineItemsResponse = await processesApi.findLineItems({
+            ecommerceId,
+            freetext,
+            fullyRefunded,
+            limit,
+            offset,
+            orderId,
+            platform,
+            processId,
+            status
+        })
+        return getLineItemsResponse.data
+    }
+)
+
 export const getProcesses = createAsyncThunk(
     '/getProcesses',
     async (args?: ProcessesApiFindProcessesRequest) => {
@@ -66,7 +103,7 @@ export const getProcesses = createAsyncThunk(
             processId,
             returnMethod,
             sortby
-        } = args || defaultValue
+        } = args || defaultValueProcesses
         const getProcessesResponse = await processesApi.findProcesses({
             customerPrintedOrderId,
             freetext,
@@ -87,13 +124,17 @@ export const getProcesses = createAsyncThunk(
 )
 
 const processesSlice = createSlice({
-    name: 'processes',
+    name: 'processesApi',
     initialState,
     reducers: {
         resetProcessesApiCalls: (state) => {
             state.getProcesses = {
                 ...initialApiState,
                 response: state.getProcesses.response
+            }
+            state.getLineItems = {
+                ...initialApiState,
+                response: state.getLineItems.response
             }
         }
     },
@@ -108,6 +149,17 @@ const processesSlice = createSlice({
         builder.addCase(getProcesses.rejected, (state, action) => {
             state.getProcesses.loading = 'failed'
             state.getProcesses.error = action.error
+        })
+        builder.addCase(getLineItems.pending, (state) => {
+            state.getLineItems.loading = 'pending'
+        })
+        builder.addCase(getLineItems.fulfilled, (state, action) => {
+            state.getLineItems.loading = 'succeeded'
+            state.getLineItems.response = action.payload
+        })
+        builder.addCase(getLineItems.rejected, (state, action) => {
+            state.getLineItems.loading = 'failed'
+            state.getLineItems.error = action.error
         })
     }
 })
