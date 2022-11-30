@@ -15,6 +15,7 @@ interface OrderListItemProps {
 const OrderListItem: React.FC<OrderListItemProps> = ({ row, key }) => {
     return (
         <TableRow
+            data-testid="OrderListItem"
             key={key}
             className=" cursor-pointer"
             sx={

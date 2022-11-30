@@ -1,3 +1,4 @@
+import React from 'react'
 import _ from '../../../@lodash/@lodash'
 import clsx from 'clsx'
 export const ShippingStatuses = [

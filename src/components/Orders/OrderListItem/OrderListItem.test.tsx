@@ -31,13 +31,21 @@ describe('Order List Item test', () => {
 
     it('should render', () => {
         store = mockStore(loggedInState)
+
+        const row = {
+            id: '1',
+            name: 'row',
+            product: 'product',
+            status: 'status'
+        }
+
         render(
             <Router>
                 <Provider store={store}>
-                    <OrderListItem />
+                    <OrderListItem key={1} row={row} />
                 </Provider>
             </Router>
         )
-        screen.getByText('OrderListItem')
+        screen.getByTestId('OrderListItem')
     })
 })

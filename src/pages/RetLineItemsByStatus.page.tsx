@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import returnedLineItemsJSON from '../assets/returnedLineItems.json'
 import RetLineItemStatusCard from '../components/RetLineItemStatusCard'
 
-const OrdersByStatus = () => {
+function OrdersByStatus() {
     const pendingItems = returnedLineItemsJSON.lineItems.filter((lineItem) => {
         return lineItem.process.last_known_shipping_status === 0
     })

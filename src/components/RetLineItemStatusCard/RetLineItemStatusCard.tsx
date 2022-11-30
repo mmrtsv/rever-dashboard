@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import NoAvailable from '../../assets/images/noAvailable.png'
+import { useNavigate } from 'react-router-dom'
 
 interface LineItemByStatusProps {
     lineItem: any
@@ -9,8 +10,14 @@ interface LineItemByStatusProps {
 const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
     const imgSrc = lineItem.images ? lineItem.images[0].src : NoAvailable
 
+    const navigate = useNavigate()
+
+    const handleClickItem = () => {
+        navigate(`/details/${lineItem.rever_id}`)
+    }
+
     return (
-        <LineItemCard data-testid="retLineItemCard">
+        <LineItemCard data-testid="retLineItemCard" onClick={handleClickItem}>
             <div>
                 <span className="text-xs">Order ID: </span>
                 <span> {lineItem.process.customer_printed_order_id}</span>
