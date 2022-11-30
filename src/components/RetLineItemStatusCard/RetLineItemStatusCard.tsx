@@ -2,13 +2,16 @@ import React from 'react'
 import styled from '@emotion/styled'
 import NoAvailable from '../../assets/images/noAvailable.png'
 import { useNavigate } from 'react-router-dom'
+import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 
 interface LineItemByStatusProps {
-    lineItem: any
+    lineItem: ModelsPublicReturnLineItem
 }
 
 const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
-    const imgSrc = lineItem.images ? lineItem.images[0].src : NoAvailable
+    let imgSrc = NoAvailable
+    if (lineItem.product && lineItem.product.images)
+        imgSrc = lineItem.product.images[0].src ?? NoAvailable
 
     const navigate = useNavigate()
 
@@ -20,7 +23,9 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
         <LineItemCard data-testid="retLineItemCard" onClick={handleClickItem}>
             <div>
                 <span className="text-xs">Order ID: </span>
-                <span> {lineItem.process.customer_printed_order_id}</span>
+                <span>
+                    {lineItem.return_process?.customer_printed_order_id}
+                </span>
             </div>
             <ProductDisplay>
                 <img
@@ -52,7 +57,7 @@ const LineItemCard = styled.div`
 
 const ProductDisplay = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
 `
