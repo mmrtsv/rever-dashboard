@@ -1,86 +1,56 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import RetLineItemStatusCard from '../components/RetLineItemStatusCard'
-import { useAppSelector, useAppDispatch } from '../redux/hooks'
-import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import {
-    getCompletedLineItems,
-    getPendingLineItems,
-    resetProcessesApiCalls
-} from '../redux/api/processesApi'
+import useSearchCompletedLineItems from '../hooks/useSearchCompletedLineItems'
+import useSearchPendingLineItems from '../hooks/useSearchPendingLineItems'
 
 function OrdersByStatus() {
-    const dispatch = useAppDispatch()
+    const [pageNumPending, setPageNumPending] = useState(0)
+    const [pageNumCompleted, setPageNumCompleted] = useState(0)
+    const { completedLineItems, totalCompleted } =
+        useSearchCompletedLineItems(pageNumCompleted)
+    const { pendingLineItems, totalPending } =
+        useSearchPendingLineItems(pageNumPending)
 
-    const processesApiPendingLineItems = useAppSelector(
-        (store) => store.processesApi.getPendingLineItems
-    )
-    const processesApiCompletedLineItems = useAppSelector(
-        (store) => store.processesApi.getCompletedLineItems
-    )
-
-    const [pendingLineItems, setPendingLineItems] = useState<
-        ModelsPublicReturnLineItem[] | undefined
-    >([])
-    const [completedLineItems, setCompletedLineItems] = useState<
-        ModelsPublicReturnLineItem[] | undefined
-    >([])
-
-    const [pagination, setPagination] = useState(0)
-
-    useEffect(() => {
-        dispatch(
-            getPendingLineItems({
-                offset: pagination * 20,
-                limit: 5
+    // Logic for loading pending line items
+    const hasMorePending =
+        pendingLineItems &&
+        totalPending &&
+        totalPending - pendingLineItems.length > 0
+    const pendingObserver = useRef<any>()
+    const lastPendingLineItemRef = useCallback(
+        (node: any) => {
+            if (pendingObserver.current) pendingObserver.current.disconnect()
+            pendingObserver.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasMorePending) {
+                    setPageNumPending((prev) => prev + 1)
+                }
             })
-        )
-        dispatch(
-            getCompletedLineItems({
-                offset: 0,
-                limit: 5
+            if (node) pendingObserver.current.observe(node)
+        },
+        [hasMorePending]
+    )
+
+    // Logic for loading completed line items
+    const hasMoreCompleted =
+        completedLineItems &&
+        totalCompleted &&
+        totalCompleted - completedLineItems.length > 0
+    const completedObserver = useRef<any>()
+    const lastCompletedLineItemRef = useCallback(
+        (node: any) => {
+            if (completedObserver.current)
+                completedObserver.current.disconnect()
+            completedObserver.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasMoreCompleted) {
+                    setPageNumCompleted((prev) => prev + 1)
+                }
             })
-        )
-    }, [pagination])
-
-    useEffect(() => {
-        if (processesApiPendingLineItems.loading === 'succeeded') {
-            if (
-                pendingLineItems &&
-                processesApiPendingLineItems.response.line_items
-            ) {
-                setPendingLineItems(
-                    pendingLineItems.concat(
-                        processesApiPendingLineItems.response.line_items
-                    )
-                )
-            } else
-                setPendingLineItems(
-                    processesApiPendingLineItems.response.line_items
-                )
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApiPendingLineItems.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
-        }
-    }, [
-        processesApiPendingLineItems.response,
-        processesApiPendingLineItems.loading
-    ])
-
-    useEffect(() => {
-        if (processesApiCompletedLineItems.loading === 'succeeded') {
-            setCompletedLineItems(
-                processesApiCompletedLineItems.response.line_items
-            )
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApiCompletedLineItems.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
-        }
-    }, [
-        processesApiCompletedLineItems.response,
-        processesApiCompletedLineItems.loading
-    ])
+            if (node) completedObserver.current.observe(node)
+        },
+        [hasMoreCompleted]
+    )
 
     return (
         <PageComponent>
@@ -93,15 +63,23 @@ function OrdersByStatus() {
                     <PendingToReceive>
                         <Title>
                             Pending to Receive
-                            {pendingLineItems &&
-                                ' (' +
-                                    processesApiPendingLineItems.response
-                                        .rowcount +
-                                    ')'}
+                            {pendingLineItems && ' (' + totalPending + ')'}
                         </Title>
                         <CardsDiv>
                             {pendingLineItems &&
                                 pendingLineItems.map((retLineItem, i) => {
+                                    if (pendingLineItems.length === i + 1) {
+                                        return (
+                                            <div
+                                                key={i}
+                                                ref={lastPendingLineItemRef}
+                                            >
+                                                <RetLineItemStatusCard
+                                                    lineItem={retLineItem}
+                                                />
+                                            </div>
+                                        )
+                                    }
                                     return (
                                         <RetLineItemStatusCard
                                             key={i}
@@ -109,49 +87,36 @@ function OrdersByStatus() {
                                         />
                                     )
                                 })}
-                            <div className="mt-4 flex justify-center">
-                                <FetchMoreLink
-                                    onClick={() =>
-                                        setPagination(pagination + 1)
-                                    }
-                                    color="#63a2f4"
-                                >
-                                    and{' '}
-                                    {processesApiPendingLineItems.response
-                                        .rowcount &&
-                                        pendingLineItems &&
-                                        processesApiPendingLineItems.response
-                                            .rowcount -
-                                            pendingLineItems?.length}{' '}
-                                    more...
-                                </FetchMoreLink>
-                            </div>
                         </CardsDiv>
                     </PendingToReceive>
                     <Completed>
                         <Title>
                             Completed
-                            {completedLineItems &&
-                                ' (' +
-                                    processesApiCompletedLineItems.response
-                                        .rowcount +
-                                    ')'}
+                            {completedLineItems && ' (' + totalCompleted + ')'}
                         </Title>
                         <CardsDiv>
                             {completedLineItems &&
                                 completedLineItems.map((retLineItem, i) => {
-                                    return (
-                                        <RetLineItemStatusCard
-                                            key={i}
-                                            lineItem={retLineItem}
-                                        />
-                                    )
+                                    if (completedLineItems.length === i + 1) {
+                                        return (
+                                            <div
+                                                key={i}
+                                                ref={lastCompletedLineItemRef}
+                                            >
+                                                <RetLineItemStatusCard
+                                                    lineItem={retLineItem}
+                                                />
+                                            </div>
+                                        )
+                                    } else {
+                                        return (
+                                            <RetLineItemStatusCard
+                                                key={i}
+                                                lineItem={retLineItem}
+                                            />
+                                        )
+                                    }
                                 })}
-                            <div className="mt-4 flex justify-center">
-                                <FetchMoreLink color="#63a2f4">
-                                    and 50 more...
-                                </FetchMoreLink>
-                            </div>
                         </CardsDiv>
                     </Completed>
                 </TableDiv>
