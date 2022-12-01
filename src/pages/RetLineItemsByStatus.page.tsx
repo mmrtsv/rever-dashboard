@@ -1,49 +1,76 @@
 import React, { useEffect, useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
-import returnedLineItemsJSON from '../assets/returnedLineItems.json'
 import RetLineItemStatusCard from '../components/RetLineItemStatusCard'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import { getLineItems, resetProcessesApiCalls } from '../redux/api/processesApi'
+import {
+    getCompletedLineItems,
+    getPendingLineItems,
+    resetProcessesApiCalls
+} from '../redux/api/processesApi'
 
 function OrdersByStatus() {
     const dispatch = useAppDispatch()
-    const processesApi = useAppSelector((store) => store.processesApi)
 
-    const [LineItems, setLineItems] = useState<
+    const processesApiPendingLineItems = useAppSelector(
+        (store) => store.processesApi.getPendingLineItems
+    )
+
+    const processesApiCompletedLineItems = useAppSelector(
+        (store) => store.processesApi.getCompletedLineItems
+    )
+
+    const [pendingLineItems, setPendingLineItems] = useState<
+        ModelsPublicReturnLineItem[] | undefined
+    >([])
+
+    const [completedLineItems, setCompletedLineItems] = useState<
         ModelsPublicReturnLineItem[] | undefined
     >([])
 
     useEffect(() => {
-        if (processesApi.getLineItems.loading === 'succeeded') {
-            setLineItems(processesApi.getLineItems.response.line_items)
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApi.getLineItems.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
-        }
-    }, [processesApi.getLineItems.response, processesApi.getLineItems.loading])
-
-    useEffect(() => {
-        dispatch(getLineItems({ offset: 0, limit: 20 }))
+        dispatch(
+            getPendingLineItems({
+                offset: 0,
+                limit: 20
+            })
+        )
+        dispatch(
+            getCompletedLineItems({
+                offset: 0,
+                limit: 20
+            })
+        )
     }, [])
 
-    const pendingItems = LineItems?.filter((lineItem) => {
-        const shippingStatus =
-            lineItem.return_process?.last_known_shipping_status
-        if (
-            shippingStatus === 0 ||
-            shippingStatus === 1 ||
-            shippingStatus === 2
-        )
-            return lineItem
-    })
-
-    const completedItems = returnedLineItemsJSON.lineItems.filter(
-        (lineItem) => {
-            return lineItem.process.last_known_shipping_status === 1
+    useEffect(() => {
+        if (processesApiPendingLineItems.loading === 'succeeded') {
+            setPendingLineItems(
+                processesApiPendingLineItems.response.line_items
+            )
+            dispatch(resetProcessesApiCalls())
+        } else if (processesApiPendingLineItems.loading === 'failed') {
+            dispatch(resetProcessesApiCalls())
         }
-    )
+    }, [
+        processesApiPendingLineItems.response,
+        processesApiPendingLineItems.loading
+    ])
+
+    useEffect(() => {
+        if (processesApiCompletedLineItems.loading === 'succeeded') {
+            setCompletedLineItems(
+                processesApiCompletedLineItems.response.line_items
+            )
+            dispatch(resetProcessesApiCalls())
+        } else if (processesApiCompletedLineItems.loading === 'failed') {
+            dispatch(resetProcessesApiCalls())
+        }
+    }, [
+        processesApiCompletedLineItems.response,
+        processesApiCompletedLineItems.loading
+    ])
 
     return (
         <PageComponent>
@@ -55,31 +82,62 @@ function OrdersByStatus() {
                 <TableDiv>
                     <PendingToReceive>
                         <Title>
-                            Pending to Receive{' '}
-                            {pendingItems && '(' + pendingItems.length + ')'}
+                            Pending to Receive
+                            {pendingLineItems &&
+                                ' (' +
+                                    processesApiPendingLineItems.response
+                                        .rowcount +
+                                    ')'}
                         </Title>
-                        {pendingItems &&
-                            pendingItems.map((retLineItem, i) => {
-                                return (
-                                    <RetLineItemStatusCard
-                                        key={i}
-                                        lineItem={retLineItem}
-                                    />
-                                )
-                            })}
+                        <CardsDiv>
+                            {pendingLineItems &&
+                                pendingLineItems.map((retLineItem, i) => {
+                                    return (
+                                        <RetLineItemStatusCard
+                                            key={i}
+                                            lineItem={retLineItem}
+                                        />
+                                    )
+                                })}
+                            <div className="mt-4 flex justify-center">
+                                <FetchMoreLink color="#63a2f4">
+                                    and{' '}
+                                    {processesApiPendingLineItems.response
+                                        .rowcount &&
+                                        pendingLineItems &&
+                                        processesApiPendingLineItems.response
+                                            .rowcount -
+                                            pendingLineItems?.length}
+                                    more...
+                                </FetchMoreLink>
+                            </div>
+                        </CardsDiv>
                     </PendingToReceive>
                     <Completed>
                         <Title>
-                            Completed {'(' + completedItems.length + ')'}
+                            Completed
+                            {completedLineItems &&
+                                ' (' +
+                                    processesApiCompletedLineItems.response
+                                        .rowcount +
+                                    ')'}
                         </Title>
-                        {/* {completedItems.map((retLineItem, i) => {
-                            return (
-                                <RetLineItemStatusCard
-                                    key={i}
-                                    lineItem={retLineItem}
-                                />
-                            )
-                        })} */}
+                        <CardsDiv>
+                            {completedLineItems &&
+                                completedLineItems.map((retLineItem, i) => {
+                                    return (
+                                        <RetLineItemStatusCard
+                                            key={i}
+                                            lineItem={retLineItem}
+                                        />
+                                    )
+                                })}
+                            <div className="mt-4 flex justify-center">
+                                <FetchMoreLink color="#63a2f4">
+                                    and 50 more...
+                                </FetchMoreLink>
+                            </div>
+                        </CardsDiv>
                     </Completed>
                 </TableDiv>
             </MainDiv>
@@ -88,6 +146,14 @@ function OrdersByStatus() {
 }
 
 export default OrdersByStatus
+
+interface FechtMoreLinkProps {
+    color?: string
+}
+const FetchMoreLink = styled.a<FechtMoreLinkProps>`
+    color: ${(props) => props.color};
+    cursor: pointer;
+`
 
 const MainDiv = styled.div`
     display: flex;
@@ -131,4 +197,12 @@ const Title = styled.h6`
     background-color: rgb(235, 238, 245);
     color: rgb(115, 118, 132);
     box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 0.5px;
+`
+
+const CardsDiv = styled.div`
+    overflow-y: scroll;
+    max-height: 65vh;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `
