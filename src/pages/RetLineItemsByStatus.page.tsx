@@ -16,7 +16,6 @@ function OrdersByStatus() {
     const processesApiPendingLineItems = useAppSelector(
         (store) => store.processesApi.getPendingLineItems
     )
-
     const processesApiCompletedLineItems = useAppSelector(
         (store) => store.processesApi.getCompletedLineItems
     )
@@ -24,31 +23,42 @@ function OrdersByStatus() {
     const [pendingLineItems, setPendingLineItems] = useState<
         ModelsPublicReturnLineItem[] | undefined
     >([])
-
     const [completedLineItems, setCompletedLineItems] = useState<
         ModelsPublicReturnLineItem[] | undefined
     >([])
 
+    const [pagination, setPagination] = useState(0)
+
     useEffect(() => {
         dispatch(
             getPendingLineItems({
-                offset: 0,
-                limit: 20
+                offset: pagination * 20,
+                limit: 5
             })
         )
         dispatch(
             getCompletedLineItems({
                 offset: 0,
-                limit: 20
+                limit: 5
             })
         )
-    }, [])
+    }, [pagination])
 
     useEffect(() => {
         if (processesApiPendingLineItems.loading === 'succeeded') {
-            setPendingLineItems(
+            if (
+                pendingLineItems &&
                 processesApiPendingLineItems.response.line_items
-            )
+            ) {
+                setPendingLineItems(
+                    pendingLineItems.concat(
+                        processesApiPendingLineItems.response.line_items
+                    )
+                )
+            } else
+                setPendingLineItems(
+                    processesApiPendingLineItems.response.line_items
+                )
             dispatch(resetProcessesApiCalls())
         } else if (processesApiPendingLineItems.loading === 'failed') {
             dispatch(resetProcessesApiCalls())
@@ -100,14 +110,19 @@ function OrdersByStatus() {
                                     )
                                 })}
                             <div className="mt-4 flex justify-center">
-                                <FetchMoreLink color="#63a2f4">
+                                <FetchMoreLink
+                                    onClick={() =>
+                                        setPagination(pagination + 1)
+                                    }
+                                    color="#63a2f4"
+                                >
                                     and{' '}
                                     {processesApiPendingLineItems.response
                                         .rowcount &&
                                         pendingLineItems &&
                                         processesApiPendingLineItems.response
                                             .rowcount -
-                                            pendingLineItems?.length}
+                                            pendingLineItems?.length}{' '}
                                     more...
                                 </FetchMoreLink>
                             </div>

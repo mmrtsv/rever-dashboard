@@ -32,7 +32,6 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route element={<ProtectedRoute />}>
                         <Route element={<Layout />}>
-                            {/* <Route path="*" element={<Home />} /> */}
                             <Route path="/" element={<Home />} />
                             <Route path="/orders" element={<Orders />} />
                             <Route
