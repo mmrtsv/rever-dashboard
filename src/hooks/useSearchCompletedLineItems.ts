@@ -21,7 +21,7 @@ export function useSearchCompletedLineItems(pageNum: number) {
     useEffect(() => {
         dispatch(
             getCompletedLineItems({
-                offset: pageNum * 5,
+                offset: pageNum * 10,
                 limit: 10
             })
         )

@@ -127,14 +127,6 @@ function OrdersByStatus() {
 
 export default OrdersByStatus
 
-interface FechtMoreLinkProps {
-    color?: string
-}
-const FetchMoreLink = styled.a<FechtMoreLinkProps>`
-    color: ${(props) => props.color};
-    cursor: pointer;
-`
-
 const MainDiv = styled.div`
     display: flex;
     flex-direction: column;

@@ -21,7 +21,7 @@ export function useSearchPendingLineItems(pageNum: number) {
     useEffect(() => {
         dispatch(
             getPendingLineItems({
-                offset: pageNum * 5,
+                offset: pageNum * 10,
                 limit: 10
             })
         )
