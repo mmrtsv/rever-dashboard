@@ -8,6 +8,8 @@ import Loading from './components/Loading/Loading'
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Home = lazy(() => import('./pages/Home.page'))
 const Orders = lazy(() => import('./pages/Orders.page'))
+const OrdersByStatus = lazy(() => import('./pages/RetLineItemsByStatus.page'))
+const RetLineItemDetails = lazy(() => import('./pages/RetLineItemDetails.page'))
 
 function App() {
     // Language selection
@@ -30,8 +32,16 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route element={<ProtectedRoute />}>
                         <Route element={<Layout />}>
-                            <Route path="/" element={<Home />} />
+                            <Route path="/" element={<Orders />} />
                             <Route path="/orders" element={<Orders />} />
+                            <Route
+                                path="/dashboard"
+                                element={<OrdersByStatus />}
+                            />
+                            <Route
+                                path="/details/:id"
+                                element={<RetLineItemDetails />}
+                            />
                         </Route>
                     </Route>
                 </Routes>

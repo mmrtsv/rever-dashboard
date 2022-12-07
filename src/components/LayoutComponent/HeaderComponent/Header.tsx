@@ -83,6 +83,9 @@ const Header = () => {
             case 'orders':
                 navigate('/orders')
                 break
+            case 'dashboard':
+                navigate('/dashboard')
+                break
             default:
                 break
         }
