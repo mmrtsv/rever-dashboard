@@ -3,12 +3,13 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import ShippingStatus from '../ShippingStatus/ShippingStatus'
 import { useNavigate } from 'react-router-dom'
-interface OrderListItemProps {
+export interface OrderListItemProps {
     row: {
         id: string
         name: string
         product: string
         status: string
+        rever_id: string
     }
     key: number
 }

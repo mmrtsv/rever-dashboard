@@ -36,7 +36,8 @@ describe('Order List Item test', () => {
             id: '1',
             name: 'row',
             product: 'product',
-            status: 'status'
+            status: 'status',
+            rever_id: 'rever_id'
         }
 
         render(

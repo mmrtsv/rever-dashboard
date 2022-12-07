@@ -20,6 +20,7 @@ import TableRow from '@mui/material/TableRow'
 import TableFooter from '@mui/material/TableFooter'
 import TablePagination from '@mui/material/TablePagination'
 import { Box } from '@mui/system'
+import { OrderListItemProps } from '../OrderListItem/OrderListItem'
 
 interface RowsTypes {
     id: any
@@ -247,7 +248,7 @@ const ReverFooterTable = styled.div`
 
 const Main = styled.div`
     width: 100%;
-    max-height: 50vh;
+    max-height: 0vh;
     /* overflow: scroll; */
     overflow-y: scroll;
     display: inline-block;
