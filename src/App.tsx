@@ -32,7 +32,7 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route element={<ProtectedRoute />}>
                         <Route element={<Layout />}>
-                            <Route path="/" element={<Home />} />
+                            <Route path="/" element={<Orders />} />
                             <Route path="/orders" element={<Orders />} />
                             <Route
                                 path="/dashboard"

@@ -246,8 +246,8 @@ const ReverFooterTable = styled.div`
 `
 
 const Main = styled.div`
-    width: 80%;
-    max-height: 60vh;
+    width: 100%;
+    max-height: 50vh;
     /* overflow: scroll; */
     overflow-y: scroll;
     display: inline-block;

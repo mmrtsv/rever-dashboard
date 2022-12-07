@@ -2,6 +2,7 @@ import React from 'react'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import ShippingStatus from '../ShippingStatus/ShippingStatus'
+import { useNavigate } from 'react-router-dom'
 interface OrderListItemProps {
     row: {
         id: string
@@ -13,6 +14,10 @@ interface OrderListItemProps {
 }
 
 const OrderListItem: React.FC<OrderListItemProps> = ({ row, key }) => {
+    const navigate = useNavigate()
+    const handleClickItem = () => {
+        navigate(`/details/${row.rever_id}`)
+    }
     return (
         <TableRow
             data-testid="OrderListItem"
@@ -28,6 +33,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ row, key }) => {
             }
             hover
             role="checkbox"
+            onClick={handleClickItem}
         >
             <TableCell className="p-4 md:p-16" component="th" scope="row">
                 {row.id}
