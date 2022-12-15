@@ -21,6 +21,7 @@ interface ReverMainProps {
 }
 const ReverMain = styled.div<ReverMainProps>`
     /* width: 100%; */
+    background-color: #dae1e7;
     height: 100%;
     margin-left: ${(props) => (props.isSidebarOpen ? '240px' : 0)};
 `

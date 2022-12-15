@@ -2,10 +2,11 @@ import React from 'react'
 import { render, screen, cleanup } from '@testing-library/react'
 import { afterEach, describe, it } from 'vitest'
 
-import OrdersByStatus from '../../pages/RetLineItemsByStatus.page'
+import OrdersByStatus from '../../pages/LineItemsByStatus.page'
 
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../i18nForTests'
@@ -25,15 +26,33 @@ describe('Orders By Status Page tests', () => {
         },
         appState: {
             isSidebarOpen: true
+        },
+        lineItemsApi: {
+            getCompletedLineItems: {
+                loading: 'idle',
+                response: {
+                    next: '',
+                    rowcount: 17,
+                    line_items: []
+                }
+            },
+            getPendingLineItems: {
+                loading: 'idle',
+                response: {
+                    next: '',
+                    rowcount: 342,
+                    line_items: []
+                }
+            }
         }
     }
 
     afterEach(cleanup)
-
-    const mockStore = configureStore()
+    const middlewares = [thunk]
+    const mockStore = configureStore(middlewares)
     let store
 
-    it('should display a title and a search field', () => {
+    it('should display a search field', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
@@ -44,11 +63,10 @@ describe('Orders By Status Page tests', () => {
                 </Provider>
             </Router>
         )
-        screen.getByText('Overview')
-        screen.getByText('BUSCADOR')
+        screen.getByTestId('search-input')
     })
 
-    it('should display 2 columns', () => {
+    it('should display 2 columns with titles and amount of line items', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
@@ -61,9 +79,11 @@ describe('Orders By Status Page tests', () => {
         )
         screen.getByText('Pending to Receive', { exact: false })
         screen.getByText('Completed', { exact: false })
+        screen.getByText('342', { exact: false })
+        screen.getByText('17', { exact: false })
     })
 
-    it('should render returned lineItems cards', () => {
+    it('should render the divs that contains lineItem Cards', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
@@ -74,22 +94,7 @@ describe('Orders By Status Page tests', () => {
                 </Provider>
             </Router>
         )
-        screen.getAllByTestId('retLineItemCard')
-    })
-
-    it('should display order ID, product image and product name', () => {
-        store = mockStore(loggedInState)
-        render(
-            <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        <OrdersByStatus />
-                    </I18nextProvider>
-                </Provider>
-            </Router>
-        )
-        screen.getAllByText('Order ID:')
-        screen.getAllByAltText('ProductImage')
-        screen.getAllByTestId('ProductName')
+        screen.getByTestId('PendingLineItems')
+        screen.getByTestId('CompletedLineItems')
     })
 })

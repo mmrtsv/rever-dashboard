@@ -44,13 +44,11 @@ export const UserMenu = () => {
     }
 
     const handleSelectSetting = (setting: string) => {
-        // console.log(setting)
         switch (setting) {
             case 'Logout':
                 handleLogout()
                 break
             case 'Account':
-                console.log('/account')
                 break
             default:
                 break

@@ -9,5 +9,18 @@
         "home": "Home",
         "dashboard": "Dashboard",
         "orders": "Orders"
+    },
+    "search_component": {
+        "search": "Search"
+    },
+    "status_card": {
+        "order_id": "Order ID: "
+    },
+    "orders_table": {
+        "pagination": "/ page"
+    },
+    "status_page": {
+        "pending_title": "Pending to receive",
+        "completed_title": "Completed"
     }
 }

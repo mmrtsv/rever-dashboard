@@ -3,11 +3,13 @@ import authApiReducer from './api/authApi'
 import processesApiReducer from './api/processesApi'
 import userDataReducer from './features/userData/userDataSlice'
 import appStateReducer from './features/appState/appStateSlice'
+import lineItemsApiReducer from './api/lineItemsApi'
 
 export const store = configureStore({
     reducer: {
         authApi: authApiReducer,
         processesApi: processesApiReducer,
+        lineItemsApi: lineItemsApiReducer,
         userData: userDataReducer,
         appState: appStateReducer
     },

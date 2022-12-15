@@ -9,5 +9,18 @@
         "home": "Inicio",
         "dashboard": "Tablero",
         "orders": "Pedidos"
+    },
+    "search_component": {
+        "search": "Buscar"
+    },
+    "status_card": {
+        "order_id": "ID del pedido: "
+    },
+    "orders_table": {
+        "pagination": "/ página"
+    },
+    "status_page": {
+        "pending_title": "Pendientes de recibir",
+        "completed_title": "Completados"
     }
 }
