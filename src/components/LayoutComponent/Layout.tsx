@@ -10,24 +10,27 @@ const Layout = () => {
     const [
         authApiLoading,
         processesApiLoading,
-        processesApiPendingLineItems,
-        processesApiCompletedLineItems
+        lineItemsLoading,
+        pendingLineItemsLoading,
+        completedLineItemsLoading
     ] = [
         useAppSelector((store) => store.authApi.login.loading),
         useAppSelector((store) => store.processesApi.getProcesses.loading),
+        useAppSelector((store) => store.lineItemsApi.getLineItems.loading),
         useAppSelector(
-            (store) => store.processesApi.getPendingLineItems.loading
+            (store) => store.lineItemsApi.getPendingLineItems.loading
         ),
         useAppSelector(
-            (store) => store.processesApi.getCompletedLineItems.loading
+            (store) => store.lineItemsApi.getCompletedLineItems.loading
         )
     ]
     useEffect(() => {
         if (
             authApiLoading === 'pending' ||
             processesApiLoading === 'pending' ||
-            processesApiPendingLineItems === 'pending' ||
-            processesApiCompletedLineItems === 'pending'
+            lineItemsLoading === 'pending' ||
+            pendingLineItemsLoading === 'pending' ||
+            completedLineItemsLoading === 'pending'
         ) {
             setIsLoading(true)
         } else {
@@ -36,8 +39,9 @@ const Layout = () => {
     }, [
         authApiLoading,
         processesApiLoading,
-        processesApiPendingLineItems,
-        processesApiCompletedLineItems
+        lineItemsLoading,
+        pendingLineItemsLoading,
+        completedLineItemsLoading
     ])
 
     return (

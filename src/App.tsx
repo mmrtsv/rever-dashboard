@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next'
 import Loading from './components/Loading/Loading'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
-const Home = lazy(() => import('./pages/Home.page'))
+// const Home = lazy(() => import('./pages/Home.page'))
 const Orders = lazy(() => import('./pages/Orders.page'))
-const OrdersByStatus = lazy(() => import('./pages/RetLineItemsByStatus.page'))
-const RetLineItemDetails = lazy(() => import('./pages/RetLineItemDetails.page'))
+const OrdersByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
+const RetLineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 
 function App() {
     // Language selection

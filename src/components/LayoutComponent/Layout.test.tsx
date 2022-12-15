@@ -3,6 +3,7 @@ import { render, screen, cleanup } from '@testing-library/react'
 import { afterEach, describe, it } from 'vitest'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 import Layout from './Layout'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
@@ -29,14 +30,39 @@ describe('Layout Component', () => {
         },
         appState: {
             isSidebarOpen: false
+        },
+        lineItemsApi: {
+            getCompletedLineItems: {
+                loading: 'idle',
+                response: {
+                    next: '',
+                    rowcount: 17,
+                    line_items: []
+                }
+            },
+            getPendingLineItems: {
+                loading: 'idle',
+                response: {
+                    next: '',
+                    rowcount: 342,
+                    line_items: []
+                }
+            },
+            getLineItems: {
+                loading: '',
+                response: {}
+            }
         }
     }
-    const mockStore = configureStore()
+    const middlewares = [thunk]
+    const mockStore = configureStore(middlewares)
     let store
 
     afterEach(cleanup)
 
-    it('should render', () => {
+    //TODO FIND LOADING
+
+    it('should render the header and the loading component', () => {
         store = mockStore(loggedInState)
         render(
             <Router>

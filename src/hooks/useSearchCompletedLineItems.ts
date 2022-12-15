@@ -2,53 +2,68 @@ import { useState, useEffect } from 'react'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import {
     getCompletedLineItems,
-    resetProcessesApiCalls
-} from '../redux/api/processesApi'
+    resetLineItemsApiCalls
+} from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchCompletedLineItems(pageNum: number) {
+export function useSearchCompletedLineItems(pageNum: number, freeText: string) {
     const dispatch = useAppDispatch()
 
-    const processesApiCompletedLineItems = useAppSelector(
-        (store) => store.processesApi.getCompletedLineItems
+    const lineItemsApiCompletedLineItems = useAppSelector(
+        (store) => store.lineItemsApi.getCompletedLineItems
     )
     const [completedLineItems, setCompletedLineItems] = useState<
         ModelsPublicReturnLineItem[] | undefined
     >([])
 
-    const totalCompleted = processesApiCompletedLineItems.response.rowcount
+    const totalCompleted = lineItemsApiCompletedLineItems.response.rowcount
 
     useEffect(() => {
-        dispatch(
-            getCompletedLineItems({
-                offset: pageNum * 10,
-                limit: 10
-            })
-        )
-    }, [pageNum])
+        setCompletedLineItems([])
+    }, [freeText])
 
     useEffect(() => {
-        if (processesApiCompletedLineItems.loading === 'succeeded') {
+        if (freeText.length < 3) {
+            dispatch(
+                getCompletedLineItems({
+                    offset: pageNum * 10,
+                    limit: 10
+                })
+            )
+        }
+        if (freeText.length > 2) {
+            dispatch(
+                getCompletedLineItems({
+                    freetext: freeText,
+                    offset: pageNum * 10,
+                    limit: 10
+                })
+            )
+        }
+    }, [pageNum, freeText])
+
+    useEffect(() => {
+        if (lineItemsApiCompletedLineItems.loading === 'succeeded') {
             if (
                 completedLineItems &&
-                processesApiCompletedLineItems.response.line_items
+                lineItemsApiCompletedLineItems.response.line_items
             ) {
                 setCompletedLineItems(
                     completedLineItems.concat(
-                        processesApiCompletedLineItems.response.line_items
+                        lineItemsApiCompletedLineItems.response.line_items
                     )
                 )
             } else
                 setCompletedLineItems(
-                    processesApiCompletedLineItems.response.line_items
+                    lineItemsApiCompletedLineItems.response.line_items
                 )
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApiCompletedLineItems.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
+            dispatch(resetLineItemsApiCalls())
+        } else if (lineItemsApiCompletedLineItems.loading === 'failed') {
+            dispatch(resetLineItemsApiCalls())
         }
     }, [
-        processesApiCompletedLineItems.response,
-        processesApiCompletedLineItems.loading
+        lineItemsApiCompletedLineItems.response,
+        lineItemsApiCompletedLineItems.loading
     ])
 
     return { completedLineItems, totalCompleted }

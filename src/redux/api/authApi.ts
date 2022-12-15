@@ -31,7 +31,6 @@ export const login = createAsyncThunk('/login', async (args: LoginInput) => {
 })
 export const logout = createAsyncThunk('/logout', async () => {
     const logoutResponse = await authApi.logout()
-    console.log('logoutResponse', logoutResponse)
     return logoutResponse
 })
 

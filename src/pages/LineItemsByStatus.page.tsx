@@ -1,17 +1,26 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
-import RetLineItemStatusCard from '../components/RetLineItemStatusCard'
+import LineItemStatusCard from '../components/LineItemStatusCard'
 import useSearchCompletedLineItems from '../hooks/useSearchCompletedLineItems'
 import useSearchPendingLineItems from '../hooks/useSearchPendingLineItems'
+import FilterComponent from '../components/FilterComponent'
+import { useTranslation } from 'react-i18next'
 
 function OrdersByStatus() {
+    const { t } = useTranslation()
+
     const [pageNumPending, setPageNumPending] = useState(0)
     const [pageNumCompleted, setPageNumCompleted] = useState(0)
-    const { completedLineItems, totalCompleted } =
-        useSearchCompletedLineItems(pageNumCompleted)
-    const { pendingLineItems, totalPending } =
-        useSearchPendingLineItems(pageNumPending)
+    const [freeText, setFreeText] = useState('')
+    const { completedLineItems, totalCompleted } = useSearchCompletedLineItems(
+        pageNumCompleted,
+        freeText
+    )
+    const { pendingLineItems, totalPending } = useSearchPendingLineItems(
+        pageNumPending,
+        freeText
+    )
 
     // Logic for loading pending line items
     const hasMorePending =
@@ -52,20 +61,27 @@ function OrdersByStatus() {
         [hasMoreCompleted]
     )
 
+    useEffect(() => {
+        setPageNumPending(0)
+        setPageNumCompleted(0)
+    }, [freeText])
+
     return (
         <PageComponent>
             <MainDiv>
                 <TopDiv>
-                    <p>Overview</p>
-                    <p>BUSCADOR</p>
+                    <FilterComponent
+                        freeText={freeText}
+                        setFreeText={setFreeText}
+                    />
                 </TopDiv>
                 <TableDiv>
                     <PendingToReceive>
                         <Title>
-                            Pending to Receive
-                            {pendingLineItems && ' (' + totalPending + ')'}
+                            {t('status_page.pending_title')}
+                            {totalPending && ' (' + totalPending + ')'}
                         </Title>
-                        <CardsDiv>
+                        <CardsDiv data-testid="PendingLineItems">
                             {pendingLineItems &&
                                 pendingLineItems.map((retLineItem, i) => {
                                     if (pendingLineItems.length === i + 1) {
@@ -74,14 +90,14 @@ function OrdersByStatus() {
                                                 key={i}
                                                 ref={lastPendingLineItemRef}
                                             >
-                                                <RetLineItemStatusCard
+                                                <LineItemStatusCard
                                                     lineItem={retLineItem}
                                                 />
                                             </div>
                                         )
                                     }
                                     return (
-                                        <RetLineItemStatusCard
+                                        <LineItemStatusCard
                                             key={i}
                                             lineItem={retLineItem}
                                         />
@@ -91,10 +107,10 @@ function OrdersByStatus() {
                     </PendingToReceive>
                     <Completed>
                         <Title>
-                            Completed
-                            {completedLineItems && ' (' + totalCompleted + ')'}
+                            {t('status_page.completed_title')}
+                            {totalCompleted && ' (' + totalCompleted + ')'}
                         </Title>
-                        <CardsDiv>
+                        <CardsDiv data-testid="CompletedLineItems">
                             {completedLineItems &&
                                 completedLineItems.map((retLineItem, i) => {
                                     if (completedLineItems.length === i + 1) {
@@ -103,14 +119,14 @@ function OrdersByStatus() {
                                                 key={i}
                                                 ref={lastCompletedLineItemRef}
                                             >
-                                                <RetLineItemStatusCard
+                                                <LineItemStatusCard
                                                     lineItem={retLineItem}
                                                 />
                                             </div>
                                         )
                                     } else {
                                         return (
-                                            <RetLineItemStatusCard
+                                            <LineItemStatusCard
                                                 key={i}
                                                 lineItem={retLineItem}
                                             />
@@ -131,17 +147,16 @@ const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding: 1rem;
     background-color: rgb(241, 245, 249);
     height: 100%;
-    padding-top: 2rem;
 `
 
 const TopDiv = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 `
 
@@ -150,14 +165,15 @@ const TableDiv = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     width: 70%;
+    /* overflow-y: scroll; */
 `
 
 const PendingToReceive = styled.div`
-    margin-top: 3rem;
+    margin-top: 1rem;
 `
 
 const Completed = styled.div`
-    margin-top: 3rem;
+    margin-top: 1rem;
 `
 
 const Title = styled.h6`

@@ -3,12 +3,15 @@ import styled from '@emotion/styled'
 import NoAvailable from '../../assets/images/noAvailable.png'
 import { useNavigate } from 'react-router-dom'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
+import { useTranslation } from 'react-i18next'
 
 interface LineItemByStatusProps {
     lineItem: ModelsPublicReturnLineItem
 }
 
 const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
+    const { t } = useTranslation()
+
     let imgSrc = NoAvailable
     if (lineItem.product && lineItem.product.images)
         imgSrc = lineItem.product.images[0].src ?? NoAvailable
@@ -20,9 +23,9 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
     }
 
     return (
-        <LineItemCard data-testid="retLineItemCard" onClick={handleClickItem}>
+        <LineItemCard data-testid="LineItemCard" onClick={handleClickItem}>
             <div>
-                <span className="text-xs">Order ID: </span>
+                <span className="text-xs">{t('status_card.order_id')}</span>
                 <span>
                     {lineItem.return_process?.customer_printed_order_id}
                 </span>
