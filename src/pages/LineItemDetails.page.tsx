@@ -7,7 +7,7 @@ function RetLineItemDetails() {
     const reverID = window.location.pathname.split('/').pop()
 
     const { LineItem } = useSearchLineItem(reverID ?? '')
-
+    console.log(LineItem)
     const customerName =
         LineItem?.return_process?.customer?.first_name +
         ' ' +
