@@ -58,7 +58,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@itsrever/dashboard-api": "^1.0.82",
+    "@itsrever/dashboard-api": "^1.0.83",
     "@itsrever/design-system": "^1.0.46",
     "@itsrever/returns-api-types": "^0.0.84",
     "@testing-library/react": "^13.4.0",

@@ -11,8 +11,8 @@ export interface OrderListItemProps {
 
 const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
     let imgSrc = NoAvailable
-    if (lineItem.product && lineItem.product.images)
-        imgSrc = lineItem.product.images[0].src ?? NoAvailable
+    if (lineItem.product_image_url)
+        imgSrc = lineItem.product_image_url ?? NoAvailable
     const navigate = useNavigate()
     const handleClickItem = () => {
         navigate(`/details/${lineItem.rever_id}`)
