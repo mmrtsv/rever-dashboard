@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
-import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
+import {
+    FindPaginatedInlineItemsResults,
+    ModelsPublicReturnLineItem
+} from '@itsrever/dashboard-api'
 import { getLineItem, resetLineItemsApiCalls } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
@@ -16,14 +19,18 @@ export function useSearchLineItem(reverID: string) {
     useEffect(() => {
         dispatch(
             getLineItem({
-                id: reverID
+                lineItemsId: reverID
             })
         )
     }, [reverID])
 
     useEffect(() => {
         if (lineItemsApiLineItem.loading === 'succeeded') {
-            setLineItem(lineItemsApiLineItem.response.Process)
+            // console.log(lineItemsApiLineItem.response.line_items[0])
+            setLineItem(
+                lineItemsApiLineItem.response.line_items &&
+                    lineItemsApiLineItem.response.line_items[0]
+            )
             dispatch(resetLineItemsApiCalls())
         } else if (lineItemsApiLineItem.loading === 'failed') {
             dispatch(resetLineItemsApiCalls())

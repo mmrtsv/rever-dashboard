@@ -18,12 +18,12 @@ interface GetLineItemsCall extends ApiCallBase {
     response: FindPaginatedInlineItemsResults
 }
 
-interface GetLineItemCall extends ApiCallBase {
-    response: FindInlineItemResult
-}
+// interface GetLineItemCall extends ApiCallBase {
+//     response: FindPaginatedInlineItemsResults
+// }
 
 interface State {
-    getLineItem: GetLineItemCall
+    getLineItem: GetLineItemsCall
     getLineItems: GetLineItemsCall
     getPendingLineItems: GetLineItemsCall
     getCompletedLineItems: GetLineItemsCall
@@ -46,7 +46,8 @@ const defaultValueLineItems: ProcessesApiFindLineItemsRequest = {
     orderId: undefined,
     platform: undefined,
     processId: undefined,
-    status: undefined
+    status: undefined,
+    lineItemsId: undefined
 }
 
 const defaultValueLineItem: ProcessesApiFindLineItemRequest = {
@@ -55,10 +56,10 @@ const defaultValueLineItem: ProcessesApiFindLineItemRequest = {
 
 export const getLineItem = createAsyncThunk(
     '/getLineItem',
-    async (args?: ProcessesApiFindLineItemRequest) => {
-        const { id } = args || defaultValueLineItem
-        const getLineItemResponse = await lineItemsApi.findLineItem({
-            id
+    async (args?: ProcessesApiFindLineItemsRequest) => {
+        const { lineItemsId } = args || defaultValueLineItems
+        const getLineItemResponse = await lineItemsApi.findLineItems({
+            lineItemsId
         })
         return getLineItemResponse.data
     }
