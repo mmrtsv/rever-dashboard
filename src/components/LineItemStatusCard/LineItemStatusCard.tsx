@@ -13,8 +13,8 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
     const { t } = useTranslation()
 
     let imgSrc = NoAvailable
-    if (lineItem.product && lineItem.product.images)
-        imgSrc = lineItem.product.images[0].src ?? NoAvailable
+    if (lineItem.product_image_url)
+        imgSrc = lineItem.product_image_url ?? NoAvailable
 
     const navigate = useNavigate()
 

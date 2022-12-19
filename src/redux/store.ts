@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authApiReducer from './api/authApi'
 import processesApiReducer from './api/processesApi'
-import userDataReducer from './features/userData/userDataSlice'
+import userDataReducer from './features/generalData/userDataSlice'
 import appStateReducer from './features/appState/appStateSlice'
 import lineItemsApiReducer from './api/lineItemsApi'
 

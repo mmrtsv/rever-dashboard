@@ -3,15 +3,22 @@ import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import useSearchLineItem from '../hooks/useSearchLineItem'
 import NoAvailable from '../assets/images/noAvailable.png'
+import { useTranslation } from 'react-i18next'
+import { getDate, formatPrice } from '../utils'
+import {
+    ReturnMethod,
+    RefundActions
+} from '../redux/features/generalData/generalDataSlice'
 
 function RetLineItemDetails() {
+    const { i18n, t } = useTranslation()
     const reverID = window.location.pathname.split('/').pop()
 
     const { LineItem } = useSearchLineItem(reverID ?? '')
 
     let imgSrc = NoAvailable
-    if (LineItem?.product?.images)
-        imgSrc = LineItem.product.images[0].src ?? NoAvailable
+    if (LineItem?.product_image_url)
+        imgSrc = LineItem.product_image_url ?? NoAvailable
 
     const orderNumber = LineItem?.return_process?.customer_printed_order_id
     const customer = LineItem?.return_process?.customer
@@ -20,7 +27,13 @@ function RetLineItemDetails() {
         ? LineItem?.return_process?.pickup_address
         : LineItem?.return_process?.drop_off_address
 
-    // const returnDate = ????
+    let returnDate = ''
+    if (LineItem?.return_process?.started_at?.seconds) {
+        returnDate = getDate(
+            LineItem?.return_process?.started_at?.seconds,
+            i18n.language
+        )
+    }
 
     let status
     if (
@@ -32,9 +45,30 @@ function RetLineItemDetails() {
 
     // const condition = ???
 
+    let productPrice = undefined
+    if (
+        LineItem?.total &&
+        LineItem.quantity &&
+        LineItem.return_process?.money_format
+    )
+        productPrice = formatPrice(
+            Math.round(LineItem.total / LineItem.quantity),
+            LineItem.return_process?.money_format
+        )
+
     const typeOfReturn = LineItem?.return_process?.return_method
     const typeOfRefund = LineItem?.action
     const returnReason = LineItem?.return_reason
+
+    const REASONS = [
+        t('select_reason.reason2'),
+        t('select_reason.reason3'),
+        t('select_reason.reason4'),
+        t('select_reason.reason5'),
+        t('select_reason.reason6'),
+        t('select_reason.reason7'),
+        t('select_reason.reason8')
+    ]
 
     return (
         <PageComponent>
@@ -42,22 +76,36 @@ function RetLineItemDetails() {
                 <InfoDiv>
                     <CustomerInfo>
                         <div className="flex justify-center">
-                            <img src={imgSrc} alt="ProductImage" />
+                            <img
+                                className="h-fit w-16"
+                                src={imgSrc}
+                                alt="ProductImage"
+                            />
                         </div>
 
-                        <h6 className="mt-8 text-center">ES-9837</h6>
+                        <h6 className="mt-8 text-center">{orderNumber}</h6>
                         <span className="my-4 text-center text-xs">
-                            Dolores Crotal
+                            {customer?.first_name + ' ' + customer?.last_name}
                         </span>
                         <hr />
                         <span className="mt-8 mb-1 text-xs">Email</span>
-                        <div>dolores.crotal@gmail.com</div>
+                        <div>{customer?.email}</div>
                         <span className="mt-4 mb-1 text-xs">Address</span>
-                        <div>C/ Francesc Macià 3, 6º piso</div>
+                        <div>{address?.address_line_1}</div>
+                        <div>{address?.address_line_2}</div>
+                        <div>
+                            {address?.city +
+                                ', ' +
+                                address?.postcode +
+                                ', ' +
+                                address?.country}
+                        </div>
                         <span className="mt-8 mb-1 text-xs">Return Date</span>
-                        <div>16/11/2022</div>
+                        <div>{returnDate}</div>
                         <span className="mt-8 mb-1 text-xs">Stage</span>
-                        <div>Completed</div>
+                        <div>
+                            {status === 'PENDING' ? 'Pending' : 'Completed'}
+                        </div>
                         <span className="mt-8 mb-1 text-xs">Condition</span>
                         <div>Approved</div>
                     </CustomerInfo>
@@ -77,14 +125,22 @@ function RetLineItemDetails() {
                                 <span className="text-center text-xs">
                                     Amount
                                 </span>
-                                <div className="mt-4 text-center">33.15 €</div>
+                                <div className="mt-4 text-center">
+                                    {productPrice}
+                                </div>
                             </SingleInfo>
                             <SingleInfo>
                                 <span className="text-center text-xs">
                                     Type of return
                                 </span>
                                 <div className="mt-4 text-center">
-                                    Delivered to a Collection Point
+                                    {typeOfReturn ===
+                                    ReturnMethod.NoReturnMethod
+                                        ? 'No Payment Method'
+                                        : typeOfReturn ===
+                                          ReturnMethod.HomePickup
+                                        ? 'Home Pickup'
+                                        : 'Collection Point'}
                                 </div>
                             </SingleInfo>
                             <SingleInfo>
@@ -92,7 +148,12 @@ function RetLineItemDetails() {
                                     Type of refund
                                 </span>
                                 <div className="mt-4 text-center">
-                                    Instant Refund
+                                    {typeOfRefund === RefundActions.NoAction
+                                        ? 'No Refund'
+                                        : typeOfRefund ===
+                                          RefundActions.ToExchange
+                                        ? 'Exchanged'
+                                        : 'Refund'}
                                 </div>
                             </SingleInfo>
                         </OrderInfo>
@@ -102,7 +163,9 @@ function RetLineItemDetails() {
                                     Reason
                                 </span>
                                 <div className="mt-4 text-center">
-                                    Different than expected
+                                    {returnReason
+                                        ? REASONS[returnReason - 2]
+                                        : 'No reason catched'}
                                 </div>
                             </SingleInfo>
                             <SingleInfo>

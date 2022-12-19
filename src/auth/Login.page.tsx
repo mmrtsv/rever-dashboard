@@ -19,7 +19,7 @@ import { LoginInput } from '@itsrever/dashboard-api'
 import { useNavigate } from 'react-router-dom'
 import { resetAuthApiCalls } from '../redux/api/authApi'
 import { useEffect } from 'react'
-import { setUserData } from '../redux/features/userData/userDataSlice'
+import { setUserData } from '../redux/features/generalData/userDataSlice'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 

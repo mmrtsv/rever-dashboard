@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../redux/hooks'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../redux/hooks'
-import { setUserData } from '../../redux/features/userData/userDataSlice'
+import { setUserData } from '../../redux/features/generalData/userDataSlice'
 import Loading from '../../components/Loading/Loading'
 
 const ProtectedRoute = () => {
