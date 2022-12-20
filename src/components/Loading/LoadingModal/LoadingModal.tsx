@@ -16,6 +16,7 @@ export const LoadingModal: React.FC<LoadingModalProps> = ({ loading }) => {
                     onClose={() => null}
                     center
                     showCloseIcon={false}
+                    data-testid="loading-modal"
                 >
                     <ReverModal>
                         <ClipLoader

@@ -14,7 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
 import { logout } from '../../../../redux/api/authApi'
-import { resetUserData } from '../../../../redux/features/userData/userDataSlice'
+import { resetUserData } from '../../../../redux/features/generalData/userDataSlice'
 import { useTranslation } from 'react-i18next'
 
 export const userOptions = [
@@ -44,13 +44,11 @@ export const UserMenu = () => {
     }
 
     const handleSelectSetting = (setting: string) => {
-        // console.log(setting)
         switch (setting) {
             case 'Logout':
                 handleLogout()
                 break
             case 'Account':
-                console.log('/account')
                 break
             default:
                 break

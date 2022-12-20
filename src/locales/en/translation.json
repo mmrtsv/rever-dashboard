@@ -9,5 +9,27 @@
         "home": "Home",
         "dashboard": "Dashboard",
         "orders": "Orders"
+    },
+    "search_component": {
+        "search": "Search"
+    },
+    "status_card": {
+        "order_id": "Order ID: "
+    },
+    "orders_table": {
+        "pagination": "/ page"
+    },
+    "status_page": {
+        "pending_title": "Pending to receive",
+        "completed_title": "Completed"
+    },
+    "select_reason": {
+        "reason2": "Wrong color",
+        "reason3": "Different than expected",
+        "reason4": "Defective item",
+        "reason5": "I changed my mind",
+        "reason6": "I received a wrong item",
+        "reason7": "Too small",
+        "reason8": "Too large"
     }
 }
