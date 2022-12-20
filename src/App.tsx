@@ -9,7 +9,7 @@ const LoginPage = lazy(() => import('./auth/Login.page'))
 // const Home = lazy(() => import('./pages/Home.page'))
 const Orders = lazy(() => import('./pages/Orders.page'))
 const OrdersByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
-const RetLineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
+const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 
 function App() {
     // Language selection
@@ -40,7 +40,7 @@ function App() {
                             />
                             <Route
                                 path="/details/:id"
-                                element={<RetLineItemDetails />}
+                                element={<LineItemDetails />}
                             />
                         </Route>
                     </Route>

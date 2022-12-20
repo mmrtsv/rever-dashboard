@@ -6,8 +6,10 @@ import useSearchCompletedLineItems from '../hooks/useSearchCompletedLineItems'
 import useSearchPendingLineItems from '../hooks/useSearchPendingLineItems'
 import FilterComponent from '../components/FilterComponent'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '@itsrever/design-system'
 
 function OrdersByStatus() {
+    const theme = useTheme()
     const { t } = useTranslation()
 
     const [pageNumPending, setPageNumPending] = useState(0)
@@ -77,7 +79,7 @@ function OrdersByStatus() {
                 </TopDiv>
                 <TableDiv>
                     <PendingToReceive>
-                        <Title>
+                        <Title borderColor={theme.colors.grey[3]}>
                             {t('status_page.pending_title')}
                             {totalPending && ' (' + totalPending + ')'}
                         </Title>
@@ -106,7 +108,7 @@ function OrdersByStatus() {
                         </CardsDiv>
                     </PendingToReceive>
                     <Completed>
-                        <Title>
+                        <Title borderColor={theme.colors.grey[3]}>
                             {t('status_page.completed_title')}
                             {totalCompleted && ' (' + totalCompleted + ')'}
                         </Title>
@@ -148,7 +150,6 @@ const MainDiv = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 1rem;
-    background-color: rgb(241, 245, 249);
     height: 100%;
 `
 
@@ -165,7 +166,6 @@ const TableDiv = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     width: 70%;
-    /* overflow-y: scroll; */
 `
 
 const PendingToReceive = styled.div`
@@ -176,14 +176,19 @@ const Completed = styled.div`
     margin-top: 1rem;
 `
 
-const Title = styled.h6`
+interface TitleProps {
+    borderColor: string
+}
+
+const Title = styled.h6<TitleProps>`
     display: flex;
     justify-content: center;
-    border: 1px solid #ccc;
+    border: 1px solid;
+    border-color: ${(p) => p.borderColor};
     border-radius: 4px;
     padding: 1rem;
     background-color: rgb(235, 238, 245);
-    color: rgb(115, 118, 132);
+    color: 'black';
     box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 0.5px;
 `
 

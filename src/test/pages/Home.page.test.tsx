@@ -4,6 +4,7 @@ import { afterEach, describe, it } from 'vitest'
 import { BrowserRouter as Router } from 'react-router-dom'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from '@itsrever/design-system'
 
 import Home from '../../pages/Home.page'
 
@@ -34,7 +35,9 @@ describe('Home Page', () => {
         render(
             <Router>
                 <Provider store={store}>
-                    <Home />
+                    <ThemeProvider>
+                        <Home />
+                    </ThemeProvider>
                 </Provider>
             </Router>
         )

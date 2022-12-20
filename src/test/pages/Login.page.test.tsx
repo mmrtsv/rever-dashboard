@@ -9,14 +9,8 @@ import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../i18nForTests'
+import { ThemeProvider } from '@itsrever/design-system'
 
-// const mockedNavigator = vi.fn()
-
-// vi.mock('react-router-dom', () => ({
-//     ...(vi.importActual('react-router-dom') as any),
-
-//     useNavigate: () => mockedNavigator
-// }))
 describe('Login Page', () => {
     const initialState = { authApi: { login: { loading: 'idle' } } }
     const mockStore = configureStore()
@@ -30,7 +24,9 @@ describe('Login Page', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <LoginPage />
+                        <ThemeProvider>
+                            <LoginPage />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>

@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18nForTests'
+import { ThemeProvider } from '@itsrever/design-system'
 
 import Header from './Header'
 import drawerList1 from './Header'
@@ -39,7 +40,9 @@ describe('Header Component', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <Header />
+                        <ThemeProvider>
+                            <Header />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -72,7 +75,9 @@ describe('Header Component', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <Header />
+                        <ThemeProvider>
+                            <Header />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -105,7 +110,9 @@ describe('Header Component', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <Header />
+                        <ThemeProvider>
+                            <Header />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>

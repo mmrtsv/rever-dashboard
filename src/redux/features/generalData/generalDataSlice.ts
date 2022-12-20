@@ -17,3 +17,12 @@ export enum ReturnMethod {
     HomePickup,
     CollectionPoint
 }
+
+export enum ShippingStatus {
+    NoShippingStatus,
+    Created,
+    Collected,
+    InWarehouse,
+    Error,
+    Cancelled
+}

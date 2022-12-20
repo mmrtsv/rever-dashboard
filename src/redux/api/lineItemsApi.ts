@@ -2,9 +2,7 @@ import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
     FindPaginatedInlineItemsResults,
-    FindInlineItemResult,
     ProcessesApi,
-    ProcessesApiFindLineItemRequest,
     ProcessesApiFindLineItemsRequest
 } from '@itsrever/dashboard-api'
 import axios from 'axios'
@@ -17,10 +15,6 @@ const lineItemsApi = new ProcessesApi(undefined, undefined, axiosInstance)
 interface GetLineItemsCall extends ApiCallBase {
     response: FindPaginatedInlineItemsResults
 }
-
-// interface GetLineItemCall extends ApiCallBase {
-//     response: FindPaginatedInlineItemsResults
-// }
 
 interface State {
     getLineItem: GetLineItemsCall
@@ -48,10 +42,6 @@ const defaultValueLineItems: ProcessesApiFindLineItemsRequest = {
     processId: undefined,
     status: undefined,
     lineItemsId: undefined
-}
-
-const defaultValueLineItem: ProcessesApiFindLineItemRequest = {
-    id: ''
 }
 
 export const getLineItem = createAsyncThunk(

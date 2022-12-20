@@ -8,6 +8,7 @@ import Layout from './Layout'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../i18nForTests'
+import { ThemeProvider } from '@itsrever/design-system'
 
 describe('Layout Component', () => {
     const loggedInState = {
@@ -68,7 +69,9 @@ describe('Layout Component', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <Layout />
+                        <ThemeProvider>
+                            <Layout />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>

@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '@itsrever/design-system'
 
 export const drawerList1 = ['home', 'dashboard']
 export const drawerList2 = ['orders']
@@ -59,6 +60,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 const Header = () => {
+    const theme = useTheme()
     const { t } = useTranslation()
 
     const isSidebarOpen = useAppSelector(
@@ -67,12 +69,10 @@ const Header = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const handleDrawerOpen = () => {
-        // setOpenDrawer(true)
         dispatch(toggleSidebar())
     }
 
     const handleDrawerClose = () => {
-        // setOpenDrawer(false)
         dispatch(toggleSidebar())
     }
     const navigateMenuOnClick = (text: string) => {
@@ -96,7 +96,10 @@ const Header = () => {
                 id="rever-navbar"
                 position="fixed"
                 open={isSidebarOpen}
-                sx={{ backgroundColor: 'white', color: '#24446D' }}
+                sx={{
+                    backgroundColor: theme.colors.common.white,
+                    color: theme.colors.primary.main
+                }}
             >
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
@@ -130,7 +133,7 @@ const Header = () => {
                 }}
                 PaperProps={{
                     sx: {
-                        backgroundColor: '#24446D'
+                        backgroundColor: theme.colors.primary.dark
                     }
                 }}
                 variant="persistent"
@@ -139,13 +142,13 @@ const Header = () => {
             >
                 <DrawerHeader data-testid="DrawerInLogo">
                     <IconButton onClick={handleDrawerClose}>
-                        <div style={{ color: 'white' }}>
+                        <div style={{ color: theme.colors.common.white }}>
                             <NavBarBurgerMenu />
                         </div>
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <List sx={{ color: 'white' }}>
+                <List sx={{ color: theme.colors.common.white }}>
                     {drawerList1.map((text) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton
@@ -153,12 +156,20 @@ const Header = () => {
                             >
                                 <ListItemIcon>
                                     {text === 'home' && (
-                                        <div style={{ color: 'white' }}>
+                                        <div
+                                            style={{
+                                                color: theme.colors.common.white
+                                            }}
+                                        >
                                             <HomeIcon />
                                         </div>
                                     )}
                                     {text === 'dashboard' && (
-                                        <div style={{ color: 'white' }}>
+                                        <div
+                                            style={{
+                                                color: theme.colors.common.white
+                                            }}
+                                        >
                                             <AnalyticsIcon />
                                         </div>
                                     )}
@@ -171,7 +182,7 @@ const Header = () => {
                     ))}
                 </List>
                 <Divider />
-                <List sx={{ color: 'white' }}>
+                <List sx={{ color: theme.colors.common.white }}>
                     {drawerList2.map((text) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton
@@ -179,7 +190,11 @@ const Header = () => {
                             >
                                 <ListItemIcon>
                                     {text === 'orders' && (
-                                        <div style={{ color: 'white' }}>
+                                        <div
+                                            style={{
+                                                color: theme.colors.common.white
+                                            }}
+                                        >
                                             <OrdersIcon />
                                         </div>
                                     )}
