@@ -31,5 +31,19 @@
         "reason6": "I received a wrong item",
         "reason7": "Too small",
         "reason8": "Too large"
+    },
+    "details_page": {
+        "email": "Email",
+        "address": "Address",
+        "return_date": "Return date",
+        "stage": "Stage",
+        "condition": "Condition",
+        "pending": "Pending to receive",
+        "completed": "Completed",
+        "amount": "Amount",
+        "type_return": "Type of return",
+        "type_refund": "Type of refund",
+        "reason": "Reason",
+        "denied_title": "Why was it denied"
     }
 }

@@ -5,6 +5,7 @@ import PageComponent from './PageComponent'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { ThemeProvider } from '@itsrever/design-system'
 
 //TBD: Margin testing
 
@@ -36,7 +37,9 @@ describe('Page Component test', () => {
         render(
             <Router>
                 <Provider store={store}>
-                    <PageComponent />
+                    <ThemeProvider>
+                        <PageComponent />
+                    </ThemeProvider>
                 </Provider>
             </Router>
         )

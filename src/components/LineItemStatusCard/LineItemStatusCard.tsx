@@ -37,7 +37,7 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
                     alt="ProductImage"
                 />
                 <div>
-                    <span data-testid="ProductName"> {lineItem.name}</span>
+                    <div data-testid="ProductName"> {lineItem.name}</div>
                 </div>
             </ProductDisplay>
         </LineItemCard>

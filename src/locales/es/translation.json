@@ -31,5 +31,19 @@
         "reason6": "He recibido un artículo equivocado",
         "reason7": "Demasiado pequeño",
         "reason8": "Demasiado grande"
+    },
+    "details_page": {
+        "email": "Correo electrónico",
+        "address": "Dirección indicada",
+        "return_date": "Fecha de devolución",
+        "stage": "Estado",
+        "condition": "Condición",
+        "pending": "Pendiente de recibir",
+        "completed": "Completado",
+        "amount": "Importe",
+        "type_return": "Tipo de devolución",
+        "type_refund": "Tipo de reembolso",
+        "reason": "Razón",
+        "denied_title": "Motivo de rechazo"
     }
 }

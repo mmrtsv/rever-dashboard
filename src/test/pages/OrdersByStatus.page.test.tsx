@@ -4,6 +4,7 @@ import { afterEach, describe, it } from 'vitest'
 
 import OrdersByStatus from '../../pages/LineItemsByStatus.page'
 
+import { ThemeProvider } from '@itsrever/design-system'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
@@ -58,7 +59,9 @@ describe('Orders By Status Page tests', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <OrdersByStatus />
+                        <ThemeProvider>
+                            <OrdersByStatus />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -72,7 +75,9 @@ describe('Orders By Status Page tests', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <OrdersByStatus />
+                        <ThemeProvider>
+                            <OrdersByStatus />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -89,7 +94,9 @@ describe('Orders By Status Page tests', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <OrdersByStatus />
+                        <ThemeProvider>
+                            <OrdersByStatus />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>

@@ -7,10 +7,13 @@ import { useTranslation } from 'react-i18next'
 import { getDate, formatPrice } from '../utils'
 import {
     ReturnMethod,
-    RefundActions
+    RefundActions,
+    ShippingStatus
 } from '../redux/features/generalData/generalDataSlice'
+import { useTheme } from '@itsrever/design-system'
 
 function RetLineItemDetails() {
+    const theme = useTheme()
     const { i18n, t } = useTranslation()
     const reverID = window.location.pathname.split('/').pop()
 
@@ -38,12 +41,13 @@ function RetLineItemDetails() {
     let status
     if (
         LineItem?.return_process?.last_known_shipping_status &&
-        LineItem?.return_process?.last_known_shipping_status === 3
+        LineItem?.return_process?.last_known_shipping_status ===
+            ShippingStatus.InWarehouse
     )
         status = 'COMPLETED'
     else status = 'PENDING'
 
-    // const condition = ???
+    const condition = status === 'COMPLETED' ? 'Approved' : 'Pending'
 
     let productPrice = undefined
     if (
@@ -74,7 +78,7 @@ function RetLineItemDetails() {
         <PageComponent>
             <MainDiv>
                 <InfoDiv>
-                    <CustomerInfo>
+                    <CustomerInfo borderColor={theme.colors.grey[3]}>
                         <div className="flex justify-center">
                             <img
                                 className="h-fit w-16"
@@ -88,9 +92,13 @@ function RetLineItemDetails() {
                             {customer?.first_name + ' ' + customer?.last_name}
                         </span>
                         <hr />
-                        <span className="mt-8 mb-1 text-xs">Email</span>
+                        <span className="mt-8 mb-1 text-xs">
+                            {t('details_page.email')}
+                        </span>
                         <div>{customer?.email}</div>
-                        <span className="mt-4 mb-1 text-xs">Address</span>
+                        <span className="mt-4 mb-1 text-xs">
+                            {t('details_page.address')}
+                        </span>
                         <div>{address?.address_line_1}</div>
                         <div>{address?.address_line_2}</div>
                         <div>
@@ -100,38 +108,72 @@ function RetLineItemDetails() {
                                 ', ' +
                                 address?.country}
                         </div>
-                        <span className="mt-8 mb-1 text-xs">Return Date</span>
+                        <span className="mt-8 mb-1 text-xs">
+                            {t('details_page.return_date')}
+                        </span>
                         <div>{returnDate}</div>
-                        <span className="mt-8 mb-1 text-xs">Stage</span>
+                        <span className="mt-8 mb-1 text-xs">
+                            {t('details_page.stage')}
+                        </span>
                         <div>
                             {status === 'PENDING' ? 'Pending' : 'Completed'}
                         </div>
-                        <span className="mt-8 mb-1 text-xs">Condition</span>
-                        <div>Approved</div>
+                        <span className="mt-8 mb-1 text-xs">
+                            {t('details_page.condition')}
+                        </span>
+                        <div>{condition}</div>
                     </CustomerInfo>
                     <LineItemInfo>
+                        <LineItemName borderColor={theme.colors.grey[3]}>
+                            {LineItem?.name}
+                        </LineItemName>
                         <StatusArrows>
-                            <LeftArrow>
-                                <div className="text-white">
-                                    Pending to receive
+                            <LeftArrow
+                                bgColor={
+                                    status === 'PENDING'
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[3]
+                                }
+                            >
+                                <div
+                                    className={
+                                        status === 'PENDING' ? 'text-white' : ''
+                                    }
+                                >
+                                    {t('details_page.pending')}
                                 </div>
                             </LeftArrow>
-                            <RightArrow>
-                                <div>Completed</div>
+                            <RightArrow
+                                status={status}
+                                bgColor={
+                                    status === 'COMPLETED'
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[3]
+                                }
+                            >
+                                <div
+                                    className={
+                                        status === 'COMPLETED'
+                                            ? 'text-white'
+                                            : ''
+                                    }
+                                >
+                                    {t('details_page.completed')}
+                                </div>
                             </RightArrow>
                         </StatusArrows>
                         <OrderInfo>
-                            <SingleInfo>
+                            <SingleInfo topColor={theme.colors.primary.dark}>
                                 <span className="text-center text-xs">
-                                    Amount
+                                    {t('details_page.amount')}
                                 </span>
                                 <div className="mt-4 text-center">
                                     {productPrice}
                                 </div>
                             </SingleInfo>
-                            <SingleInfo>
+                            <SingleInfo topColor={theme.colors.primary.dark}>
                                 <span className="text-center text-xs">
-                                    Type of return
+                                    {t('details_page.type_return')}
                                 </span>
                                 <div className="mt-4 text-center">
                                     {typeOfReturn ===
@@ -143,9 +185,9 @@ function RetLineItemDetails() {
                                         : 'Collection Point'}
                                 </div>
                             </SingleInfo>
-                            <SingleInfo>
+                            <SingleInfo topColor={theme.colors.primary.dark}>
                                 <span className="text-center text-xs">
-                                    Type of refund
+                                    {t('details_page.type_refund')}
                                 </span>
                                 <div className="mt-4 text-center">
                                     {typeOfRefund === RefundActions.NoAction
@@ -158,9 +200,9 @@ function RetLineItemDetails() {
                             </SingleInfo>
                         </OrderInfo>
                         <OrderDetails>
-                            <SingleInfo>
+                            <SingleInfo topColor={theme.colors.primary.dark}>
                                 <span className="text-center text-xs">
-                                    Reason
+                                    {t('details_page.reason')}
                                 </span>
                                 <div className="mt-4 text-center">
                                     {returnReason
@@ -168,9 +210,9 @@ function RetLineItemDetails() {
                                         : 'No reason catched'}
                                 </div>
                             </SingleInfo>
-                            <SingleInfo>
+                            <SingleInfo topColor={theme.colors.primary.dark}>
                                 <span className="text-center text-xs">
-                                    Why was it denied
+                                    {t('details_page.denied_title')}
                                 </span>
                                 <div className="mt-4 text-center">-</div>
                             </SingleInfo>
@@ -183,7 +225,6 @@ function RetLineItemDetails() {
 }
 
 const MainDiv = styled.div`
-    background-color: rgb(241, 245, 249);
     display: flex;
     justify-content: center;
     padding: 2rem;
@@ -198,13 +239,29 @@ const InfoDiv = styled.div`
     width: fit-content;
 `
 
-const CustomerInfo = styled.div`
+interface BoxProps {
+    borderColor: string
+}
+
+const CustomerInfo = styled.div<BoxProps>`
     height: fit-content;
     padding: 1.5rem;
     border-radius: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid;
+    border-color: ${(p) => p.borderColor};
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+`
+
+const LineItemName = styled.div<BoxProps>`
+    text-align: center;
+    height: fit-content;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    border-color: ${(p) => p.borderColor};
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 `
@@ -221,13 +278,18 @@ const StatusArrows = styled.div`
     align-items: center;
 `
 
-const LeftArrow = styled.div`
+interface GeneralProps {
+    status?: string
+    bgColor: string
+}
+
+const LeftArrow = styled.div<GeneralProps>`
     margin-right: 0.5rem;
     width: 100%;
     padding: 0.5rem;
     text-align: center;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    background-color: #24446d;
+    background-color: ${(p) => p.bgColor};
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     //
@@ -254,20 +316,21 @@ const LeftArrow = styled.div`
         width: 0;
         position: absolute;
         border-color: rgba(255, 255, 255, 0);
-        border-left-color: #24446d;
+        border-left-color: ${(p) => p.bgColor};
         border-width: 20px;
         margin-top: -20px;
     }
 `
 
-const RightArrow = styled.div`
+const RightArrow = styled.div<GeneralProps>`
     margin-left: 0.5rem;
     width: 100%;
     text-align: center;
     padding: 0.5rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    background-color: #e5e5e5;
+    background-color: ${(p) => p.bgColor};
     border-radius: 5px;
+    z-index: ${(p) => (p.status === 'COMPLETED' ? 50 : '')};
 `
 
 const OrderInfo = styled.div`
@@ -284,12 +347,16 @@ const OrderDetails = styled.div`
     gap: 1rem;
 `
 
-const SingleInfo = styled.div`
+interface SingleInfoProps {
+    topColor: string
+}
+
+const SingleInfo = styled.div<SingleInfoProps>`
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
     border-top-width: 8px;
-    border-top-color: #24446d;
+    border-top-color: ${(p) => p.topColor};
     border-radius: 0.5rem;
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);

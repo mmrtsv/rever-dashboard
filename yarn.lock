@@ -504,10 +504,10 @@
   dependencies:
     axios "^1.1.3"
 
-"@itsrever/design-system@^1.0.46":
-  version "1.0.46"
-  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.46/aad2e93c187bbde68e1b9cdbca0a4457cd6032af#aad2e93c187bbde68e1b9cdbca0a4457cd6032af"
-  integrity sha512-Qg9tzw2uz9orRXtPk+SdRXBocYe2cUN7UusQYqAETOB0Ir+je+cWaKptWbEdJGsBSfPJFl1OA1+Gw5XsjaWHTg==
+"@itsrever/design-system@^1.0.47":
+  version "1.0.47"
+  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.47/d7418c7e1f08e8285ae720272db7492a6e93aa75#d7418c7e1f08e8285ae720272db7492a6e93aa75"
+  integrity sha512-sutviuLgNgDH1Gl4X+4cMdTm6EBqPO/6bbJUcssOUm1F1A0BQJi8RnX/fhvwYyWjY8spsK/nRlCohQBniU83qQ==
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"
@@ -4749,10 +4749,10 @@ react-router@6.4.2:
   dependencies:
     "@remix-run/router" "1.0.2"
 
-react-spinners@^0.13.6:
-  version "0.13.6"
-  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.6.tgz#f97df4f7fedea7a496b391cf952761e13256610b"
-  integrity sha512-+VoSs1wN6oMhJy7PzCPiHUt6zUi9fvnGQizem8q/NzXhGovbdXFDWNhspk6KEKXQEafInUtpvtDlp/zJ5sES/A==
+react-spinners@^0.13.7:
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.7.tgz#0f423c415bfa56765ce9fb36ff604e52a92b37a9"
+  integrity sha512-mRamn56bfxWbGcacif5RT3UbeJaXi2AttjtPwSmomuv2IcxjpbfETCzdTvaQpNDk0E33ENJsStsQeKAZFuJcpA==
 
 react-transition-group@^4.4.5:
   version "4.4.5"

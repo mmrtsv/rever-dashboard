@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import { useTranslation } from 'react-i18next'
+import { useTheme } from '@itsrever/design-system'
 
 interface SearchProps {
     freeText: string
@@ -11,27 +12,28 @@ interface SearchProps {
 
 const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
     const { t } = useTranslation()
+    const theme = useTheme()
 
     return (
         <FilterBox>
             <TextField
                 sx={{
                     '& label.Mui-focused': {
-                        color: 'black'
+                        color: theme.colors.common.black
                     },
                     '& .MuiInput-underline:after': {
-                        borderBottomColor: '#24446D'
+                        borderBottomColor: theme.colors.primary.dark
                     },
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: '#24446D',
-                            backgroundColor: '#24446d4e'
+                            borderColor: theme.colors.primary.dark,
+                            backgroundColor: 'transparent'
                         },
                         '&:hover fieldset': {
-                            borderColor: '#24446D'
+                            borderColor: theme.colors.primary.dark
                         },
                         '&.Mui-focused fieldset': {
-                            borderColor: '#24446D',
+                            borderColor: theme.colors.primary.dark,
                             backgroundColor: 'transparent'
                         }
                     }
@@ -39,7 +41,7 @@ const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
                 label={
                     <div>
                         <SearchIcon
-                            style={{ color: '#24446D' }}
+                            style={{ color: theme.colors.primary.dark }}
                             fontSize="medium"
                         />{' '}
                         {t('search_component.search')}

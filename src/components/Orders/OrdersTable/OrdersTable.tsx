@@ -15,12 +15,7 @@ const OrdersTable = () => {
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(25)
     const [FreeText, setFreeText] = useState<string>('')
-    const { LineItems, totalLineItems } = useSearchLineItems(
-        ActualPage,
-        Limit,
-        FreeText
-    )
-    // const maxPage = totalLineItems ? Math.ceil(totalLineItems / Limit) : 1
+    const { LineItems } = useSearchLineItems(ActualPage, Limit, FreeText)
 
     return (
         <Main
