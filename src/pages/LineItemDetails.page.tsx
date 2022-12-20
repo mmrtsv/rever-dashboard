@@ -88,7 +88,6 @@ function RetLineItemDetails() {
                         </div>
 
                         <h6 className="mt-8 text-center">{orderNumber}</h6>
-
                         <span className="my-4 text-center text-xs">
                             {customer?.first_name + ' ' + customer?.last_name}
                         </span>

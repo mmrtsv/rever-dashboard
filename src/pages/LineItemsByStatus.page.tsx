@@ -166,6 +166,7 @@ const TableDiv = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     width: 70%;
+    /* overflow-y: scroll; */
 `
 
 const PendingToReceive = styled.div`
