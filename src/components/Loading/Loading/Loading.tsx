@@ -15,6 +15,7 @@ export const Loading: React.FC<LoadingProps> = ({ loading }) => {
         <ReverLoading>
             <img className="mb-8" src={logoWide} alt="REVER" />
             <ClipLoader
+                data-testid="spinner"
                 loading={loading}
                 size="125px"
                 color={theme.colors.primary.dark}
