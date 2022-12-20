@@ -37,7 +37,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
                         src={imgSrc}
                         alt="ProductImage"
                     />
-                    <span data-testid="ProductName"> {lineItem.name}</span>
+                    <span> {lineItem.name}</span>
                 </ProductInfo>
                 <NameBox>
                     <TextBoxes data-testid="Name">

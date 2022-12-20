@@ -37,6 +37,7 @@ export const ShippingStatuses = [
 const ShippingStatus = (props: any) => {
     return (
         <div
+            data-testid="shippingStatus"
             className={clsx(
                 'inline truncate rounded-full py-3 px-4 font-semibold',
                 _.find(ShippingStatuses, { enum: props.enum })?.color

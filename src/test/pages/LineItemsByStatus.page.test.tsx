@@ -66,7 +66,7 @@ describe('Line Items By Status Page tests', () => {
                 </Provider>
             </Router>
         )
-        screen.getByTestId('search-input')
+        screen.getByLabelText('Search')
     })
 
     it('should display 2 columns with titles and amount of line items', () => {
