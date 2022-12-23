@@ -30,7 +30,7 @@ describe('Order List Item test', () => {
     const mockStore = configureStore()
     let store
 
-    it('should render', () => {
+    it('should display an order number, product image and name, name of the customer and the shipping status', () => {
         store = mockStore(loggedInState)
 
         const lineItem: ModelsPublicReturnLineItem = {
@@ -43,7 +43,13 @@ describe('Order List Item test', () => {
             product_id: '7368369995937',
             quantity: 1,
             refund_payment_method: 1,
-            return_process: undefined,
+            return_process: {
+                customer_printed_order_id: '#179615',
+                customer: {
+                    first_name: 'Oskar',
+                    last_name: 'Lozano'
+                }
+            },
             return_reason: 7,
             rever_id: 'retl_2IrCxoRm7E2ClFn63JaapvmuPnd',
             sku: '1119-XS',
@@ -65,5 +71,10 @@ describe('Order List Item test', () => {
             </Router>
         )
         screen.getByTestId('OrderListItem')
+        screen.getByText('#179615')
+        screen.getByAltText('ProductImage')
+        screen.getByText('BEAR HOOD - XS')
+        screen.getByText('Oskar Lozano')
+        screen.getByTestId('shippingStatus')
     })
 })

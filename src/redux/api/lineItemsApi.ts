@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
@@ -7,9 +8,19 @@ import {
 } from '@itsrever/dashboard-api'
 import axios from 'axios'
 
+export const setAccessToken = (accessToken: string) => {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+}
+
+const accessToken = localStorage.getItem('accessToken')
+
+axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+
 const axiosInstance = axios.create({
     withCredentials: true
+    // headers: { Authorization: `Bearer ${accessToken}` }
 })
+
 const lineItemsApi = new ProcessesApi(undefined, undefined, axiosInstance)
 
 interface GetLineItemsCall extends ApiCallBase {

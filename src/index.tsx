@@ -7,11 +7,21 @@ import './index.css'
 import './i18n'
 import 'tailwindcss/tailwind.css'
 import { ThemeProvider } from '@itsrever/design-system'
+import { Auth0Provider } from '@auth0/auth0-react'
+const Domain = import.meta.env.VITE_AUTH0_DOMAIN
+const ClientId = import.meta.env.VITE_AUTH0_CLIENT
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store}>
-        <ThemeProvider>
-            <App />
-        </ThemeProvider>
+        <Auth0Provider
+            domain={Domain}
+            clientId={ClientId}
+            redirectUri={window.location.origin}
+            audience="dashboard-api"
+        >
+            <ThemeProvider>
+                <App />
+            </ThemeProvider>
+        </Auth0Provider>
     </Provider>
 )

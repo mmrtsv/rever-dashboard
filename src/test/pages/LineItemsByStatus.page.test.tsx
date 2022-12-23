@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, cleanup } from '@testing-library/react'
 import { afterEach, describe, it } from 'vitest'
 
-import OrdersByStatus from '../../pages/LineItemsByStatus.page'
+import LineItemsByStatus from '../../pages/LineItemsByStatus.page'
 
 import { ThemeProvider } from '@itsrever/design-system'
 import { Provider } from 'react-redux'
@@ -12,7 +12,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../i18nForTests'
 
-describe('Orders By Status Page tests', () => {
+describe('Line Items By Status Page tests', () => {
     const loggedInState = {
         authApi: {
             login: { loading: 'idle', response: {} }
@@ -60,13 +60,13 @@ describe('Orders By Status Page tests', () => {
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
                         <ThemeProvider>
-                            <OrdersByStatus />
+                            <LineItemsByStatus />
                         </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
         )
-        screen.getByTestId('search-input')
+        screen.getByLabelText('Search')
     })
 
     it('should display 2 columns with titles and amount of line items', () => {
@@ -76,7 +76,7 @@ describe('Orders By Status Page tests', () => {
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
                         <ThemeProvider>
-                            <OrdersByStatus />
+                            <LineItemsByStatus />
                         </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
@@ -95,7 +95,7 @@ describe('Orders By Status Page tests', () => {
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
                         <ThemeProvider>
-                            <OrdersByStatus />
+                            <LineItemsByStatus />
                         </ThemeProvider>
                     </I18nextProvider>
                 </Provider>

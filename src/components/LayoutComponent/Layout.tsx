@@ -8,13 +8,13 @@ const Layout = () => {
     // Loading Modal Logic
     const [isLoading, setIsLoading] = useState(true)
     const [
-        authApiLoading,
+        // authApiLoading,
         processesApiLoading,
         lineItemsLoading,
         pendingLineItemsLoading,
         completedLineItemsLoading
     ] = [
-        useAppSelector((store) => store.authApi.login.loading),
+        // useAppSelector((store) => store.authApi.login.loading),
         useAppSelector((store) => store.processesApi.getProcesses.loading),
         useAppSelector((store) => store.lineItemsApi.getLineItems.loading),
         useAppSelector(
@@ -26,7 +26,7 @@ const Layout = () => {
     ]
     useEffect(() => {
         if (
-            authApiLoading === 'pending' ||
+            // authApiLoading === 'pending' ||
             processesApiLoading === 'pending' ||
             lineItemsLoading === 'pending' ||
             pendingLineItemsLoading === 'pending' ||
@@ -37,7 +37,7 @@ const Layout = () => {
             setIsLoading(false)
         }
     }, [
-        authApiLoading,
+        // authApiLoading,
         processesApiLoading,
         lineItemsLoading,
         pendingLineItemsLoading,

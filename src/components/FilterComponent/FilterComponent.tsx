@@ -17,6 +17,7 @@ const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
     return (
         <FilterBox>
             <TextField
+                data-testid="SearchInput"
                 sx={{
                     '& label.Mui-focused': {
                         color: theme.colors.common.black
@@ -47,7 +48,6 @@ const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
                         {t('search_component.search')}
                     </div>
                 }
-                data-testid="search-input"
                 value={freeText}
                 onChange={(e) => setFreeText(e.target.value)}
             />
