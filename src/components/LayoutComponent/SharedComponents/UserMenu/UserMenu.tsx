@@ -13,9 +13,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
-import { logout } from '../../../../redux/api/authApi'
 import { resetUserData } from '../../../../redux/features/generalData/userDataSlice'
 import { useTranslation } from 'react-i18next'
+import { useAuth0 } from '@auth0/auth0-react'
+import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
 
 export const userOptions = [
     { en: 'Account', es: 'Cuenta' },
@@ -29,7 +30,7 @@ export const UserMenu = () => {
     const { i18n } = useTranslation()
     const lang = i18n.language
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-
+    const { logout, user } = useAuth0()
     const handleCloseUserMenu = () => {
         setAnchorElUser(null)
     }
@@ -37,10 +38,10 @@ export const UserMenu = () => {
         setAnchorElUser(event.currentTarget)
     }
     const handleLogout = () => {
-        dispatch(logout())
-        localStorage.removeItem('user')
-        dispatch(resetUserData())
-        navigate('/login')
+        logout({ returnTo: window.location.origin })
+        localStorage.removeItem('accessToken')
+        dispatch(resetTokenData())
+        // navigate('/login')
     }
 
     const handleSelectSetting = (setting: string) => {
@@ -61,7 +62,7 @@ export const UserMenu = () => {
             <Tooltip title="Open settings">
                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
                     <Hidden smDown>
-                        <a className="mr-2">{UserData?.name}</a>
+                        <a className="mr-2">{user && user.name}</a>
                     </Hidden>
 
                     <IconButton sx={{ p: 0, color: 'white' }}>

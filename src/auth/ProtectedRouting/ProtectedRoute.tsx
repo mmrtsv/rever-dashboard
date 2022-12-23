@@ -4,26 +4,23 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../redux/hooks'
 import { setUserData } from '../../redux/features/generalData/userDataSlice'
 import Loading from '../../components/Loading/Loading'
+import { useAuth0 } from '@auth0/auth0-react'
+import { setTokenData } from '../../redux/features/generalData/tokenDataSlice'
+import axios from 'axios'
 
 const ProtectedRoute = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const userReduxStore = useAppSelector((store) => store.userData.user)
-    const user = localStorage.getItem('user')
+    const accessToken = localStorage.getItem('accessToken')
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        if (userReduxStore) {
-            setIsAuthenticated(true)
-        } else if (user) {
-            dispatch(setUserData(JSON.parse(user)))
-            setIsAuthenticated(true)
-        } else {
-            navigate('/login')
-        }
-    }, [])
+    const {
+        getAccessTokenWithPopup,
+        isAuthenticated,
+        loginWithRedirect,
+        getAccessTokenSilently
+    } = useAuth0()
 
     if (!isAuthenticated) {
-        return <Loading loading={true} />
+        navigate('/login')
     }
 
     return <Outlet />

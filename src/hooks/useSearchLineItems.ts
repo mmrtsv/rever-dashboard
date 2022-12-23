@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { getLineItems, resetLineItemsApiCalls } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import { useAuth0 } from '@auth0/auth0-react'
 
 export function useSearchLineItems(
     pageNum: number,

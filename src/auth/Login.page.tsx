@@ -14,14 +14,16 @@ import _ from 'lodash'
 import { Button } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { login } from '../redux/api/authApi'
-import { LoginInput } from '@itsrever/dashboard-api'
+// import { login } from '../redux/api/authApi'
+// import { LoginInput } from '@itsrever/dashboard-api'
 import { useNavigate } from 'react-router-dom'
-import { resetAuthApiCalls } from '../redux/api/authApi'
+// import { resetAuthApiCalls } from '../redux/api/authApi'
 import { useEffect } from 'react'
 import { setUserData } from '../redux/features/generalData/userDataSlice'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
+import { useAuth0 } from '@auth0/auth0-react'
+import { setTokenData } from '../redux/features/generalData/tokenDataSlice'
 
 // Form validation
 const schema = yup.object().shape({
@@ -32,45 +34,69 @@ const schema = yup.object().shape({
     password: yup.string().required('Please enter your password.')
 })
 
-const defaultValues: LoginInput = {
-    username: '',
-    password: ''
-    // remember: false
-}
+// const defaultValues: LoginInput = {
+//     username: '',
+//     password: ''
+//     // remember: false
+// }
 
 function LoginPage() {
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
-    // React Hook Forms set up
-    const { handleSubmit, control, formState } = useForm({
-        mode: 'onChange',
-        defaultValues,
-        resolver: yupResolver(schema)
-    })
-    const { errors, dirtyFields, isValid } = formState
+    // // React Hook Forms set up
+    // const { handleSubmit, control, formState } = useForm({
+    //     mode: 'onChange',
+    //     defaultValues,
+    //     resolver: yupResolver(schema)
+    // })
+    // const { errors, dirtyFields, isValid } = formState
 
-    function onSubmit({ username, password }: LoginInput) {
-        dispatch(login({ username, password } as LoginInput))
-    }
+    // function onSubmit({ username, password }: LoginInput) {
+    //     dispatch(login({ username, password } as LoginInput))
+    // }
+
+    // const authApi = useAppSelector((store) => store.authApi)
     const navigate = useNavigate()
-    const authApi = useAppSelector((store) => store.authApi)
+    // useEffect(() => {
+    //     if (authApi.login.loading === 'succeeded') {
+    //         if (authApi.login.response.user) {
+    //             dispatch(setUserData(authApi.login.response.user))
+    //             localStorage.setItem(
+    //                 'user',
+    //                 JSON.stringify(authApi.login.response.user)
+    //             )
+    //         }
+    //         dispatch(resetAuthApiCalls())
+    //         navigate('/')
+    //     } else if (authApi.login.loading === 'failed') {
+    //         dispatch(resetAuthApiCalls())
+    //         alert('Login failed')
+    //     }
+    // }, [authApi.login.response, authApi.login.loading])
 
-    useEffect(() => {
-        if (authApi.login.loading === 'succeeded') {
-            if (authApi.login.response.user) {
-                dispatch(setUserData(authApi.login.response.user))
-                localStorage.setItem(
-                    'user',
-                    JSON.stringify(authApi.login.response.user)
-                )
-            }
-            dispatch(resetAuthApiCalls())
-            navigate('/')
-        } else if (authApi.login.loading === 'failed') {
-            dispatch(resetAuthApiCalls())
-            alert('Login failed')
-        }
-    }, [authApi.login.response, authApi.login.loading])
+    const {
+        getAccessTokenWithPopup,
+        isAuthenticated,
+        loginWithRedirect,
+        getAccessTokenSilently
+    } = useAuth0()
+
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         getAccessTokenWithPopup({
+    //             audience: 'dashboard-api'
+    //         }).then((accessToken) => {
+    //             console.log(accessToken)
+    //             localStorage.setItem('accessToken', accessToken)
+    //             // dispatch(setTokenData(accessToken))
+    //             // navigate('/')
+    //         })
+    //     }
+    // }, [isAuthenticated, getAccessTokenWithPopup])
+    // if (isAuthenticated) {
+
+    // }
+    // const { getAccessTokenSilently, isAuthenticated } = useAuth0()
 
     return (
         <MainDiv>
@@ -87,7 +113,17 @@ function LoginPage() {
                     <h4 data-testid="sign-in" className="my-6">
                         {t('login_page.sign_in')}
                     </h4>
-                    <form
+                    <Button
+                        variant="contained"
+                        sx={{ borderRadius: 73 }}
+                        size="medium"
+                        onClick={() => loginWithRedirect()}
+                    >
+                        <a data-testid="sign-in-text">
+                            {t('login_page.button_submit')}
+                        </a>
+                    </Button>
+                    {/* <form
                         className="flex w-full flex-col justify-center"
                         onSubmit={handleSubmit(onSubmit)}
                         data-testid="login-form"
@@ -126,28 +162,9 @@ function LoginPage() {
                                     />
                                 )}
                             />
-                        </div>
-                        {/* <div className="mb-2 flex flex-col items-center justify-center">
-                            <Controller
-                                name="remember"
-                                control={control}
-                                render={({ field }) => (
-                                    <FormControl>
-                                        <FormControlLabel
-                                            label="Remember me"
-                                            control={
-                                                <Checkbox
-                                                    size="small"
-                                                    {...field}
-                                                />
-                                            }
-                                        />
-                                    </FormControl>
-                                )}
-                            />
                         </div> */}
 
-                        <Button
+                    {/* <Button
                             variant="contained"
                             aria-label="Sign in"
                             data-testid="sign-in-button"
@@ -160,7 +177,7 @@ function LoginPage() {
                                 {t('login_page.button_submit')}
                             </a>
                         </Button>
-                    </form>
+                    </form> */}
                 </FormContainer>
             </LeftBox>
 
