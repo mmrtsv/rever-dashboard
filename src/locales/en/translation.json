@@ -7,7 +7,7 @@
     },
     "drawer_pages": {
         "home": "Home",
-        "dashboard": "Dashboard",
+        "analytics": "Analytics",
         "orders": "Orders"
     },
     "search_component": {

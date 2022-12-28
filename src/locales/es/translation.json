@@ -7,7 +7,7 @@
     },
     "drawer_pages": {
         "home": "Inicio",
-        "dashboard": "Tablero",
+        "analytics": "Analítica",
         "orders": "Pedidos"
     },
     "search_component": {

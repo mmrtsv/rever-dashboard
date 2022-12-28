@@ -24,7 +24,7 @@ import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
 
-export const drawerList1 = ['home', 'dashboard']
+export const drawerList1 = ['home', 'analytics']
 export const drawerList2 = ['orders']
 
 const drawerWidth = 240
@@ -83,7 +83,7 @@ const Header = () => {
             case 'orders':
                 navigate('/orders')
                 break
-            case 'dashboard':
+            case 'analytics':
                 navigate('/dashboard')
                 break
             default:
@@ -168,7 +168,7 @@ const Header = () => {
                                             <HomeIcon />
                                         </div>
                                     )}
-                                    {text === 'dashboard' && (
+                                    {text === 'analytics' && (
                                         <div
                                             style={{
                                                 color: theme.colors.common.white

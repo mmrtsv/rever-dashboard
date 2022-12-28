@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@itsrever/design-system'
 
-import Home from '../../pages/Home.page'
+import Home from '../../pages/Analytics.page'
 
 // Good for now - to be changed when home is updated
 describe('Home Page', () => {

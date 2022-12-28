@@ -10,8 +10,8 @@ import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { setAccessToken } from './redux/api/lineItemsApi'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
-const Home = lazy(() => import('./pages/Home.page'))
-const Orders = lazy(() => import('./pages/Orders.page'))
+const Analytics = lazy(() => import('./pages/Analytics.page'))
+const LineItems = lazy(() => import('./pages/LineItems.page'))
 const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 
@@ -63,17 +63,17 @@ function App() {
                     <Route element={<Layout />}>
                         <Route
                             path="/"
-                            element={<ProtectedRoute component={Home} />}
+                            element={<ProtectedRoute component={LineItems} />}
                         />
                         <Route
                             path="/orders"
-                            element={<ProtectedRoute component={Orders} />}
-                        />
-                        <Route
-                            path="/dashboard"
                             element={
                                 <ProtectedRoute component={LineItemsByStatus} />
                             }
+                        />
+                        <Route
+                            path="/dashboard"
+                            element={<ProtectedRoute component={Analytics} />}
                         />
                         <Route
                             path="/details/:id"

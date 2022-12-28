@@ -7,7 +7,7 @@ const FinancialMetrics = () => {
     return (
         <FinancialDiv>
             <LeftDiv borderColor={theme.colors.grey[3]}>
-                <div className="flex flex-col">
+                <div className="mr-8 flex flex-col">
                     <h4>
                         <b>Concept</b>
                     </h4>
@@ -31,7 +31,7 @@ const FinancialMetrics = () => {
                         <b>Total sales</b>
                     </p>
                 </div>
-                <div className="flex flex-col">
+                <div className="mr-8 flex flex-col">
                     <h4 className="text-center">
                         <b>Value</b>
                     </h4>
@@ -55,25 +55,39 @@ const FinancialMetrics = () => {
                         <b>3,124,719.73 €</b>
                     </span>
                 </div>
+                <div>
+                    <h4>
+                        <b>Description</b>
+                    </h4>
+                    <CustomP color={theme.colors.grey[1]}>
+                        Gross sales excluding REVER exchanges
+                    </CustomP>
+                    <CustomP color={theme.colors.grey[1]}>
+                        Sales that come through REVER exchanges
+                    </CustomP>
+                    <hr className="my-2" />
+                    <CustomP color={theme.colors.grey[1]}>
+                        Total gross sales (matches Shopify)
+                    </CustomP>
+                    <CustomP color={theme.colors.grey[1]}>
+                        Discounts used (including Store Credit from REVER)
+                    </CustomP>
+                    <CustomP color={theme.colors.grey[1]}>
+                        All the discounts manually processed in Shopify
+                    </CustomP>
+                    <CustomP color={theme.colors.grey[1]}>
+                        All the returns made through REVER
+                    </CustomP>
+                    <hr className="my-2" />
+                    <CustomP color={theme.colors.grey[1]}>Net sales</CustomP>
+                    <CustomP color={theme.colors.grey[1]}>
+                        Total shipping costs
+                    </CustomP>
+                    <CustomP color={theme.colors.grey[1]}>Total taxes</CustomP>
+                    <hr className="my-2" />
+                    <CustomP color={theme.colors.grey[1]}>Total sales</CustomP>
+                </div>
             </LeftDiv>
-            <RightDiv borderColor={theme.colors.grey[3]}>
-                <h4>
-                    <b>Concept</b>
-                </h4>
-                <p>Gross sales excluding REVER exchanges</p>
-                <p>Sales that come through REVER exchanges</p>
-                <hr className="my-2" />
-                <p>Total gross sales (matches Shopify)</p>
-                <p>Discounts used (including Store Credit from REVER)</p>
-                <p>All the discounts manually processed in Shopify</p>
-                <p>All the returns made through REVER</p>
-                <hr className="my-2" />
-                <p>Net sales</p>
-                <p>Total shipping costs</p>
-                <p>Total taxes</p>
-                <hr className="my-2" />
-                <p>Total sales</p>
-            </RightDiv>
         </FinancialDiv>
     )
 }
@@ -81,9 +95,8 @@ const FinancialMetrics = () => {
 export default FinancialMetrics
 
 const FinancialDiv = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    display: flex;
+    justify-content: center;
 `
 
 interface BoxProps {
@@ -91,9 +104,8 @@ interface BoxProps {
 }
 
 const LeftDiv = styled.div<BoxProps>`
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem;
+    display: flex;
+    justify-content: stretch;
     padding: 1.5rem;
     border-radius: 0.5rem;
     border: 1px solid;
@@ -102,11 +114,10 @@ const LeftDiv = styled.div<BoxProps>`
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 `
 
-const RightDiv = styled.div<BoxProps>`
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid;
-    border-color: ${(p) => p.borderColor};
-    background-color: #fff;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+interface PProps {
+    color: string
+}
+
+const CustomP = styled.p<PProps>`
+    color: ${(p) => p.color};
 `
