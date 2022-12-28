@@ -104,7 +104,11 @@ const Header = () => {
                 <ReverToolbar>
                     <div className="flex flex-1 px-1">
                         {!isSidebarOpen && (
-                            <div data-testid="DrawerOutLogo" className="mr-4">
+                            <div
+                                data-testid="DrawerOutLogo"
+                                className="mr-4"
+                                style={{ color: theme.colors.primary.dark }}
+                            >
                                 <NavBarBurgerMenu onClick={handleDrawerOpen} />
                             </div>
                         )}

@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
+import { Tabs, Tab } from '@mui/material'
+import { useTheme } from '@itsrever/design-system'
 
 function Home() {
+    const theme = useTheme()
+
+    const [currentTab, setCurrentTab] = useState(0)
+
     return (
         <PageComponent>
             <MainDiv>
@@ -11,6 +17,21 @@ function Home() {
                         <h1>Analytics Dashboard</h1>
                         <h6>Monitor metrics - Check reports</h6>
                     </div>
+                    <Tabs
+                        value={currentTab}
+                        onChange={(e, i) => setCurrentTab(i)}
+                        TabIndicatorProps={{
+                            sx: {
+                                background: theme.colors.primary.dark
+                            }
+                        }}
+                    >
+                        <Tab
+                            style={{ color: theme.colors.primary.dark }}
+                            label="Financials"
+                        />
+                        <Tab label="Returns" />
+                    </Tabs>
                 </TopDiv>
             </MainDiv>
         </PageComponent>
@@ -30,7 +51,7 @@ const MainDiv = styled.div`
 const TopDiv = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     width: 100%;
 `
