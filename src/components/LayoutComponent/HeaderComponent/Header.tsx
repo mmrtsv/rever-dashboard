@@ -1,19 +1,21 @@
-import React from 'react'
-import { Toolbar } from '@mui/material'
+import React, { memo } from 'react'
+import {
+    Toolbar,
+    Box,
+    Drawer,
+    IconButton,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    List,
+    Divider
+} from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Drawer from '@mui/material/Drawer'
 import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
 import UserMenu from '../SharedComponents/UserMenu'
 import logoWide from '../../../assets/images/icons/logoWide.svg'
-import IconButton from '@mui/material/IconButton'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
 import { styled } from '@mui/material/styles'
-import List from '@mui/material/List'
-import Divider from '@mui/material/Divider'
 import HomeIcon from '@mui/icons-material/Store'
 import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
@@ -24,8 +26,8 @@ import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
 
-export const drawerList1 = ['home', 'analytics']
-export const drawerList2 = ['orders']
+export const drawerList1 = ['home', 'orders']
+export const drawerList2 = ['analytics']
 
 const drawerWidth = 240
 
@@ -62,19 +64,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const Header = () => {
     const theme = useTheme()
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
-    const handleDrawerOpen = () => {
+    const handleDrawer = () => {
         dispatch(toggleSidebar())
     }
 
-    const handleDrawerClose = () => {
-        dispatch(toggleSidebar())
-    }
     const navigateMenuOnClick = (text: string) => {
         switch (text) {
             case 'home':
@@ -109,7 +108,7 @@ const Header = () => {
                                 className="mr-4"
                                 style={{ color: theme.colors.primary.dark }}
                             >
-                                <NavBarBurgerMenu onClick={handleDrawerOpen} />
+                                <NavBarBurgerMenu onClick={handleDrawer} />
                             </div>
                         )}
 
@@ -145,7 +144,7 @@ const Header = () => {
                 open={isSidebarOpen}
             >
                 <DrawerHeader data-testid="DrawerInLogo">
-                    <IconButton onClick={handleDrawerClose}>
+                    <IconButton onClick={handleDrawer}>
                         <div style={{ color: theme.colors.common.white }}>
                             <NavBarBurgerMenu />
                         </div>
@@ -168,13 +167,13 @@ const Header = () => {
                                             <HomeIcon />
                                         </div>
                                     )}
-                                    {text === 'analytics' && (
+                                    {text === 'orders' && (
                                         <div
                                             style={{
                                                 color: theme.colors.common.white
                                             }}
                                         >
-                                            <AnalyticsIcon />
+                                            <OrdersIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
@@ -193,13 +192,13 @@ const Header = () => {
                                 onClick={() => navigateMenuOnClick(text)}
                             >
                                 <ListItemIcon>
-                                    {text === 'orders' && (
+                                    {text === 'analytics' && (
                                         <div
                                             style={{
                                                 color: theme.colors.common.white
                                             }}
                                         >
-                                            <OrdersIcon />
+                                            <AnalyticsIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
@@ -231,4 +230,4 @@ const ReverToolbar = styled(Toolbar)`
     }
 `
 
-export default Header
+export default memo(Header)
