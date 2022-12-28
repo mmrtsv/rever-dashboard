@@ -1,10 +1,8 @@
 import React, { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-// import ProtectedRoute from './auth/ProtectedRouting/ProtectedRoute'
 import Layout from './components/LayoutComponent/Layout'
 import { useTranslation } from 'react-i18next'
 import Loading from './components/Loading/Loading'
-import axios from 'axios'
 import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
@@ -12,9 +10,9 @@ import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { setAccessToken } from './redux/api/lineItemsApi'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
-// const Home = lazy(() => import('./pages/Home.page'))
+const Home = lazy(() => import('./pages/Home.page'))
 const Orders = lazy(() => import('./pages/Orders.page'))
-const OrdersByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
+const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 
 type Props = {
@@ -41,7 +39,6 @@ function App() {
         const setAuthToken = async () => {
             try {
                 const token = await getAccessTokenSilently()
-                // console.log(token)
                 localStorage.setItem('accessToken', token)
                 setAccessToken(token)
                 dispatch(setTokenData(token))
@@ -66,7 +63,7 @@ function App() {
                     <Route element={<Layout />}>
                         <Route
                             path="/"
-                            element={<ProtectedRoute component={Orders} />}
+                            element={<ProtectedRoute component={Home} />}
                         />
                         <Route
                             path="/orders"
@@ -75,7 +72,7 @@ function App() {
                         <Route
                             path="/dashboard"
                             element={
-                                <ProtectedRoute component={OrdersByStatus} />
+                                <ProtectedRoute component={LineItemsByStatus} />
                             }
                         />
                         <Route
