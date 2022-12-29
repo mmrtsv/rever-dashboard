@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import {
     Toolbar,
     Box,
@@ -9,7 +9,8 @@ import {
     ListItemIcon,
     ListItemText,
     List,
-    Divider
+    Divider,
+    Collapse
 } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
@@ -21,6 +22,8 @@ import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
 import FinancialsIcon from '@mui/icons-material/Payments'
 import ReturnsIcon from '@mui/icons-material/LocalShipping'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import LanguageSwitcher from '../../LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
@@ -75,6 +78,8 @@ const Header = () => {
     const handleDrawer = () => {
         dispatch(toggleSidebar())
     }
+
+    const [analyticsOpen, setAnalyticsOpen] = useState(true)
 
     const navigateMenuOnClick = (text: string) => {
         switch (text) {
@@ -188,44 +193,76 @@ const Header = () => {
                 </List>
                 <Divider />
                 <List sx={{ color: theme.colors.common.white }}>
-                    {drawerList2.map((text) => (
+                    {drawerList2.map((text, i) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton
-                                onClick={() => navigateMenuOnClick(text)}
-                            >
-                                <ListItemIcon>
-                                    {text === 'analytics' && (
-                                        <div
-                                            style={{
-                                                color: theme.colors.common.white
-                                            }}
-                                        >
-                                            <AnalyticsIcon />
-                                        </div>
+                            {i === 0 && (
+                                <ListItemButton
+                                    onClick={() =>
+                                        setAnalyticsOpen(!analyticsOpen)
+                                    }
+                                >
+                                    <ListItemIcon>
+                                        {text === 'analytics' && (
+                                            <div
+                                                style={{
+                                                    color: theme.colors.common
+                                                        .white
+                                                }}
+                                            >
+                                                <AnalyticsIcon />
+                                            </div>
+                                        )}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={t(`drawer_pages.${text}`)}
+                                    />
+                                    {analyticsOpen ? (
+                                        <ExpandLess />
+                                    ) : (
+                                        <ExpandMore />
                                     )}
-                                    {text === 'financials' && (
-                                        <div
-                                            style={{
-                                                color: theme.colors.common.white
-                                            }}
-                                        >
-                                            <FinancialsIcon />
-                                        </div>
-                                    )}
-                                    {text === 'returns' && (
-                                        <div
-                                            style={{
-                                                color: theme.colors.common.white
-                                            }}
-                                        >
-                                            <ReturnsIcon />
-                                        </div>
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={t(`drawer_pages.${text}`)}
-                                />
-                            </ListItemButton>
+                                </ListItemButton>
+                            )}
+                            {i > 0 && (
+                                <Collapse
+                                    in={analyticsOpen}
+                                    timeout="auto"
+                                    unmountOnExit
+                                >
+                                    <ListItemButton
+                                        sx={{ pl: 4 }}
+                                        onClick={() =>
+                                            navigateMenuOnClick(text)
+                                        }
+                                    >
+                                        <ListItemIcon>
+                                            {text === 'financials' && (
+                                                <div
+                                                    style={{
+                                                        color: theme.colors
+                                                            .common.white
+                                                    }}
+                                                >
+                                                    <FinancialsIcon />
+                                                </div>
+                                            )}
+                                            {text === 'returns' && (
+                                                <div
+                                                    style={{
+                                                        color: theme.colors
+                                                            .common.white
+                                                    }}
+                                                >
+                                                    <ReturnsIcon />
+                                                </div>
+                                            )}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={t(`drawer_pages.${text}`)}
+                                        />
+                                    </ListItemButton>
+                                </Collapse>
+                            )}
                         </ListItem>
                     ))}
                 </List>
