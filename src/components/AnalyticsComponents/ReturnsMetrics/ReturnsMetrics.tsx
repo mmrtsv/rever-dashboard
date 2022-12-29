@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { useTheme } from '@itsrever/design-system'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
+import ReturnsIcon from '@mui/icons-material/LocalShipping'
 
 const ReturnsMetrics = () => {
     const theme = useTheme()
@@ -38,10 +39,19 @@ const ReturnsMetrics = () => {
         <ReturnsDiv>
             <TopInfo>
                 <ReverBox borderColor={theme.colors.grey[3]}>
-                    <h3 className="text-center">
-                        <b>Total Returns</b>
-                    </h3>
-                    <div className="text-center">2482</div>
+                    <div className="flex w-full">
+                        <div className="flex items-center">
+                            <ReturnsIcon />
+                        </div>
+                        <div className="flex w-full flex-col">
+                            <h3 className="text-center text-2xl">
+                                <b>2482</b>
+                            </h3>
+                            <div className="flex w-full text-center">
+                                Total returns
+                            </div>
+                        </div>
+                    </div>
                 </ReverBox>
                 <ReverBox borderColor={theme.colors.grey[3]}>
                     <h3 className="text-center">
@@ -64,7 +74,6 @@ const ReturnsMetrics = () => {
                         type="donut"
                         width="500"
                     />
-                    <div className="mt-4 text-center">Compensation methods</div>
                 </ReverBox>
                 <ReverBox className="ml-4" borderColor={theme.colors.grey[3]}>
                     <Chart
