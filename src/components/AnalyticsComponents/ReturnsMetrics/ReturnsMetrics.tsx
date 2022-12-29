@@ -4,6 +4,8 @@ import { useTheme } from '@itsrever/design-system'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
 import ReturnsIcon from '@mui/icons-material/LocalShipping'
+import RDVIcon from '@mui/icons-material/AccountBalance'
+import SalesIcon from '@mui/icons-material/Paid'
 
 const ReturnsMetrics = () => {
     const theme = useTheme()
@@ -14,7 +16,10 @@ const ReturnsMetrics = () => {
             'Original Payment Method',
             'Bank Transfer',
             'Exchanges'
-        ]
+        ],
+        legend: {
+            position: 'bottom'
+        }
     }
     const series = [44, 55, 41, 17]
 
@@ -47,38 +52,52 @@ const ReturnsMetrics = () => {
                             <h3 className="text-center text-2xl">
                                 <b>2482</b>
                             </h3>
-                            <p className="text-center">Total returns</p>
+                            <p className="text-center">total returns</p>
                         </div>
                     </div>
                 </ReverBox>
                 <ReverBox borderColor={theme.colors.grey[3]}>
-                    <h3 className="text-center">
-                        <b>Pending Returns</b>
-                    </h3>
-                    <div className="text-center">892</div>
+                    <div className="flex w-full">
+                        <div className="flex items-center">
+                            <RDVIcon />
+                        </div>
+                        <div className="flex w-full flex-col">
+                            <h3 className="text-center text-2xl">
+                                <b>45%</b>
+                            </h3>
+                            <p className="text-center">RDV</p>
+                        </div>
+                    </div>
                 </ReverBox>
                 <ReverBox borderColor={theme.colors.grey[3]}>
-                    <h3 className="text-center">
-                        <b>Completed Returns</b>
-                    </h3>
-                    <div className="text-center">1590</div>
+                    <div className="flex w-full">
+                        <div className="flex items-center">
+                            <SalesIcon />
+                        </div>
+                        <div className="flex w-full flex-col">
+                            <h3 className="text-center text-2xl">
+                                <b>39,871.39 €</b>
+                            </h3>
+                            <p className="text-center">New sales generated</p>
+                        </div>
+                    </div>
                 </ReverBox>
             </TopInfo>
             <CompensationsDiv>
                 <ReverBox borderColor={theme.colors.grey[3]}>
                     <Chart
-                        options={options}
-                        series={series}
-                        type="donut"
-                        width="500"
+                        options={options2}
+                        series={series2}
+                        type="line"
+                        width="600"
                     />
                 </ReverBox>
                 <ReverBox className="ml-4" borderColor={theme.colors.grey[3]}>
                     <Chart
-                        options={options2}
-                        series={series2}
-                        type="line"
-                        width="500"
+                        options={options}
+                        series={series}
+                        type="donut"
+                        width="400"
                     />
                 </ReverBox>
             </CompensationsDiv>

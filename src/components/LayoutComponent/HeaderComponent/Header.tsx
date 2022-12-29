@@ -231,6 +231,7 @@ const Header = () => {
                                     in={analyticsOpen}
                                     timeout="auto"
                                     unmountOnExit
+                                    sx={{ width: '100%' }}
                                 >
                                     <ListItemButton
                                         sx={{ pl: 4 }}
