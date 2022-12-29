@@ -8,7 +8,9 @@
     "drawer_pages": {
         "home": "Inicio",
         "analytics": "Analítica",
-        "orders": "Pedidos"
+        "orders": "Pedidos",
+        "financials": "Finanzas",
+        "returns": "Devoluciones"
     },
     "search_component": {
         "search": "Buscar"

@@ -8,7 +8,9 @@
     "drawer_pages": {
         "home": "Home",
         "analytics": "Analytics",
-        "orders": "Orders"
+        "orders": "Orders",
+        "financials": "Finance",
+        "returns": "Returns"
     },
     "search_component": {
         "search": "Search"

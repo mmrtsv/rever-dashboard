@@ -19,6 +19,8 @@ import { styled } from '@mui/material/styles'
 import HomeIcon from '@mui/icons-material/Store'
 import OrdersIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
+import FinancialsIcon from '@mui/icons-material/Payments'
+import ReturnsIcon from '@mui/icons-material/LocalShipping'
 import LanguageSwitcher from '../../LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
@@ -27,7 +29,7 @@ import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
 
 export const drawerList1 = ['home', 'orders']
-export const drawerList2 = ['analytics']
+export const drawerList2 = ['analytics', 'financials', 'returns']
 
 const drawerWidth = 240
 
@@ -199,6 +201,24 @@ const Header = () => {
                                             }}
                                         >
                                             <AnalyticsIcon />
+                                        </div>
+                                    )}
+                                    {text === 'financials' && (
+                                        <div
+                                            style={{
+                                                color: theme.colors.common.white
+                                            }}
+                                        >
+                                            <FinancialsIcon />
+                                        </div>
+                                    )}
+                                    {text === 'returns' && (
+                                        <div
+                                            style={{
+                                                color: theme.colors.common.white
+                                            }}
+                                        >
+                                            <ReturnsIcon />
                                         </div>
                                     )}
                                 </ListItemIcon>
