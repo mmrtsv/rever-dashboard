@@ -47,9 +47,7 @@ const ReturnsMetrics = () => {
                             <h3 className="text-center text-2xl">
                                 <b>2482</b>
                             </h3>
-                            <div className="flex w-full text-center">
-                                Total returns
-                            </div>
+                            <p className="text-center">Total returns</p>
                         </div>
                     </div>
                 </ReverBox>
