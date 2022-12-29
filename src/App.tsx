@@ -10,10 +10,11 @@ import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { setAccessToken } from './redux/api/lineItemsApi'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
-const Analytics = lazy(() => import('./pages/Analytics.page'))
+const Analytics = lazy(() => import('./pages/Financials.page'))
 const LineItems = lazy(() => import('./pages/LineItems.page'))
 const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
+const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
 
 type Props = {
     component: React.ComponentType<any>
@@ -74,6 +75,12 @@ function App() {
                         <Route
                             path="/dashboard"
                             element={<ProtectedRoute component={Analytics} />}
+                        />
+                        <Route
+                            path="/returns"
+                            element={
+                                <ProtectedRoute component={ReturnsAnalytics} />
+                            }
                         />
                         <Route
                             path="/details/:id"

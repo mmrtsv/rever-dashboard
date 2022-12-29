@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import TopBar from '../components/AnalyticsComponents/TopBar/TopBar'
-import FinancialMetrics from '../components/AnalyticsComponents/FinancialMetrics/FinancialMetrics'
 import ReturnsMetrics from '../components/AnalyticsComponents/ReturnsMetrics/ReturnsMetrics'
 
 function Home() {
@@ -17,11 +16,7 @@ function Home() {
                         setCurrentTab={setCurrentTab}
                     />
                     <AnalyticsDiv>
-                        {currentTab === 0 ? (
-                            <FinancialMetrics />
-                        ) : (
-                            <ReturnsMetrics />
-                        )}
+                        {currentTab === 0 ? <ReturnsMetrics /> : <></>}
                     </AnalyticsDiv>
                 </MainDiv>
             </GeneralDiv>

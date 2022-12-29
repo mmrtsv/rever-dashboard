@@ -34,7 +34,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label="Financials"
+                        label="Returns"
                     />
                     <Tab
                         style={{
@@ -44,7 +44,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label="Returns"
+                        label="Others"
                     />
                 </Tabs>
             </div>
