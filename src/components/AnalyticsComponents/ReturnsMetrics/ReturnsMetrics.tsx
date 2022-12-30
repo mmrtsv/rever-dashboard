@@ -45,40 +45,44 @@ const ReturnsMetrics = () => {
             <TopInfo>
                 <ReverBox borderColor={theme.colors.grey[3]}>
                     <div className="flex w-full">
-                        <div className="flex items-center">
+                        <IconDiv color={theme.colors.primary.dark}>
                             <ReturnsIcon />
-                        </div>
+                        </IconDiv>
                         <div className="flex w-full flex-col">
-                            <h3 className="text-center text-2xl">
+                            <h3 className="text-center text-4xl">
                                 <b>2482</b>
                             </h3>
-                            <p className="text-center">total returns</p>
+                            <h6 className="text-center">total returns</h6>
                         </div>
                     </div>
                 </ReverBox>
                 <ReverBox borderColor={theme.colors.grey[3]}>
                     <div className="flex w-full">
-                        <div className="flex items-center">
+                        <IconDiv color={theme.colors.primary.dark}>
                             <RDVIcon />
-                        </div>
+                        </IconDiv>
                         <div className="flex w-full flex-col">
-                            <h3 className="text-center text-2xl">
+                            <h3 className="text-center text-4xl">
                                 <b>45%</b>
                             </h3>
-                            <p className="text-center">RDV</p>
+                            <h6 className="text-center">
+                                of retained dollar value (RDV)
+                            </h6>
                         </div>
                     </div>
                 </ReverBox>
                 <ReverBox borderColor={theme.colors.grey[3]}>
                     <div className="flex w-full">
-                        <div className="flex items-center">
+                        <IconDiv color={theme.colors.primary.dark}>
                             <SalesIcon />
-                        </div>
+                        </IconDiv>
                         <div className="flex w-full flex-col">
-                            <h3 className="text-center text-2xl">
+                            <h3 className="text-center text-4xl">
                                 <b>39,871.39 €</b>
                             </h3>
-                            <p className="text-center">New sales generated</p>
+                            <h6 className="text-center">
+                                of new sales generated
+                            </h6>
                         </div>
                     </div>
                 </ReverBox>
@@ -113,6 +117,16 @@ const TopInfo = styled.div`
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
+`
+
+interface IconProps {
+    color: string
+}
+
+const IconDiv = styled.div<IconProps>`
+    display: flex;
+    align-items: center;
+    color: ${(p) => p.color};
 `
 
 interface BoxProps {

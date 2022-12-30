@@ -12,10 +12,11 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
     const theme = useTheme()
     return (
         <TopDiv>
-            <div className="flex flex-col items-center">
-                <h2>Analytics Dashboard</h2>
+            <div className="flex flex-col">
+                <h1 className="text-2xl">ANALYTICS DASHBOARD</h1>
                 <h6>Monitor metrics - Check reports</h6>
             </div>
+
             <div className="flex justify-center">
                 <Tabs
                     value={currentTab}
@@ -55,9 +56,10 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
 export default TopBar
 
 const TopDiv = styled.div`
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 1rem; */
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
 `
