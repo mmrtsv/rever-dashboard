@@ -18,7 +18,6 @@ function Financials() {
                             setCurrentPeriod={setCurrentPeriod}
                         />
                     </TopDiv>
-
                     <AnalyticsDiv>
                         <FinancialMetrics />
                     </AnalyticsDiv>

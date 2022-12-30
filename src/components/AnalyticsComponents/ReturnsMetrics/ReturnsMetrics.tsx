@@ -6,6 +6,7 @@ import { ApexOptions } from 'apexcharts'
 import ReturnsIcon from '@mui/icons-material/LocalShipping'
 import RDVIcon from '@mui/icons-material/AccountBalance'
 import SalesIcon from '@mui/icons-material/Paid'
+import ArrowUpIcon from '@mui/icons-material/TrendingUp'
 
 const ReturnsMetrics = () => {
     const theme = useTheme()
@@ -43,49 +44,77 @@ const ReturnsMetrics = () => {
     return (
         <ReturnsDiv>
             <TopInfo>
-                <ReverBox borderColor={theme.colors.grey[3]}>
+                <ReverSuccessBox
+                    bordBottomColor={theme.colors.primary.dark}
+                    borderColor={theme.colors.grey[3]}
+                >
                     <div className="flex w-full">
                         <IconDiv color={theme.colors.primary.dark}>
                             <ReturnsIcon />
                         </IconDiv>
                         <div className="flex w-full flex-col">
-                            <h3 className="text-center text-4xl">
+                            <Title
+                                color={theme.colors.primary.dark}
+                                className="text-center text-5xl"
+                            >
                                 <b>2482</b>
-                            </h3>
+                            </Title>
                             <h6 className="text-center">total returns</h6>
                         </div>
                     </div>
-                </ReverBox>
-                <ReverBox borderColor={theme.colors.grey[3]}>
+                </ReverSuccessBox>
+                <ReverSuccessBox
+                    bordBottomColor={theme.colors.primary.dark}
+                    borderColor={theme.colors.grey[3]}
+                >
                     <div className="flex w-full">
                         <IconDiv color={theme.colors.primary.dark}>
                             <RDVIcon />
                         </IconDiv>
                         <div className="flex w-full flex-col">
-                            <h3 className="text-center text-4xl">
+                            <Title
+                                color={theme.colors.primary.dark}
+                                className="text-center text-5xl"
+                            >
                                 <b>45%</b>
-                            </h3>
+                            </Title>
                             <h6 className="text-center">
                                 of retained dollar value (RDV)
                             </h6>
                         </div>
                     </div>
-                </ReverBox>
-                <ReverBox borderColor={theme.colors.grey[3]}>
+                </ReverSuccessBox>
+                <ReverSuccessBox
+                    bordBottomColor={theme.colors.success.main}
+                    borderColor={theme.colors.grey[3]}
+                >
                     <div className="flex w-full">
-                        <IconDiv color={theme.colors.primary.dark}>
+                        <IconDiv color={theme.colors.success.main}>
                             <SalesIcon />
                         </IconDiv>
-                        <div className="flex w-full flex-col">
-                            <h3 className="text-center text-4xl">
-                                <b>39,871.39 €</b>
-                            </h3>
+
+                        <div className="ml-2 flex w-full flex-col">
+                            <div className="flex items-center justify-center">
+                                <IconDiv
+                                    className="mr-2"
+                                    color={theme.colors.success.main}
+                                >
+                                    <ArrowUpIcon />
+                                </IconDiv>
+                                <Title
+                                    color={theme.colors.success.main}
+                                    className="text-center text-5xl"
+                                >
+                                    <b>39,871.39 €</b>
+                                </Title>
+                            </div>
+
                             <h6 className="text-center">
                                 of new sales generated
                             </h6>
                         </div>
                     </div>
-                </ReverBox>
+                </ReverSuccessBox>
             </TopInfo>
             <CompensationsDiv>
                 <ReverBox borderColor={theme.colors.grey[3]}>
@@ -124,6 +153,10 @@ interface IconProps {
     color: string
 }
 
+const Title = styled.h3<IconProps>`
+    color: ${(p) => p.color};
+`
+
 const IconDiv = styled.div<IconProps>`
     display: flex;
     align-items: center;
@@ -139,6 +172,22 @@ const ReverBox = styled.div<BoxProps>`
     border-radius: 0.5rem;
     border: 1px solid;
     border-color: ${(p) => p.borderColor};
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+`
+
+interface BoxSuccessProps {
+    borderColor: string
+    bordBottomColor: string
+}
+
+const ReverSuccessBox = styled.div<BoxSuccessProps>`
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid;
+    border-color: ${(p) => p.borderColor};
+    border-bottom-width: 8px;
+    border-bottom-color: ${(p) => p.bordBottomColor};
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 `
