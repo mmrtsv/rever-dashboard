@@ -9,6 +9,7 @@ import NoAvailable from '../assets/images/noAvailable.png'
 function Home() {
     const theme = useTheme()
     const [currentTab, setCurrentTab] = useState(0)
+    const [currentPeriod, setCurrentPeriod] = useState(2)
 
     const imgsrc = NoAvailable
 
@@ -19,6 +20,8 @@ function Home() {
                     <TopBar
                         currentTab={currentTab}
                         setCurrentTab={setCurrentTab}
+                        currentPeriod={currentPeriod}
+                        setCurrentPeriod={setCurrentPeriod}
                     />
                     <AnalyticsDiv>
                         {currentTab === 0 ? (
@@ -93,11 +96,10 @@ const GeneralDiv = styled.div`
 const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 1rem;
 `
 
 const AnalyticsDiv = styled.div`
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
 `

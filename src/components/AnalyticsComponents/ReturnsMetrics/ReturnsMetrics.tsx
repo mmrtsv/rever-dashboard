@@ -97,6 +97,7 @@ const ReturnsMetrics = () => {
                     />
                 </ReverBox>
                 <ReverBox className="ml-4" borderColor={theme.colors.grey[3]}>
+                    <h3 className="mb-4 text-center text-xl">Compensations</h3>
                     <Chart
                         options={options}
                         series={series}
@@ -143,6 +144,6 @@ const ReverBox = styled.div<BoxProps>`
 `
 
 const CompensationsDiv = styled.div`
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: flex;
 `
