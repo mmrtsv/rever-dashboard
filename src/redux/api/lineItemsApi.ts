@@ -6,20 +6,7 @@ import {
     ProcessesApi,
     ProcessesApiFindLineItemsRequest
 } from '@itsrever/dashboard-api'
-import axios from 'axios'
-
-export const setAccessToken = (accessToken: string) => {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-}
-
-const accessToken = localStorage.getItem('accessToken')
-
-axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-
-const axiosInstance = axios.create({
-    withCredentials: true
-    // headers: { Authorization: `Bearer ${accessToken}` }
-})
+import { axiosInstance } from './apiConfiguration'
 
 const lineItemsApi = new ProcessesApi(undefined, undefined, axiosInstance)
 

@@ -1,30 +1,18 @@
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import styled from 'styled-components'
 import Paper from '@mui/material/Paper'
 import LogoLogin from '../assets/images/icons/LogoLogin.svg'
 import LandingImage from '../assets/images/icons/LandingImage.svg'
 import TextField from '@mui/material/TextField'
-// import FormControl from '@mui/material/FormControl'
-// import FormControlLabel from '@mui/material/FormControlLabel'
-// import Checkbox from '@mui/material/Checkbox'
 import * as yup from 'yup'
 import _ from 'lodash'
 import { Button } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
-// import { login } from '../redux/api/authApi'
-// import { LoginInput } from '@itsrever/dashboard-api'
 import { useNavigate } from 'react-router-dom'
-// import { resetAuthApiCalls } from '../redux/api/authApi'
-import { useEffect } from 'react'
-import { setUserData } from '../redux/features/generalData/userDataSlice'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 import { useAuth0 } from '@auth0/auth0-react'
-import { setTokenData } from '../redux/features/generalData/tokenDataSlice'
-
 // Form validation
 const schema = yup.object().shape({
     username: yup
@@ -34,45 +22,11 @@ const schema = yup.object().shape({
     password: yup.string().required('Please enter your password.')
 })
 
-// const defaultValues: LoginInput = {
-//     username: '',
-//     password: ''
-//     // remember: false
-// }
-
 function LoginPage() {
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
-    // // React Hook Forms set up
-    // const { handleSubmit, control, formState } = useForm({
-    //     mode: 'onChange',
-    //     defaultValues,
-    //     resolver: yupResolver(schema)
-    // })
-    // const { errors, dirtyFields, isValid } = formState
 
-    // function onSubmit({ username, password }: LoginInput) {
-    //     dispatch(login({ username, password } as LoginInput))
-    // }
-
-    // const authApi = useAppSelector((store) => store.authApi)
     const navigate = useNavigate()
-    // useEffect(() => {
-    //     if (authApi.login.loading === 'succeeded') {
-    //         if (authApi.login.response.user) {
-    //             dispatch(setUserData(authApi.login.response.user))
-    //             localStorage.setItem(
-    //                 'user',
-    //                 JSON.stringify(authApi.login.response.user)
-    //             )
-    //         }
-    //         dispatch(resetAuthApiCalls())
-    //         navigate('/')
-    //     } else if (authApi.login.loading === 'failed') {
-    //         dispatch(resetAuthApiCalls())
-    //         alert('Login failed')
-    //     }
-    // }, [authApi.login.response, authApi.login.loading])
 
     const {
         getAccessTokenWithPopup,
@@ -80,23 +34,6 @@ function LoginPage() {
         loginWithRedirect,
         getAccessTokenSilently
     } = useAuth0()
-
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         getAccessTokenWithPopup({
-    //             audience: 'dashboard-api'
-    //         }).then((accessToken) => {
-    //             console.log(accessToken)
-    //             localStorage.setItem('accessToken', accessToken)
-    //             // dispatch(setTokenData(accessToken))
-    //             // navigate('/')
-    //         })
-    //     }
-    // }, [isAuthenticated, getAccessTokenWithPopup])
-    // if (isAuthenticated) {
-
-    // }
-    // const { getAccessTokenSilently, isAuthenticated } = useAuth0()
 
     return (
         <MainDiv>
@@ -123,61 +60,6 @@ function LoginPage() {
                             {t('login_page.button_submit')}
                         </a>
                     </Button>
-                    {/* <form
-                        className="flex w-full flex-col justify-center"
-                        onSubmit={handleSubmit(onSubmit)}
-                        data-testid="login-form"
-                    >
-                        <Controller
-                            name="username"
-                            control={control}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label={t('login_page.username')}
-                                    autoFocus
-                                    data-testid="username-input"
-                                    type="email"
-                                    error={!!errors.username}
-                                    helperText=""
-                                    required
-                                    fullWidth
-                                />
-                            )}
-                        />
-                        <div className="my-6">
-                            <Controller
-                                name="password"
-                                control={control}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        label={t('login_page.password')}
-                                        type="password"
-                                        data-testid="password-input"
-                                        error={!!errors.password}
-                                        helperText=""
-                                        required
-                                        fullWidth
-                                    />
-                                )}
-                            />
-                        </div> */}
-
-                    {/* <Button
-                            variant="contained"
-                            aria-label="Sign in"
-                            data-testid="sign-in-button"
-                            disabled={_.isEmpty(dirtyFields) || !isValid}
-                            type="submit"
-                            size="medium"
-                            sx={{ borderRadius: 73 }}
-                        >
-                            <a data-testid="sign-in-text">
-                                {t('login_page.button_submit')}
-                            </a>
-                        </Button>
-                    </form> */}
                 </FormContainer>
             </LeftBox>
 

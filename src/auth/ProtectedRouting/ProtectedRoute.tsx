@@ -9,7 +9,6 @@ import { setTokenData } from '../../redux/features/generalData/tokenDataSlice'
 import axios from 'axios'
 
 const ProtectedRoute = () => {
-    const accessToken = localStorage.getItem('accessToken')
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {

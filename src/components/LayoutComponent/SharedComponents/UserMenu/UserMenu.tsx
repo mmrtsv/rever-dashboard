@@ -37,7 +37,6 @@ export const UserMenu = () => {
     }
     const handleLogout = () => {
         logout({ returnTo: window.location.origin })
-        localStorage.removeItem('accessToken')
         dispatch(resetTokenData())
         // navigate('/login')
     }

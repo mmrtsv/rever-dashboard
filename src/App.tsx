@@ -7,7 +7,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
 import { setTokenData } from './redux/features/generalData/tokenDataSlice'
-import { setAccessToken } from './redux/api/lineItemsApi'
+import { axiosInstance } from './redux/api/apiConfiguration'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
@@ -40,8 +40,9 @@ function App() {
         const setAuthToken = async () => {
             try {
                 const token = await getAccessTokenSilently()
-                localStorage.setItem('accessToken', token)
-                setAccessToken(token)
+                axiosInstance.defaults.headers.common[
+                    'Authorization'
+                ] = `Bearer ${token}`
                 dispatch(setTokenData(token))
             } catch (error) {
                 console.error(error)
