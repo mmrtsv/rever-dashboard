@@ -7,8 +7,10 @@
     },
     "drawer_pages": {
         "home": "Inicio",
-        "dashboard": "Tablero",
-        "orders": "Pedidos"
+        "analytics": "Analítica",
+        "orders": "Pedidos",
+        "financials": "Finanzas",
+        "returns": "Devoluciones"
     },
     "search_component": {
         "search": "Buscar"

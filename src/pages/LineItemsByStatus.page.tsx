@@ -79,9 +79,12 @@ function OrdersByStatus() {
                 </TopDiv>
                 <TableDiv>
                     <PendingToReceive>
-                        <Title borderColor={theme.colors.grey[3]}>
+                        <Title
+                            className="text-xl"
+                            borderColor={theme.colors.grey[3]}
+                        >
                             {t('status_page.pending_title')}
-                            {totalPending && ' (' + totalPending + ')'}
+                            {totalPending && '     (' + totalPending + ')'}
                         </Title>
                         <CardsDiv data-testid="PendingLineItems">
                             {pendingLineItems &&
@@ -108,7 +111,10 @@ function OrdersByStatus() {
                         </CardsDiv>
                     </PendingToReceive>
                     <Completed>
-                        <Title borderColor={theme.colors.grey[3]}>
+                        <Title
+                            className="text-xl"
+                            borderColor={theme.colors.grey[3]}
+                        >
                             {t('status_page.completed_title')}
                             {totalCompleted && ' (' + totalCompleted + ')'}
                         </Title>
@@ -181,7 +187,7 @@ interface TitleProps {
     borderColor: string
 }
 
-const Title = styled.h6<TitleProps>`
+const Title = styled.div<TitleProps>`
     display: flex;
     justify-content: center;
     border: 1px solid;

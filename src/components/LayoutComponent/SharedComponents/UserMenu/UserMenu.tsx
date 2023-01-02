@@ -11,9 +11,7 @@ import {
 } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
-import { resetUserData } from '../../../../redux/features/generalData/userDataSlice'
 import { useTranslation } from 'react-i18next'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
@@ -24,10 +22,10 @@ export const userOptions = [
 ]
 
 export const UserMenu = () => {
-    const UserData = useAppSelector((store) => store.userData.user)
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const { i18n } = useTranslation()
+
+    const UserData = useAppSelector((store) => store.userData.user)
     const lang = i18n.language
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
     const { logout, user } = useAuth0()
@@ -39,7 +37,6 @@ export const UserMenu = () => {
     }
     const handleLogout = () => {
         logout({ returnTo: window.location.origin })
-        localStorage.removeItem('accessToken')
         dispatch(resetTokenData())
         // navigate('/login')
     }
@@ -59,13 +56,13 @@ export const UserMenu = () => {
 
     return (
         <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Settings">
                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
                     <Hidden smDown>
                         <a className="mr-2">{user && user.name}</a>
                     </Hidden>
 
-                    <IconButton sx={{ p: 0, color: 'white' }}>
+                    <IconButton sx={{ p: 0 }}>
                         {UserData?.avatar ? (
                             <Avatar
                                 data-testid="avatar"

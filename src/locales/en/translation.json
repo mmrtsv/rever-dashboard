@@ -7,8 +7,10 @@
     },
     "drawer_pages": {
         "home": "Home",
-        "dashboard": "Dashboard",
-        "orders": "Orders"
+        "analytics": "Analytics",
+        "orders": "Orders",
+        "financials": "Finance",
+        "returns": "Returns"
     },
     "search_component": {
         "search": "Search"

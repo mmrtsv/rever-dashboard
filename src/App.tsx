@@ -1,21 +1,20 @@
 import React, { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-// import ProtectedRoute from './auth/ProtectedRouting/ProtectedRoute'
 import Layout from './components/LayoutComponent/Layout'
 import { useTranslation } from 'react-i18next'
 import Loading from './components/Loading/Loading'
-import axios from 'axios'
 import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
 import { setTokenData } from './redux/features/generalData/tokenDataSlice'
-import { setAccessToken } from './redux/api/lineItemsApi'
+import { axiosInstance } from './redux/api/apiConfiguration'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
-// const Home = lazy(() => import('./pages/Home.page'))
-const Orders = lazy(() => import('./pages/Orders.page'))
-const OrdersByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
+const Analytics = lazy(() => import('./pages/Financials.page'))
+const LineItems = lazy(() => import('./pages/LineItems.page'))
+const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
+const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
 
 type Props = {
     component: React.ComponentType<any>
@@ -41,9 +40,9 @@ function App() {
         const setAuthToken = async () => {
             try {
                 const token = await getAccessTokenSilently()
-                // console.log(token)
-                localStorage.setItem('accessToken', token)
-                setAccessToken(token)
+                axiosInstance.defaults.headers.common[
+                    'Authorization'
+                ] = `Bearer ${token}`
                 dispatch(setTokenData(token))
             } catch (error) {
                 console.error(error)
@@ -66,16 +65,22 @@ function App() {
                     <Route element={<Layout />}>
                         <Route
                             path="/"
-                            element={<ProtectedRoute component={Orders} />}
+                            element={<ProtectedRoute component={LineItems} />}
                         />
                         <Route
                             path="/orders"
-                            element={<ProtectedRoute component={Orders} />}
+                            element={
+                                <ProtectedRoute component={LineItemsByStatus} />
+                            }
                         />
                         <Route
                             path="/dashboard"
+                            element={<ProtectedRoute component={Analytics} />}
+                        />
+                        <Route
+                            path="/returns"
                             element={
-                                <ProtectedRoute component={OrdersByStatus} />
+                                <ProtectedRoute component={ReturnsAnalytics} />
                             }
                         />
                         <Route
