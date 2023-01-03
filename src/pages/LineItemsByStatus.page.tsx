@@ -156,7 +156,6 @@ const MainDiv = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 1rem;
-    height: 100%;
 `
 
 const TopDiv = styled.div`
@@ -171,7 +170,7 @@ const TableDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
-    width: 70%;
+    width: fit-content;
     /* overflow-y: scroll; */
 `
 
@@ -200,8 +199,8 @@ const Title = styled.div<TitleProps>`
 `
 
 const CardsDiv = styled.div`
+    max-height: 70vh;
     overflow-y: scroll;
-    max-height: 65vh;
     ::-webkit-scrollbar {
         display: none;
     }

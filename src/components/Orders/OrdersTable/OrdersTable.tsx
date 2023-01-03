@@ -162,9 +162,9 @@ const PaginationNumber = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    :hover {
+    /* :hover {
         background-color: #f5f5f5;
-    }
+    } */
 `
 const PaginationNumberBox = styled.div`
     display: flex;
