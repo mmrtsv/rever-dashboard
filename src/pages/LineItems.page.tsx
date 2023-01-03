@@ -1,9 +1,7 @@
 import OrdersTable from '../components/Orders/OrdersTable'
 import PageComponent from '../components/PageComponent'
-import { useAuth0 } from '@auth0/auth0-react'
 import { useEffect, useState } from 'react'
 import LoadingModal from '../components/Loading/LoadingModal'
-import Loading from '../components/Loading/Loading'
 import { useAppSelector } from '../redux/hooks'
 
 function Orders() {

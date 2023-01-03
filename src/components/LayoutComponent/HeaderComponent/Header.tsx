@@ -100,7 +100,7 @@ const Header = () => {
         }
     }
     return (
-        <Box data-testid="Header" sx={{ display: 'flex' }}>
+        <Box data-testid="Header" sx={{ display: 'flex', height: '6.5%' }}>
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"

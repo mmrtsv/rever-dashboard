@@ -24,7 +24,7 @@ const OrdersTable = () => {
         >
             <FilterComponent freeText={FreeText} setFreeText={setFreeText} />
             {LineItems && LineItems.length > 0 && (
-                <div>
+                <div className="mt-8">
                     {LineItems.map((lineItem) => {
                         return (
                             <OrderListItem
@@ -194,6 +194,7 @@ const PaginationButton = styled.button`
 const PaginationBox = styled.div`
     margin-top: 2rem;
     margin-left: 66%;
+    margin-bottom: 1rem;
     width: 33%;
     display: flex;
     justify-content: space-between;
@@ -208,9 +209,7 @@ const Main = styled.div`
         display: none;
     }
     display: inline-block;
-    padding: 0 1rem 0 1rem;
-    margin-top: 1rem;
-    padding-bottom: 10rem;
+    padding: 1rem;
 `
 
 export default OrdersTable

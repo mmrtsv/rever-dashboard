@@ -28,7 +28,7 @@ interface ReverMainProps {
 }
 const ReverMain = styled.div<ReverMainProps>`
     background-color: ${(p) => p.bgColor};
-    height: 100%;
+    height: 93.5%;
     margin-left: ${(props) => (props.isSidebarOpen ? '240px' : 0)};
 `
 
