@@ -5,10 +5,10 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@itsrever/design-system'
+import thunk from 'redux-thunk'
 
-import Home from '../../pages/Financials.page'
+import LineItemsPage from '../../pages/LineItems.page'
 
-// Good for now - to be changed when home is updated
 describe('Home Page', () => {
     const loggedInState = {
         authApi: {
@@ -24,23 +24,34 @@ describe('Home Page', () => {
         },
         appState: {
             isSidebarOpen: false
+        },
+        tokenData: {
+            token: 'xxxx'
+        },
+        lineItemsApi: {
+            getLineItems: {
+                loading: 'idle',
+                response: { next: '', rowcount: 17, line_items: [] }
+            }
         }
     }
-    const mockStore = configureStore()
+
+    const middlewares = [thunk]
+    const mockStore = configureStore(middlewares)
     let store
     afterEach(cleanup)
 
-    it('should render', () => {
+    it('should render the orders table', () => {
         store = mockStore(loggedInState)
         render(
             <Router>
                 <Provider store={store}>
                     <ThemeProvider>
-                        <Home />
+                        <LineItemsPage />
                     </ThemeProvider>
                 </Provider>
             </Router>
         )
-        screen.getByText('HOME!')
+        screen.getByTestId('OrdersTable')
     })
 })

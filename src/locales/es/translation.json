@@ -19,7 +19,9 @@
         "order_id": "ID del pedido: "
     },
     "orders_table": {
-        "pagination": "/ página"
+        "results": "Resultados: ",
+        "pagination": "/ página",
+        "total_page": " total pages"
     },
     "status_page": {
         "pending_title": "Pendientes de recibir",

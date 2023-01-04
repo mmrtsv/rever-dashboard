@@ -1,3 +1,4 @@
+import React from 'react'
 import OrdersTable from '../components/Orders/OrdersTable'
 import PageComponent from '../components/PageComponent'
 import { useEffect, useState } from 'react'
