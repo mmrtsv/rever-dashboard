@@ -19,22 +19,17 @@ export function useSearchPendingLineItems(pageNum: number, freeText: string) {
     const totalPending = lineItemsApiPendingLineItems.response.rowcount
 
     useEffect(() => {
-        setPendingLineItems([])
-    }, [freeText])
-
-    useEffect(() => {
-        if (freeText.length < 3) {
-            dispatch(
-                getPendingLineItems({
-                    offset: pageNum * 10,
-                    limit: 10
-                })
-            )
-        }
         if (freeText.length > 2) {
             dispatch(
                 getPendingLineItems({
                     freetext: freeText,
+                    offset: pageNum * 10,
+                    limit: 10
+                })
+            )
+        } else if (freeText.length === 0) {
+            dispatch(
+                getPendingLineItems({
                     offset: pageNum * 10,
                     limit: 10
                 })
@@ -46,7 +41,8 @@ export function useSearchPendingLineItems(pageNum: number, freeText: string) {
         if (lineItemsApiPendingLineItems.loading === 'succeeded') {
             if (
                 pendingLineItems &&
-                lineItemsApiPendingLineItems.response.line_items
+                lineItemsApiPendingLineItems.response.line_items &&
+                pageNum > 0
             ) {
                 setPendingLineItems(
                     pendingLineItems.concat(

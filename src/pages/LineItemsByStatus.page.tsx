@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import LineItemStatusCard from '../components/LineItemStatusCard'
@@ -63,10 +63,13 @@ function OrdersByStatus() {
         [hasMoreCompleted]
     )
 
-    useEffect(() => {
-        setPageNumPending(0)
-        setPageNumCompleted(0)
-    }, [freeText])
+    const handleChangeFreeText = (freeText: string) => {
+        if (freeText.length === 0 || freeText.length > 2) {
+            setPageNumPending(0)
+            setPageNumCompleted(0)
+        }
+        setFreeText(freeText)
+    }
 
     return (
         <PageComponent>
@@ -74,7 +77,7 @@ function OrdersByStatus() {
                 <TopDiv>
                     <FilterComponent
                         freeText={freeText}
-                        setFreeText={setFreeText}
+                        setFreeText={handleChangeFreeText}
                     />
                 </TopDiv>
                 <TableDiv>
