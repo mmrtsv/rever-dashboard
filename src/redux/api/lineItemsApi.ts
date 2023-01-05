@@ -1,8 +1,7 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
-    FindPaginatedInlineItemsResults,
+    FindPaginatedLineItemsResults,
     ProcessesApi,
     ProcessesApiFindLineItemsRequest
 } from '@itsrever/dashboard-api'
@@ -11,7 +10,7 @@ import { axiosInstance } from './apiConfiguration'
 const lineItemsApi = new ProcessesApi(undefined, undefined, axiosInstance)
 
 interface GetLineItemsCall extends ApiCallBase {
-    response: FindPaginatedInlineItemsResults
+    response: FindPaginatedLineItemsResults
 }
 
 interface State {

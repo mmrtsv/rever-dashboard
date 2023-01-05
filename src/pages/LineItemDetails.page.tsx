@@ -53,11 +53,11 @@ function RetLineItemDetails() {
     if (
         LineItem?.total &&
         LineItem.quantity &&
-        LineItem.return_process?.money_format
+        LineItem.return_process?.currency_money_format
     )
         productPrice = formatPrice(
             Math.round(LineItem.total / LineItem.quantity),
-            LineItem.return_process?.money_format
+            LineItem.return_process?.currency_money_format
         )
 
     const typeOfReturn = LineItem?.return_process?.return_method
