@@ -5,6 +5,7 @@ import userDataReducer from './features/generalData/userDataSlice'
 import appStateReducer from './features/appState/appStateSlice'
 import lineItemsApiReducer from './api/lineItemsApi'
 import tokenDataSlice from './features/generalData/tokenDataSlice'
+import groupsApiReducer from './api/groupsApi'
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         tokenData: tokenDataSlice,
         processesApi: processesApiReducer,
         lineItemsApi: lineItemsApiReducer,
+        groupsApi: groupsApiReducer,
         userData: userDataReducer,
         appState: appStateReducer
     },

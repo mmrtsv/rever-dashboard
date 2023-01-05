@@ -7,6 +7,7 @@ import useSearchPendingLineItems from '../hooks/useSearchPendingLineItems'
 import FilterComponent from '../components/FilterComponent'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
+import useSearchGroupCommerces from '../hooks/useSearchGroupCommerces'
 
 function OrdersByStatus() {
     const theme = useTheme()
@@ -23,6 +24,8 @@ function OrdersByStatus() {
         pageNumPending,
         freeText
     )
+
+    const { Group, Ecommerces } = useSearchGroupCommerces()
 
     // Logic for loading pending line items
     const hasMorePending =

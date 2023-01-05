@@ -5,11 +5,9 @@ import {
     ProcessesApi,
     ProcessesApiFindProcessesRequest
 } from '@itsrever/dashboard-api'
-import axios from 'axios'
+import { axiosInstance } from './apiConfiguration'
 // axios.defaults.withCredentials = true
-const axiosInstance = axios.create({
-    withCredentials: true
-})
+
 const processesApi = new ProcessesApi(undefined, undefined, axiosInstance)
 
 interface GetProcessesCall extends ApiCallBase {
