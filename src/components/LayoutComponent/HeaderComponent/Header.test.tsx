@@ -7,10 +7,8 @@ import { Provider } from 'react-redux'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18nForTests'
 import { ThemeProvider } from '@itsrever/design-system'
-
+import { drawerList1, drawerList2 } from './DrawerComponent/Drawer'
 import Header from './Header'
-import drawerList1 from './Header'
-import drawerList2 from './Header'
 
 describe('Header Component', () => {
     const mockStore = configureStore()
@@ -84,8 +82,8 @@ describe('Header Component', () => {
             </Router>
         )
 
-        Object.values(drawerList1).forEach((entry) => screen.getByText(entry))
-        Object.values(drawerList2).forEach((entry) => screen.getByText(entry))
+        Object.values(drawerList1).forEach((entry) => screen.getByTestId(entry))
+        Object.values(drawerList2).forEach((entry) => screen.getByTestId(entry))
     })
 
     it('should no longer display DrawerLogo when open', () => {

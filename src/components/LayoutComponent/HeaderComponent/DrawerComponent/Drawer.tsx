@@ -134,7 +134,7 @@ const DrawerComponent = () => {
             <Divider />
             <List sx={{ color: theme.colors.common.white }}>
                 {drawerList2.map((text, i) => (
-                    <ListItem key={text} disablePadding>
+                    <ListItem key={text} disablePadding data-testid={text}>
                         {i === 0 && (
                             <ListItemButton
                                 onClick={() => setAnalyticsOpen(!analyticsOpen)}
