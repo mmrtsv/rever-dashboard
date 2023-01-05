@@ -8,6 +8,7 @@ import './i18n'
 import 'tailwindcss/tailwind.css'
 import { ThemeProvider } from '@itsrever/design-system'
 import { Auth0Provider } from '@auth0/auth0-react'
+
 const Domain = import.meta.env.VITE_AUTH0_DOMAIN
 const ClientId = import.meta.env.VITE_AUTH0_CLIENT
 

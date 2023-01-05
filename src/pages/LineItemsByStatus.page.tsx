@@ -80,15 +80,24 @@ function OrdersByStatus() {
                         setFreeText={handleChangeFreeText}
                     />
                 </TopDiv>
+                <TitlesDiv>
+                    <Title
+                        className="text-xl"
+                        borderColor={theme.colors.grey[3]}
+                    >
+                        {t('status_page.pending_title')}
+                        {totalPending && '     (' + totalPending + ')'}
+                    </Title>
+                    <Title
+                        className="text-xl"
+                        borderColor={theme.colors.grey[3]}
+                    >
+                        {t('status_page.completed_title')}
+                        {totalCompleted && ' (' + totalCompleted + ')'}
+                    </Title>
+                </TitlesDiv>
                 <TableDiv>
                     <PendingToReceive>
-                        <Title
-                            className="text-xl"
-                            borderColor={theme.colors.grey[3]}
-                        >
-                            {t('status_page.pending_title')}
-                            {totalPending && '     (' + totalPending + ')'}
-                        </Title>
                         <CardsDiv data-testid="PendingLineItems">
                             {pendingLineItems &&
                                 pendingLineItems.map((retLineItem, i) => {
@@ -114,13 +123,6 @@ function OrdersByStatus() {
                         </CardsDiv>
                     </PendingToReceive>
                     <Completed>
-                        <Title
-                            className="text-xl"
-                            borderColor={theme.colors.grey[3]}
-                        >
-                            {t('status_page.completed_title')}
-                            {totalCompleted && ' (' + totalCompleted + ')'}
-                        </Title>
                         <CardsDiv data-testid="CompletedLineItems">
                             {completedLineItems &&
                                 completedLineItems.map((retLineItem, i) => {
@@ -169,6 +171,14 @@ const TopDiv = styled.div`
     width: 100%;
 `
 
+const TitlesDiv = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+`
+
 const TableDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -177,13 +187,9 @@ const TableDiv = styled.div`
     /* overflow-y: scroll; */
 `
 
-const PendingToReceive = styled.div`
-    margin-top: 1rem;
-`
+const PendingToReceive = styled.div``
 
-const Completed = styled.div`
-    margin-top: 1rem;
-`
+const Completed = styled.div``
 
 interface TitleProps {
     borderColor: string
@@ -192,6 +198,7 @@ interface TitleProps {
 const Title = styled.div<TitleProps>`
     display: flex;
     justify-content: center;
+    align-items: center;
     border: 1px solid;
     border-color: ${(p) => p.borderColor};
     border-radius: 4px;
@@ -199,6 +206,7 @@ const Title = styled.div<TitleProps>`
     background-color: rgb(235, 238, 245);
     color: 'black';
     box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 0.5px;
+    text-align: center;
 `
 
 const CardsDiv = styled.div`

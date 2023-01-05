@@ -8,6 +8,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
 import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { axiosInstance } from './redux/api/apiConfiguration'
+import NotAvailable from './pages/NotAvailable'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
@@ -52,6 +53,8 @@ function App() {
         Promise.resolve(setAuthToken())
     }, [getAccessTokenSilently])
 
+    const screenWidth = window.screen.availWidth
+
     const ProtectedRoute = ({ component, ...args }: Props) => {
         const Component = withAuthenticationRequired(component, args)
         return <Component />
@@ -59,39 +62,52 @@ function App() {
     return (
         <Router>
             <Suspense fallback={<Loading loading={true} />}>
-                <Routes>
-                    <Route path="/login" element={<LoginPage />} />
-                    {/* <Route element={<ProtectedRoute />}> */}
-                    <Route element={<Layout />}>
-                        <Route
-                            path="/"
-                            element={<ProtectedRoute component={LineItems} />}
-                        />
-                        <Route
-                            path="/orders"
-                            element={
-                                <ProtectedRoute component={LineItemsByStatus} />
-                            }
-                        />
-                        <Route
-                            path="/dashboard"
-                            element={<ProtectedRoute component={Analytics} />}
-                        />
-                        <Route
-                            path="/returns"
-                            element={
-                                <ProtectedRoute component={ReturnsAnalytics} />
-                            }
-                        />
-                        <Route
-                            path="/details/:id"
-                            element={
-                                <ProtectedRoute component={LineItemDetails} />
-                            }
-                        />
-                    </Route>
-                    {/* </Route> */}
-                </Routes>
+                {screenWidth < 768 ? (
+                    <NotAvailable />
+                ) : (
+                    <Routes>
+                        <Route path="/login" element={<LoginPage />} />
+
+                        <Route element={<Layout />}>
+                            <Route
+                                path="/"
+                                element={
+                                    <ProtectedRoute component={LineItems} />
+                                }
+                            />
+                            <Route
+                                path="/orders"
+                                element={
+                                    <ProtectedRoute
+                                        component={LineItemsByStatus}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/dashboard"
+                                element={
+                                    <ProtectedRoute component={Analytics} />
+                                }
+                            />
+                            <Route
+                                path="/returns"
+                                element={
+                                    <ProtectedRoute
+                                        component={ReturnsAnalytics}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/details/:id"
+                                element={
+                                    <ProtectedRoute
+                                        component={LineItemDetails}
+                                    />
+                                }
+                            />
+                        </Route>
+                    </Routes>
+                )}
             </Suspense>
         </Router>
     )
