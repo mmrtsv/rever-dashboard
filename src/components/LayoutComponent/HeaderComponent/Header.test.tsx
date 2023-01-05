@@ -53,7 +53,7 @@ describe('Header Component', () => {
         screen.getByTestId('UserMenu')
     })
 
-    it('should have the correct pages', () => {
+    it('should render the correct pages', () => {
         const loggedInState = {
             authApi: {
                 login: { loading: 'idle', response: {} }
@@ -67,10 +67,11 @@ describe('Header Component', () => {
                 }
             },
             appState: {
-                isSidebarOpen: false
+                isSidebarOpen: true
             }
         }
         store = mockStore(loggedInState)
+
         render(
             <Router>
                 <Provider store={store}>
@@ -82,10 +83,9 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
+
         Object.values(drawerList1).forEach((entry) => screen.getByText(entry))
-        Object.values(drawerList2).forEach((entry) => {
-            screen.getByText(entry)
-        })
+        Object.values(drawerList2).forEach((entry) => screen.getByText(entry))
     })
 
     it('should no longer display DrawerLogo when open', () => {

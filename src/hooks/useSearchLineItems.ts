@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { getLineItems, resetLineItemsApiCalls } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
-import { useAuth0 } from '@auth0/auth0-react'
 
 export function useSearchLineItems(
     pageNum: number,
@@ -21,17 +20,15 @@ export function useSearchLineItems(
     const totalLineItems = lineItemsApiLineItems.response.rowcount
 
     useEffect(() => {
-        dispatch(
-            getLineItems({
-                offset: pageNum * limit,
-                limit: limit
-            })
-        )
-    }, [pageNum, limit])
-
-    useEffect(() => {
-        // For when erasing
-        if (freeText.length === 0) {
+        if (freeText.length > 2) {
+            dispatch(
+                getLineItems({
+                    freetext: freeText,
+                    offset: pageNum * limit,
+                    limit: limit
+                })
+            )
+        } else if (freeText.length === 0) {
             dispatch(
                 getLineItems({
                     offset: pageNum * limit,
@@ -39,16 +36,7 @@ export function useSearchLineItems(
                 })
             )
         }
-        // Find when more than 2 chars
-        if (freeText.length > 2) {
-            dispatch(
-                getLineItems({
-                    freetext: freeText,
-                    limit: limit
-                })
-            )
-        }
-    }, [freeText])
+    }, [pageNum, limit, freeText])
 
     useEffect(() => {
         if (lineItemsApiLineItems.loading === 'succeeded') {

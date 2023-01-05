@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import LineItemStatusCard from '../components/LineItemStatusCard'
@@ -63,10 +63,13 @@ function OrdersByStatus() {
         [hasMoreCompleted]
     )
 
-    useEffect(() => {
-        setPageNumPending(0)
-        setPageNumCompleted(0)
-    }, [freeText])
+    const handleChangeFreeText = (freeText: string) => {
+        if (freeText.length === 0 || freeText.length > 2) {
+            setPageNumPending(0)
+            setPageNumCompleted(0)
+        }
+        setFreeText(freeText)
+    }
 
     return (
         <PageComponent>
@@ -74,7 +77,7 @@ function OrdersByStatus() {
                 <TopDiv>
                     <FilterComponent
                         freeText={freeText}
-                        setFreeText={setFreeText}
+                        setFreeText={handleChangeFreeText}
                     />
                 </TopDiv>
                 <TableDiv>
@@ -156,7 +159,6 @@ const MainDiv = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 1rem;
-    height: 100%;
 `
 
 const TopDiv = styled.div`
@@ -171,7 +173,7 @@ const TableDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
-    width: 70%;
+    width: fit-content;
     /* overflow-y: scroll; */
 `
 
@@ -200,8 +202,8 @@ const Title = styled.div<TitleProps>`
 `
 
 const CardsDiv = styled.div`
+    max-height: 70vh;
     overflow-y: scroll;
-    max-height: 65vh;
     ::-webkit-scrollbar {
         display: none;
     }

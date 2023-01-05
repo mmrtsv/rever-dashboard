@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import {
     Toolbar,
     Box,
@@ -100,7 +100,10 @@ const Header = () => {
         }
     }
     return (
-        <Box data-testid="Header" sx={{ display: 'flex' }}>
+        <Box
+            data-testid="Header"
+            sx={{ display: 'flex', height: '6.5%', alignContent: 'center' }}
+        >
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"
@@ -163,7 +166,7 @@ const Header = () => {
                 <Divider />
                 <List sx={{ color: theme.colors.common.white }}>
                     {drawerList1.map((text) => (
-                        <ListItem key={text} disablePadding>
+                        <ListItem key={text} disablePadding data-testid={text}>
                             <ListItemButton
                                 onClick={() => navigateMenuOnClick(text)}
                             >
@@ -291,4 +294,4 @@ const ReverToolbar = styled(Toolbar)`
     }
 `
 
-export default memo(Header)
+export default Header

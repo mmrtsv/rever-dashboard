@@ -11,6 +11,7 @@ import {
     ShippingStatus
 } from '../redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
+import Loading from '../components/Loading/Loading'
 
 function RetLineItemDetails() {
     const theme = useTheme()
@@ -53,11 +54,11 @@ function RetLineItemDetails() {
     if (
         LineItem?.total &&
         LineItem.quantity &&
-        LineItem.return_process?.money_format
+        LineItem.return_process?.currency_money_format
     )
         productPrice = formatPrice(
             Math.round(LineItem.total / LineItem.quantity),
-            LineItem.return_process?.money_format
+            LineItem.return_process?.currency_money_format
         )
 
     const typeOfReturn = LineItem?.return_process?.return_method
@@ -77,148 +78,166 @@ function RetLineItemDetails() {
     return (
         <PageComponent>
             <MainDiv>
-                <InfoDiv>
-                    <CustomerInfo borderColor={theme.colors.grey[3]}>
-                        <div className="flex justify-center">
-                            <img
-                                className="h-fit w-16"
-                                src={imgSrc}
-                                alt="ProductImage"
-                            />
-                        </div>
+                {LineItem ? (
+                    <InfoDiv>
+                        <CustomerInfo borderColor={theme.colors.grey[3]}>
+                            <div className="flex justify-center">
+                                <img
+                                    className="h-fit w-16"
+                                    src={imgSrc}
+                                    alt="ProductImage"
+                                />
+                            </div>
 
-                        <h6 className="mt-8 text-center">{orderNumber}</h6>
-                        <span className="my-4 text-center text-xs">
-                            {customer?.first_name + ' ' + customer?.last_name}
-                        </span>
-                        <hr />
-                        <span className="mt-8 mb-1 text-xs">
-                            {t('details_page.email')}
-                        </span>
-                        <div>{customer?.email}</div>
-                        <span className="mt-4 mb-1 text-xs">
-                            {t('details_page.address')}
-                        </span>
-                        <div>{address?.address_line_1}</div>
-                        <div>{address?.address_line_2}</div>
-                        <div>
-                            {address?.city +
-                                ', ' +
-                                address?.postcode +
-                                ', ' +
-                                address?.country}
-                        </div>
-                        <span className="mt-8 mb-1 text-xs">
-                            {t('details_page.return_date')}
-                        </span>
-                        <div>{returnDate}</div>
-                        <span className="mt-8 mb-1 text-xs">
-                            {t('details_page.stage')}
-                        </span>
-                        <div>
-                            {status === 'PENDING' ? 'Pending' : 'Completed'}
-                        </div>
-                        <span className="mt-8 mb-1 text-xs">
-                            {t('details_page.condition')}
-                        </span>
-                        <div>{condition}</div>
-                    </CustomerInfo>
-                    <LineItemInfo>
-                        <LineItemName borderColor={theme.colors.grey[3]}>
-                            {LineItem?.name}
-                        </LineItemName>
-                        <StatusArrows>
-                            <LeftArrow
-                                bgColor={
-                                    status === 'PENDING'
-                                        ? theme.colors.primary.dark
-                                        : theme.colors.grey[3]
-                                }
-                            >
-                                <div
-                                    className={
-                                        status === 'PENDING' ? 'text-white' : ''
+                            <h6 className="mt-8 text-center">{orderNumber}</h6>
+                            <span className="my-4 text-center text-xs">
+                                {customer?.first_name +
+                                    ' ' +
+                                    customer?.last_name}
+                            </span>
+                            <hr />
+                            <span className="mt-8 mb-1 text-xs">
+                                {t('details_page.email')}
+                            </span>
+                            <div>{customer?.email}</div>
+                            <span className="mt-4 mb-1 text-xs">
+                                {t('details_page.address')}
+                            </span>
+                            <div>{address?.address_line_1}</div>
+                            <div>{address?.address_line_2}</div>
+                            <div>
+                                {address?.city +
+                                    ', ' +
+                                    address?.postcode +
+                                    ', ' +
+                                    address?.country}
+                            </div>
+                            <span className="mt-8 mb-1 text-xs">
+                                {t('details_page.return_date')}
+                            </span>
+                            <div>{returnDate}</div>
+                            <span className="mt-8 mb-1 text-xs">
+                                {t('details_page.stage')}
+                            </span>
+                            <div>
+                                {status === 'PENDING' ? 'Pending' : 'Completed'}
+                            </div>
+                            <span className="mt-8 mb-1 text-xs">
+                                {t('details_page.condition')}
+                            </span>
+                            <div>{condition}</div>
+                        </CustomerInfo>
+                        <LineItemInfo>
+                            <LineItemName borderColor={theme.colors.grey[3]}>
+                                {LineItem?.name}
+                            </LineItemName>
+                            <StatusArrows>
+                                <LeftArrow
+                                    bgColor={
+                                        status === 'PENDING'
+                                            ? theme.colors.primary.dark
+                                            : theme.colors.grey[3]
                                     }
                                 >
-                                    {t('details_page.pending')}
-                                </div>
-                            </LeftArrow>
-                            <RightArrow
-                                status={status}
-                                bgColor={
-                                    status === 'COMPLETED'
-                                        ? theme.colors.primary.dark
-                                        : theme.colors.grey[3]
-                                }
-                            >
-                                <div
-                                    className={
+                                    <div
+                                        className={
+                                            status === 'PENDING'
+                                                ? 'text-white'
+                                                : ''
+                                        }
+                                    >
+                                        {t('details_page.pending')}
+                                    </div>
+                                </LeftArrow>
+                                <RightArrow
+                                    status={status}
+                                    bgColor={
                                         status === 'COMPLETED'
-                                            ? 'text-white'
-                                            : ''
+                                            ? theme.colors.primary.dark
+                                            : theme.colors.grey[3]
                                     }
                                 >
-                                    {t('details_page.completed')}
-                                </div>
-                            </RightArrow>
-                        </StatusArrows>
-                        <OrderInfo>
-                            <SingleInfo topColor={theme.colors.primary.dark}>
-                                <span className="text-center text-xs">
-                                    {t('details_page.amount')}
-                                </span>
-                                <div className="mt-4 text-center">
-                                    {productPrice}
-                                </div>
-                            </SingleInfo>
-                            <SingleInfo topColor={theme.colors.primary.dark}>
-                                <span className="text-center text-xs">
-                                    {t('details_page.type_return')}
-                                </span>
-                                <div className="mt-4 text-center">
-                                    {typeOfReturn ===
-                                    ReturnMethod.NoReturnMethod
-                                        ? 'No Payment Method'
-                                        : typeOfReturn ===
-                                          ReturnMethod.HomePickup
-                                        ? 'Home Pickup'
-                                        : 'Collection Point'}
-                                </div>
-                            </SingleInfo>
-                            <SingleInfo topColor={theme.colors.primary.dark}>
-                                <span className="text-center text-xs">
-                                    {t('details_page.type_refund')}
-                                </span>
-                                <div className="mt-4 text-center">
-                                    {typeOfRefund === RefundActions.NoAction
-                                        ? 'No Refund'
-                                        : typeOfRefund ===
-                                          RefundActions.ToExchange
-                                        ? 'Exchanged'
-                                        : 'Refund'}
-                                </div>
-                            </SingleInfo>
-                        </OrderInfo>
-                        <OrderDetails>
-                            <SingleInfo topColor={theme.colors.primary.dark}>
-                                <span className="text-center text-xs">
-                                    {t('details_page.reason')}
-                                </span>
-                                <div className="mt-4 text-center">
-                                    {returnReason
-                                        ? REASONS[returnReason - 2]
-                                        : 'No reason catched'}
-                                </div>
-                            </SingleInfo>
-                            <SingleInfo topColor={theme.colors.primary.dark}>
-                                <span className="text-center text-xs">
-                                    {t('details_page.denied_title')}
-                                </span>
-                                <div className="mt-4 text-center">-</div>
-                            </SingleInfo>
-                        </OrderDetails>
-                    </LineItemInfo>
-                </InfoDiv>
+                                    <div
+                                        className={
+                                            status === 'COMPLETED'
+                                                ? 'text-white'
+                                                : ''
+                                        }
+                                    >
+                                        {t('details_page.completed')}
+                                    </div>
+                                </RightArrow>
+                            </StatusArrows>
+                            <OrderInfo>
+                                <SingleInfo
+                                    topColor={theme.colors.primary.dark}
+                                >
+                                    <span className="text-center text-xs">
+                                        {t('details_page.amount')}
+                                    </span>
+                                    <div className="mt-4 text-center">
+                                        {productPrice}
+                                    </div>
+                                </SingleInfo>
+                                <SingleInfo
+                                    topColor={theme.colors.primary.dark}
+                                >
+                                    <span className="text-center text-xs">
+                                        {t('details_page.type_return')}
+                                    </span>
+                                    <div className="mt-4 text-center">
+                                        {typeOfReturn ===
+                                        ReturnMethod.NoReturnMethod
+                                            ? 'No Payment Method'
+                                            : typeOfReturn ===
+                                              ReturnMethod.HomePickup
+                                            ? 'Home Pickup'
+                                            : 'Collection Point'}
+                                    </div>
+                                </SingleInfo>
+                                <SingleInfo
+                                    topColor={theme.colors.primary.dark}
+                                >
+                                    <span className="text-center text-xs">
+                                        {t('details_page.type_refund')}
+                                    </span>
+                                    <div className="mt-4 text-center">
+                                        {typeOfRefund === RefundActions.NoAction
+                                            ? 'No Refund'
+                                            : typeOfRefund ===
+                                              RefundActions.ToExchange
+                                            ? 'Exchanged'
+                                            : 'Refund'}
+                                    </div>
+                                </SingleInfo>
+                            </OrderInfo>
+                            <OrderDetails>
+                                <SingleInfo
+                                    topColor={theme.colors.primary.dark}
+                                >
+                                    <span className="text-center text-xs">
+                                        {t('details_page.reason')}
+                                    </span>
+                                    <div className="mt-4 text-center">
+                                        {returnReason
+                                            ? REASONS[returnReason - 2]
+                                            : 'No reason catched'}
+                                    </div>
+                                </SingleInfo>
+                                <SingleInfo
+                                    topColor={theme.colors.primary.dark}
+                                >
+                                    <span className="text-center text-xs">
+                                        {t('details_page.denied_title')}
+                                    </span>
+                                    <div className="mt-4 text-center">-</div>
+                                </SingleInfo>
+                            </OrderDetails>
+                        </LineItemInfo>
+                    </InfoDiv>
+                ) : (
+                    <Loading loading={true} />
+                )}
             </MainDiv>
         </PageComponent>
     )

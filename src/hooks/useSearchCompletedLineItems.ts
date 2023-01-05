@@ -19,22 +19,17 @@ export function useSearchCompletedLineItems(pageNum: number, freeText: string) {
     const totalCompleted = lineItemsApiCompletedLineItems.response.rowcount
 
     useEffect(() => {
-        setCompletedLineItems([])
-    }, [freeText])
-
-    useEffect(() => {
-        if (freeText.length < 3) {
-            dispatch(
-                getCompletedLineItems({
-                    offset: pageNum * 10,
-                    limit: 10
-                })
-            )
-        }
         if (freeText.length > 2) {
             dispatch(
                 getCompletedLineItems({
                     freetext: freeText,
+                    offset: pageNum * 10,
+                    limit: 10
+                })
+            )
+        } else if (freeText.length === 0) {
+            dispatch(
+                getCompletedLineItems({
                     offset: pageNum * 10,
                     limit: 10
                 })
@@ -46,7 +41,8 @@ export function useSearchCompletedLineItems(pageNum: number, freeText: string) {
         if (lineItemsApiCompletedLineItems.loading === 'succeeded') {
             if (
                 completedLineItems &&
-                lineItemsApiCompletedLineItems.response.line_items
+                lineItemsApiCompletedLineItems.response.line_items &&
+                pageNum > 0
             ) {
                 setCompletedLineItems(
                     completedLineItems.concat(
