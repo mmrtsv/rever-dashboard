@@ -33,4 +33,3 @@ const ReverLoading = styled.div`
     height: 100vh;
     align-items: center;
 `
-
