@@ -80,75 +80,82 @@ function OrdersByStatus() {
                         setFreeText={handleChangeFreeText}
                     />
                 </TopDiv>
-                <TitlesDiv>
-                    <Title
-                        className="text-xl"
-                        borderColor={theme.colors.grey[3]}
-                    >
-                        {t('status_page.pending_title')}
-                        {totalPending && '     (' + totalPending + ')'}
-                    </Title>
-                    <Title
-                        className="text-xl"
-                        borderColor={theme.colors.grey[3]}
-                    >
-                        {t('status_page.completed_title')}
-                        {totalCompleted && ' (' + totalCompleted + ')'}
-                    </Title>
-                </TitlesDiv>
-                <TableDiv>
-                    <PendingToReceive>
-                        <CardsDiv data-testid="PendingLineItems">
-                            {pendingLineItems &&
-                                pendingLineItems.map((retLineItem, i) => {
-                                    if (pendingLineItems.length === i + 1) {
-                                        return (
-                                            <div
-                                                key={i}
-                                                ref={lastPendingLineItemRef}
-                                            >
-                                                <LineItemStatusCard
-                                                    lineItem={retLineItem}
-                                                />
-                                            </div>
-                                        )
-                                    }
-                                    return (
-                                        <LineItemStatusCard
-                                            key={i}
-                                            lineItem={retLineItem}
-                                        />
-                                    )
-                                })}
-                        </CardsDiv>
-                    </PendingToReceive>
-                    <Completed>
-                        <CardsDiv data-testid="CompletedLineItems">
-                            {completedLineItems &&
-                                completedLineItems.map((retLineItem, i) => {
-                                    if (completedLineItems.length === i + 1) {
-                                        return (
-                                            <div
-                                                key={i}
-                                                ref={lastCompletedLineItemRef}
-                                            >
-                                                <LineItemStatusCard
-                                                    lineItem={retLineItem}
-                                                />
-                                            </div>
-                                        )
-                                    } else {
+                <div>
+                    <TitlesDiv>
+                        <Title
+                            className="text-xl"
+                            borderColor={theme.colors.grey[3]}
+                        >
+                            {t('status_page.pending_title')}
+                            {totalPending && '     (' + totalPending + ')'}
+                        </Title>
+                        <Title
+                            className="text-xl"
+                            borderColor={theme.colors.grey[3]}
+                        >
+                            {t('status_page.completed_title')}
+                            {totalCompleted && ' (' + totalCompleted + ')'}
+                        </Title>
+                    </TitlesDiv>
+                    <TableDiv>
+                        <PendingToReceive>
+                            <CardsDiv data-testid="PendingLineItems">
+                                {pendingLineItems &&
+                                    pendingLineItems.map((retLineItem, i) => {
+                                        if (pendingLineItems.length === i + 1) {
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    ref={lastPendingLineItemRef}
+                                                >
+                                                    <LineItemStatusCard
+                                                        lineItem={retLineItem}
+                                                    />
+                                                </div>
+                                            )
+                                        }
                                         return (
                                             <LineItemStatusCard
                                                 key={i}
                                                 lineItem={retLineItem}
                                             />
                                         )
-                                    }
-                                })}
-                        </CardsDiv>
-                    </Completed>
-                </TableDiv>
+                                    })}
+                            </CardsDiv>
+                        </PendingToReceive>
+                        <Completed>
+                            <CardsDiv data-testid="CompletedLineItems">
+                                {completedLineItems &&
+                                    completedLineItems.map((retLineItem, i) => {
+                                        if (
+                                            completedLineItems.length ===
+                                            i + 1
+                                        ) {
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    ref={
+                                                        lastCompletedLineItemRef
+                                                    }
+                                                >
+                                                    <LineItemStatusCard
+                                                        lineItem={retLineItem}
+                                                    />
+                                                </div>
+                                            )
+                                        } else {
+                                            return (
+                                                <LineItemStatusCard
+                                                    key={i}
+                                                    lineItem={retLineItem}
+                                                />
+                                            )
+                                        }
+                                    })}
+                            </CardsDiv>
+                        </Completed>
+                    </TableDiv>
+                </div>
             </MainDiv>
         </PageComponent>
     )

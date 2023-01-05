@@ -99,7 +99,7 @@ function RetLineItemDetails() {
                             <span className="mt-8 mb-1 text-xs">
                                 {t('details_page.email')}
                             </span>
-                            <div>{customer?.email}</div>
+                            <div className="break-words">{customer?.email}</div>
                             <span className="mt-4 mb-1 text-xs">
                                 {t('details_page.address')}
                             </span>
@@ -246,7 +246,7 @@ function RetLineItemDetails() {
 const MainDiv = styled.div`
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    padding: 1rem;
     height: 100%;
 `
 
