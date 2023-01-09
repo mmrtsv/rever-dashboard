@@ -4,10 +4,17 @@ import PageComponent from '../components/PageComponent'
 import { useEffect, useState } from 'react'
 import LoadingModal from '../components/Loading/LoadingModal'
 import { useAppSelector } from '../redux/hooks'
+import useSearchGroupCommerces from '../hooks/useSearchGroupCommerces'
 
 function Orders() {
     const token = useAppSelector((state) => state.tokenData.token)
     const [Loading, setLoading] = useState(true)
+
+    const { callGroupCommerces } = useSearchGroupCommerces()
+    useEffect(() => {
+        callGroupCommerces()
+    }, [])
+
     useEffect(() => {
         // token != null ? setLoading(false) : setLoading(true)
         if (token != null) {

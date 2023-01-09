@@ -80,7 +80,10 @@ function RetLineItemDetails() {
             <MainDiv>
                 {LineItem ? (
                     <InfoDiv>
-                        <CustomerInfo borderColor={theme.colors.grey[3]}>
+                        <CustomerInfo
+                            data-testid="LeftColumn"
+                            borderColor={theme.colors.grey[3]}
+                        >
                             <div className="flex justify-center">
                                 <img
                                     className="h-fit w-16"
@@ -112,7 +115,10 @@ function RetLineItemDetails() {
                                     ', ' +
                                     address?.country}
                             </div>
-                            <span className="mt-8 mb-1 text-xs">
+                            <span
+                                className="mt-8 mb-1 text-xs"
+                                data-testid="ReturnDate"
+                            >
                                 {t('details_page.return_date')}
                             </span>
                             <div>{returnDate}</div>

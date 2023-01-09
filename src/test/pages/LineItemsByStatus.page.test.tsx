@@ -51,6 +51,10 @@ describe('Line Items By Status Page tests', () => {
                 response: {},
                 Loading: 'idle'
             }
+        },
+        generalData: {
+            group: 'nudeproject',
+            ecommerceList: ['nudeproject']
         }
     }
 

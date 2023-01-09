@@ -1,6 +1,6 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PageComponent from '../components/PageComponent'
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import LineItemStatusCard from '../components/LineItemStatusCard'
 import useSearchCompletedLineItems from '../hooks/useSearchCompletedLineItems'
 import useSearchPendingLineItems from '../hooks/useSearchPendingLineItems'
@@ -8,24 +8,35 @@ import FilterComponent from '../components/FilterComponent'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
 import useSearchGroupCommerces from '../hooks/useSearchGroupCommerces'
+import SelectorComponent from '../components/SelectorComponent/SelectorComponent'
+
+import { useAppSelector } from '../redux/hooks'
 
 function OrdersByStatus() {
     const theme = useTheme()
     const { t } = useTranslation()
+
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
+    )
 
     const [pageNumPending, setPageNumPending] = useState(0)
     const [pageNumCompleted, setPageNumCompleted] = useState(0)
     const [freeText, setFreeText] = useState('')
     const { completedLineItems, totalCompleted } = useSearchCompletedLineItems(
         pageNumCompleted,
-        freeText
+        freeText,
+        selectedEcommerce
     )
     const { pendingLineItems, totalPending } = useSearchPendingLineItems(
         pageNumPending,
-        freeText
+        freeText,
+        selectedEcommerce
     )
-
-    const { Group, Ecommerces } = useSearchGroupCommerces()
+    const { callGroupCommerces } = useSearchGroupCommerces()
+    useEffect(() => {
+        callGroupCommerces()
+    }, [])
 
     // Logic for loading pending line items
     const hasMorePending =
@@ -82,6 +93,7 @@ function OrdersByStatus() {
                         freeText={freeText}
                         setFreeText={handleChangeFreeText}
                     />
+                    <SelectorComponent />
                 </TopDiv>
                 <div>
                     <TitlesDiv>

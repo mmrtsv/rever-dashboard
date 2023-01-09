@@ -55,13 +55,15 @@ export const getLineItem = createAsyncThunk(
 export const getCompletedLineItems = createAsyncThunk(
     '/getCompletedLineItems',
     async (args?: ProcessesApiFindLineItemsRequest) => {
-        const { limit, offset, freetext } = args || defaultValueLineItems
+        const { limit, offset, freetext, ecommerceId } =
+            args || defaultValueLineItems
         const lastKnownShippingStatus = 'IN_WAREHOUSE'
         const getLineItemsResponse = await lineItemsApi.findLineItems({
             lastKnownShippingStatus,
             freetext,
             limit,
-            offset
+            offset,
+            ecommerceId
         })
         return getLineItemsResponse.data
     }
@@ -69,13 +71,15 @@ export const getCompletedLineItems = createAsyncThunk(
 export const getPendingLineItems = createAsyncThunk(
     '/getPendingLineItems',
     async (args?: ProcessesApiFindLineItemsRequest) => {
-        const { limit, offset, freetext } = args || defaultValueLineItems
+        const { limit, offset, freetext, ecommerceId } =
+            args || defaultValueLineItems
         const lastKnownShippingStatus = 'NO_SHIPPING_STATUS, CREATED, COLLECTED'
         const getLineItemsResponse = await lineItemsApi.findLineItems({
             lastKnownShippingStatus,
             freetext,
             limit,
-            offset
+            offset,
+            ecommerceId
         })
         return getLineItemsResponse.data
     }

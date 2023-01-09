@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { getGroupCommmerces, resetGroupsApiCalls } from '../redux/api/groupsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import {
+    setEcommerceList,
+    setGroup
+} from '../redux/features/generalData/generalDataSlice'
 
 export function useSearchGroupCommerces() {
     const dispatch = useAppDispatch()
@@ -9,24 +13,21 @@ export function useSearchGroupCommerces() {
         (store) => store.groupsApi.getGroupCommerces
     )
 
-    const [Group, setGroup] = useState<string>()
-    const [Ecommerces, setEcommerces] = useState<string[]>()
-
-    useEffect(() => {
+    const callGroupCommerces = () => {
         dispatch(getGroupCommmerces())
-    }, [])
+    }
 
     useEffect(() => {
         if (groupsApiCommerces.loading === 'succeeded') {
-            setGroup(groupsApiCommerces.response.group)
-            setEcommerces(groupsApiCommerces.response.ecommerces)
+            dispatch(setGroup(groupsApiCommerces.response.group))
+            dispatch(setEcommerceList(groupsApiCommerces.response.ecommerces))
             dispatch(resetGroupsApiCalls())
         } else if (groupsApiCommerces.loading === 'failed') {
             dispatch(resetGroupsApiCalls())
         }
     }, [groupsApiCommerces.response, groupsApiCommerces.loading])
 
-    return { Group, Ecommerces }
+    return { callGroupCommerces }
 }
 
 export default useSearchGroupCommerces

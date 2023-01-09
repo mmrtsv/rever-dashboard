@@ -5,9 +5,15 @@ import FilterComponent from '../../FilterComponent/FilterComponent'
 import useSearchLineItems from '../../../hooks/useSearchLineItems'
 import { useTranslation } from 'react-i18next'
 import Pagination from '../PaginationComponent/Pagination'
+import { useAppSelector } from '../../../redux/hooks'
+import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 
 const OrdersTable = () => {
     const { t } = useTranslation()
+
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
+    )
 
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(25)
@@ -15,7 +21,8 @@ const OrdersTable = () => {
     const { LineItems, totalLineItems } = useSearchLineItems(
         ActualPage,
         Limit,
-        FreeText
+        FreeText,
+        selectedEcommerce
     )
     const MaxPage = totalLineItems && Math.ceil(totalLineItems / Limit)
 
@@ -31,17 +38,21 @@ const OrdersTable = () => {
             data-testid="OrdersTable"
             className="flex min-h-full w-full grow flex-col overflow-x-auto"
         >
-            <FilterComponent
-                freeText={FreeText}
-                setFreeText={handleChangeFreeText}
-            />
-            {FreeText.length > 2 && (
-                <span className="text-xs">
-                    {totalLineItems
-                        ? t('orders_table.results') + totalLineItems
-                        : t('orders_table.results') + '0'}
-                </span>
-            )}
+            <TopDiv>
+                <FilterComponent
+                    freeText={FreeText}
+                    setFreeText={handleChangeFreeText}
+                />
+                {FreeText.length > 2 && (
+                    <span className="text-xs">
+                        {totalLineItems
+                            ? t('orders_table.results') + totalLineItems
+                            : t('orders_table.results') + '0'}
+                    </span>
+                )}
+                <SelectorComponent />
+            </TopDiv>
+
             {LineItems && LineItems.length > 0 && (
                 <div className="mt-8">
                     {LineItems.map((lineItem) => {
@@ -74,6 +85,14 @@ const Main = styled.div`
     }
     display: inline-block;
     padding: 1rem;
+`
+
+const TopDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 `
 
 export default OrdersTable

@@ -6,10 +6,12 @@ import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@itsrever/design-system'
 import thunk from 'redux-thunk'
+import i18n from '../../i18nForTests'
+import { I18nextProvider } from 'react-i18next'
 
 import LineItemsPage from '../../pages/LineItems.page'
 
-describe('Home Page', () => {
+describe('Line Items Page', () => {
     const loggedInState = {
         authApi: {
             login: { loading: 'idle', response: {} }
@@ -33,6 +35,16 @@ describe('Home Page', () => {
                 loading: 'idle',
                 response: { next: '', rowcount: 17, line_items: [] }
             }
+        },
+        groupsApi: {
+            getGroupCommerces: {
+                response: {},
+                Loading: 'idle'
+            }
+        },
+        generalData: {
+            group: 'nudeproject',
+            ecommerceList: ['nudeproject']
         }
     }
 
@@ -46,9 +58,11 @@ describe('Home Page', () => {
         render(
             <Router>
                 <Provider store={store}>
-                    <ThemeProvider>
-                        <LineItemsPage />
-                    </ThemeProvider>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <LineItemsPage />
+                        </ThemeProvider>
+                    </I18nextProvider>
                 </Provider>
             </Router>
         )
