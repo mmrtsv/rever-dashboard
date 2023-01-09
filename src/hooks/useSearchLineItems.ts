@@ -6,7 +6,8 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 export function useSearchLineItems(
     pageNum: number,
     limit: number,
-    freeText: string
+    freeText: string,
+    selectedEcommerce?: string
 ) {
     const dispatch = useAppDispatch()
 
@@ -25,18 +26,20 @@ export function useSearchLineItems(
                 getLineItems({
                     freetext: freeText,
                     offset: pageNum * limit,
-                    limit: limit
+                    limit: limit,
+                    ecommerceId: selectedEcommerce
                 })
             )
         } else if (freeText.length === 0) {
             dispatch(
                 getLineItems({
                     offset: pageNum * limit,
-                    limit: limit
+                    limit: limit,
+                    ecommerceId: selectedEcommerce
                 })
             )
         }
-    }, [pageNum, limit, freeText])
+    }, [pageNum, limit, freeText, selectedEcommerce])
 
     useEffect(() => {
         if (lineItemsApiLineItems.loading === 'succeeded') {

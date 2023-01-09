@@ -17,6 +17,9 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
     const handleClickItem = () => {
         navigate(`/details/${lineItem.rever_id}`)
     }
+
+    const screenWidth = window.screen.availWidth
+
     return (
         <OrderListItemCard
             data-testid="OrderListItem"
@@ -37,7 +40,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
                         src={imgSrc}
                         alt="ProductImage"
                     />
-                    <span> {lineItem.name}</span>
+                    {screenWidth >= 1024 && <span> {lineItem.name}</span>}
                 </ProductInfo>
                 <NameBox>
                     <TextBoxes data-testid="Name">
@@ -79,6 +82,9 @@ const ProductInfo = styled.div`
     display: flex;
     align-items: center;
     width: 40%;
+    @media (max-width: 1023px) {
+        justify-content: center;
+    }
 `
 const OrderListItemCard = styled.div`
     margin-top: 0.5rem;

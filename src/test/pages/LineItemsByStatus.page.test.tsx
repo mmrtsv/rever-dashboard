@@ -45,6 +45,16 @@ describe('Line Items By Status Page tests', () => {
                     line_items: []
                 }
             }
+        },
+        groupsApi: {
+            getGroupCommerces: {
+                response: {},
+                Loading: 'idle'
+            }
+        },
+        generalData: {
+            group: 'nudeproject',
+            ecommerceList: ['nudeproject']
         }
     }
 

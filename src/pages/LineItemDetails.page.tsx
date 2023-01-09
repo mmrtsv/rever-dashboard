@@ -80,7 +80,10 @@ function RetLineItemDetails() {
             <MainDiv>
                 {LineItem ? (
                     <InfoDiv>
-                        <CustomerInfo borderColor={theme.colors.grey[3]}>
+                        <CustomerInfo
+                            data-testid="LeftColumn"
+                            borderColor={theme.colors.grey[3]}
+                        >
                             <div className="flex justify-center">
                                 <img
                                     className="h-fit w-16"
@@ -99,7 +102,7 @@ function RetLineItemDetails() {
                             <span className="mt-8 mb-1 text-xs">
                                 {t('details_page.email')}
                             </span>
-                            <div>{customer?.email}</div>
+                            <div className="break-words">{customer?.email}</div>
                             <span className="mt-4 mb-1 text-xs">
                                 {t('details_page.address')}
                             </span>
@@ -112,7 +115,10 @@ function RetLineItemDetails() {
                                     ', ' +
                                     address?.country}
                             </div>
-                            <span className="mt-8 mb-1 text-xs">
+                            <span
+                                className="mt-8 mb-1 text-xs"
+                                data-testid="ReturnDate"
+                            >
                                 {t('details_page.return_date')}
                             </span>
                             <div>{returnDate}</div>
@@ -246,7 +252,7 @@ function RetLineItemDetails() {
 const MainDiv = styled.div`
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    padding: 1rem;
     height: 100%;
 `
 

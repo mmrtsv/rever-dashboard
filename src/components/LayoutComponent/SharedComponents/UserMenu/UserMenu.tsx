@@ -17,7 +17,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
 
 export const userOptions = [
-    { en: 'Account', es: 'Cuenta' },
+    // { en: 'Account', es: 'Cuenta' },
     { en: 'Logout', es: 'Cerrar sesión' }
 ]
 

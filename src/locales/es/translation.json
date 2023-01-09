@@ -27,6 +27,9 @@
         "pending_title": "Pendientes de recibir",
         "completed_title": "Completados"
     },
+    "selector_component": {
+        "label": "Filtro"
+    },
     "select_reason": {
         "reason2": "Color equivocado",
         "reason3": "Diferente de lo esperado",

@@ -6,7 +6,11 @@ import {
 } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchPendingLineItems(pageNum: number, freeText: string) {
+export function useSearchPendingLineItems(
+    pageNum: number,
+    freeText: string,
+    selectedEcommerce?: string
+) {
     const dispatch = useAppDispatch()
 
     const lineItemsApiPendingLineItems = useAppSelector(
@@ -24,18 +28,20 @@ export function useSearchPendingLineItems(pageNum: number, freeText: string) {
                 getPendingLineItems({
                     freetext: freeText,
                     offset: pageNum * 10,
-                    limit: 10
+                    limit: 10,
+                    ecommerceId: selectedEcommerce
                 })
             )
         } else if (freeText.length === 0) {
             dispatch(
                 getPendingLineItems({
                     offset: pageNum * 10,
-                    limit: 10
+                    limit: 10,
+                    ecommerceId: selectedEcommerce
                 })
             )
         }
-    }, [pageNum, freeText])
+    }, [pageNum, freeText, selectedEcommerce])
 
     useEffect(() => {
         if (lineItemsApiPendingLineItems.loading === 'succeeded') {
