@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Drawer,
     IconButton,
@@ -37,7 +37,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end'
 }))
 
-const DrawerComponent = () => {
+export interface DrawerProps {
+    showAnalytics: boolean
+}
+
+const DrawerComponent: React.FC<DrawerProps> = ({ showAnalytics }) => {
     const drawerWidth = 240
 
     const navigate = useNavigate()
@@ -132,76 +136,83 @@ const DrawerComponent = () => {
                 ))}
             </List>
             <Divider />
-            <List sx={{ color: theme.colors.common.white }}>
-                {drawerList2.map((text, i) => (
-                    <ListItem key={text} disablePadding data-testid={text}>
-                        {i === 0 && (
-                            <ListItemButton
-                                onClick={() => setAnalyticsOpen(!analyticsOpen)}
-                            >
-                                <ListItemIcon>
-                                    {text === 'analytics' && (
-                                        <div
-                                            style={{
-                                                color: theme.colors.common.white
-                                            }}
-                                        >
-                                            <AnalyticsIcon />
-                                        </div>
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={t(`drawer_pages.${text}`)}
-                                />
-                                {analyticsOpen ? (
-                                    <ExpandLess />
-                                ) : (
-                                    <ExpandMore />
-                                )}
-                            </ListItemButton>
-                        )}
-                        {i > 0 && (
-                            <Collapse
-                                in={analyticsOpen}
-                                timeout="auto"
-                                unmountOnExit
-                                sx={{ width: '100%' }}
-                            >
+            {showAnalytics && (
+                <List sx={{ color: theme.colors.common.white }}>
+                    {drawerList2.map((text, i) => (
+                        <ListItem key={text} disablePadding data-testid={text}>
+                            {i === 0 && (
                                 <ListItemButton
-                                    sx={{ pl: 4 }}
-                                    onClick={() => navigateMenuOnClick(text)}
+                                    onClick={() =>
+                                        setAnalyticsOpen(!analyticsOpen)
+                                    }
                                 >
                                     <ListItemIcon>
-                                        {text === 'financials' && (
+                                        {text === 'analytics' && (
                                             <div
                                                 style={{
                                                     color: theme.colors.common
                                                         .white
                                                 }}
                                             >
-                                                <FinancialsIcon />
-                                            </div>
-                                        )}
-                                        {text === 'returns' && (
-                                            <div
-                                                style={{
-                                                    color: theme.colors.common
-                                                        .white
-                                                }}
-                                            >
-                                                <ReturnsIcon />
+                                                <AnalyticsIcon />
                                             </div>
                                         )}
                                     </ListItemIcon>
                                     <ListItemText
                                         primary={t(`drawer_pages.${text}`)}
                                     />
+                                    {analyticsOpen ? (
+                                        <ExpandLess />
+                                    ) : (
+                                        <ExpandMore />
+                                    )}
                                 </ListItemButton>
-                            </Collapse>
-                        )}
-                    </ListItem>
-                ))}
-            </List>
+                            )}
+                            {i > 0 && (
+                                <Collapse
+                                    in={analyticsOpen}
+                                    timeout="auto"
+                                    unmountOnExit
+                                    sx={{ width: '100%' }}
+                                >
+                                    <ListItemButton
+                                        sx={{ pl: 4 }}
+                                        onClick={() =>
+                                            navigateMenuOnClick(text)
+                                        }
+                                    >
+                                        <ListItemIcon>
+                                            {text === 'financials' && (
+                                                <div
+                                                    style={{
+                                                        color: theme.colors
+                                                            .common.white
+                                                    }}
+                                                >
+                                                    <FinancialsIcon />
+                                                </div>
+                                            )}
+                                            {text === 'returns' && (
+                                                <div
+                                                    style={{
+                                                        color: theme.colors
+                                                            .common.white
+                                                    }}
+                                                >
+                                                    <ReturnsIcon />
+                                                </div>
+                                            )}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={t(`drawer_pages.${text}`)}
+                                        />
+                                    </ListItemButton>
+                                </Collapse>
+                            )}
+                        </ListItem>
+                    ))}
+                </List>
+            )}
         </Drawer>
     )
 }

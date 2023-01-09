@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
+import { FlagrEvalPost } from '../../../services/flagr.api'
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean
@@ -43,6 +44,24 @@ const Header = () => {
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
+    // Feature flag to control if the analytics menu is shown
+    const [showAnalytics, setShowAnalytics] = React.useState(false)
+    React.useEffect(() => {
+        const fetchFlagr = async () => {
+            try {
+                const response: any = await FlagrEvalPost({
+                    flagID: 36
+                })
+                if (response.variantKey) {
+                    setShowAnalytics(response.variantKey === 'on')
+                }
+            } catch (error: any) {
+                console.error(error)
+            }
+        }
+        fetchFlagr()
+    }, [])
+
     const handleDrawer = () => {
         dispatch(toggleSidebar())
     }
@@ -88,7 +107,7 @@ const Header = () => {
                     </div>
                 </ReverToolbar>
             </ReverNavbar>
-            <DrawerComponent />
+            <DrawerComponent showAnalytics={showAnalytics} />
         </Box>
     )
 }
