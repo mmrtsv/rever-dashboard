@@ -8,6 +8,8 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../i18nForTests'
 import SelectorComponent from './SelectorComponent'
+import { store } from '../../redux/store'
+import { setEcommerceList } from '../../redux/features/generalData/generalDataSlice'
 
 describe('SelectorComponentTest', () => {
     afterEach(cleanup)
@@ -77,27 +79,44 @@ describe('SelectorComponentTest', () => {
         screen.getByTestId('filter')
     })
     it('should render the ecommerces list and the all option', () => {
-        // Given
         const state = loggedInStateWithEcommerces(['nude', 'artesta'])
         const mockStore = configureStore()
-        // Given
         const store = mockStore(state)
 
-        // When
         render(
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <SelectorComponent></SelectorComponent>
+                        <SelectorComponent />
                     </I18nextProvider>
                 </Provider>
             </Router>
         )
 
-        // Then
-        const filter = screen.getAllByText('Filter')
-        fireEvent.click(filter[1])
+        const filter = screen.getByRole('button')
+        fireEvent.mouseDown(filter)
         screen.getByText('All')
+        screen.getByText('nude')
+        screen.getByText('artesta')
+    })
+    it('should update the state when an option is clicked', () => {
+        store.dispatch(setEcommerceList(['nude', 'artesta']))
+        const ecommercesList = store.getState().generalData.ecommerceList
+        ecommercesList && expect(ecommercesList.length).toBe(2)
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <SelectorComponent />
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+
+        // const filter = screen.getByRole('button')
+        // fireEvent.mouseDown(filter)
+        // screen.getByText('All')
     })
 })
 
