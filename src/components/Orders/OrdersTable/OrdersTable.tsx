@@ -14,6 +14,9 @@ const OrdersTable = () => {
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
+    const ecommerceList = useAppSelector(
+        (store) => store.generalData.ecommerceList
+    )
 
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(25)

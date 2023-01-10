@@ -18,7 +18,7 @@ const SelectorComponent = () => {
     const { t } = useTranslation()
 
     const ecommerceList = useAppSelector(
-        (store) => store.generalData.ecommerceList
+        (store) => store.groupsApi.getGroupCommerces.response.ecommerces
     )
 
     const selectedEcommerce = useAppSelector(
@@ -45,29 +45,33 @@ const SelectorComponent = () => {
     }
 
     return (
-        <FormControl sx={{ width: 200 }}>
-            <InputLabel>{t('selector_component.label')}</InputLabel>
-            {ecommerceList && (
-                <Select
-                    value={selectedEcommerce ?? ''}
-                    onChange={handleChange}
-                    input={
-                        <OutlinedInput label={t('selector_component.label')} />
-                    }
-                    MenuProps={MenuProps}
-                >
-                    <MenuItem value={''}>
-                        <ListItemText primary={'All'} />
-                    </MenuItem>
-                    {ecommerceList.map((name) => (
-                        <MenuItem key={name} value={name}>
-                            {/* <Checkbox checked={name === selectedEcommerce} /> */}
-                            <ListItemText primary={name} />
+        <>
+            {ecommerceList && ecommerceList.length > 1 && (
+                <FormControl data-testid="filter" sx={{ width: 200 }}>
+                    <InputLabel>{t('selector_component.label')}</InputLabel>
+                    <Select
+                        value={selectedEcommerce ?? ''}
+                        onChange={handleChange}
+                        input={
+                            <OutlinedInput
+                                label={t('selector_component.label')}
+                            />
+                        }
+                        MenuProps={MenuProps}
+                    >
+                        <MenuItem value={''}>
+                            <ListItemText primary={'All'} />
                         </MenuItem>
-                    ))}
-                </Select>
+                        {ecommerceList.map((name) => (
+                            <MenuItem key={name} value={name}>
+                                {/* <Checkbox checked={name === selectedEcommerce} /> */}
+                                <ListItemText primary={name} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             )}
-        </FormControl>
+        </>
     )
 }
 
