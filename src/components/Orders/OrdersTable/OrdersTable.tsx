@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import OrderListItem from '../OrderListItem'
 import FilterComponent from '../../FilterComponent/FilterComponent'
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import Pagination from '../PaginationComponent/Pagination'
 import { useAppSelector } from '../../../redux/hooks'
 import SelectorComponent from '../../SelectorComponent/SelectorComponent'
+import useSearchGroupCommerces from '../../../hooks/useSearchGroupCommerces'
 
 const OrdersTable = () => {
     const { t } = useTranslation()
@@ -14,9 +15,11 @@ const OrdersTable = () => {
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
-    const ecommerceList = useAppSelector(
-        (store) => store.generalData.ecommerceList
-    )
+
+    const { callGroupCommerces } = useSearchGroupCommerces()
+    useEffect(() => {
+        callGroupCommerces()
+    }, [])
 
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(25)
