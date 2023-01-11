@@ -13,7 +13,7 @@ describe('SelectorComponentTest', () => {
     afterEach(cleanup)
 
     it('should not render if there is a single ecommerce in the group', () => {
-        const state = loggedInStateWithEcommerces([])
+        const state = reduxStateWithEcommerces([])
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -32,7 +32,7 @@ describe('SelectorComponentTest', () => {
     })
 
     it('should not render if there is one ecommerce in the group list', () => {
-        const state = loggedInStateWithEcommerces(['nude'])
+        const state = reduxStateWithEcommerces(['nude'])
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -51,7 +51,7 @@ describe('SelectorComponentTest', () => {
     })
 
     it('should render the selector if there is more than one ecommerce', () => {
-        const state = loggedInStateWithEcommerces(['nude', 'artesta'])
+        const state = reduxStateWithEcommerces(['nude', 'artesta'])
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -68,7 +68,7 @@ describe('SelectorComponentTest', () => {
     })
 
     it('should render the ecommerces list and the all option', () => {
-        const state = loggedInStateWithEcommerces(['nude', 'artesta'])
+        const state = reduxStateWithEcommerces(['nude', 'artesta'])
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -89,7 +89,7 @@ describe('SelectorComponentTest', () => {
     })
 
     it('should dispatch when an option is clicked', () => {
-        const state = loggedInStateWithEcommerces(['nude', 'artesta'])
+        const state = reduxStateWithEcommerces(['nude', 'artesta'])
         const mockStore = configureStore()
         const store = mockStore(state)
         render(
@@ -110,16 +110,8 @@ describe('SelectorComponentTest', () => {
     })
 })
 
-function loggedInStateWithEcommerces(ecommerces: string[]) {
+function reduxStateWithEcommerces(ecommerces: string[]) {
     return {
-        userData: {
-            user: {
-                name: 'admin@partner.com',
-                avatar: 'https://cdn-icons-png.flaticon.com/512/187/187134.png',
-                role: 'admin',
-                group: 'REVER'
-            }
-        },
         appState: {
             isSidebarOpen: true
         },

@@ -8,30 +8,12 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '@itsrever/design-system'
 
 describe('Page Component test', () => {
-    const loggedInState = {
-        authApi: {
-            login: { loading: 'idle', response: {} }
-        },
-        userData: {
-            user: {
-                name: 'admin@partner.com',
-                avatar: 'https://cdn-icons-png.flaticon.com/512/187/187134.png',
-                role: 'admin',
-                group: 'REVER'
-            }
-        },
-        appState: {
-            isSidebarOpen: true
-        }
-    }
-
     afterEach(cleanup)
 
-    const mockStore = configureStore()
-    let store
-
     it('should render', () => {
-        store = mockStore(loggedInState)
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
         render(
             <Router>
                 <Provider store={store}>
@@ -44,3 +26,11 @@ describe('Page Component test', () => {
         screen.getByTestId('PageComponent')
     })
 })
+
+function reduxState() {
+    return {
+        appState: {
+            isSidebarOpen: true
+        }
+    }
+}

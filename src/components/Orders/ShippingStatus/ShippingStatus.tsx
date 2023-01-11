@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from '../../../@lodash/@lodash'
 import clsx from 'clsx'
+
 export const ShippingStatuses = [
     {
         enum: 0,
@@ -31,19 +32,24 @@ export const ShippingStatuses = [
         enum: 5,
         name: 'CANCELED',
         color: 'bg-red-700 text-white',
-        text: 'CANCELED'
+        text: 'CANCELLED'
     }
 ]
-const ShippingStatus = (props: any) => {
+
+interface ShippingStatusProps {
+    status: number | undefined
+}
+
+const ShippingStatus: React.FC<ShippingStatusProps> = ({ status }) => {
     return (
         <div
             data-testid="shippingStatus"
             className={clsx(
                 'inline truncate rounded-full py-3 px-4 font-semibold',
-                _.find(ShippingStatuses, { enum: props.enum })?.color
+                _.find(ShippingStatuses, { enum: status })?.color
             )}
         >
-            {_.find(ShippingStatuses, { enum: props.enum })?.text}
+            {_.find(ShippingStatuses, { enum: status })?.text}
         </div>
     )
 }
