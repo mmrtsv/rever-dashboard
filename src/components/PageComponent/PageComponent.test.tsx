@@ -7,8 +7,6 @@ import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '@itsrever/design-system'
 
-//TBD: Margin testing
-
 describe('Page Component test', () => {
     const loggedInState = {
         authApi: {
