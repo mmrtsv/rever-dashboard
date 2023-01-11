@@ -12,7 +12,6 @@ export function useSearchGroupCommerces() {
     const groupsApiCommerces = useAppSelector(
         (store) => store.groupsApi.getGroupCommerces
     )
-
     const callGroupCommerces = () => {
         dispatch(getGroupCommmerces())
     }
