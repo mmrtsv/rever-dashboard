@@ -8,8 +8,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../i18nForTests'
 import SelectorComponent from './SelectorComponent'
-import { store } from '../../redux/store'
-import { setEcommerceList } from '../../redux/features/generalData/generalDataSlice'
 
 describe('SelectorComponentTest', () => {
     afterEach(cleanup)
@@ -35,7 +33,7 @@ describe('SelectorComponentTest', () => {
         const children = screen.queryByTestId('filter')
         expect(children).toBeNull()
     })
-    it('should not render if there is¡ one ecommerce in the group list', () => {
+    it('should not render if there is one ecommerce in the group list', () => {
         // Given
         const state = loggedInStateWithEcommerces(['nude'])
         const mockStore = configureStore()
@@ -99,11 +97,10 @@ describe('SelectorComponentTest', () => {
         screen.getByText('nude')
         screen.getByText('artesta')
     })
-    it('should update the state when an option is clicked', () => {
-        store.dispatch(setEcommerceList(['nude', 'artesta']))
-        const ecommercesList = store.getState().generalData.ecommerceList
-        ecommercesList && expect(ecommercesList.length).toBe(2)
-
+    it('should dispatch when an option is clicked', () => {
+        const state = loggedInStateWithEcommerces(['nude', 'artesta'])
+        const mockStore = configureStore()
+        const store = mockStore(state)
         render(
             <Router>
                 <Provider store={store}>
@@ -114,9 +111,11 @@ describe('SelectorComponentTest', () => {
             </Router>
         )
 
-        // const filter = screen.getByRole('button')
-        // fireEvent.mouseDown(filter)
-        // screen.getByText('All')
+        const filter = screen.getByRole('button')
+        fireEvent.mouseDown(filter)
+        fireEvent.click(screen.getByText('nude'))
+        const actions = store.getActions()
+        expect(actions[0].payload).toBe('nude')
     })
 })
 
