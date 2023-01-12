@@ -59,10 +59,10 @@ describe('Line Items Details Page', () => {
                 response: { rowcount: 1, line_items: [retLineItem] }
             }
         },
-        groupsApi: {
-            getGroupCommerces: {
+        userApi: {
+            getMe: {
                 response: {},
-                loading: 'idle'
+                Loading: 'idle'
             }
         },
         generalData: {

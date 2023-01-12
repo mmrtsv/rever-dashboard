@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import Pagination from '../PaginationComponent/Pagination'
 import { useAppSelector } from '../../../redux/hooks'
 import SelectorComponent from '../../SelectorComponent/SelectorComponent'
-import useSearchGroupCommerces from '../../../hooks/useSearchGroupCommerces'
+import useSearchMe from '../../../hooks/useSearchMe'
 
 const OrdersTable = () => {
     const { t } = useTranslation()
@@ -16,9 +16,9 @@ const OrdersTable = () => {
         (store) => store.generalData.selectedEcommerce
     )
 
-    const { callGroupCommerces } = useSearchGroupCommerces()
+    const { callMe } = useSearchMe()
     useEffect(() => {
-        callGroupCommerces()
+        callMe()
     }, [])
 
     const [ActualPage, setActualPage] = useState<number>(0)

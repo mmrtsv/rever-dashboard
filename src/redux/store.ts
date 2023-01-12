@@ -5,8 +5,8 @@ import userDataReducer from './features/generalData/userDataSlice'
 import appStateReducer from './features/appState/appStateSlice'
 import lineItemsApiReducer from './api/lineItemsApi'
 import tokenDataSlice from './features/generalData/tokenDataSlice'
-import groupsApiReducer from './api/groupsApi'
 import generalDataReducer from './features/generalData/generalDataSlice'
+import userApiReducer from './api/userApi'
 
 export const store = configureStore({
     reducer: {
@@ -14,10 +14,10 @@ export const store = configureStore({
         tokenData: tokenDataSlice,
         processesApi: processesApiReducer,
         lineItemsApi: lineItemsApiReducer,
-        groupsApi: groupsApiReducer,
         userData: userDataReducer,
         appState: appStateReducer,
-        generalData: generalDataReducer
+        generalData: generalDataReducer,
+        userApi: userApiReducer
     },
     // devTools: process.env.NODE_ENV === 'development',
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([])
