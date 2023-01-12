@@ -22,7 +22,74 @@ const ReturnsMetrics = () => {
             position: 'bottom'
         }
     }
-    const series = [44, 55, 41, 17]
+    const chartOptions: ApexOptions = {
+        chart: {
+            animations: {
+                speed: 400,
+                animateGradually: {
+                    enabled: false
+                }
+            },
+            fontFamily: 'inherit',
+            foreColor: 'inherit',
+            height: '100%',
+            type: 'donut',
+            sparkline: {
+                enabled: true
+            }
+        },
+        colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
+        labels: [
+            'Store Credit',
+            'Original Payment Method',
+            'Bank Transfer',
+            'Exchanges'
+        ],
+        plotOptions: {
+            pie: {
+                customScale: 0.9,
+                expandOnClick: false,
+                donut: {
+                    size: '70%'
+                }
+            }
+        },
+        // stroke: {
+        //     colors: [theme.palette.background.paper]
+        // },
+        series: [44, 55, 41, 17],
+        states: {
+            hover: {
+                filter: {
+                    type: 'none'
+                }
+            },
+            active: {
+                filter: {
+                    type: 'none'
+                }
+            }
+        },
+        tooltip: {
+            enabled: true,
+            fillSeriesColor: false,
+            theme: 'dark',
+            custom: ({ seriesIndex, w }) =>
+                `<div class="flex items-center h-16 min-h-16 max-h-16 px-12">
+            <div class="w-12 h-12 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+            <div class="ml-8 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+            <div class="ml-8 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+        </div>`
+        }
+    }
+    const colors = ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096']
+    const labels = [
+        'Store Credit',
+        'Original Payment Method',
+        'Bank Transfer',
+        'Exchanges'
+    ]
+    const series = [15, 12, 43, 30]
 
     const options2: ApexOptions = {
         stroke: {
@@ -125,21 +192,74 @@ const ReturnsMetrics = () => {
                         width="600"
                     />
                 </ReverBox>
-                <ReverBox className="ml-4" borderColor={theme.colors.grey[3]}>
-                    <h3 className="mb-4 text-center text-xl">Compensations</h3>
+                <DonutBox borderColor={theme.colors.grey[3]}>
+                    <p className="tracking-tights truncate text-lg font-medium leading-6">
+                        Compensations
+                    </p>
                     <Chart
-                        options={options}
+                        options={chartOptions}
                         series={series}
                         type="donut"
                         width="400"
                     />
-                </ReverBox>
+                    <div className="m-2">
+                        <div>
+                            {series.map((dataset, i) => (
+                                <>
+                                    <div
+                                        className="mx-4 grid grid-cols-2 py-1"
+                                        key={i}
+                                    >
+                                        <div className="flex items-center">
+                                            <LegendDot
+                                                className="flex-0 h-4 w-4 rounded-full"
+                                                backgroundColor={colors[i]}
+                                            />
+                                            <p className="ml-4 truncate">
+                                                {labels[i]}
+                                            </p>
+                                        </div>
+
+                                        <p
+                                            className="text-right"
+                                            color="text.secondary"
+                                        >
+                                            {dataset}%
+                                        </p>
+                                    </div>
+                                    {i === series.length - 1 ? null : <hr />}
+                                </>
+                            ))}
+                        </div>
+                    </div>
+                </DonutBox>
             </CompensationsDiv>
         </ReturnsDiv>
     )
 }
 
 export default ReturnsMetrics
+
+interface BoxProps {
+    borderColor?: string
+    backgroundColor?: string
+}
+const LegendDot = styled.div<BoxProps>`
+    background-color: ${(p) => p.backgroundColor};
+    border-color: ${(p) => p.borderColor};
+`
+const DonutBox = styled.div<BoxProps>`
+    margin-left: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.5rem;
+    border: 1px solid;
+    border-color: ${(p) => p.borderColor};
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+`
 
 const ReturnsDiv = styled.div``
 
@@ -162,10 +282,6 @@ const IconDiv = styled.div<IconProps>`
     align-items: center;
     color: ${(p) => p.color};
 `
-
-interface BoxProps {
-    borderColor: string
-}
 
 const ReverBox = styled.div<BoxProps>`
     padding: 1.5rem;
