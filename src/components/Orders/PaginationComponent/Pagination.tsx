@@ -53,6 +53,7 @@ const Pagination: React.FC<SearchProps> = ({
 
                 <PaginationDiv>
                     <PaginationButton
+                        data-testid="arrow-left"
                         onClick={() => {
                             actualPage > 0 && setActualPage(actualPage - 1)
                         }}
@@ -160,8 +161,9 @@ const Pagination: React.FC<SearchProps> = ({
                     </PaginationNumberBox>
 
                     <PaginationButton
+                        data-testid="arrow-right"
                         onClick={() => {
-                            actualPage < maxPage &&
+                            actualPage + 1 < maxPage &&
                                 setActualPage(actualPage + 1)
                         }}
                     >

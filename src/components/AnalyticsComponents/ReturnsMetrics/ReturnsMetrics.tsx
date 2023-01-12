@@ -11,17 +11,6 @@ import ArrowUpIcon from '@mui/icons-material/TrendingUp'
 const ReturnsMetrics = () => {
     const theme = useTheme()
 
-    const options: ApexOptions = {
-        labels: [
-            'Store Credit',
-            'Original Payment Method',
-            'Bank Transfer',
-            'Exchanges'
-        ],
-        legend: {
-            position: 'bottom'
-        }
-    }
     const chartOptions: ApexOptions = {
         chart: {
             animations: {
@@ -193,7 +182,7 @@ const ReturnsMetrics = () => {
                     />
                 </ReverBox>
                 <DonutBox borderColor={theme.colors.grey[3]}>
-                    <p className="tracking-tights truncate text-lg font-medium leading-6">
+                    <p className="truncate text-lg font-medium leading-6">
                         Compensations
                     </p>
                     <Chart
@@ -212,7 +201,7 @@ const ReturnsMetrics = () => {
                                     >
                                         <div className="flex items-center">
                                             <LegendDot
-                                                className="flex-0 h-4 w-4 rounded-full"
+                                                className="h-4 w-4 rounded-full"
                                                 backgroundColor={colors[i]}
                                             />
                                             <p className="ml-4 truncate">

@@ -1,12 +1,6 @@
 import React from 'react'
-import {
-    render,
-    screen,
-    cleanup,
-    fireEvent,
-    within
-} from '@testing-library/react'
-import { afterEach, describe, it, expect } from 'vitest'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { afterEach, describe, it, expect, vi } from 'vitest'
 
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -80,14 +74,17 @@ describe('Pagination Component Test', () => {
         )
         const limitter = screen.getAllByRole('button')[0]
         fireEvent.mouseDown(limitter)
-        screen.getAllByText('25 / page')
-        screen.getAllByText('50 / page')
-        screen.getAllByText('100 / page')
+
+        const options = screen.getAllByRole('option')
+        const optionValues = options.map((li) => li.getAttribute('data-value'))
+        expect(optionValues).toEqual(['25', '50', '100'])
     })
 
     it('should change the limit when an option of the limitter is clicked', () => {
         const mockStore = configureStore()
         const store = mockStore()
+
+        const spyOnChange = vi.fn()
 
         render(
             <Router>
@@ -97,6 +94,40 @@ describe('Pagination Component Test', () => {
                             actualPage={1}
                             setActualPage={() => null}
                             limit={25}
+                            setLimit={spyOnChange}
+                            maxPage={5}
+                        />
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+
+        // Open the dropdown
+        const limitter = screen.getAllByRole('button')[0]
+        fireEvent.mouseDown(limitter)
+
+        // Get the options and click
+        const options = screen.getAllByRole('option')
+        fireEvent.click(options[1])
+
+        // Check onChange
+        expect(spyOnChange).toHaveBeenCalled()
+    })
+
+    it('should change the actual page when a number or arrow is clicked', () => {
+        const mockStore = configureStore()
+        const store = mockStore()
+
+        const spyOnChange = vi.fn()
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={1}
+                            setActualPage={spyOnChange}
+                            limit={25}
                             setLimit={() => null}
                             maxPage={5}
                         />
@@ -104,18 +135,41 @@ describe('Pagination Component Test', () => {
                 </Provider>
             </Router>
         )
-        const limitter = screen.getAllByRole('button')[0]
-        fireEvent.mouseDown(limitter)
+        // Click on page number
+        fireEvent.click(screen.getByText('3'))
+        fireEvent.click(screen.getByTestId('arrow-left'))
+        fireEvent.click(screen.getByTestId('arrow-right'))
 
-        const options = within(screen.getByRole('listbox'))
-        fireEvent.click(options.getByText('50 / page'))
+        // Check onChange
+        expect(spyOnChange).toHaveBeenCalledTimes(3)
+    })
 
-        screen.getByText('25 / page')
+    it('should not change the actual page when arrows are clicked on limits', () => {
+        const mockStore = configureStore()
+        const store = mockStore()
 
-        // const option = screen.getAllByText('50 / page')
-        // fireEvent.click(option[0])
-        // expect(screen.queryAllByText('50 / page')).toBeNull()
-        // expect(screen.queryAllByText('100 / page')).toBeNull()
-        // screen.getAllByText('25 / page')
+        const spyOnChange = vi.fn()
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={0}
+                            setActualPage={spyOnChange}
+                            limit={25}
+                            setLimit={() => null}
+                            maxPage={1}
+                        />
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        // Click on page number
+        fireEvent.click(screen.getByTestId('arrow-left'))
+        fireEvent.click(screen.getByTestId('arrow-right'))
+
+        // Check onChange
+        expect(spyOnChange).toHaveBeenCalledTimes(0)
     })
 })
