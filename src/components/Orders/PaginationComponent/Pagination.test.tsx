@@ -1,5 +1,11 @@
 import React from 'react'
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import {
+    render,
+    screen,
+    cleanup,
+    fireEvent,
+    within
+} from '@testing-library/react'
 import { afterEach, describe, it, expect } from 'vitest'
 
 import { Provider } from 'react-redux'
@@ -83,7 +89,6 @@ describe('Pagination Component Test', () => {
         const mockStore = configureStore()
         const store = mockStore()
 
-        // const [limit, setLimit] = useState(25)
         render(
             <Router>
                 <Provider store={store}>
@@ -101,6 +106,16 @@ describe('Pagination Component Test', () => {
         )
         const limitter = screen.getAllByRole('button')[0]
         fireEvent.mouseDown(limitter)
-        screen.getAllByText('25 / page')
+
+        const options = within(screen.getByRole('listbox'))
+        fireEvent.click(options.getByText('50 / page'))
+
+        screen.getByText('25 / page')
+
+        // const option = screen.getAllByText('50 / page')
+        // fireEvent.click(option[0])
+        // expect(screen.queryAllByText('50 / page')).toBeNull()
+        // expect(screen.queryAllByText('100 / page')).toBeNull()
+        // screen.getAllByText('25 / page')
     })
 })
