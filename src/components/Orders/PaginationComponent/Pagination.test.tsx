@@ -1,9 +1,6 @@
 import React from 'react'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, it, expect, vi } from 'vitest'
-
-import { Provider } from 'react-redux'
-import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../i18nForTests'
@@ -13,27 +10,22 @@ describe('Pagination Component Test', () => {
     afterEach(cleanup)
 
     it('should render the correct amount of pages when there are less than 5', () => {
-        const mockStore = configureStore()
-        const store = mockStore()
-
         const pages = [1, 2, 3, 4]
 
         render(
             <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        {pages.map((page) => (
-                            <Pagination
-                                key={page}
-                                actualPage={1}
-                                setActualPage={() => null}
-                                limit={25}
-                                setLimit={() => null}
-                                maxPage={page}
-                            />
-                        ))}
-                    </I18nextProvider>
-                </Provider>
+                <I18nextProvider i18n={i18n}>
+                    {pages.map((page) => (
+                        <Pagination
+                            key={page}
+                            actualPage={1}
+                            setActualPage={() => null}
+                            limit={25}
+                            setLimit={() => null}
+                            maxPage={page}
+                        />
+                    ))}
+                </I18nextProvider>
             </Router>
         )
         const ones = screen.getAllByText('1')
@@ -54,22 +46,17 @@ describe('Pagination Component Test', () => {
     })
 
     it('should display 25 - 50 - 100 options when clicking on the limitter', () => {
-        const mockStore = configureStore()
-        const store = mockStore()
-
         render(
             <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        <Pagination
-                            actualPage={1}
-                            setActualPage={() => null}
-                            limit={25}
-                            setLimit={() => null}
-                            maxPage={5}
-                        />
-                    </I18nextProvider>
-                </Provider>
+                <I18nextProvider i18n={i18n}>
+                    <Pagination
+                        actualPage={1}
+                        setActualPage={() => null}
+                        limit={25}
+                        setLimit={() => null}
+                        maxPage={5}
+                    />
+                </I18nextProvider>
             </Router>
         )
         const limitter = screen.getAllByRole('button')[0]
@@ -81,24 +68,19 @@ describe('Pagination Component Test', () => {
     })
 
     it('should change the limit when an option of the limitter is clicked', () => {
-        const mockStore = configureStore()
-        const store = mockStore()
-
         const spyOnChange = vi.fn()
 
         render(
             <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        <Pagination
-                            actualPage={1}
-                            setActualPage={() => null}
-                            limit={25}
-                            setLimit={spyOnChange}
-                            maxPage={5}
-                        />
-                    </I18nextProvider>
-                </Provider>
+                <I18nextProvider i18n={i18n}>
+                    <Pagination
+                        actualPage={1}
+                        setActualPage={() => null}
+                        limit={25}
+                        setLimit={spyOnChange}
+                        maxPage={5}
+                    />
+                </I18nextProvider>
             </Router>
         )
 
@@ -115,24 +97,19 @@ describe('Pagination Component Test', () => {
     })
 
     it('should change the actual page when a number or arrow is clicked', () => {
-        const mockStore = configureStore()
-        const store = mockStore()
-
         const spyOnChange = vi.fn()
 
         render(
             <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        <Pagination
-                            actualPage={1}
-                            setActualPage={spyOnChange}
-                            limit={25}
-                            setLimit={() => null}
-                            maxPage={5}
-                        />
-                    </I18nextProvider>
-                </Provider>
+                <I18nextProvider i18n={i18n}>
+                    <Pagination
+                        actualPage={1}
+                        setActualPage={spyOnChange}
+                        limit={25}
+                        setLimit={() => null}
+                        maxPage={5}
+                    />
+                </I18nextProvider>
             </Router>
         )
         // Click on page number
@@ -145,24 +122,19 @@ describe('Pagination Component Test', () => {
     })
 
     it('should not change the actual page when arrows are clicked on limits', () => {
-        const mockStore = configureStore()
-        const store = mockStore()
-
         const spyOnChange = vi.fn()
 
         render(
             <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        <Pagination
-                            actualPage={0}
-                            setActualPage={spyOnChange}
-                            limit={25}
-                            setLimit={() => null}
-                            maxPage={1}
-                        />
-                    </I18nextProvider>
-                </Provider>
+                <I18nextProvider i18n={i18n}>
+                    <Pagination
+                        actualPage={0}
+                        setActualPage={spyOnChange}
+                        limit={25}
+                        setLimit={() => null}
+                        maxPage={1}
+                    />
+                </I18nextProvider>
             </Router>
         )
         // Click on page number

@@ -112,9 +112,6 @@ describe('SelectorComponentTest', () => {
 
 function reduxStateWithEcommerces(ecommerces: string[]) {
     return {
-        appState: {
-            isSidebarOpen: true
-        },
         groupsApi: {
             getGroupCommerces: {
                 response: {

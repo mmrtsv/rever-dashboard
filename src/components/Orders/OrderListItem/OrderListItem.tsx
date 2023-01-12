@@ -29,8 +29,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
         >
             <ProductDisplay>
                 <OrderNumber>
-                    <TextBoxes data-testid="ProductName">
-                        {' '}
+                    <TextBoxes>
                         {lineItem?.return_process?.customer_printed_order_id}
                     </TextBoxes>
                 </OrderNumber>
