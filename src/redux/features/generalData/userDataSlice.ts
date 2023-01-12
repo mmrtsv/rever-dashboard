@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { MeUser } from '@itsrever/dashboard-api'
 
-export type UserData = AuthUser | undefined
+export type UserData = MeUser | undefined
 
 interface State {
     user: UserData
