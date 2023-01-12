@@ -41,7 +41,6 @@ describe('UserMenu testing', () => {
                 </Provider>
             </Router>
         )
-        screen.getByTestId('avatar')
     })
 
     it('should display correct settings', () => {
