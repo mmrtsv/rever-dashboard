@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AuthUser } from '@itsrever/dashboard-api'
+import { MeUser } from '@itsrever/dashboard-api'
 
 export type UserData = AuthUser | undefined
 
