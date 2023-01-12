@@ -135,11 +135,13 @@ function loggedInStateWithEcommerces(ecommerces: string[]) {
         appState: {
             isSidebarOpen: true
         },
-        groupsApi: {
-            getGroupCommerces: {
+        userApi: {
+            getMe: {
                 response: {
-                    group: 'Jeanifacio',
-                    ecommerces: ecommerces
+                    user: {
+                        group: 'Jeanifacioguapo',
+                        ecommerces: ecommerces
+                    }
                 },
                 loading: 'idle'
             }

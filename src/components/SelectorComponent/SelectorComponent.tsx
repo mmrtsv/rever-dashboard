@@ -18,7 +18,7 @@ const SelectorComponent = () => {
     const { t } = useTranslation()
 
     const ecommerceList = useAppSelector(
-        (store) => store.groupsApi.getGroupCommerces.response.ecommerces
+        (store) => store.userApi.getMe.response.user?.ecommerces
     )
 
     const selectedEcommerce = useAppSelector(

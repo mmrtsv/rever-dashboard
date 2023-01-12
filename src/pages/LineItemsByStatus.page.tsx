@@ -7,7 +7,7 @@ import useSearchPendingLineItems from '../hooks/useSearchPendingLineItems'
 import FilterComponent from '../components/FilterComponent'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
-import useSearchGroupCommerces from '../hooks/useSearchGroupCommerces'
+import useSearchMe from '../hooks/useSearchMe'
 import SelectorComponent from '../components/SelectorComponent/SelectorComponent'
 
 import { useAppSelector } from '../redux/hooks'
@@ -33,9 +33,9 @@ function OrdersByStatus() {
         freeText,
         selectedEcommerce
     )
-    const { callGroupCommerces } = useSearchGroupCommerces()
+    const { callMe } = useSearchMe()
     useEffect(() => {
-        callGroupCommerces()
+        callMe()
     }, [])
 
     // Logic for loading pending line items

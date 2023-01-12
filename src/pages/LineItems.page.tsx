@@ -4,15 +4,15 @@ import PageComponent from '../components/PageComponent'
 import { useEffect, useState } from 'react'
 import LoadingModal from '../components/Loading/LoadingModal'
 import { useAppSelector } from '../redux/hooks'
-import useSearchGroupCommerces from '../hooks/useSearchGroupCommerces'
+import useSearchMe from '../hooks/useSearchMe'
 
 function Orders() {
     const token = useAppSelector((state) => state.tokenData.token)
     const [Loading, setLoading] = useState(true)
 
-    const { callGroupCommerces } = useSearchGroupCommerces()
+    const { callMe } = useSearchMe()
     useEffect(() => {
-        callGroupCommerces()
+        callMe()
     }, [])
 
     useEffect(() => {
