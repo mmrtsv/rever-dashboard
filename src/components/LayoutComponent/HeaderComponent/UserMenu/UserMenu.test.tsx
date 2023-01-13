@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, it, vi, expect } from 'vitest'
 import { UserMenu, userOptions } from './UserMenu'
 import { Provider } from 'react-redux'
