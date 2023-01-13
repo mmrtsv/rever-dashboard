@@ -5,8 +5,7 @@ import {
     IconButton,
     Menu,
     MenuItem,
-    Typography,
-    Hidden
+    Typography
 } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
@@ -50,13 +49,17 @@ export const UserMenu = () => {
         handleCloseUserMenu()
     }
 
+    const screenWidth = window.screen.availWidth
+
     return (
         <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
             <Tooltip title="Settings">
                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
-                    <Hidden smDown>
-                        <a className="mr-2">{user && user.name}</a>
-                    </Hidden>
+                    {screenWidth >= 600 && (
+                        <a data-testid="UserName" className="mr-2">
+                            {user && user.name}
+                        </a>
+                    )}
 
                     <IconButton sx={{ p: 0 }}>
                         <AccountCircle fontSize="large" />

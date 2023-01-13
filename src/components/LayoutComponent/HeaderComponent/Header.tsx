@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Toolbar, Box } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
-import UserMenu from '../SharedComponents/UserMenu'
+import UserMenu from './UserMenu'
 import logoWide from '../../../assets/images/icons/logoWide.svg'
 import { styled } from '@mui/material/styles'
 import LanguageSwitcher from '../../LanguageSwitcher'
@@ -45,8 +45,8 @@ const Header = () => {
         (store) => store.appState.isSidebarOpen
     )
     // Feature flag to control if the analytics menu is shown
-    const [showAnalytics, setShowAnalytics] = React.useState(false)
-    React.useEffect(() => {
+    const [showAnalytics, setShowAnalytics] = useState(false)
+    useEffect(() => {
         const fetchFlagr = async () => {
             try {
                 const response: any = await FlagrEvalPost({
@@ -84,11 +84,14 @@ const Header = () => {
                     <div className="flex flex-1 px-1">
                         {!isSidebarOpen && (
                             <div
-                                data-testid="DrawerOutLogo"
                                 className="mr-4"
                                 style={{ color: theme.colors.primary.dark }}
                             >
-                                <NavBarBurgerMenu onClick={handleDrawer} />
+                                <MenuIcon
+                                    data-testid="BurgerMenuOutsideIcon"
+                                    onClick={handleDrawer}
+                                    fontSize="large"
+                                />
                             </div>
                         )}
 

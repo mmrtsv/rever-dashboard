@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
     Drawer,
     IconButton,
@@ -17,12 +17,12 @@ import FinancialsIcon from '@mui/icons-material/Payments'
 import ReturnsIcon from '@mui/icons-material/LocalShipping'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
+import MenuIcon from '@mui/icons-material/Menu'
 import { styled } from '@mui/material/styles'
 import { useTheme } from '@itsrever/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
 import { toggleSidebar } from '../../../../redux/features/appState/appStateSlice'
-import NavBarBurgerMenu from '../../SharedComponents/NavBarBurgerMenu'
 import { useTranslation } from 'react-i18next'
 
 export const drawerList1 = ['home', 'orders']
@@ -99,7 +99,7 @@ const DrawerComponent: React.FC<DrawerProps> = ({ showAnalytics }) => {
             <DrawerHeader data-testid="DrawerInLogo">
                 <IconButton onClick={handleDrawer}>
                     <div style={{ color: theme.colors.common.white }}>
-                        <NavBarBurgerMenu />
+                        <MenuIcon fontSize="large" />
                     </div>
                 </IconButton>
             </DrawerHeader>
