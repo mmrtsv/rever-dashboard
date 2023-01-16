@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import Pagination from '../components/Orders/PaginationComponent/Pagination'
 import OrderListItem from '../components/Orders/OrderListItem'
 import useSearchMe from '../hooks/useSearchMe'
+import Mixpanel from '../mixpanel/Mixpanel'
 
 function Orders() {
     const token = useAppSelector((state) => state.tokenData.token)
@@ -18,8 +19,8 @@ function Orders() {
 
     const { callMe } = useSearchMe()
     useEffect(() => {
-        callMe()
-    }, [])
+        !Loading && callMe()
+    }, [Loading])
 
     useEffect(() => {
         // token != null ? setLoading(false) : setLoading(true)

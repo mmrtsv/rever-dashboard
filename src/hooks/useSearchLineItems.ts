@@ -17,29 +17,32 @@ export function useSearchLineItems(
     const [LineItems, setLineItems] = useState<
         ModelsPublicReturnLineItem[] | undefined
     >([])
+    const token = useAppSelector((state) => state.tokenData.token)
 
     const totalLineItems = lineItemsApiLineItems.response.rowcount
 
     useEffect(() => {
-        if (freeText.length > 2) {
-            dispatch(
-                getLineItems({
-                    freetext: freeText,
-                    offset: pageNum * limit,
-                    limit: limit,
-                    ecommerceId: selectedEcommerce
-                })
-            )
-        } else if (freeText.length === 0) {
-            dispatch(
-                getLineItems({
-                    offset: pageNum * limit,
-                    limit: limit,
-                    ecommerceId: selectedEcommerce
-                })
-            )
+        if (token) {
+            if (freeText.length > 2) {
+                dispatch(
+                    getLineItems({
+                        freetext: freeText,
+                        offset: pageNum * limit,
+                        limit: limit,
+                        ecommerceId: selectedEcommerce
+                    })
+                )
+            } else if (freeText.length === 0) {
+                dispatch(
+                    getLineItems({
+                        offset: pageNum * limit,
+                        limit: limit,
+                        ecommerceId: selectedEcommerce
+                    })
+                )
+            }
         }
-    }, [pageNum, limit, freeText, selectedEcommerce])
+    }, [pageNum, limit, freeText, selectedEcommerce, token])
 
     useEffect(() => {
         if (lineItemsApiLineItems.loading === 'succeeded') {

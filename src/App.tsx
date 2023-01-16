@@ -9,6 +9,7 @@ import { useAppDispatch } from './redux/hooks'
 import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { axiosInstance } from './redux/api/apiConfiguration'
 import NotAvailable from './pages/NotAvailable'
+import Mixpanel from './mixpanel/Mixpanel'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
@@ -35,7 +36,7 @@ function App() {
             i18n.changeLanguage('es')
         }
     }, [])
-    const { getAccessTokenSilently } = useAuth0()
+    const { getAccessTokenSilently, user } = useAuth0()
 
     useEffect(() => {
         const setAuthToken = async () => {
@@ -52,6 +53,12 @@ function App() {
 
         Promise.resolve(setAuthToken())
     }, [getAccessTokenSilently])
+    useEffect(() => {
+        if (user) {
+            Mixpanel.identify(user.email)
+            Mixpanel.people({ $email: user.email, $name: user.nickname })
+        }
+    }, [user])
 
     const screenWidth = window.screen.availWidth
 
