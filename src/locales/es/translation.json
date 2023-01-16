@@ -51,6 +51,7 @@
         "type_return": "Tipo de devolución",
         "type_refund": "Tipo de reembolso",
         "reason": "Razón",
-        "denied_title": "Motivo de rechazo"
+        "denied_title": "Motivo de rechazo",
+        "tracking": "Información de seguimiento"
     }
 }
