@@ -1,8 +1,8 @@
 import React from 'react'
 import { Toolbar, Box } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import NavBarBurgerMenu from '../SharedComponents/NavBarBurgerMenu'
-import UserMenu from '../SharedComponents/UserMenu'
+import UserMenu from './UserMenu'
 import logoWide from '../../../assets/images/icons/logoWide.svg'
 import { styled } from '@mui/material/styles'
 import LanguageSwitcher from '../../LanguageSwitcher'
@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
-import { FlagrEvalPost } from '../../../services/flagr.api'
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean
@@ -44,23 +43,6 @@ const Header = () => {
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
-    // Feature flag to control if the analytics menu is shown
-    const [showAnalytics, setShowAnalytics] = React.useState(false)
-    React.useEffect(() => {
-        const fetchFlagr = async () => {
-            try {
-                const response: any = await FlagrEvalPost({
-                    flagID: 36
-                })
-                if (response.variantKey) {
-                    setShowAnalytics(response.variantKey === 'on')
-                }
-            } catch (error: any) {
-                console.error(error)
-            }
-        }
-        fetchFlagr()
-    }, [])
 
     const handleDrawer = () => {
         dispatch(toggleSidebar())
@@ -84,11 +66,14 @@ const Header = () => {
                     <div className="flex flex-1 px-1">
                         {!isSidebarOpen && (
                             <div
-                                data-testid="DrawerOutLogo"
                                 className="mr-4"
                                 style={{ color: theme.colors.primary.dark }}
                             >
-                                <NavBarBurgerMenu onClick={handleDrawer} />
+                                <MenuIcon
+                                    data-testid="BurgerMenuOutsideIcon"
+                                    onClick={handleDrawer}
+                                    fontSize="large"
+                                />
                             </div>
                         )}
 
@@ -107,7 +92,7 @@ const Header = () => {
                     </div>
                 </ReverToolbar>
             </ReverNavbar>
-            <DrawerComponent showAnalytics={showAnalytics} />
+            <DrawerComponent />
         </Box>
     )
 }

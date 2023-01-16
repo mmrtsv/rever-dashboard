@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ShippingStatus from '../ShippingStatus/ShippingStatus'
+import ShippingStatus from '../ShippingStatus'
 import { useNavigate } from 'react-router-dom'
 import NoAvailable from '../../../assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
@@ -29,8 +29,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
         >
             <ProductDisplay>
                 <OrderNumber>
-                    <TextBoxes data-testid="ProductName">
-                        {' '}
+                    <TextBoxes>
                         {lineItem?.return_process?.customer_printed_order_id}
                     </TextBoxes>
                 </OrderNumber>
@@ -53,7 +52,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
 
                 <StatusBox>
                     <ShippingStatus
-                        enum={
+                        status={
                             lineItem.return_process?.last_known_shipping_status
                         }
                     />

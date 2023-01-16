@@ -85,6 +85,11 @@ function OrdersByStatus() {
         setFreeText(freeText)
     }
 
+    const handleChangeSelectedEcommerce = () => {
+        setPageNumCompleted(0)
+        setPageNumPending(0)
+    }
+
     return (
         <PageComponent>
             <MainDiv>
@@ -93,7 +98,11 @@ function OrdersByStatus() {
                         freeText={freeText}
                         setFreeText={handleChangeFreeText}
                     />
-                    <SelectorComponent />
+                    <SelectorComponent
+                        handleChangeSelectedEcommerce={
+                            handleChangeSelectedEcommerce
+                        }
+                    />
                 </TopDiv>
                 <div>
                     <TitlesDiv>

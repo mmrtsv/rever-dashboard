@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import {
-    Avatar,
     Box,
     Tooltip,
     IconButton,
     Menu,
     MenuItem,
-    Typography,
-    Hidden
+    Typography
 } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
+import { useAppDispatch } from '../../../../redux/hooks'
 import { useTranslation } from 'react-i18next'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
@@ -24,8 +22,6 @@ export const userOptions = [
 export const UserMenu = () => {
     const dispatch = useAppDispatch()
     const { i18n } = useTranslation()
-
-    const UserData = useAppSelector((store) => store.userData.user)
     const lang = i18n.language
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
     const { logout, user } = useAuth0()
@@ -38,7 +34,6 @@ export const UserMenu = () => {
     const handleLogout = () => {
         logout({ returnTo: window.location.origin })
         dispatch(resetTokenData())
-        // navigate('/login')
     }
 
     const handleSelectSetting = (setting: string) => {
@@ -54,24 +49,20 @@ export const UserMenu = () => {
         handleCloseUserMenu()
     }
 
+    const screenWidth = window.screen.availWidth
+
     return (
         <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
             <Tooltip title="Settings">
                 <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
-                    <Hidden smDown>
-                        <a className="mr-2">{user && user.name}</a>
-                    </Hidden>
+                    {screenWidth >= 600 && (
+                        <a data-testid="UserName" className="mr-2">
+                            {user && user.name}
+                        </a>
+                    )}
 
                     <IconButton sx={{ p: 0 }}>
-                        {UserData?.avatar ? (
-                            <Avatar
-                                data-testid="avatar"
-                                alt="avatar"
-                                src={UserData?.avatar}
-                            />
-                        ) : (
-                            <AccountCircle fontSize="large" />
-                        )}
+                        <AccountCircle fontSize="large" />
                     </IconButton>
                 </div>
             </Tooltip>

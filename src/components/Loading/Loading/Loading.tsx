@@ -12,15 +12,19 @@ export const Loading: React.FC<LoadingProps> = ({ loading }) => {
     const theme = useTheme()
 
     return (
-        <ReverLoading>
-            <img className="mb-8" src={logoWide} alt="REVER" />
-            <ClipLoader
-                data-testid="spinner"
-                loading={loading}
-                size="125px"
-                color={theme.colors.primary.dark}
-            />
-        </ReverLoading>
+        <>
+            {loading && (
+                <ReverLoading>
+                    <img className="mb-8" src={logoWide} alt="REVER" />
+                    <ClipLoader
+                        data-testid="spinner"
+                        loading={loading}
+                        size="125px"
+                        color={theme.colors.primary.dark}
+                    />
+                </ReverLoading>
+            )}
+        </>
     )
 }
 

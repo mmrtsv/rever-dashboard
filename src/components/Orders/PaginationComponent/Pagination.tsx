@@ -53,6 +53,7 @@ const Pagination: React.FC<SearchProps> = ({
 
                 <PaginationDiv>
                     <PaginationButton
+                        data-testid="arrow-left"
                         onClick={() => {
                             actualPage > 0 && setActualPage(actualPage - 1)
                         }}
@@ -160,8 +161,9 @@ const Pagination: React.FC<SearchProps> = ({
                     </PaginationNumberBox>
 
                     <PaginationButton
+                        data-testid="arrow-right"
                         onClick={() => {
-                            actualPage < maxPage &&
+                            actualPage + 1 < maxPage &&
                                 setActualPage(actualPage + 1)
                         }}
                     >
@@ -188,7 +190,6 @@ interface NumberProps {
 }
 
 const PaginationNumber = styled.div<NumberProps>`
-    /* cursor: ${(p) => (p.current ? 'pointer' : 'auto')}; */
     cursor: pointer;
     background-color: ${(p) => (p.current ? '#24446d' : 'transparent')};
     border-radius: 5px;
@@ -198,9 +199,6 @@ const PaginationNumber = styled.div<NumberProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* :hover {
-        background-color: #f5f5f5;
-    } */
 `
 const PaginationNumberBox = styled.div`
     display: flex;
@@ -219,7 +217,6 @@ const PaginationButton = styled.button`
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
-    /* padding: 0.5rem; */
     height: 3.5rem;
     width: 3.5rem;
     cursor: pointer;

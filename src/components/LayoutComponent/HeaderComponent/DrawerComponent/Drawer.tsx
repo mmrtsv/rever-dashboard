@@ -17,13 +17,14 @@ import FinancialsIcon from '@mui/icons-material/Payments'
 import ReturnsIcon from '@mui/icons-material/LocalShipping'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
+import MenuIcon from '@mui/icons-material/Menu'
 import { styled } from '@mui/material/styles'
 import { useTheme } from '@itsrever/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
 import { toggleSidebar } from '../../../../redux/features/appState/appStateSlice'
-import NavBarBurgerMenu from '../../SharedComponents/NavBarBurgerMenu'
 import { useTranslation } from 'react-i18next'
+import { FlagrEvalPost } from '../../../../services/flagr.api'
 
 export const drawerList1 = ['home', 'orders']
 export const drawerList2 = ['analytics', 'financials', 'returns']
@@ -41,7 +42,7 @@ export interface DrawerProps {
     showAnalytics: boolean
 }
 
-const DrawerComponent: React.FC<DrawerProps> = ({ showAnalytics }) => {
+const DrawerComponent = () => {
     const drawerWidth = 240
 
     const navigate = useNavigate()
@@ -54,6 +55,25 @@ const DrawerComponent: React.FC<DrawerProps> = ({ showAnalytics }) => {
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
     )
+
+    // Feature flag to control if the analytics menu is shown
+    const [showAnalytics, setShowAnalytics] = useState(false)
+    useEffect(() => {
+        const fetchFlagr = async () => {
+            try {
+                const response: any = await FlagrEvalPost({
+                    flagID: 36
+                })
+                if (response.variantKey) {
+                    setShowAnalytics(response.variantKey === 'on')
+                }
+            } catch (error: any) {
+                console.error(error)
+            }
+        }
+        fetchFlagr()
+    }, [])
+
     const handleDrawer = () => {
         dispatch(toggleSidebar())
     }
@@ -96,10 +116,10 @@ const DrawerComponent: React.FC<DrawerProps> = ({ showAnalytics }) => {
             anchor="left"
             open={isSidebarOpen}
         >
-            <DrawerHeader data-testid="DrawerInLogo">
+            <DrawerHeader>
                 <IconButton onClick={handleDrawer}>
                     <div style={{ color: theme.colors.common.white }}>
-                        <NavBarBurgerMenu />
+                        <MenuIcon fontSize="large" />
                     </div>
                 </IconButton>
             </DrawerHeader>
