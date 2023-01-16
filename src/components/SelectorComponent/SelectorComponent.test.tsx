@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import { afterEach, describe, it, expect } from 'vitest'
+import { afterEach, describe, it, expect, vi } from 'vitest'
 
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -21,7 +21,9 @@ describe('SelectorComponentTest', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <SelectorComponent></SelectorComponent>
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={() => null}
+                        />
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -40,7 +42,9 @@ describe('SelectorComponentTest', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <SelectorComponent></SelectorComponent>
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={() => null}
+                        />
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -59,7 +63,9 @@ describe('SelectorComponentTest', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <SelectorComponent></SelectorComponent>
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={() => null}
+                        />
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -76,7 +82,9 @@ describe('SelectorComponentTest', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <SelectorComponent />
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={() => null}
+                        />
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -96,7 +104,9 @@ describe('SelectorComponentTest', () => {
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <SelectorComponent />
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={() => null}
+                        />
                     </I18nextProvider>
                 </Provider>
             </Router>
@@ -107,6 +117,32 @@ describe('SelectorComponentTest', () => {
         fireEvent.click(screen.getByText('nude'))
         const actions = store.getActions()
         expect(actions[0].payload).toBe('nude')
+    })
+
+    it('should use the function handleSelectedEcommerce when an ecommerce is clicked', () => {
+        const state = reduxStateWithEcommerces(['nude', 'artesta'])
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
+        const spyOnChange = vi.fn()
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={spyOnChange}
+                        />
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+
+        const filter = screen.getByRole('button')
+        fireEvent.mouseDown(filter)
+        fireEvent.click(screen.getByText('nude'))
+
+        expect(spyOnChange).toHaveBeenCalled()
     })
 })
 
