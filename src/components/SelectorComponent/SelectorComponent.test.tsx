@@ -112,11 +112,14 @@ describe('SelectorComponentTest', () => {
 
 function reduxStateWithEcommerces(ecommerces: string[]) {
     return {
-        groupsApi: {
-            getGroupCommerces: {
+        userApi: {
+            getMe: {
                 response: {
+                    id: '1',
                     user: {
-                        group: 'Jeanifacioguapo',
+                        name: 'amigo.jeje@itsrever.com',
+                        role: '',
+                        group: 'artesta',
                         ecommerces: ecommerces
                     }
                 },
