@@ -1,3 +1,4 @@
+import React from 'react'
 import PageComponent from '../components/PageComponent'
 import { useEffect, useState } from 'react'
 import LoadingModal from '../components/Loading/LoadingModal'

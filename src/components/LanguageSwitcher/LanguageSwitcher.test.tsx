@@ -43,4 +43,17 @@ describe('Language Switcher Component', () => {
             screen.getByText(label[1])
         })
     })
+
+    it('should have as many options as languages available', () => {
+        render(
+            <I18nextProvider i18n={i18n}>
+                <LanguageSwitcher />
+            </I18nextProvider>
+        )
+        const switcher = screen.getByTestId('LanguageSwitcher')
+        fireEvent.click(switcher)
+        Object.entries(languageLabels).forEach((label) => {
+            screen.getByText(label[1])
+        })
+    })
 })
