@@ -46,8 +46,8 @@ describe('Line Items By Status Page tests', () => {
                 }
             }
         },
-        groupsApi: {
-            getGroupCommerces: {
+        userApi: {
+            getMe: {
                 response: {},
                 Loading: 'idle'
             }

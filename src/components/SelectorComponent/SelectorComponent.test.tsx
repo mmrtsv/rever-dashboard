@@ -115,8 +115,10 @@ function reduxStateWithEcommerces(ecommerces: string[]) {
         groupsApi: {
             getGroupCommerces: {
                 response: {
-                    group: 'Jeanifacio',
-                    ecommerces: ecommerces
+                    user: {
+                        group: 'Jeanifacioguapo',
+                        ecommerces: ecommerces
+                    }
                 },
                 loading: 'idle'
             }

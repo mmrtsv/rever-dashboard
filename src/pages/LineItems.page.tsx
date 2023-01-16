@@ -10,10 +10,17 @@ import SelectorComponent from '../components/SelectorComponent/SelectorComponent
 import { useTranslation } from 'react-i18next'
 import Pagination from '../components/Orders/PaginationComponent/Pagination'
 import OrderListItem from '../components/Orders/OrderListItem'
+import useSearchMe from '../hooks/useSearchMe'
 
 function Orders() {
     const token = useAppSelector((state) => state.tokenData.token)
     const [Loading, setLoading] = useState(true)
+
+    const { callMe } = useSearchMe()
+    useEffect(() => {
+        callMe()
+    }, [])
+
     useEffect(() => {
         // token != null ? setLoading(false) : setLoading(true)
         if (token != null) {

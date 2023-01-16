@@ -36,8 +36,8 @@ describe('Line Items Page', () => {
                 response: { next: '', rowcount: 17, line_items: [] }
             }
         },
-        groupsApi: {
-            getGroupCommerces: {
+        userApi: {
+            getMe: {
                 response: {},
                 Loading: 'idle'
             }
