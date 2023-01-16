@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../../redux/hooks'
 import { useTranslation } from 'react-i18next'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
+import Mixpanel from '../../../../mixpanel/Mixpanel'
 
 export const userOptions = [
     // { en: 'Account', es: 'Cuenta' },
@@ -34,6 +35,7 @@ export const UserMenu = () => {
     const handleLogout = () => {
         logout({ returnTo: window.location.origin })
         dispatch(resetTokenData())
+        Mixpanel.track('Logout')
     }
 
     const handleSelectSetting = (setting: string) => {
