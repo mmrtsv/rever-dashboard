@@ -52,6 +52,6 @@
         "type_refund": "Tipo de reembolso",
         "reason": "Razón",
         "denied_title": "Motivo de rechazo",
-        "tracking": "Seguimiento"
+        "tracking": "Información de seguimiento"
     }
 }
