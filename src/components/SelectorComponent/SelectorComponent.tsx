@@ -13,7 +13,13 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { useTranslation } from 'react-i18next'
 // import Checkbox from '@mui/material/Checkbox'
 
-const SelectorComponent = () => {
+interface SelectorProps {
+    handleChangeSelectedEcommerce: () => void
+}
+
+const SelectorComponent: React.FC<SelectorProps> = ({
+    handleChangeSelectedEcommerce
+}) => {
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
 
@@ -42,6 +48,7 @@ const SelectorComponent = () => {
         } else {
             dispatch(setSelectedEcommerce(event.target.value))
         }
+        handleChangeSelectedEcommerce()
     }
 
     return (

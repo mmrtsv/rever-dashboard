@@ -55,6 +55,10 @@ function Orders() {
         setFreeText(freeText)
     }
 
+    const handleChangeSelectedEcommerce = () => {
+        setActualPage(0)
+    }
+
     return (
         <PageComponent>
             {Loading ? (
@@ -76,7 +80,11 @@ function Orders() {
                                     : t('orders_table.results') + '0'}
                             </span>
                         )}
-                        <SelectorComponent />
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={
+                                handleChangeSelectedEcommerce
+                            }
+                        />
                     </TopDiv>
                     {LineItems && LineItems.length > 0 && (
                         <div className="mt-8">
