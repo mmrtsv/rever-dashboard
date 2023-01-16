@@ -64,6 +64,8 @@ function RetLineItemDetails() {
     const typeOfReturn = LineItem?.return_process?.return_method
     const typeOfRefund = LineItem?.action
     const returnReason = LineItem?.return_reason
+    const trackingId = LineItem?.return_process?.tracking_id
+    const trackingUrl = LineItem?.return_process?.tracking_url
 
     const REASONS = [
         t('select_reason.reason2'),
@@ -234,6 +236,30 @@ function RetLineItemDetails() {
                                     topColor={theme.colors.primary.dark}
                                 >
                                     <span className="text-center text-xs">
+                                        {t('details_page.tracking')}
+                                    </span>
+                                    <div className="mt-4 text-center">
+                                        {trackingId && trackingUrl ? (
+                                            <TrackingLink
+                                                className="break-words"
+                                                color={
+                                                    theme.colors.primary.dark
+                                                }
+                                                href={trackingUrl}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                {trackingId}
+                                            </TrackingLink>
+                                        ) : (
+                                            '-'
+                                        )}
+                                    </div>
+                                </SingleInfo>
+                                <SingleInfo
+                                    topColor={theme.colors.primary.dark}
+                                >
+                                    <span className="text-center text-xs">
                                         {t('details_page.denied_title')}
                                     </span>
                                     <div className="mt-4 text-center">-</div>
@@ -248,6 +274,14 @@ function RetLineItemDetails() {
         </PageComponent>
     )
 }
+
+interface TrackingProps {
+    color?: string
+}
+
+const TrackingLink = styled.a<TrackingProps>`
+    color: ${(p) => p.color};
+`
 
 const MainDiv = styled.div`
     display: flex;
@@ -368,7 +402,7 @@ const OrderInfo = styled.div`
 const OrderDetails = styled.div`
     margin-top: 2rem;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
 `
 

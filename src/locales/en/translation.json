@@ -51,6 +51,7 @@
         "type_return": "Type of return",
         "type_refund": "Type of refund",
         "reason": "Reason",
-        "denied_title": "Why was it denied"
+        "denied_title": "Why was it denied",
+        "tracking": "Seguimiento"
     }
 }
