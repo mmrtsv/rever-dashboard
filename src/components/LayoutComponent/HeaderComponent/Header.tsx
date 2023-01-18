@@ -106,7 +106,6 @@ const ReverNavbar = styled(AppBar)`
 const ReverToolbar = styled(Toolbar)`
     padding: 0;
     min-height: 3.8rem;
-
     align-items: center;
     @media (min-width: 900px) {
         min-height: 4rem;

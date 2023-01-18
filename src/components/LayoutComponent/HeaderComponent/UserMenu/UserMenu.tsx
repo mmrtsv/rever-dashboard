@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
 import Mixpanel from '../../../../mixpanel/Mixpanel'
+import styled from 'styled-components'
 
 export const userOptions = [
     // { en: 'Account', es: 'Cuenta' },
@@ -51,17 +52,13 @@ export const UserMenu = () => {
         handleCloseUserMenu()
     }
 
-    const screenWidth = window.screen.availWidth
-
     return (
         <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
             <Tooltip title="Settings">
-                <div onClick={handleOpenUserMenu} style={{ cursor: 'pointer' }}>
-                    {screenWidth >= 600 && (
-                        <a data-testid="UserName" className="mr-2">
-                            {user && user.name}
-                        </a>
-                    )}
+                <div onClick={handleOpenUserMenu} className="cursor-pointer">
+                    <UserEmail data-testid="UserName">
+                        {user && user.name}
+                    </UserEmail>
 
                     <IconButton sx={{ p: 0 }}>
                         <AccountCircle fontSize="large" />
@@ -106,3 +103,11 @@ export const UserMenu = () => {
 }
 
 export default UserMenu
+
+const UserEmail = styled.a`
+    margin-right: 1rem;
+    // Not display under 900px
+    @media (max-width: 900px) {
+        display: none;
+    }
+`
