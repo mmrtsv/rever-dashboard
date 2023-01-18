@@ -10,6 +10,7 @@ import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { axiosInstance } from './redux/api/apiConfiguration'
 import NotAvailable from './pages/NotAvailable'
 import Mixpanel from './mixpanel/Mixpanel'
+import device from './utils/device'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
@@ -60,16 +61,17 @@ function App() {
         }
     }, [user])
 
-    const screenWidth = window.screen.availWidth
-
     const ProtectedRoute = ({ component, ...args }: Props) => {
         const Component = withAuthenticationRequired(component, args)
         return <Component />
     }
+
+    const width = screen.availWidth
+
     return (
         <Router>
             <Suspense fallback={<Loading loading={true} />}>
-                {screenWidth < 768 ? (
+                {width < 768 ? (
                     <NotAvailable />
                 ) : (
                     <Routes>
