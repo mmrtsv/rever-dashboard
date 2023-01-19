@@ -23,14 +23,9 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
     const handleClickItem = () => {
         navigate(`/details/${lineItem.rever_id}`)
     }
-    const BarOpen = useAppSelector((store) => store.appState.isSidebarOpen)
 
     return (
-        <LineItemCard
-            barOpen={BarOpen}
-            data-testid="LineItemCard"
-            onClick={handleClickItem}
-        >
+        <LineItemCard data-testid="LineItemCard" onClick={handleClickItem}>
             <OrderID>
                 <span className="text-xs">{t('status_card.order_id')}</span>
                 <span>
@@ -59,11 +54,7 @@ const OrderID = styled.div`
     }
 `
 
-interface CardProps {
-    barOpen: boolean
-}
-
-const LineItemCard = styled.div<CardProps>`
+const LineItemCard = styled.div`
     margin-top: 0.5rem;
     padding: 1rem;
     border-radius: 0.5rem;
