@@ -60,7 +60,6 @@ const FilterBox = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-top: 1rem;
 `
 
 export default FilterComponent

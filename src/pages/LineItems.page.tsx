@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import Pagination from '../components/Orders/PaginationComponent/Pagination'
 import OrderListItem from '../components/Orders/OrderListItem'
 import useSearchMe from '../hooks/useSearchMe'
-import Mixpanel from '../mixpanel/Mixpanel'
+import device from '../utils/device'
 
 function Orders() {
     const token = useAppSelector((state) => state.tokenData.token)
@@ -81,11 +81,13 @@ function Orders() {
                                     : t('orders_table.results') + '0'}
                             </span>
                         )}
-                        <SelectorComponent
-                            handleChangeSelectedEcommerce={
-                                handleChangeSelectedEcommerce
-                            }
-                        />
+                        <div className="flex justify-end">
+                            <SelectorComponent
+                                handleChangeSelectedEcommerce={
+                                    handleChangeSelectedEcommerce
+                                }
+                            />
+                        </div>
                     </TopDiv>
                     {LineItems && LineItems.length > 0 && (
                         <div className="mt-8">
@@ -126,9 +128,14 @@ const Main = styled.div`
 `
 
 const TopDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
     width: 100%;
+    @media ${device.lg} {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 `

@@ -111,11 +111,13 @@ function OrdersByStatus() {
                             </span>
                         )}
                     </div>
-                    <SelectorComponent
-                        handleChangeSelectedEcommerce={
-                            handleChangeSelectedEcommerce
-                        }
-                    />
+                    <div className="flex justify-end">
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={
+                                handleChangeSelectedEcommerce
+                            }
+                        />
+                    </div>
                 </TopDiv>
                 <TableDiv barOpen={BarOpen}>
                     <TitlesDiv>
@@ -208,11 +210,16 @@ const MainDiv = styled.div`
 `
 
 const TopDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
     width: 100%;
+    @media ${device.lg} {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 `
 
 interface TableProps {

@@ -4,7 +4,6 @@ import NoAvailable from '../../assets/images/noAvailable.png'
 import { useNavigate } from 'react-router-dom'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { useTranslation } from 'react-i18next'
-import { useAppSelector } from '../../redux/hooks'
 import { Sizes } from '../../utils/device'
 
 interface LineItemByStatusProps {
