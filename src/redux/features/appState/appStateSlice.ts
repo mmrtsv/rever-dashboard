@@ -5,7 +5,7 @@ interface State {
 }
 
 const initialState: State = {
-    isSidebarOpen: true
+    isSidebarOpen: window.innerWidth >= 900
 }
 
 const appStateSlice = createSlice({

@@ -15,6 +15,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
 import Mixpanel from '../../../../mixpanel/Mixpanel'
 import styled from 'styled-components'
+import { Sizes } from '../../../../utils/device'
 
 export const userOptions = [
     // { en: 'Account', es: 'Cuenta' },
@@ -107,7 +108,7 @@ export default UserMenu
 const UserEmail = styled.a`
     margin-right: 1rem;
     // Not display under 900px
-    @media (max-width: 900px) {
+    @media (max-width: ${Sizes.lg}) {
         display: none;
     }
 `

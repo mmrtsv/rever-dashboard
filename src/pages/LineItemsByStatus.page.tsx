@@ -11,6 +11,7 @@ import useSearchMe from '../hooks/useSearchMe'
 import SelectorComponent from '../components/SelectorComponent/SelectorComponent'
 
 import { useAppSelector } from '../redux/hooks'
+import device from '../utils/device'
 
 function OrdersByStatus() {
     const theme = useTheme()
@@ -90,21 +91,33 @@ function OrdersByStatus() {
         setPageNumPending(0)
     }
 
+    const BarOpen = useAppSelector((store) => store.appState.isSidebarOpen)
+
     return (
         <PageComponent>
             <MainDiv>
                 <TopDiv>
-                    <FilterComponent
-                        freeText={freeText}
-                        setFreeText={handleChangeFreeText}
-                    />
+                    <div className="flex flex-col">
+                        <FilterComponent
+                            freeText={freeText}
+                            setFreeText={handleChangeFreeText}
+                        />
+                        {freeText.length > 2 && (
+                            <span className="mt-2 text-xs">
+                                {totalCompleted && totalPending
+                                    ? t('orders_table.results') +
+                                      (totalCompleted + totalPending)
+                                    : t('orders_table.results') + '0'}
+                            </span>
+                        )}
+                    </div>
                     <SelectorComponent
                         handleChangeSelectedEcommerce={
                             handleChangeSelectedEcommerce
                         }
                     />
                 </TopDiv>
-                <div>
+                <TableDiv barOpen={BarOpen}>
                     <TitlesDiv>
                         <Title
                             className="text-xl"
@@ -121,7 +134,7 @@ function OrdersByStatus() {
                             {totalCompleted && ' (' + totalCompleted + ')'}
                         </Title>
                     </TitlesDiv>
-                    <TableDiv>
+                    <ItemsDiv>
                         <PendingToReceive>
                             <CardsDiv data-testid="PendingLineItems">
                                 {pendingLineItems &&
@@ -178,8 +191,8 @@ function OrdersByStatus() {
                                     })}
                             </CardsDiv>
                         </Completed>
-                    </TableDiv>
-                </div>
+                    </ItemsDiv>
+                </TableDiv>
             </MainDiv>
         </PageComponent>
     )
@@ -202,6 +215,20 @@ const TopDiv = styled.div`
     width: 100%;
 `
 
+interface TableProps {
+    barOpen: boolean
+}
+
+const TableDiv = styled.div<TableProps>`
+    width: 100%;
+    @media ${device.lg} {
+        width: ${(p) => (p.barOpen ? '' : '860px')};
+    }
+    @media ${device.xl} {
+        width: 860px;
+    }
+`
+
 const TitlesDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -210,12 +237,12 @@ const TitlesDiv = styled.div`
     width: 100%;
 `
 
-const TableDiv = styled.div`
+const ItemsDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
     width: fit-content;
-    /* overflow-y: scroll; */
+    width: 100%;
 `
 
 const PendingToReceive = styled.div``
