@@ -88,7 +88,7 @@ function RetLineItemDetails() {
                         >
                             <div className="flex justify-center">
                                 <img
-                                    className="h-fit w-16"
+                                    className="h-auto w-16"
                                     src={imgSrc}
                                     alt="ProductImage"
                                 />
