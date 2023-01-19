@@ -8,9 +8,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
 import { setTokenData } from './redux/features/generalData/tokenDataSlice'
 import { axiosInstance } from './redux/api/apiConfiguration'
-import NotAvailable from './pages/NotAvailable'
 import Mixpanel from './mixpanel/Mixpanel'
-import device from './utils/device'
 
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
@@ -18,6 +16,7 @@ const LineItems = lazy(() => import('./pages/LineItems.page'))
 const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
+const NotAvailable = lazy(() => import('./pages/NotAvailable'))
 
 type Props = {
     component: React.ComponentType<any>

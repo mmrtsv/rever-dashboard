@@ -4,6 +4,8 @@ import NoAvailable from '../../assets/images/noAvailable.png'
 import { useNavigate } from 'react-router-dom'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '../../redux/hooks'
+import { Sizes } from '../../utils/device'
 
 interface LineItemByStatusProps {
     lineItem: ModelsPublicReturnLineItem
@@ -21,24 +23,29 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
     const handleClickItem = () => {
         navigate(`/details/${lineItem.rever_id}`)
     }
+    const BarOpen = useAppSelector((store) => store.appState.isSidebarOpen)
 
     return (
-        <LineItemCard data-testid="LineItemCard" onClick={handleClickItem}>
-            <div>
+        <LineItemCard
+            barOpen={BarOpen}
+            data-testid="LineItemCard"
+            onClick={handleClickItem}
+        >
+            <OrderID>
                 <span className="text-xs">{t('status_card.order_id')}</span>
                 <span>
                     {lineItem.return_process?.customer_printed_order_id}
                 </span>
-            </div>
+            </OrderID>
             <ProductDisplay>
                 <img
                     className="mr-4 h-16 w-fit"
                     src={imgSrc}
                     alt="ProductImage"
                 />
-                <div>
-                    <div data-testid="ProductName"> {lineItem.name}</div>
-                </div>
+                <ProductName data-testid="ProductName">
+                    {lineItem.name}
+                </ProductName>
             </ProductDisplay>
         </LineItemCard>
     )
@@ -46,7 +53,17 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
 
 export default LineItemByStatus
 
-const LineItemCard = styled.div`
+const OrderID = styled.div`
+    @media (max-width: ${Sizes.md}) {
+        text-align: center;
+    }
+`
+
+interface CardProps {
+    barOpen: boolean
+}
+
+const LineItemCard = styled.div<CardProps>`
     margin-top: 0.5rem;
     padding: 1rem;
     border-radius: 0.5rem;
@@ -56,11 +73,21 @@ const LineItemCard = styled.div`
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     cursor: pointer;
+    width: 100%;
 `
 
 const ProductDisplay = styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
+`
+
+const ProductName = styled.div`
+    width: 100%;
+    text-align: center;
+    @media (max-width: ${Sizes.md}) {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 `
