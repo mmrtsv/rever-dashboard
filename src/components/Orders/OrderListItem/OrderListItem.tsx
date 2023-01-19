@@ -35,7 +35,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
                 </OrderNumber>
                 <ProductInfo>
                     <img
-                        className="mr-4 h-14 w-fit"
+                        className="mr-4 h-14 w-auto"
                         src={imgSrc}
                         alt="ProductImage"
                     />
