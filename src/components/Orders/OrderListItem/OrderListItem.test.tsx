@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, cleanup } from '@testing-library/react'
-import { afterEach, describe, it, vi, expect } from 'vitest'
+import { afterEach, describe, it, expect } from 'vitest'
 import OrderListItem from './OrderListItem'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
@@ -11,7 +11,11 @@ describe('Order List Item test', () => {
     it('should display the correct information when availWidth >= 1024px', () => {
         const item: ModelsPublicReturnLineItem = lineItem()
 
-        vi.spyOn(window.screen, 'availWidth', 'get').mockReturnValue(1024)
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 1024
+        })
 
         render(
             <Router>

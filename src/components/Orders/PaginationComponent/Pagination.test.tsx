@@ -144,4 +144,30 @@ describe('Pagination Component Test', () => {
         // Check onChange
         expect(spyOnChange).toHaveBeenCalledTimes(0)
     })
+
+    it('should not render the limitter when availWidth < 600', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 599
+        })
+
+        render(
+            <Router>
+                <I18nextProvider i18n={i18n}>
+                    <Pagination
+                        actualPage={0}
+                        setActualPage={() => null}
+                        limit={25}
+                        setLimit={() => null}
+                        maxPage={1}
+                    />
+                </I18nextProvider>
+            </Router>
+        )
+        // limitter still in DOM
+        const limitter = screen.getAllByRole('button')[0]
+        expect(limitter.offsetHeight).toBe(0)
+        expect(limitter.offsetWidth).toBe(0)
+    })
 })

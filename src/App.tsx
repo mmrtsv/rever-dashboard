@@ -16,7 +16,6 @@ const LineItems = lazy(() => import('./pages/LineItems.page'))
 const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
-const NotAvailable = lazy(() => import('./pages/NotAvailable'))
 
 type Props = {
     component: React.ComponentType<any>
@@ -65,57 +64,41 @@ function App() {
         return <Component />
     }
 
-    const width = screen.availWidth
-
     return (
         <Router>
             <Suspense fallback={<Loading loading={true} />}>
-                {width < 1 ? (
-                    <NotAvailable />
-                ) : (
-                    <Routes>
-                        <Route path="/login" element={<LoginPage />} />
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
 
-                        <Route element={<Layout />}>
-                            <Route
-                                path="/"
-                                element={
-                                    <ProtectedRoute component={LineItems} />
-                                }
-                            />
-                            <Route
-                                path="/orders"
-                                element={
-                                    <ProtectedRoute
-                                        component={LineItemsByStatus}
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/dashboard"
-                                element={
-                                    <ProtectedRoute component={Analytics} />
-                                }
-                            />
-                            <Route
-                                path="/returns"
-                                element={
-                                    <ProtectedRoute
-                                        component={ReturnsAnalytics}
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/details/:id"
-                                element={
-                                    <ProtectedRoute
-                                        component={LineItemDetails}
-                                    />
-                                }
-                            />
-                        </Route>
-                    </Routes>
-                )}
+                    <Route element={<Layout />}>
+                        <Route
+                            path="/"
+                            element={<ProtectedRoute component={LineItems} />}
+                        />
+                        <Route
+                            path="/orders"
+                            element={
+                                <ProtectedRoute component={LineItemsByStatus} />
+                            }
+                        />
+                        <Route
+                            path="/dashboard"
+                            element={<ProtectedRoute component={Analytics} />}
+                        />
+                        <Route
+                            path="/returns"
+                            element={
+                                <ProtectedRoute component={ReturnsAnalytics} />
+                            }
+                        />
+                        <Route
+                            path="/details/:id"
+                            element={
+                                <ProtectedRoute component={LineItemDetails} />
+                            }
+                        />
+                    </Route>
+                </Routes>
             </Suspense>
         </Router>
     )
