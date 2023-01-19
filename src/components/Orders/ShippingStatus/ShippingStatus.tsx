@@ -1,7 +1,6 @@
 import React from 'react'
 import _ from '../../../@lodash/@lodash'
 import clsx from 'clsx'
-import styled from 'styled-components'
 
 export const ShippingStatuses = [
     {

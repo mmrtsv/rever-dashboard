@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import NoAvailable from '../../../assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { Sizes } from '../../../utils/device'
-import device from '../../../utils/device'
 
 export interface OrderListItemProps {
     lineItem: ModelsPublicReturnLineItem
@@ -19,8 +18,6 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
     const handleClickItem = () => {
         navigate(`/details/${lineItem.rever_id}`)
     }
-
-    const screenWidth = window.screen.availWidth
 
     return (
         <OrderListItemCard
@@ -53,7 +50,6 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
                 <RightBox>
                     <NameBox>
                         <TextBoxes data-testid="Name">
-                            {' '}
                             {lineItem?.return_process?.customer?.first_name +
                                 ' ' +
                                 lineItem?.return_process?.customer?.last_name}
@@ -73,15 +69,15 @@ const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
         </OrderListItemCard>
     )
 }
+
+export default OrderListItem
+
 const LeftBox = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    /* @media (max-width: ${Sizes.md}) {
-        flex-direction: column;
-    } */
 `
 const RightBox = styled.div`
     display: flex;
@@ -163,4 +159,3 @@ const ProductDisplay = styled.div`
         margin: 0;
     }
 `
-export default OrderListItem

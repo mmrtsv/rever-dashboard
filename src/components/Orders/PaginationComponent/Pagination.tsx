@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
+import device, { Sizes } from '../../../utils/device'
 
 interface SearchProps {
     actualPage: number
@@ -26,30 +27,32 @@ const Pagination: React.FC<SearchProps> = ({
     return (
         <>
             <PaginationBox>
-                <Select
-                    sx={{
-                        backgroundColor: '#fff',
-                        width: '150px',
-                        boxShadow:
-                            '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-                        border: '1px solid #ccc',
-                        borderRadius: '5px'
-                    }}
-                    value={limit}
-                    onChange={(event: any) => {
-                        setLimit(event.target.value)
-                    }}
-                >
-                    <MenuItem value={25}>
-                        25 {t('orders_table.pagination')}
-                    </MenuItem>
-                    <MenuItem value={50}>
-                        50 {t('orders_table.pagination')}
-                    </MenuItem>
-                    <MenuItem value={100}>
-                        100 {t('orders_table.pagination')}
-                    </MenuItem>
-                </Select>
+                <Selector>
+                    <Select
+                        sx={{
+                            backgroundColor: '#fff',
+                            width: '150px',
+                            boxShadow:
+                                '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+                            border: '1px solid #ccc',
+                            borderRadius: '5px'
+                        }}
+                        value={limit}
+                        onChange={(event: any) => {
+                            setLimit(event.target.value)
+                        }}
+                    >
+                        <MenuItem value={25}>
+                            25 {t('orders_table.pagination')}
+                        </MenuItem>
+                        <MenuItem value={50}>
+                            50 {t('orders_table.pagination')}
+                        </MenuItem>
+                        <MenuItem value={100}>
+                            100 {t('orders_table.pagination')}
+                        </MenuItem>
+                    </Select>
+                </Selector>
 
                 <PaginationDiv>
                     <PaginationButton
@@ -172,12 +175,19 @@ const Pagination: React.FC<SearchProps> = ({
                 </PaginationDiv>
             </PaginationBox>
 
-            <div className="mt-2 flex justify-end text-xs">
+            <div className="mt-2 flex justify-center text-xs md:justify-end">
                 {maxPage + t('orders_table.total_page')}
             </div>
         </>
     )
 }
+
+const Selector = styled.div`
+    // Not display under 600px
+    @media (max-width: ${Sizes.md}) {
+        display: none;
+    }
+`
 
 const PaginationDiv = styled.div`
     display: flex;
@@ -229,8 +239,11 @@ const PaginationButton = styled.button`
 const PaginationBox = styled.div`
     margin-top: 2rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
+    @media ${device.md} {
+        justify-content: flex-end;
+    }
 `
 
 export default Pagination
