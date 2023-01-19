@@ -31,13 +31,6 @@
         "label": "Filter"
     },
     "select_reason": {
-        "reason2": "Wrong color",
-        "reason3": "Different than expected",
-        "reason4": "Defective item",
-        "reason5": "I changed my mind",
-        "reason6": "I received a wrong item",
-        "reason7": "Too small",
-        "reason8": "Too large",
         "WRONG_COLOR": "Wrong color",
         "NOT_AS_EXPECTED": "Different than expected",
         "DEFECTIVE": "Defective item",

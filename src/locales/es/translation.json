@@ -31,13 +31,6 @@
         "label": "Filtro"
     },
     "select_reason": {
-        "reason2": "Color equivocado",
-        "reason3": "Diferente de lo esperado",
-        "reason4": "Objeto defectuoso",
-        "reason5": "He cambiado de opinión",
-        "reason6": "He recibido un artículo equivocado",
-        "reason7": "Demasiado pequeño",
-        "reason8": "Demasiado grande",
         "WRONG_COLOR": "Color equivocado",
         "NOT_AS_EXPECTED": "Diferente de lo esperado",
         "DEFECTIVE": "Objeto defectuoso",
