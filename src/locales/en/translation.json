@@ -31,13 +31,14 @@
         "label": "Filter"
     },
     "select_reason": {
-        "reason2": "Wrong color",
-        "reason3": "Different than expected",
-        "reason4": "Defective item",
-        "reason5": "I changed my mind",
-        "reason6": "I received a wrong item",
-        "reason7": "Too small",
-        "reason8": "Too large"
+        "WRONG_COLOR": "Wrong color",
+        "NOT_AS_EXPECTED": "Different than expected",
+        "DEFECTIVE": "Defective item",
+        "CHANGED_MY_MIND": "I changed my mind",
+        "WRONG_ITEM": "I received a wrong item",
+        "WRONG_SIZE_TOO_SMALL": "Too small",
+        "WRONG_SIZE_TOO_BIG": "Too large",
+        "NOT_RECEIVED": "I didn't receive my order"
     },
     "details_page": {
         "email": "Email",

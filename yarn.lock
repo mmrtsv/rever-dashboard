@@ -511,10 +511,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@itsrever/dashboard-api@^1.0.96":
-  version "1.0.96"
-  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.96/ea0eb33deceab3fc08bcfe4ee286499e0ea28f00#ea0eb33deceab3fc08bcfe4ee286499e0ea28f00"
-  integrity sha512-XtDO6fWR9nagVwswXp2Sx9rMVM9OayqKdF3Tk+Z9tuieSjuUs/ezXr05bQpxyk0iMPij9+6HhecjADqvbutmgw==
+"@itsrever/dashboard-api@^1.0.97":
+  version "1.0.97"
+  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.97/886e236d19c801b1e45a25a1295c390d5cc5c0ee#886e236d19c801b1e45a25a1295c390d5cc5c0ee"
+  integrity sha512-IC7tM0wZL7vwmKSYvDMXxre/KEsQdxyhw0b84B3TmGEg8v/fNGlmLn0L/CX5MmczuICQrQmZkSXBgBnlBg5y8w==
   dependencies:
     axios "^1.1.3"
 

@@ -63,19 +63,9 @@ function RetLineItemDetails() {
 
     const typeOfReturn = LineItem?.return_process?.return_method
     const typeOfRefund = LineItem?.action
-    const returnReason = LineItem?.return_reason
+    const productReturnReason = LineItem?.product_return_reason
     const trackingId = LineItem?.return_process?.tracking_id
     const trackingUrl = LineItem?.return_process?.tracking_url
-
-    const REASONS = [
-        t('select_reason.reason2'),
-        t('select_reason.reason3'),
-        t('select_reason.reason4'),
-        t('select_reason.reason5'),
-        t('select_reason.reason6'),
-        t('select_reason.reason7'),
-        t('select_reason.reason8')
-    ]
 
     return (
         <PageComponent>
@@ -227,8 +217,10 @@ function RetLineItemDetails() {
                                         {t('details_page.reason')}
                                     </span>
                                     <div className="mt-4 text-center">
-                                        {returnReason
-                                            ? REASONS[returnReason - 2]
+                                        {productReturnReason
+                                            ? t(
+                                                  `select_reason.${productReturnReason}`
+                                              )
                                             : 'No reason catched'}
                                     </div>
                                 </SingleInfo>
