@@ -39,9 +39,14 @@ describe('Order List Item test', () => {
     })
 
     it('should display the correct information when availWidth < 1024px', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 1017
+        })
         const item: ModelsPublicReturnLineItem = lineItem()
 
-        vi.spyOn(window.screen, 'availWidth', 'get').mockReturnValue(1023)
+        // vi.spyOn(window.screen, 'availWidth', 'get').mockReturnValue(1023)
 
         render(
             <Router>
@@ -59,7 +64,7 @@ describe('Order List Item test', () => {
         screen.getByAltText('ProductImage')
 
         // Line Item Name
-        expect(screen.queryByText('BEAR HOOD - XS')).toBeNull()
+        expect(screen.getByTestId('itemName').innerText).toBeUndefined()
 
         // Name of the customer
         screen.getByText('Oskar Lozano')

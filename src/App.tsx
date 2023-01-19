@@ -70,7 +70,7 @@ function App() {
     return (
         <Router>
             <Suspense fallback={<Loading loading={true} />}>
-                {width < 768 ? (
+                {width < 1 ? (
                     <NotAvailable />
                 ) : (
                     <Routes>
