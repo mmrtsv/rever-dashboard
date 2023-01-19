@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { render, screen, cleanup } from '@testing-library/react'
 import { afterEach, describe, it, vi, expect } from 'vitest'
 import { UserMenu, userOptions } from './UserMenu'
 import { Provider } from 'react-redux'
@@ -11,8 +11,12 @@ import i18n from '../../../../i18nForTests'
 describe('UserMenu testing', () => {
     afterEach(cleanup)
 
-    it('should render user name and account icon when availWidth >= 600', () => {
-        vi.spyOn(window.screen, 'availWidth', 'get').mockReturnValue(600)
+    it('should render user name and account icon when availWidth >= 900', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 900
+        })
 
         const mockStore = configureStore()
         const store = mockStore()
@@ -31,8 +35,12 @@ describe('UserMenu testing', () => {
         screen.getByTestId('AccountCircleIcon')
     })
 
-    it('should only render account icon when availWidth < 600', () => {
-        vi.spyOn(window.screen, 'availWidth', 'get').mockReturnValue(599)
+    it('should only render account icon when availWidth < 900', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 899
+        })
 
         const mockStore = configureStore()
         const store = mockStore()
@@ -46,8 +54,7 @@ describe('UserMenu testing', () => {
                 </Provider>
             </Router>
         )
-
-        expect(screen.queryByTestId('UserName')).toBeNull()
+        expect(screen.getByTestId('UserName').innerText).toBeUndefined()
         screen.getByTestId('AccountCircleIcon')
     })
 

@@ -26,6 +26,7 @@ import { toggleSidebar } from '../../../../redux/features/appState/appStateSlice
 import { useTranslation } from 'react-i18next'
 import { FlagrEvalPost } from '../../../../services/flagr.api'
 
+export const drawerWidth = 240
 export const drawerList1 = ['home', 'orders']
 export const drawerList2 = ['analytics', 'financials', 'returns']
 
@@ -43,8 +44,6 @@ export interface DrawerProps {
 }
 
 const DrawerComponent = () => {
-    const drawerWidth = 240
-
     const navigate = useNavigate()
     const theme = useTheme()
     const dispatch = useAppDispatch()

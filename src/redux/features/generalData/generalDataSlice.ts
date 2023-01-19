@@ -31,14 +31,10 @@ export enum ShippingStatus {
 
 interface State {
     selectedEcommerce?: string
-    group?: string
-    ecommerceList?: string[]
 }
 
 const initialState: State = {
-    selectedEcommerce: undefined,
-    group: undefined,
-    ecommerceList: []
+    selectedEcommerce: undefined
 }
 
 const generalDataSlice = createSlice({
@@ -47,16 +43,9 @@ const generalDataSlice = createSlice({
     reducers: {
         setSelectedEcommerce(state, action) {
             state.selectedEcommerce = action.payload
-        },
-        setGroup(state, action) {
-            state.group = action.payload
-        },
-        setEcommerceList(state, action) {
-            state.ecommerceList = action.payload
         }
     }
 })
 
-export const { setSelectedEcommerce, setEcommerceList, setGroup } =
-    generalDataSlice.actions
+export const { setSelectedEcommerce } = generalDataSlice.actions
 export default generalDataSlice.reducer
