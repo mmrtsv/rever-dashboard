@@ -33,7 +33,7 @@ const LineItemByStatus: React.FC<LineItemByStatusProps> = ({ lineItem }) => {
             </OrderID>
             <ProductDisplay>
                 <img
-                    className="mr-4 h-16 w-fit"
+                    className="mr-4 h-16 w-auto"
                     src={imgSrc}
                     alt="ProductImage"
                 />

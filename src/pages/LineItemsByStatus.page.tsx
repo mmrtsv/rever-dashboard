@@ -236,6 +236,20 @@ const TableDiv = styled.div<TableProps>`
     }
 `
 
+interface TableProps {
+    barOpen: boolean
+}
+
+const TableDiv = styled.div<TableProps>`
+    width: 100%;
+    @media ${device.lg} {
+        width: ${(p) => (p.barOpen ? '' : '860px')};
+    }
+    @media ${device.xl} {
+        width: 860px;
+    }
+`
+
 const TitlesDiv = styled.div`
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
