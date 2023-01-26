@@ -524,12 +524,12 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@itsrever/dashboard-api@^1.0.10":
-  version "1.0.10"
-  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.10/86ce11a18d61b6c8498eca08bd62007b17861a19#86ce11a18d61b6c8498eca08bd62007b17861a19"
-  integrity sha512-Cm78a3caJY77vVCsKoWmwwNICl7HTiORKKi6dKHG3bWVZggfpVWUTXMO3G1UBoS5Q3L08HZ0Cl7ftQLOjRitGw==
+"@itsrever/dashboard-api@^1.0.108":
+  version "1.0.108"
+  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.108/a8744a295eb76e1952b3c4016fd3469c10e5845c#a8744a295eb76e1952b3c4016fd3469c10e5845c"
+  integrity sha512-PkLxMg/FbChoJjYo5kjXmb5vYJhIMabtynn1FLL1GIyp4xLPKgKngba1Pp9Aq94JQmxuwKLVvHBAK7rL9U8ksw==
   dependencies:
-    axios "^1.1.3"
+    axios "1.2.2"
 
 "@itsrever/design-system@^1.0.47":
   version "1.0.48"
@@ -1507,15 +1507,6 @@ axios@1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.2.tgz#72681724c6e6a43a9fea860fc558127dbe32f9f1"
   integrity sha512-bz/J4gS2S3I7mpN/YZfGFTqhXTYzRho8Ay38w2otuuDR322KzFIWm/4W2K6gIwvWaws5n+mnb7D1lN9uD+QH6Q==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
-axios@^1.1.3:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.4.tgz#6555dd955d2efa9b8f4cb4cb0b3371b7b243537a"
-  integrity sha512-lIQuCfBJvZB/Bv7+RWUqEJqNShGOVpk9v7P0ZWx5Ip0qY6u7JBAU6dzQPMLasU9vHL2uD8av/1FDJXj7n6c39w==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
