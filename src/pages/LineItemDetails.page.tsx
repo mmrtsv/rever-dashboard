@@ -12,6 +12,7 @@ import {
 } from '../redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import Loading from '../components/Loading/Loading'
+import device from '../utils/device'
 
 function RetLineItemDetails() {
     const theme = useTheme()
@@ -280,14 +281,22 @@ const MainDiv = styled.div`
     justify-content: center;
     padding: 1rem;
     height: 100%;
+    overflow-y: scroll;
 `
 
 const InfoDiv = styled.div`
-    display: grid;
-    grid-template-columns: minmax(0px, 1fr) minmax(0px, 3fr);
-    gap: 2rem;
+    display: flex;
+    flex-direction: column-reverse;
     max-width: 100%;
     width: fit-content;
+    height: fit-content;
+    @media ${device.md} {
+        display: grid;
+        grid-template-columns: minmax(0px, 1fr) minmax(0px, 3fr);
+        gap: 2rem;
+        max-width: 100%;
+        width: fit-content;
+    }
 `
 
 interface BoxProps {
@@ -396,6 +405,7 @@ const OrderDetails = styled.div`
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
+    margin-bottom: 2rem;
 `
 
 interface SingleInfoProps {
