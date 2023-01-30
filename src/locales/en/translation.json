@@ -10,10 +10,11 @@
         "analytics": "Analytics",
         "orders": "Orders",
         "financials": "Finance",
-        "returns": "Returns"
+        "returns": "Returns",
+        "items": "Items"
     },
     "search_component": {
-        "search": "Search"
+        "search": "Search..."
     },
     "status_card": {
         "order_id": "Order ID: "
@@ -24,8 +25,8 @@
         "total_page": " total pages"
     },
     "status_page": {
-        "pending_title": "Pending to receive",
-        "completed_title": "Completed"
+        "pending_title": "PENDING TO RECEIVE",
+        "completed_title": "COMPLETED"
     },
     "selector_component": {
         "label": "Filter"
@@ -54,5 +55,55 @@
         "reason": "Reason",
         "denied_title": "Why was it denied",
         "tracking": "Tracking information"
+    },
+    "topbar_components": {
+        "returns": "Returns",
+        "all": "All",
+        "action_needed": "In progress",
+        "accepted": "Completed"
+    },
+    "topbar_items": {
+        "returned_items": "Returned items",
+        "all": "All",
+        "pending": "Pending to receive",
+        "received": "Received"
+    },
+    "order_details": {
+        "date": "Return date",
+        "order_id": "Order ID",
+        "image": "Image",
+        "product_name": "Product name",
+        "quantity": "Quantity",
+        "status": "Status",
+        "customer": "Customer",
+        "shop": "Shop",
+        "approve": "Approve",
+        "decline": "Decline",
+        "missing": "Missing",
+        "review": "Review",
+        "submit": "Submit Review",
+        "total": "Total items",
+        "review_status": "Review status",
+        "order": "Order",
+        "order_status": "Order status",
+        "shipping_status": "Shipping status",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address",
+        "products": "Products",
+        "order_details": "Order details",
+        "summary": "Summary"
+    },
+    "summary": {
+        "total": "Total refund: ",
+        "coupon_amount": "Coupon refund amount: ",
+        "gift_card_amount": "Gift card refund amount: ",
+        "bank_transfer_amount": "Bank transfer refund amount: ",
+        "OPM_amount": "Original payment method refund amount: ",
+        "final_balance": "Final balance: ",
+        "reason_exchange": "Reason for exchange: ",
+        "reason_refund": "Reason for refund: ",
+        "quantity": "Quantity: "
     }
 }

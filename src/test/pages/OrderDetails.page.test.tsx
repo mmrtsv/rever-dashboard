@@ -9,32 +9,32 @@ import thunk from 'redux-thunk'
 import i18n from '../../i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 
-import LineItemsPage from '../../pages/LineItems.page'
+import OrderDetails from '../../pages/OrderDetails.page'
 
-describe('Line Items Page', () => {
+describe('Order Details Page', () => {
     const middlewares = [thunk]
     const mockStore = configureStore(middlewares)
-    const state = reduxState()
     afterEach(cleanup)
 
-    it('should render the correct elements - Filter , selector, orders table and pagination', () => {
+    it('should render the correct elements - OrderID, Customer Information and Line Items', () => {
+        const state = reduxState()
         const store = mockStore(state)
         render(
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
                         <ThemeProvider>
-                            <LineItemsPage />
+                            <OrderDetails />
                         </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
         )
-        screen.getAllByText('Search...')
-        screen.getByTestId('filter')
-        screen.getByTestId('OrdersTable')
-        screen.getByText('2 total pages')
-        screen.getByText('10 / page')
+        screen.getByRole('heading', { name: 'ORDER ID:' })
+        screen.getByRole('heading', { name: '' })
+        screen.getByRole('heading', { name: 'CUSTOMER INFORMATION' })
+        screen.getByText('Address')
+        screen.getByTestId('LineItems')
     })
 })
 
@@ -46,32 +46,21 @@ function reduxState() {
         tokenData: {
             token: 'xxxx'
         },
-        lineItemsApi: {
-            getLineItems: {
+        processesApi: {
+            getProcess: {
                 loading: 'idle',
-                response: { next: '', rowcount: 17, line_items: [] }
-            },
-            getPendingLineItems: {
-                loading: 'idle',
-                response: { next: '', rowcount: 17, line_items: [] }
-            },
-            getCompletedLineItems: {
-                loading: 'idle',
-                response: { next: '', rowcount: 17, line_items: [] }
+                response: {}
             }
         },
         userApi: {
             getMe: {
-                response: {
-                    user: {
-                        ecommerces: ['nude', 'artesta']
-                    }
-                },
+                response: {},
                 Loading: 'idle'
             }
         },
         generalData: {
-            selectedEcommerce: 'nude'
+            group: 'nudeproject',
+            ecommerceList: ['nudeproject']
         }
     }
 }

@@ -57,9 +57,9 @@ export const UserMenu = () => {
         <Box data-testid="UserMenu" sx={{ flexGrow: 0 }}>
             <Tooltip title="Settings">
                 <div onClick={handleOpenUserMenu} className="cursor-pointer">
-                    <UserEmail data-testid="UserName">
+                    {/* <UserEmail data-testid="UserName">
                         {user && user.name}
-                    </UserEmail>
+                    </UserEmail> */}
 
                     <IconButton sx={{ p: 0 }}>
                         <AccountCircle fontSize="large" />

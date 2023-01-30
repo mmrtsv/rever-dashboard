@@ -20,7 +20,7 @@ describe('FilterComponent Test', () => {
                 </I18nextProvider>
             </Router>
         )
-        screen.getByLabelText('Search')
+        screen.getByLabelText('Search...')
     })
 
     it('should display the texts passed', () => {

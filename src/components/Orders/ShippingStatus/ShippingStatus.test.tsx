@@ -15,11 +15,11 @@ describe('ShippingStatus test', () => {
                 ))}
             </Router>
         )
-        screen.getByText('NO SHIPPING STATUS')
-        screen.getByText('CREATED')
-        screen.getByText('COLLECTED')
-        screen.getByText('IN WAREHOUSE')
-        screen.getByText('ERROR')
-        screen.getByText('CANCELLED')
+        screen.getByText('No status')
+        screen.getByText('Created')
+        screen.getByText('Collected')
+        screen.getByText('In warehouse')
+        screen.getByText('Error')
+        screen.getByText('Cancelled')
     })
 })

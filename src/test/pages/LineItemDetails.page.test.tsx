@@ -13,10 +13,10 @@ import { I18nextProvider } from 'react-i18next'
 import LineItemDetails from '../../pages/LineItemDetails.page'
 
 describe('Line Items Details Page', () => {
-    const retLineItem: ModelsPublicReturnLineItem = {
+    const LineItem: ModelsPublicReturnLineItem = {
         name: 'OREGANO HOOD GREEN - M',
         return_process: {
-            customer_printed_order_id: '#166558',
+            customer_printed_order_id: 'ES-16658',
             customer: {
                 first_name: 'David',
                 last_name: 'Overflow',
@@ -35,18 +35,61 @@ describe('Line Items Details Page', () => {
         }
     }
 
-    const loggedInState = {
-        authApi: {
-            login: { loading: 'idle', response: {} }
-        },
-        userData: {
-            user: {
-                name: 'admin@partner.com',
-                avatar: 'https://cdn-icons-png.flaticon.com/512/187/187134.png',
-                role: 'admin',
-                group: 'REVER'
-            }
-        },
+    const middlewares = [thunk]
+    const mockStore = configureStore(middlewares)
+    afterEach(cleanup)
+
+    it('should render the left column elements correctly', () => {
+        const state = reduxState(LineItem)
+        const store = mockStore(state)
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <LineItemDetails />
+                        </ThemeProvider>
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        screen.getByAltText('ProductImage')
+        screen.getByRole('heading')
+        screen.getByTestId('CustomerName')
+        screen.getByTestId('Email')
+        screen.getByText('Address')
+        screen.getByTestId('ReturnDate')
+        screen.getAllByText('Pending')
+    })
+
+    it('should the right elements correctly', () => {
+        const state = reduxState(LineItem)
+        const store = mockStore(state)
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <LineItemDetails />
+                        </ThemeProvider>
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        screen.getByTestId('ProductName')
+        screen.getByText('Pending to receive')
+        screen.getByText('Completed')
+        screen.getByText('Amount')
+        screen.getByText('Type of return')
+        screen.getByText('Type of refund')
+        screen.getByText('Reason')
+        screen.getByText('Tracking information')
+        screen.getByText('Why was it denied')
+    })
+})
+
+function reduxState(retLineItem: ModelsPublicReturnLineItem) {
+    return {
         appState: {
             isSidebarOpen: false
         },
@@ -70,48 +113,4 @@ describe('Line Items Details Page', () => {
             ecommerceList: ['nudeproject']
         }
     }
-
-    const middlewares = [thunk]
-    const mockStore = configureStore(middlewares)
-    let store
-    afterEach(cleanup)
-
-    it('should be loading if not returned item', () => {
-        store = mockStore(loggedInState)
-        render(
-            <Router>
-                <Provider store={store}>
-                    <I18nextProvider i18n={i18n}>
-                        <ThemeProvider>
-                            <LineItemDetails />
-                        </ThemeProvider>
-                    </I18nextProvider>
-                </Provider>
-            </Router>
-        )
-        screen.getByAltText('REVER')
-        screen.getByTestId('spinner')
-    })
-
-    // it('should render the left column correctly', () => {
-    //     store = mockStore(loggedInState)
-    //     render(
-    //         <Router>
-    //             <Provider store={store}>
-    //                 <ThemeProvider>
-    //                     <LineItemDetails />
-    //                 </ThemeProvider>
-    //             </Provider>
-    //         </Router>
-    //     )
-    //     screen.getByAltText('ProductImage')
-    //     screen.getByText('#166558')
-    //     screen.getByText('David Overflow')
-    //     screen.getByText('david.overflow@itsrever.com')
-    //     screen.getByText('Francesc Macia')
-    //     screen.getByText('6to piso')
-    //     screen.getByText('Barcelona, 08017, Spain')
-    //     screen.getByTestId('ReturnDate')
-    //     screen.getAllByText('Pending')
-    // })
-})
+}

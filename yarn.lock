@@ -524,14 +524,14 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@itsrever/dashboard-api@^1.0.108":
-  version "1.0.108"
-  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.108/a8744a295eb76e1952b3c4016fd3469c10e5845c#a8744a295eb76e1952b3c4016fd3469c10e5845c"
-  integrity sha512-PkLxMg/FbChoJjYo5kjXmb5vYJhIMabtynn1FLL1GIyp4xLPKgKngba1Pp9Aq94JQmxuwKLVvHBAK7rL9U8ksw==
+"@itsrever/dashboard-api@^1.0.111":
+  version "1.0.111"
+  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.111/0cbde7dda7d7335451e211ddb7b7f41d9b95ffab#0cbde7dda7d7335451e211ddb7b7f41d9b95ffab"
+  integrity sha512-cSvfqaiisBzr3Yqn5apgHd5IIv6UCF1mjLMgj1tWvqoplp/bt8/YI7ea9aoZ9aJaHNNREs4h4EreFsCakJN1yg==
   dependencies:
     axios "1.2.2"
 
-"@itsrever/design-system@^1.0.47":
+"@itsrever/design-system@^1.0.48":
   version "1.0.48"
   resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.48/d3b069cea53329570dea9d544fceab809375aa0c#d3b069cea53329570dea9d544fceab809375aa0c"
   integrity sha512-NtgE+bhpU55Ji2HQK1uLD9kro7DPYiaRfgUCsyTSUKkeqbwHa8CUZN4GbCUKKTZT115Qazyo1Q5h5IfQ9lRurw==
@@ -682,7 +682,7 @@
   dependencies:
     "@babel/runtime" "^7.20.6"
 
-"@mui/material@^5.10.10", "@mui/material@^5.10.8":
+"@mui/material@^5.10.8", "@mui/material@^5.11.6":
   version "5.11.6"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.11.6.tgz#0055e7bdf5f89bb7f2a5cf0a3252dadfc9122c50"
   integrity sha512-MzkkL5KC2PCkFiv8cLpkzgLUPXSrAtnvJBR0emV7mLVWbkwV3n5832vjBx154B6R032fHjFTziTh7YEb50nK6Q==

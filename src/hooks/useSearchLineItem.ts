@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchLineItem(reverID: string) {
     const dispatch = useAppDispatch()
+    const token = useAppSelector((state) => state.tokenData.token)
 
     const lineItemsApiLineItem = useAppSelector(
         (store) => store.lineItemsApi.getLineItem
@@ -14,12 +15,13 @@ export function useSearchLineItem(reverID: string) {
     >()
 
     useEffect(() => {
-        dispatch(
-            getLineItem({
-                lineItemsId: reverID
-            })
-        )
-    }, [reverID])
+        if (token)
+            dispatch(
+                getLineItem({
+                    lineItemsId: reverID
+                })
+            )
+    }, [reverID, token])
 
     useEffect(() => {
         if (lineItemsApiLineItem.loading === 'succeeded') {

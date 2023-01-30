@@ -9,9 +9,9 @@ import thunk from 'redux-thunk'
 import i18n from '../../i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 
-import LineItemsPage from '../../pages/LineItems.page'
+import Orders from '../../pages/Orders.page'
 
-describe('Line Items Page', () => {
+describe('Order Page test', () => {
     const middlewares = [thunk]
     const mockStore = configureStore(middlewares)
     const state = reduxState()
@@ -24,7 +24,7 @@ describe('Line Items Page', () => {
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
                         <ThemeProvider>
-                            <LineItemsPage />
+                            <Orders />
                         </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
@@ -32,9 +32,11 @@ describe('Line Items Page', () => {
         )
         screen.getAllByText('Search...')
         screen.getByTestId('filter')
-        screen.getByTestId('OrdersTable')
-        screen.getByText('2 total pages')
-        screen.getByText('10 / page')
+        screen.getAllByText('Pending to review')
+        screen.getAllByText('Reviewed')
+        screen.getAllByTestId('OrdersTable')
+        screen.getAllByText('1 total pages')
+        screen.getByText('25 / page')
     })
 })
 
@@ -46,16 +48,8 @@ function reduxState() {
         tokenData: {
             token: 'xxxx'
         },
-        lineItemsApi: {
-            getLineItems: {
-                loading: 'idle',
-                response: { next: '', rowcount: 17, line_items: [] }
-            },
-            getPendingLineItems: {
-                loading: 'idle',
-                response: { next: '', rowcount: 17, line_items: [] }
-            },
-            getCompletedLineItems: {
+        processesApi: {
+            getProcesses: {
                 loading: 'idle',
                 response: { next: '', rowcount: 17, line_items: [] }
             }

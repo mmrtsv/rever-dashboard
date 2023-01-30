@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import { getLineItems, resetLineItemsApiCalls } from '../redux/api/lineItemsApi'
+import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
+import { getProcesses, resetProcessesApiCalls } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchLineItems(
+export function useSearchOrders(
     pageNum: number,
     limit: number,
     freeText: string,
@@ -12,20 +12,20 @@ export function useSearchLineItems(
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.tokenData.token)
 
-    const lineItemsApiLineItems = useAppSelector(
-        (store) => store.lineItemsApi.getLineItems
+    const processesApiGetProcesses = useAppSelector(
+        (store) => store.processesApi.getProcesses
     )
-    const [LineItems, setLineItems] = useState<
-        ModelsPublicReturnLineItem[] | undefined
+    const [Orders, setOrders] = useState<
+        ModelsPublicReturnProcess[] | undefined
     >([])
 
-    const totalLineItems = lineItemsApiLineItems.response.rowcount
+    const totalOrders = processesApiGetProcesses.response.rowcount
 
     useEffect(() => {
         if (token)
             if (freeText.length > 2) {
                 dispatch(
-                    getLineItems({
+                    getProcesses({
                         freetext: freeText,
                         offset: pageNum * limit,
                         limit: limit,
@@ -34,7 +34,7 @@ export function useSearchLineItems(
                 )
             } else if (freeText.length === 0) {
                 dispatch(
-                    getLineItems({
+                    getProcesses({
                         offset: pageNum * limit,
                         limit: limit,
                         ecommerceId: selectedEcommerce
@@ -44,15 +44,15 @@ export function useSearchLineItems(
     }, [pageNum, limit, freeText, selectedEcommerce, token])
 
     useEffect(() => {
-        if (lineItemsApiLineItems.loading === 'succeeded') {
-            setLineItems(lineItemsApiLineItems.response.line_items)
-            dispatch(resetLineItemsApiCalls())
-        } else if (lineItemsApiLineItems.loading === 'failed') {
-            dispatch(resetLineItemsApiCalls())
+        if (processesApiGetProcesses.loading === 'succeeded') {
+            setOrders(processesApiGetProcesses.response.processes)
+            dispatch(resetProcessesApiCalls())
+        } else if (processesApiGetProcesses.loading === 'failed') {
+            dispatch(resetProcessesApiCalls())
         }
-    }, [lineItemsApiLineItems.response, lineItemsApiLineItems.loading])
+    }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
 
-    return { LineItems, totalLineItems }
+    return { Orders, totalOrders }
 }
 
-export default useSearchLineItems
+export default useSearchOrders

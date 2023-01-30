@@ -6,15 +6,9 @@ import styled from 'styled-components'
 function NotAvailable() {
     const theme = useTheme()
 
-    const screenWidth = window.screen.availWidth
-
     return (
         <AnimationDiv bgColor={theme.colors.grey[4]}>
-            <SingleInfo>
-                {screenWidth < 768
-                    ? 'Mobile version not available yet'
-                    : 'Coming soon!'}
-            </SingleInfo>
+            <SingleInfo>Coming soon!</SingleInfo>
 
             <ComingSoonAnimation />
         </AnimationDiv>

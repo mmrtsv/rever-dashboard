@@ -3,7 +3,6 @@ import { Toolbar, Box } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import UserMenu from './UserMenu'
-import logoWide from '../../../assets/images/icons/logoWide.svg'
 import { styled } from '@mui/material/styles'
 import LanguageSwitcher from '../../LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
@@ -51,7 +50,7 @@ const Header = () => {
     return (
         <Box
             data-testid="Header"
-            sx={{ display: 'flex', height: '6.5%', alignContent: 'center' }}
+            sx={{ display: 'flex', height: '60px', alignContent: 'center' }}
         >
             <ReverNavbar
                 id="rever-navbar"
@@ -76,24 +75,17 @@ const Header = () => {
                                 />
                             </div>
                         )}
-
-                        <img
-                            className="cursor-pointer"
-                            onClick={() => navigate('/')}
-                            data-testid="ReverLogo"
-                            src={logoWide}
-                            alt="logo"
-                        />
                     </div>
 
                     <LanguageSwitcher />
-                    <div className="mx-2 flex h-full items-center overflow-x-auto ">
+                    {/* <div className="mx-2 flex h-full items-center overflow-x-auto ">
                         <UserMenu />
-                    </div>
+                    </div> */}
                 </ReverToolbar>
             </ReverNavbar>
             <DrawerComponent />
         </Box>
+        // <DrawerComponent />
     )
 }
 

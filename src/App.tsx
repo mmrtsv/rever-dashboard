@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/LayoutComponent/Layout'
 import { useTranslation } from 'react-i18next'
-import Loading from './components/Loading/Loading'
+import LoadingComponent from './components/Loading/Loading'
 import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
@@ -13,28 +13,32 @@ import Mixpanel from './mixpanel/Mixpanel'
 const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
 const LineItems = lazy(() => import('./pages/LineItems.page'))
-const LineItemsByStatus = lazy(() => import('./pages/LineItemsByStatus.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
+const Orders = lazy(() => import('./pages/Orders.page'))
+const OrderDetails = lazy(() => import('./pages/OrderDetails.page'))
 
 type Props = {
     component: React.ComponentType<any>
     [key: string]: any
 }
 function App() {
-    // Language selection
     const { i18n } = useTranslation()
     const dispatch = useAppDispatch()
-    const userLocale =
-        navigator.languages && navigator.languages.length
-            ? navigator.languages[0]
-            : navigator.language
 
+    // Language selection
     useEffect(() => {
-        if (userLocale.substring(0, 2) === 'es') {
-            i18n.changeLanguage('es')
+        const language = navigator.languages.find((lng) => {
+            if (lng.substring(0, 2) === 'es' || lng.substring(0, 2) === 'en') {
+                return lng
+            }
+        })
+        if (language) {
+            i18n.changeLanguage(language.substring(0, 2))
         }
     }, [])
+
+    // Authentication
     const { getAccessTokenSilently, user } = useAuth0()
 
     useEffect(() => {
@@ -52,6 +56,7 @@ function App() {
 
         Promise.resolve(setAuthToken())
     }, [getAccessTokenSilently])
+
     useEffect(() => {
         if (user) {
             Mixpanel.identify(user.email)
@@ -66,19 +71,26 @@ function App() {
 
     return (
         <Router>
-            <Suspense fallback={<Loading loading={true} />}>
+            <Suspense fallback={<LoadingComponent loading={true} />}>
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
-
                     <Route element={<Layout />}>
+                        {/* <Route
+                            path="/"
+                            element={<ProtectedRoute component={LineItems} />}
+                        /> */}
                         <Route
                             path="/"
+                            element={<ProtectedRoute component={Orders} />}
+                        />
+                        <Route
+                            path="/items"
                             element={<ProtectedRoute component={LineItems} />}
                         />
                         <Route
-                            path="/orders"
+                            path="/return/:id"
                             element={
-                                <ProtectedRoute component={LineItemsByStatus} />
+                                <ProtectedRoute component={OrderDetails} />
                             }
                         />
                         <Route
@@ -86,7 +98,7 @@ function App() {
                             element={<ProtectedRoute component={Analytics} />}
                         />
                         <Route
-                            path="/returns"
+                            path="/returns-analytics"
                             element={
                                 <ProtectedRoute component={ReturnsAnalytics} />
                             }

@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField'
 import * as yup from 'yup'
 import _ from 'lodash'
 import { Button } from '@mui/material'
-import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -143,7 +142,7 @@ const UtilsContainer = styled.div`
     justify-content: space-between;
 `
 
-const RightBox = styled(Box)`
+const RightBox = styled.div`
     position: relative;
     visibility: hidden;
     flex: 1 1 auto;

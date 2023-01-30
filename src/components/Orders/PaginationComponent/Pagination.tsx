@@ -42,14 +42,14 @@ const Pagination: React.FC<SearchProps> = ({
                             setLimit(event.target.value)
                         }}
                     >
+                        <MenuItem value={10}>
+                            10 {t('orders_table.pagination')}
+                        </MenuItem>
                         <MenuItem value={25}>
                             25 {t('orders_table.pagination')}
                         </MenuItem>
                         <MenuItem value={50}>
                             50 {t('orders_table.pagination')}
-                        </MenuItem>
-                        <MenuItem value={100}>
-                            100 {t('orders_table.pagination')}
                         </MenuItem>
                     </Select>
                 </Selector>

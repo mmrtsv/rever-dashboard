@@ -45,14 +45,14 @@ describe('Pagination Component Test', () => {
         expect(fours.length).toBe(1)
     })
 
-    it('should display 25 - 50 - 100 options when clicking on the limitter', () => {
+    it('should display 10 - 25 - 50 options when clicking on the limitter', () => {
         render(
             <Router>
                 <I18nextProvider i18n={i18n}>
                     <Pagination
                         actualPage={1}
                         setActualPage={() => null}
-                        limit={25}
+                        limit={10}
                         setLimit={() => null}
                         maxPage={5}
                     />
@@ -64,7 +64,7 @@ describe('Pagination Component Test', () => {
 
         const options = screen.getAllByRole('option')
         const optionValues = options.map((li) => li.getAttribute('data-value'))
-        expect(optionValues).toEqual(['25', '50', '100'])
+        expect(optionValues).toEqual(['10', '25', '50'])
     })
 
     it('should change the limit when an option of the limitter is clicked', () => {
@@ -76,7 +76,7 @@ describe('Pagination Component Test', () => {
                     <Pagination
                         actualPage={1}
                         setActualPage={() => null}
-                        limit={25}
+                        limit={10}
                         setLimit={spyOnChange}
                         maxPage={5}
                     />

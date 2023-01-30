@@ -8,10 +8,12 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchPendingLineItems(
     pageNum: number,
+    limit: number,
     freeText: string,
     selectedEcommerce?: string
 ) {
     const dispatch = useAppDispatch()
+    const token = useAppSelector((state) => state.tokenData.token)
 
     const lineItemsApiPendingLineItems = useAppSelector(
         (store) => store.lineItemsApi.getPendingLineItems
@@ -23,25 +25,26 @@ export function useSearchPendingLineItems(
     const totalPending = lineItemsApiPendingLineItems.response.rowcount
 
     useEffect(() => {
-        if (freeText.length > 2) {
-            dispatch(
-                getPendingLineItems({
-                    freetext: freeText,
-                    offset: pageNum * 10,
-                    limit: 10,
-                    ecommerceId: selectedEcommerce
-                })
-            )
-        } else if (freeText.length === 0) {
-            dispatch(
-                getPendingLineItems({
-                    offset: pageNum * 10,
-                    limit: 10,
-                    ecommerceId: selectedEcommerce
-                })
-            )
-        }
-    }, [pageNum, freeText, selectedEcommerce])
+        if (token)
+            if (freeText.length > 2) {
+                dispatch(
+                    getPendingLineItems({
+                        freetext: freeText,
+                        offset: pageNum * limit,
+                        limit: limit,
+                        ecommerceId: selectedEcommerce
+                    })
+                )
+            } else if (freeText.length === 0) {
+                dispatch(
+                    getPendingLineItems({
+                        offset: pageNum * limit,
+                        limit: limit,
+                        ecommerceId: selectedEcommerce
+                    })
+                )
+            }
+    }, [pageNum, freeText, selectedEcommerce, token, limit])
 
     useEffect(() => {
         if (lineItemsApiPendingLineItems.loading === 'succeeded') {

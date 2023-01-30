@@ -18,6 +18,8 @@ const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
         <FilterBox>
             <TextField
                 data-testid="SearchInput"
+                variant="standard"
+                InputProps={{ disableUnderline: true }}
                 sx={{
                     '& label.Mui-focused': {
                         color: theme.colors.common.black
@@ -40,13 +42,13 @@ const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
                     }
                 }}
                 label={
-                    <div>
+                    <p>
                         <SearchIcon
                             style={{ color: theme.colors.primary.dark }}
                             fontSize="medium"
                         />{' '}
                         {t('search_component.search')}
-                    </div>
+                    </p>
                 }
                 value={freeText}
                 onChange={(e) => setFreeText(e.target.value)}

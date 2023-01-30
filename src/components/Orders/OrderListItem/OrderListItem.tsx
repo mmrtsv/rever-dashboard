@@ -1,161 +1,176 @@
 import React from 'react'
 import styled from 'styled-components'
 import ShippingStatus from '../ShippingStatus'
-import { useNavigate } from 'react-router-dom'
+import ReviewItemStatus from '../ItemStatus/ItemStatus'
+import { Link } from 'react-router-dom'
 import NoAvailable from '../../../assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { Sizes } from '../../../utils/device'
+import { useTranslation } from 'react-i18next'
+import { getDate } from '../../../utils'
 
 export interface OrderListItemProps {
     lineItem: ModelsPublicReturnLineItem
+    first?: boolean
+    last?: boolean
+    printedOrderId?: string
+    customerName?: string
+    dateReturn?: number
+    lastKnownShippingStatus?: number
 }
 
-const OrderListItem: React.FC<OrderListItemProps> = ({ lineItem }) => {
+const OrderListItem: React.FC<OrderListItemProps> = ({
+    lineItem,
+    first,
+    last,
+    printedOrderId,
+    customerName,
+    lastKnownShippingStatus,
+    dateReturn
+}) => {
+    const { i18n } = useTranslation()
+
     let imgSrc = NoAvailable
     if (lineItem.product_image_url)
         imgSrc = lineItem.product_image_url ?? NoAvailable
-    const navigate = useNavigate()
-    const handleClickItem = () => {
-        navigate(`/details/${lineItem.rever_id}`)
+
+    const quantity = lineItem.quantity
+
+    const customerPrintedOrderId = printedOrderId
+        ? printedOrderId
+        : lineItem?.return_process?.customer_printed_order_id
+
+    const customerFullName = customerName
+        ? customerName
+        : lineItem?.return_process?.customer?.first_name +
+          ' ' +
+          lineItem?.return_process?.customer?.last_name
+
+    let shippingStatus = lineItem.return_process?.last_known_shipping_status
+    if (lastKnownShippingStatus != undefined && lastKnownShippingStatus >= 0) {
+        shippingStatus = lastKnownShippingStatus
+    }
+
+    const returnDate = lineItem.return_process?.started_at?.seconds
+        ? getDate(lineItem?.return_process?.started_at?.seconds, i18n.language)
+        : dateReturn
+        ? getDate(dateReturn, i18n.language)
+        : 'XX/XX/XXXX'
+
+    const showReviewStatus =
+        shippingStatus === 3 &&
+        lineItem.return_process?.refund_timing === 3 &&
+        lineItem.return_process.status === 2
+
+    let reviewStatus = 0
+    if (lineItem.reviews && lineItem.reviews?.length > 0) {
+        reviewStatus =
+            lineItem.reviews[0].status === 'APPROVED'
+                ? 0
+                : lineItem.reviews[0].status === 'DECLINED'
+                ? 1
+                : 2
     }
 
     return (
         <OrderListItemCard
             data-testid="OrderListItem"
             key={lineItem.rever_id}
-            className=" cursor-pointer"
-            onClick={handleClickItem}
+            className="cursor-pointer"
+            first={first}
+            last={last}
         >
-            <ProductDisplay>
-                <LeftBox>
-                    <OrderNumber>
-                        <TextBoxes>
-                            {
-                                lineItem?.return_process
-                                    ?.customer_printed_order_id
-                            }
-                        </TextBoxes>
-                    </OrderNumber>
-                    <ProductInfo>
+            <Link to={`/details/${lineItem.rever_id}`}>
+                <Box>
+                    <DissapearText>{returnDate}</DissapearText>
+                    <TextBoxes>{customerPrintedOrderId}</TextBoxes>
+                    <div className="flex justify-center">
                         <img
-                            className="mr-4 h-14 w-auto"
+                            className="h-14 w-auto"
                             src={imgSrc}
                             alt="ProductImage"
                         />
-                        <ItemName data-testId="itemName">
-                            {lineItem.name}
-                        </ItemName>
-                    </ProductInfo>
-                </LeftBox>
-                <RightBox>
-                    <NameBox>
-                        <TextBoxes data-testid="Name">
-                            {lineItem?.return_process?.customer?.first_name +
-                                ' ' +
-                                lineItem?.return_process?.customer?.last_name}
-                        </TextBoxes>
-                    </NameBox>
+                    </div>
 
+                    <DissapearText>{quantity}</DissapearText>
+                    <ItemName data-testid="itemName">{lineItem.name}</ItemName>
+
+                    <DissapearText data-testid="Name">
+                        {customerFullName}
+                    </DissapearText>
                     <StatusBox>
-                        <ShippingStatus
-                            status={
-                                lineItem.return_process
-                                    ?.last_known_shipping_status
-                            }
-                        />
+                        {showReviewStatus ? (
+                            <ReviewItemStatus status={reviewStatus} />
+                        ) : (
+                            <ShippingStatus status={shippingStatus} />
+                        )}
                     </StatusBox>
-                </RightBox>
-            </ProductDisplay>
+                </Box>
+            </Link>
         </OrderListItemCard>
     )
 }
 
 export default OrderListItem
 
-const LeftBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+const Box = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     width: 100%;
-`
-const RightBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    @media (max-width: ${Sizes.md}) {
-        flex-direction: column;
+    @media (min-width: ${Sizes.md}) {
+        display: grid;
+        align-items: center;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
     }
-`
-const ItemName = styled.span`
-    @media (max-width: 1024px) {
-        visibility: hidden;
-        display: none;
+    @media (min-width: ${Sizes.lg}) {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 `
 
-const OrderNumber = styled.span`
-    width: 15%;
-    @media (max-width: ${Sizes.md}) {
-        width: 100%;
+const ItemName = styled.p`
+    text-align: center;
+    grid-column: span 2 / span 2;
+    @media (max-width: 899px) {
+        display: none;
     }
 `
-const NameBox = styled.span`
-    margin-left: 0;
-    width: 60%;
-    @media (max-width: ${Sizes.md}) {
-        width: 100%;
-        text-align: center;
+const DissapearText = styled.p`
+    text-align: center;
+    @media (max-width: 599px) {
+        display: none;
     }
 `
-const TextBoxes = styled.span`
-    text-align: left;
+const TextBoxes = styled.p`
+    text-align: center;
 `
+
 const StatusBox = styled.div`
-    width: 40%;
+    width: 100%;
     display: flex;
-    align-content: center;
     justify-content: center;
-    @media (max-width: ${Sizes.md}) {
-        width: 100%;
-        font-size: 12px;
-        padding: 5px;
-    }
 `
-const ProductInfo = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 75%;
-    @media (max-width: ${Sizes.md}) {
-        width: 100%;
-        justify-content: center;
-    }
-`
-const OrderListItemCard = styled.div`
-    margin-top: 0.5rem;
+
+interface CardProps {
+    first?: boolean
+    last?: boolean
+}
+
+const OrderListItemCard = styled.div<CardProps>`
     padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
+    border-top-left-radius: ${(p) => (p.first ? '0.5rem' : '')};
+    border-top-right-radius: ${(p) => (p.first ? '0.5rem' : '')};
+    border-bottom-left-radius: ${(p) => (p.last ? '0.5rem' : '')};
+    border-bottom-right-radius: ${(p) => (p.last ? '0.5rem' : '')};
+    border: 1px solid #eee;
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    width: 100%;
     cursor: pointer;
     @media (max-width: ${Sizes.md}) {
         padding: 1rem;
-    }
-`
-const ProductDisplay = styled.div`
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    @media (max-width: ${Sizes.md}) {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        margin: 0;
     }
 `

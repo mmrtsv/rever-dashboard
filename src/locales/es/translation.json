@@ -10,10 +10,11 @@
         "analytics": "Analítica",
         "orders": "Pedidos",
         "financials": "Finanzas",
-        "returns": "Devoluciones"
+        "returns": "Devoluciones",
+        "items": "Artículos"
     },
     "search_component": {
-        "search": "Buscar"
+        "search": "Buscar..."
     },
     "status_card": {
         "order_id": "ID del pedido: "
@@ -24,8 +25,8 @@
         "total_page": " total pages"
     },
     "status_page": {
-        "pending_title": "Pendientes de recibir",
-        "completed_title": "Completados"
+        "pending_title": "PENDIENTES DE RECIBIR",
+        "completed_title": "COMPLETADOS"
     },
     "selector_component": {
         "label": "Filtro"
@@ -54,5 +55,55 @@
         "reason": "Razón",
         "denied_title": "Motivo de rechazo",
         "tracking": "Información de seguimiento"
+    },
+    "topbar_components": {
+        "returns": "Devoluciones",
+        "all": "Todas",
+        "action_needed": "En progreso",
+        "accepted": "Completadas"
+    },
+    "topbar_items": {
+        "returned_items": "Artículos devueltos",
+        "all": "Todos",
+        "pending": "Pendiente de recibir",
+        "received": "Recibido"
+    },
+    "order_details": {
+        "date": "Fecha devolución",
+        "order_id": "ID",
+        "image": "Imagen",
+        "product_name": "Nombre del producto",
+        "quantity": "Cantidad",
+        "status": "Estado",
+        "customer": "Cliente",
+        "shop": "Tienda",
+        "approve": "Aprobar",
+        "decline": "Declinar",
+        "missing": "Perdido",
+        "review": "Revisar",
+        "submit": "Enviar revisión",
+        "total": "Items totales",
+        "review_status": "Estado de la revisión",
+        "order": "Pedido",
+        "order_status": "Estado del pedido",
+        "shipping_status": "Estado del envío",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "address": "Dirección",
+        "products": "Productos",
+        "order_details": "Detalles del pedido",
+        "summary": "Resumen"
+    },
+    "summary": {
+        "total": "Reembolso total: ",
+        "coupon_amount": "Importe del reembolso del cupón: ",
+        "gift_card_amount": "Importe de reembolso de tarjeta regalo: ",
+        "bank_transfer_amount": "Importe de reembolso de transferencia bancaria: ",
+        "OPM_amount": "Importe de reembolso del método de pago original: ",
+        "final_balance": "Saldo final: ",
+        "reason_exchange": "Motivo del intercambio: ",
+        "reason_refund": "Motivo del reembolso: ",
+        "quantity": "Cantidad: "
     }
 }

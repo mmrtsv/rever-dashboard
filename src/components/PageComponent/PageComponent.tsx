@@ -17,7 +17,7 @@ const PageComponent: React.FC<Props> = ({ children }) => {
 
     return (
         <ReverMain
-            bgColor={theme.colors.grey[4]}
+            bgColor={theme.colors.grey[5]}
             data-testid="PageComponent"
             isSideBarOpen={isSidebarOpen}
             drawerWidth={drawerWidth.toString()}
@@ -35,8 +35,8 @@ interface ReverMainProps {
     drawerWidth: string
 }
 const ReverMain = styled.div<ReverMainProps>`
-    background-color: ${(p) => p.bgColor};
-    height: 93.5%;
+    background-color: #eee;
+    height: calc(100vh - 60px);
     // over 600px
     @media ${device.lg} {
         margin-left: ${(props) =>

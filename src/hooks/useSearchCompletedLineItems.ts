@@ -8,10 +8,12 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchCompletedLineItems(
     pageNum: number,
+    limit: number,
     freeText: string,
     selectedEcommerce?: string
 ) {
     const dispatch = useAppDispatch()
+    const token = useAppSelector((state) => state.tokenData.token)
 
     const lineItemsApiCompletedLineItems = useAppSelector(
         (store) => store.lineItemsApi.getCompletedLineItems
@@ -23,25 +25,26 @@ export function useSearchCompletedLineItems(
     const totalCompleted = lineItemsApiCompletedLineItems.response.rowcount
 
     useEffect(() => {
-        if (freeText.length > 2) {
-            dispatch(
-                getCompletedLineItems({
-                    ecommerceId: selectedEcommerce,
-                    freetext: freeText,
-                    offset: pageNum * 10,
-                    limit: 10
-                })
-            )
-        } else if (freeText.length === 0) {
-            dispatch(
-                getCompletedLineItems({
-                    ecommerceId: selectedEcommerce,
-                    offset: pageNum * 10,
-                    limit: 10
-                })
-            )
-        }
-    }, [pageNum, freeText, selectedEcommerce])
+        if (token)
+            if (freeText.length > 2) {
+                dispatch(
+                    getCompletedLineItems({
+                        ecommerceId: selectedEcommerce,
+                        freetext: freeText,
+                        offset: pageNum * limit,
+                        limit: limit
+                    })
+                )
+            } else if (freeText.length === 0) {
+                dispatch(
+                    getCompletedLineItems({
+                        ecommerceId: selectedEcommerce,
+                        offset: pageNum * limit,
+                        limit: limit
+                    })
+                )
+            }
+    }, [pageNum, freeText, selectedEcommerce, token, limit])
 
     useEffect(() => {
         if (lineItemsApiCompletedLineItems.loading === 'succeeded') {

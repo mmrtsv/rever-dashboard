@@ -4,10 +4,11 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchMe() {
     const dispatch = useAppDispatch()
+    const token = useAppSelector((state) => state.tokenData.token)
 
     const authApiMe = useAppSelector((store) => store.userApi.getMe)
     const callMe = () => {
-        dispatch(getMe())
+        if (token) dispatch(getMe())
     }
 
     useEffect(() => {
