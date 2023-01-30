@@ -48,6 +48,7 @@ function Orders() {
         FreeText,
         selectedEcommerce
     )
+
     const MaxPage = totalLineItems && Math.ceil(totalLineItems / Limit)
     const MaxPendingPage = totalPending && Math.ceil(totalPending / Limit)
     const MaxCompletedPage = totalCompleted && Math.ceil(totalCompleted / Limit)

@@ -18,9 +18,6 @@ function Orders() {
     const { t } = useTranslation()
     const theme = useTheme()
 
-    const selectedEcommerce = useAppSelector(
-        (store) => store.generalData.selectedEcommerce
-    )
     const ecommercesLength = useAppSelector(
         (store) => store.userApi.getMe.response.user?.ecommerces?.length
     )
@@ -30,23 +27,16 @@ function Orders() {
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(10)
     const [FreeText, setFreeText] = useState<string>('')
-    const { Orders, totalOrders } = useSearchOrders(
-        ActualPage,
-        Limit,
-        FreeText,
-        selectedEcommerce
-    )
+    const { Orders, totalOrders } = useSearchOrders(ActualPage, Limit, FreeText)
     const { PendingOrders, totalPendingOrders } = useSearchPendingOrders(
         ActualPage,
         Limit,
-        FreeText,
-        selectedEcommerce
+        FreeText
     )
     const { CompletedOrders, totalCompletedOrders } = useSearchCompletedOrders(
         ActualPage,
         Limit,
-        FreeText,
-        selectedEcommerce
+        FreeText
     )
     const MaxPage = totalOrders && Math.ceil(totalOrders / Limit)
     const MaxPagePending =

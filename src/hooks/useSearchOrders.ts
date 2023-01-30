@@ -6,11 +6,14 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 export function useSearchOrders(
     pageNum: number,
     limit: number,
-    freeText: string,
-    selectedEcommerce?: string
+    freeText: string
 ) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.tokenData.token)
+
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
+    )
 
     const processesApiGetProcesses = useAppSelector(
         (store) => store.processesApi.getProcesses

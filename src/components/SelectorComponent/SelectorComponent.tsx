@@ -43,11 +43,7 @@ const SelectorComponent: React.FC<SelectorProps> = ({
     }
 
     const handleChange = (event: SelectChangeEvent) => {
-        if (event.target.value === 'All') {
-            dispatch(setSelectedEcommerce(undefined))
-        } else {
-            dispatch(setSelectedEcommerce(event.target.value))
-        }
+        dispatch(setSelectedEcommerce(event.target.value))
         handleChangeSelectedEcommerce()
     }
 

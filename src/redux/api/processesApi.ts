@@ -99,7 +99,8 @@ export const getProcesses = createAsyncThunk(
             platform,
             processId,
             returnMethod,
-            sortby
+            sortby,
+            ecommerceId
         } = args || defaultValueProcesses
         const getProcessesResponse = await processesApi.findProcesses({
             customerPrintedOrderId,
@@ -112,7 +113,8 @@ export const getProcesses = createAsyncThunk(
             platform,
             processId,
             returnMethod,
-            sortby
+            sortby,
+            ecommerceId
         })
         return getProcessesResponse.data
     }

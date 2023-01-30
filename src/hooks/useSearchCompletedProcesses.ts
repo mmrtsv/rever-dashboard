@@ -9,14 +9,16 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 export function useSearchCompletedOrders(
     pageNum: number,
     limit: number,
-    freeText: string,
-    selectedEcommerce?: string
+    freeText: string
 ) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.tokenData.token)
 
     const processesApiGetProcesses = useAppSelector(
         (store) => store.processesApi.getCompletedProcesses
+    )
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
     )
     const [CompletedOrders, setCompletedOrders] = useState<
         ModelsPublicReturnProcess[] | undefined
