@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from 'styled-components'
 import useSearchOrder from '../hooks/useSearchOrder'
@@ -18,20 +18,10 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import { useTranslation } from 'react-i18next'
 import { getDate } from '../utils'
 import ArrowDown from '@mui/icons-material/ArrowDownward'
-import { ModelsLineItemReview } from '@itsrever/dashboard-api'
-import { createReview, resetReviewsApiCalls } from '../redux/api/reviewsApi'
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { useNavigate } from 'react-router-dom'
-function OrderDetails() {
-    const navigate = useNavigate()
 
+function OrderDetails() {
     const { i18n } = useTranslation()
     const { t } = useTranslation()
-    const dispatch = useAppDispatch()
-    const createReviewStatus = useAppSelector(
-        (state) => state.reviewsApi.createReview
-    )
-
     const processID = window.location.pathname.split('/').pop()
 
     const theme = useTheme()
@@ -53,49 +43,6 @@ function OrderDetails() {
     const returnDate =
         Order?.started_at?.seconds &&
         getDate(Order?.started_at?.seconds, i18n.language)
-
-    const [reviews, setReviews] = useState<Array<ModelsLineItemReview>>([])
-    function addOrUpdateReview(
-        reviews: ModelsLineItemReview[],
-        line_item_id: string,
-        status: string
-    ) {
-        let reviewExists = false
-        const updatedReviews = reviews.map((review) => {
-            if (review.line_item_id === line_item_id) {
-                reviewExists = true
-                return { ...review, status }
-            }
-            return review
-        })
-        if (!reviewExists) {
-            updatedReviews.push({ line_item_id, status })
-        }
-        setReviews(updatedReviews)
-    }
-
-    const handleChange = (id: string | undefined, value: string) => {
-        id && addOrUpdateReview(reviews, id, value)
-    }
-    useEffect(() => {
-        if (createReviewStatus.loading === 'succeeded') {
-            navigate('/')
-            dispatch(resetReviewsApiCalls())
-        } else if (createReviewStatus.loading === 'failed') {
-            dispatch(resetReviewsApiCalls())
-        }
-    }, [createReviewStatus.loading, createReviewStatus.response])
-
-    const handleSubmitReview = () => {
-        dispatch(
-            createReview({
-                createReviewInput: {
-                    process_id: processID,
-                    reviews: reviews
-                }
-            })
-        )
-    }
 
     return (
         <PageComponent>
@@ -216,26 +163,30 @@ function OrderDetails() {
                                                             )}
                                                             color="black"
                                                             defaultValue="Review"
-                                                            onChange={(e) => {
-                                                                handleChange(
-                                                                    lineItem.rever_id,
-                                                                    e
-                                                                        .currentTarget
-                                                                        .value
-                                                                )
-                                                            }}
                                                         >
-                                                            <SelectItem value="0">
+                                                            <SelectItem
+                                                                value={
+                                                                    'Approve'
+                                                                }
+                                                            >
                                                                 {t(
                                                                     'order_details.approve'
                                                                 )}
                                                             </SelectItem>
-                                                            <SelectItem value="1">
+                                                            <SelectItem
+                                                                value={
+                                                                    'Decline'
+                                                                }
+                                                            >
                                                                 {t(
                                                                     'order_details.decline'
                                                                 )}
                                                             </SelectItem>
-                                                            <SelectItem value="2">
+                                                            <SelectItem
+                                                                value={
+                                                                    'Missing'
+                                                                }
+                                                            >
                                                                 {t(
                                                                     'order_details.missing'
                                                                 )}
@@ -262,42 +213,21 @@ function OrderDetails() {
                                                                 )
                                                             }
                                                         >
-                                                            <OptionDiv
-                                                                onClick={() => {
-                                                                    handleChange(
-                                                                        lineItem.rever_id,
-                                                                        '0'
-                                                                    )
-                                                                }}
-                                                            >
+                                                            <OptionDiv>
                                                                 <p>
                                                                     {t(
                                                                         'order_details.approve'
                                                                     )}
                                                                 </p>
                                                             </OptionDiv>
-                                                            <OptionDiv
-                                                                onClick={() => {
-                                                                    handleChange(
-                                                                        lineItem.rever_id,
-                                                                        '1'
-                                                                    )
-                                                                }}
-                                                            >
+                                                            <OptionDiv>
                                                                 <p>
                                                                     {t(
                                                                         'order_details.decline'
                                                                     )}
                                                                 </p>
                                                             </OptionDiv>
-                                                            <OptionDiv
-                                                                onClick={() => {
-                                                                    handleChange(
-                                                                        lineItem.rever_id,
-                                                                        '2'
-                                                                    )
-                                                                }}
-                                                            >
+                                                            <OptionDiv>
                                                                 <p>
                                                                     {t(
                                                                         'order_details.missing'
@@ -313,14 +243,7 @@ function OrderDetails() {
                                 })}
                             {needsReview && (
                                 <div className="mt-4 flex w-full justify-center md:mt-8">
-                                    <Button
-                                        disabled={
-                                            reviews.length !== products?.length
-                                        }
-                                        onClick={() => handleSubmitReview()}
-                                    >
-                                        {t('order_details.submit')}
-                                    </Button>
+                                    <Button>{t('order_details.submit')}</Button>
                                 </div>
                             )}
                         </ProductsBox>
