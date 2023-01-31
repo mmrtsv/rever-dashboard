@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from 'styled-components'
 import useSearchOrder from '../hooks/useSearchOrder'
@@ -18,10 +18,29 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import { useTranslation } from 'react-i18next'
 import { getDate } from '../utils'
 import ArrowDown from '@mui/icons-material/ArrowDownward'
+import {
+    ModelsLineItemReview,
+    ModelsReturnLineItem
+} from '@itsrever/dashboard-api'
+import { createReview, resetReviewsApiCalls } from '../redux/api/reviewsApi'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { useNavigate } from 'react-router-dom'
+import SuccessAnimation from '../assets/Lottie/ComingSoon/Success'
+import ProcessSplitLineItem from '../components/Orders/ProcessSplitLineItem'
 
+interface Review extends ModelsLineItemReview {
+    index: number
+}
 function OrderDetails() {
+    const navigate = useNavigate()
+
     const { i18n } = useTranslation()
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
+    const createReviewStatus = useAppSelector(
+        (state) => state.reviewsApi.createReview
+    )
+
     const processID = window.location.pathname.split('/').pop()
 
     const theme = useTheme()
@@ -31,6 +50,23 @@ function OrderDetails() {
 
     const products =
         Order && Order.line_items?.filter((item) => item.type === 'product')
+
+    const mappedProducts =
+        products &&
+        products.flatMap((lineItem) => {
+            const items: Array<ModelsReturnLineItem> = []
+            if (lineItem.quantity && lineItem.reviews) {
+                for (let i = 0; i < lineItem.quantity; i++) {
+                    items.push({
+                        ...lineItem,
+                        reviews: lineItem.reviews[i]
+                            ? [lineItem.reviews[i]]
+                            : []
+                    })
+                }
+            }
+            return items
+        })
 
     const [ModalOpen, setModalOpen] = useState(false)
 
@@ -43,6 +79,65 @@ function OrderDetails() {
     const returnDate =
         Order?.started_at?.seconds &&
         getDate(Order?.started_at?.seconds, i18n.language)
+
+    const [reviews, setReviews] = useState<Array<Review>>([])
+
+    function addOrUpdateReview(
+        reviews: Review[],
+        line_item_id: string,
+        status: string,
+        index: number
+    ) {
+        let reviewExists = false
+        const updatedReviews = reviews.map((review) => {
+            if (review.index === index) {
+                reviewExists = true
+                return { ...review, status }
+            }
+            return review
+        })
+        if (!reviewExists) {
+            updatedReviews.push({ line_item_id, status, index })
+        }
+        setReviews(updatedReviews)
+    }
+
+    const handleChange = (
+        id: string | undefined,
+        value: string,
+        index: number
+    ) => {
+        id && addOrUpdateReview(reviews, id, value, index)
+    }
+    const [success, setSuccess] = useState(false)
+    useEffect(() => {
+        if (createReviewStatus.loading === 'succeeded') {
+            setSuccess(true)
+            setTimeout(() => {
+                setSuccess(false)
+                navigate('/')
+            }, 2000)
+            dispatch(resetReviewsApiCalls())
+        } else if (createReviewStatus.loading === 'failed') {
+            dispatch(resetReviewsApiCalls())
+        }
+    }, [createReviewStatus.loading, createReviewStatus.response])
+
+    const handleSubmitReview = () => {
+        const newReviews = reviews.map((item) => {
+            const { index, ...rest } = item
+            return rest
+        })
+
+        dispatch(
+            createReview({
+                createReviewInput: {
+                    process_id: processID,
+                    reviews: newReviews
+                }
+            })
+        )
+    }
 
     return (
         <PageComponent>
@@ -104,38 +199,46 @@ function OrderDetails() {
                     </TabsDiv>
                     {currentTab === 0 ? (
                         <ProductsBox data-testid="LineItems" className=" p-8">
-                            <div className="grid w-full grid-cols-3 p-4 md:grid-cols-6 lg:grid-cols-8">
-                                <DissapearingH6M className="flex items-center justify-center">
-                                    <b className="mr-2">
-                                        {t('order_details.date')}
-                                    </b>
-                                    <ArrowDown />
-                                </DissapearingH6M>
-                                <h6 className="text-grey-1 text-center">
-                                    <b>{t('order_details.order_id')}</b>
-                                </h6>
-                                <h6 className="text-grey-1 text-center">
-                                    <b> {t('order_details.image')}</b>
-                                </h6>
-                                <DissapearingH6M className="text-grey-1">
-                                    <b> {t('order_details.quantity')}</b>
-                                </DissapearingH6M>
-                                <DissapearingH6L className="text-grey-1 col-span-2">
-                                    <b> {t('order_details.product_name')}</b>
-                                </DissapearingH6L>
-                                <DissapearingH6M className="text-grey-1">
-                                    <b> {t('order_details.customer')}</b>
-                                </DissapearingH6M>
-                                <h6 className="text-grey-1 text-center">
-                                    <b> {t('order_details.status')}</b>
-                                </h6>
-                            </div>
-                            {products &&
-                                products.map((lineItem, i) => {
+                            {!needsReview && (
+                                <div className="grid w-full grid-cols-3 p-4 md:grid-cols-5 lg:grid-cols-7">
+                                    <DissapearingH6M className="flex items-center justify-center">
+                                        <b className="mr-2">
+                                            {t('order_details.date')}
+                                        </b>
+                                        <ArrowDown />
+                                    </DissapearingH6M>
+                                    <h6 className="text-grey-1 text-center">
+                                        <b>{t('order_details.order_id')}</b>
+                                    </h6>
+                                    <h6 className="text-grey-1 text-center">
+                                        <b> {t('order_details.image')}</b>
+                                    </h6>
+
+                                    <DissapearingH6L className="text-grey-1 col-span-2">
+                                        <b>
+                                            {' '}
+                                            {t('order_details.product_name')}
+                                        </b>
+                                    </DissapearingH6L>
+                                    <DissapearingH6M className="text-grey-1">
+                                        <b> {t('order_details.customer')}</b>
+                                    </DissapearingH6M>
+                                    <h6 className="text-grey-1 text-center">
+                                        <b> {t('order_details.status')}</b>
+                                    </h6>
+                                </div>
+                            )}
+                            {mappedProducts &&
+                                mappedProducts.map((lineItem, i) => {
                                     return (
                                         <ItemsDiv key={lineItem.rever_id}>
-                                            <OrderListItem
+                                            <ProcessSplitLineItem
                                                 lineItem={lineItem}
+                                                // index={i}
+                                                orderStatus={Order.status}
+                                                refundTiming={
+                                                    Order.refund_timing
+                                                }
                                                 lastKnownShippingStatus={
                                                     Order.last_known_shipping_status
                                                 }
@@ -163,30 +266,27 @@ function OrderDetails() {
                                                             )}
                                                             color="black"
                                                             defaultValue="Review"
+                                                            onChange={(e) => {
+                                                                handleChange(
+                                                                    lineItem.rever_id,
+                                                                    e
+                                                                        .currentTarget
+                                                                        .value,
+                                                                    i
+                                                                )
+                                                            }}
                                                         >
-                                                            <SelectItem
-                                                                value={
-                                                                    'Approve'
-                                                                }
-                                                            >
+                                                            <SelectItem value="APPROVED">
                                                                 {t(
                                                                     'order_details.approve'
                                                                 )}
                                                             </SelectItem>
-                                                            <SelectItem
-                                                                value={
-                                                                    'Decline'
-                                                                }
-                                                            >
+                                                            <SelectItem value="DECLINED">
                                                                 {t(
                                                                     'order_details.decline'
                                                                 )}
                                                             </SelectItem>
-                                                            <SelectItem
-                                                                value={
-                                                                    'Missing'
-                                                                }
-                                                            >
+                                                            <SelectItem value="MISSING">
                                                                 {t(
                                                                     'order_details.missing'
                                                                 )}
@@ -213,21 +313,45 @@ function OrderDetails() {
                                                                 )
                                                             }
                                                         >
-                                                            <OptionDiv>
+                                                            <OptionDiv
+                                                                onClick={() => {
+                                                                    handleChange(
+                                                                        lineItem.rever_id,
+                                                                        'APPROVED',
+                                                                        i
+                                                                    )
+                                                                }}
+                                                            >
                                                                 <p>
                                                                     {t(
                                                                         'order_details.approve'
                                                                     )}
                                                                 </p>
                                                             </OptionDiv>
-                                                            <OptionDiv>
+                                                            <OptionDiv
+                                                                onClick={() => {
+                                                                    handleChange(
+                                                                        lineItem.rever_id,
+                                                                        'DECLINED',
+                                                                        i
+                                                                    )
+                                                                }}
+                                                            >
                                                                 <p>
                                                                     {t(
                                                                         'order_details.decline'
                                                                     )}
                                                                 </p>
                                                             </OptionDiv>
-                                                            <OptionDiv>
+                                                            <OptionDiv
+                                                                onClick={() => {
+                                                                    handleChange(
+                                                                        lineItem.rever_id,
+                                                                        'MISSING',
+                                                                        i
+                                                                    )
+                                                                }}
+                                                            >
                                                                 <p>
                                                                     {t(
                                                                         'order_details.missing'
@@ -241,9 +365,18 @@ function OrderDetails() {
                                         </ItemsDiv>
                                     )
                                 })}
+                            {success && <SuccessAnimation />}
                             {needsReview && (
                                 <div className="mt-4 flex w-full justify-center md:mt-8">
-                                    <Button>{t('order_details.submit')}</Button>
+                                    <Button
+                                        disabled={
+                                            reviews.length !==
+                                            mappedProducts?.length
+                                        }
+                                        onClick={() => handleSubmitReview()}
+                                    >
+                                        {t('order_details.submit')}
+                                    </Button>
                                 </div>
                             )}
                         </ProductsBox>

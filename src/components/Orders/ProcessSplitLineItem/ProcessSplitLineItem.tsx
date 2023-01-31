@@ -9,7 +9,7 @@ import { Sizes } from '../../../utils/device'
 import { useTranslation } from 'react-i18next'
 import { getDate } from '../../../utils'
 
-export interface OrderListItemProps {
+export interface ProcessSplitLineItemProps {
     lineItem: ModelsPublicReturnLineItem
     first?: boolean
     last?: boolean
@@ -17,10 +17,12 @@ export interface OrderListItemProps {
     customerName?: string
     dateReturn?: number
     lastKnownShippingStatus?: number
-    isProcessDetailView?: boolean
+    orderStatus?: number
+    refundTiming?: number
+    index?: number
 }
 
-const OrderListItem: React.FC<OrderListItemProps> = ({
+const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     lineItem,
     first,
     last,
@@ -28,15 +30,15 @@ const OrderListItem: React.FC<OrderListItemProps> = ({
     customerName,
     lastKnownShippingStatus,
     dateReturn,
-    isProcessDetailView
+    orderStatus,
+    refundTiming,
+    index
 }) => {
     const { i18n } = useTranslation()
 
     let imgSrc = NoAvailable
     if (lineItem.product_image_url)
         imgSrc = lineItem.product_image_url ?? NoAvailable
-
-    const quantity = lineItem.quantity
 
     const customerPrintedOrderId = printedOrderId
         ? printedOrderId
@@ -60,11 +62,10 @@ const OrderListItem: React.FC<OrderListItemProps> = ({
         : 'XX/XX/XXXX'
 
     const showReviewStatus =
-        shippingStatus === 3 &&
-        lineItem.return_process?.refund_timing === 3 &&
-        lineItem.return_process.status === 2
+        shippingStatus === 3 && refundTiming === 3 && orderStatus === 2
 
     let reviewStatus = 0
+
     if (lineItem.reviews && lineItem.reviews?.length > 0) {
         reviewStatus =
             lineItem.reviews[0].status === 'APPROVED'
@@ -73,7 +74,6 @@ const OrderListItem: React.FC<OrderListItemProps> = ({
                 ? 1
                 : 2
     }
-
     return (
         <OrderListItemCard
             data-testid="OrderListItem"
@@ -93,11 +93,6 @@ const OrderListItem: React.FC<OrderListItemProps> = ({
                             alt="ProductImage"
                         />
                     </div>
-                    {!isProcessDetailView && (
-                        <DissapearText data-testid="Quantity">
-                            {quantity}
-                        </DissapearText>
-                    )}
                     <ItemName data-testid="itemName">{lineItem.name}</ItemName>
 
                     <DissapearText data-testid="Name">
@@ -116,7 +111,7 @@ const OrderListItem: React.FC<OrderListItemProps> = ({
     )
 }
 
-export default OrderListItem
+export default ProcessSplitLineItem
 
 const Box = styled.div`
     display: grid;
@@ -128,10 +123,10 @@ const Box = styled.div`
         align-items: center;
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
     @media (min-width: ${Sizes.lg}) {
-        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
     }
 `
 
