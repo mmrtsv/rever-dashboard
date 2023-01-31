@@ -5,6 +5,7 @@ import lineItemsApiReducer from './api/lineItemsApi'
 import tokenDataSlice from './features/generalData/tokenDataSlice'
 import generalDataReducer from './features/generalData/generalDataSlice'
 import userApiReducer from './api/userApi'
+import reviewsApi from './api/reviewsApi'
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
         lineItemsApi: lineItemsApiReducer,
         appState: appStateReducer,
         generalData: generalDataReducer,
-        userApi: userApiReducer
+        userApi: userApiReducer,
+        reviewsApi: reviewsApi
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([])
 })
