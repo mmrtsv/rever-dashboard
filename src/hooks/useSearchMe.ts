@@ -5,17 +5,17 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 export function useSearchMe() {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.tokenData.token)
-
     const authApiMe = useAppSelector((store) => store.userApi.getMe)
-    const callMe = () => {
+
+    useEffect(() => {
         if (token) dispatch(getMe())
-    }
+    }, [token])
 
     useEffect(() => {
         dispatch(resetAuthApiCalls())
     }, [authApiMe.response, authApiMe.loading])
 
-    return { callMe }
+    return {}
 }
 
 export default useSearchMe

@@ -7,13 +7,8 @@ import useSearchMe from '@/hooks/useSearchMe'
 
 const Layout = () => {
     // Call me
-    const { callMe } = useSearchMe()
-    const token = useAppSelector((state) => state.tokenData.token)
     const me = useAppSelector((state) => state.userApi.getMe.response)
-
-    useEffect(() => {
-        if (token) callMe()
-    }, [token])
+    useSearchMe()
 
     // Loading Modal Logic
     const [isLoading, setIsLoading] = useState(true)
@@ -25,7 +20,9 @@ const Layout = () => {
         lineItemsApiGPLIs,
         lineItemsApiGCLIs,
         processesApiGP,
-        processesApiGPs
+        processesApiGPs,
+        processesApiGPPs,
+        processesApiGCPs
     ] = [
         useAppSelector((store) => store.userApi.getMe.loading),
         useAppSelector((store) => store.lineItemsApi.getLineItem.loading),
@@ -37,7 +34,13 @@ const Layout = () => {
             (store) => store.lineItemsApi.getCompletedLineItems.loading
         ),
         useAppSelector((store) => store.processesApi.getProcess.loading),
-        useAppSelector((store) => store.processesApi.getProcesses.loading)
+        useAppSelector((store) => store.processesApi.getProcesses.loading),
+        useAppSelector(
+            (store) => store.processesApi.getPendingProcesses.loading
+        ),
+        useAppSelector(
+            (store) => store.processesApi.getCompletedProcesses.loading
+        )
     ]
     useEffect(() => {
         if (
@@ -47,7 +50,9 @@ const Layout = () => {
             lineItemsApiGPLIs === 'pending' ||
             lineItemsApiGCLIs === 'pending' ||
             processesApiGP === 'pending' ||
-            processesApiGPs === 'pending'
+            processesApiGPs === 'pending' ||
+            processesApiGPPs === 'pending' ||
+            processesApiGCPs === 'pending'
         ) {
             setIsLoading(true)
         } else {
@@ -63,7 +68,9 @@ const Layout = () => {
         lineItemsApiGPLIs,
         lineItemsApiGCLIs,
         processesApiGP,
-        processesApiGPs
+        processesApiGPs,
+        processesApiGPPs,
+        processesApiGCPs
     ])
 
     return (

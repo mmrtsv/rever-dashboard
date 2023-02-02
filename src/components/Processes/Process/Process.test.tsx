@@ -66,6 +66,7 @@ describe('Process test', () => {
         // last_known_shipping_status = 'IN_WAREHOUSE'
         // refund_timing = 'ON_ITEM_VERIFIED'
         // status != 'FAILED' && status != 'ON_HOLD'
+        // at least 1 item has been refunded with Original PM
         const process: ModelsPublicReturnProcess = mockOrder(3)
 
         const state = reduxState(['nude'])
@@ -130,7 +131,7 @@ function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
                     'https://cdn.shopify.com/s/files/1/0007/5192/7347/products/013603_bf_7ca0bb3e-99aa-4bea-89e5-ce07916c5dfb.jpg?v=1579616399',
                 product_return_reason: 'NOT_AS_EXPECTED',
                 quantity: 1,
-                refund_payment_method: 1,
+                refund_payment_method: 2,
                 return_reason: 3,
                 rever_id: 'retl_2KE2bS2QzVOQfxhemJzl2LRt1Dh',
                 sku: 'P30x40-00-013603',

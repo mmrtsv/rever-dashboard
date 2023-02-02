@@ -6,6 +6,7 @@ import useSearchPendingProcesses from '@/hooks/useSearchPendingProcesses'
 import Process from '../Process/Process'
 import Pagination from '@/components/PaginationComponent/Pagination'
 import TitlesP from './TitlesP/TitlesP'
+import { useAppSelector } from '@/redux/hooks'
 
 interface TableProps {
     currentTab: number
@@ -18,38 +19,48 @@ const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(10)
 
-    const { Orders, totalOrders } = useSearchProcesses(
-        ActualPage,
-        Limit,
-        freeText
+    // All processes
+    const ProcessesCall = useAppSelector(
+        (store) => store.processesApi.getProcesses.response
     )
-    const { PendingOrders, totalPendingOrders } = useSearchPendingProcesses(
-        ActualPage,
-        Limit,
-        freeText
-    )
-    const { CompletedOrders, totalCompletedOrders } =
-        useSearchCompletedProcesses(ActualPage, Limit, freeText)
+    const Processes = ProcessesCall.processes
+    const totalProcesses = ProcessesCall.rowcount
+    const MaxPage = totalProcesses && Math.ceil(totalProcesses / Limit)
+    useSearchProcesses(ActualPage, Limit, freeText)
 
-    const MaxPage = totalOrders && Math.ceil(totalOrders / Limit)
+    // Pending processes
+    const PendingProcessesCall = useAppSelector(
+        (store) => store.processesApi.getPendingProcesses.response
+    )
+    const PendingProcesses = PendingProcessesCall.processes
+    const totalPendingProcesses = PendingProcessesCall.rowcount
     const MaxPagePending =
-        totalPendingOrders && Math.ceil(totalPendingOrders / Limit)
+        totalPendingProcesses && Math.ceil(totalPendingProcesses / Limit)
+    useSearchPendingProcesses(ActualPage, Limit, freeText)
+
+    // Completed processes
+    const CompletedProcessesCall = useAppSelector(
+        (store) => store.processesApi.getCompletedProcesses.response
+    )
+    const CompletedProcesses = CompletedProcessesCall.processes
+    const totalCompletedProcesses = CompletedProcessesCall.rowcount
     const MaxPageCompleted =
-        totalCompletedOrders && Math.ceil(totalCompletedOrders / Limit)
+        totalCompletedProcesses && Math.ceil(totalCompletedProcesses / Limit)
+    useSearchCompletedProcesses(ActualPage, Limit, freeText)
 
     return (
         <TableDiv data-testid="ProcessesTable">
             <TitlesP />
             {currentTab === 0 ? (
                 <>
-                    {Orders &&
-                        Orders.map((order, i) => {
+                    {Processes &&
+                        Processes.map((order, i) => {
                             return (
                                 <Process
                                     Process={order}
                                     key={order.process_id}
                                     first={i === 0}
-                                    last={i === Orders.length - 1}
+                                    last={i === Processes.length - 1}
                                 />
                             )
                         })}
@@ -63,14 +74,14 @@ const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
                 </>
             ) : currentTab === 1 ? (
                 <>
-                    {PendingOrders &&
-                        PendingOrders.map((order, i) => {
+                    {PendingProcesses &&
+                        PendingProcesses.map((order, i) => {
                             return (
                                 <Process
                                     Process={order}
                                     key={order.process_id}
                                     first={i === 0}
-                                    last={i === PendingOrders.length - 1}
+                                    last={i === PendingProcesses.length - 1}
                                 />
                             )
                         })}
@@ -84,14 +95,14 @@ const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
                 </>
             ) : (
                 <>
-                    {CompletedOrders &&
-                        CompletedOrders.map((order, i) => {
+                    {CompletedProcesses &&
+                        CompletedProcesses.map((order, i) => {
                             return (
                                 <Process
                                     Process={order}
                                     key={order.process_id}
                                     first={i === 0}
-                                    last={i === CompletedOrders.length - 1}
+                                    last={i === CompletedProcesses.length - 1}
                                 />
                             )
                         })}

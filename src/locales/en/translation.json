@@ -59,8 +59,10 @@
     "topbar_components": {
         "returns": "Returns",
         "all": "All",
-        "action_needed": "In progress",
-        "accepted": "Completed"
+        "action_needed": "Action required",
+        "in_progress": "In progress",
+        "reviewed": "Reviewed",
+        "completed": "Completed"
     },
     "topbar_items": {
         "returned_items": "Returned items",

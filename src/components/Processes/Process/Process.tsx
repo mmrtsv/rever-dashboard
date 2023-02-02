@@ -32,11 +32,15 @@ const Process: React.FC<ProcessProps> = ({ Process, first, last }) => {
         returnDate = getDate(Process.started_at.seconds, i18n.language)
     }
 
+    const originalPM = Process.line_items?.some(
+        (litem) => litem.refund_payment_method === 2
+    )
     const showReviewStatus =
         Process.last_known_shipping_status === 3 &&
         Process.refund_timing === 3 &&
         Process.status != 1 &&
-        Process.status != 3
+        Process.status != 3 &&
+        originalPM
 
     const reviewStatus = Process.status === 0 ? 0 : 1
 

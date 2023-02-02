@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
-import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
 import { getProcesses, resetProcessesApiCalls } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchOrders(
+export function useSearchProcesses(
     pageNum: number,
     limit: number,
     freeText: string
@@ -14,15 +13,9 @@ export function useSearchOrders(
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
-
     const processesApiGetProcesses = useAppSelector(
         (store) => store.processesApi.getProcesses
     )
-    const [Orders, setOrders] = useState<
-        ModelsPublicReturnProcess[] | undefined
-    >([])
-
-    const totalOrders = processesApiGetProcesses.response.rowcount
 
     useEffect(() => {
         if (token)
@@ -47,15 +40,8 @@ export function useSearchOrders(
     }, [pageNum, limit, freeText, selectedEcommerce, token])
 
     useEffect(() => {
-        if (processesApiGetProcesses.loading === 'succeeded') {
-            setOrders(processesApiGetProcesses.response.processes)
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApiGetProcesses.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
-        }
+        dispatch(resetProcessesApiCalls())
     }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
-
-    return { Orders, totalOrders }
 }
 
-export default useSearchOrders
+export default useSearchProcesses

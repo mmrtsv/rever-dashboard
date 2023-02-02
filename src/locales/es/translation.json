@@ -59,8 +59,10 @@
     "topbar_components": {
         "returns": "Devoluciones",
         "all": "Todas",
-        "action_needed": "En progreso",
-        "accepted": "Completadas"
+        "action_needed": "Pendiente de revision",
+        "in_progress": "En progreso",
+        "reviewed": "Revisadas",
+        "completed": "Completadas"
     },
     "topbar_items": {
         "returned_items": "Artículos devueltos",

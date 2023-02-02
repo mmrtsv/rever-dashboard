@@ -33,7 +33,7 @@ describe('Header Component test', () => {
         screen.getByTestId('LanguageSwitcher')
     })
 
-    it('should render the MenuIcon when SideBar is open', () => {
+    it('should not render the MenuIcon when SideBar is open', () => {
         const state = reduxState(true)
         const mockStore = configureStore()
         const store = mockStore(state)

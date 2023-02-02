@@ -78,6 +78,14 @@ function reduxStateWithLoading(loading: string) {
             getProcesses: {
                 response: {},
                 loading: loading
+            },
+            getPendingProcesses: {
+                response: {},
+                loading: loading
+            },
+            getCompletedProcesses: {
+                response: {},
+                loading: loading
             }
         },
         lineItemsApi: {

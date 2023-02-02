@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
-import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
 import {
     getPendingProcesses,
     resetProcessesApiCalls
 } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchPendingOrders(
+export function useSearchPendingProcesses(
     pageNum: number,
     limit: number,
     freeText: string
@@ -20,11 +19,6 @@ export function useSearchPendingOrders(
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
-    const [PendingOrders, setPendingOrders] = useState<
-        ModelsPublicReturnProcess[] | undefined
-    >([])
-
-    const totalPendingOrders = processesApiGetProcesses.response.rowcount
 
     useEffect(() => {
         if (token)
@@ -49,15 +43,8 @@ export function useSearchPendingOrders(
     }, [pageNum, limit, freeText, selectedEcommerce, token])
 
     useEffect(() => {
-        if (processesApiGetProcesses.loading === 'succeeded') {
-            setPendingOrders(processesApiGetProcesses.response.processes)
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApiGetProcesses.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
-        }
+        dispatch(resetProcessesApiCalls())
     }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
-
-    return { PendingOrders, totalPendingOrders }
 }
 
-export default useSearchPendingOrders
+export default useSearchPendingProcesses

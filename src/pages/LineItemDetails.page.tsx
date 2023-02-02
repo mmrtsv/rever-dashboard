@@ -12,13 +12,19 @@ import {
 } from '../redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import device from '../utils/device'
+import { useAppSelector } from '@/redux/hooks'
 
 function RetLineItemDetails() {
     const theme = useTheme()
     const { i18n, t } = useTranslation()
     const reverID = window.location.pathname.split('/').pop()
 
-    const { LineItem } = useSearchLineItem(reverID ?? '')
+    const response = useAppSelector(
+        (store) => store.lineItemsApi.getLineItem.response.line_items
+    )
+    let LineItem
+    if (response && response.length > 0) LineItem = response[0]
+    useSearchLineItem(reverID ?? '')
 
     let imgSrc = NoAvailable
     if (LineItem?.product_image_url)

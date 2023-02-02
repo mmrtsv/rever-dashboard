@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
-import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
 import {
     getCompletedProcesses,
     resetProcessesApiCalls
 } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchCompletedOrders(
+export function useSearchCompletedProcesses(
     pageNum: number,
     limit: number,
     freeText: string
@@ -20,11 +19,6 @@ export function useSearchCompletedOrders(
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
-    const [CompletedOrders, setCompletedOrders] = useState<
-        ModelsPublicReturnProcess[] | undefined
-    >([])
-
-    const totalCompletedOrders = processesApiGetProcesses.response.rowcount
 
     useEffect(() => {
         if (token)
@@ -49,15 +43,8 @@ export function useSearchCompletedOrders(
     }, [pageNum, limit, freeText, selectedEcommerce, token])
 
     useEffect(() => {
-        if (processesApiGetProcesses.loading === 'succeeded') {
-            setCompletedOrders(processesApiGetProcesses.response.processes)
-            dispatch(resetProcessesApiCalls())
-        } else if (processesApiGetProcesses.loading === 'failed') {
-            dispatch(resetProcessesApiCalls())
-        }
+        dispatch(resetProcessesApiCalls())
     }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
-
-    return { CompletedOrders, totalCompletedOrders }
 }
 
-export default useSearchCompletedOrders
+export default useSearchCompletedProcesses

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
 import { useTheme } from '@itsrever/design-system'
-import { useAppSelector } from '../../../redux/hooks'
+import { useAppSelector } from '@/redux/hooks'
 import { useTranslation } from 'react-i18next'
+import axios from 'axios'
 
 interface TopBarProps {
     setActualPage: (page: number) => void
@@ -17,6 +18,36 @@ const TopBar: React.FC<TopBarProps> = ({
     currentTab,
     setCurrentTab
 }) => {
+    // Logic for tab texts
+    const ecommerces = useAppSelector(
+        (store) => store.userApi.getMe.response.user?.ecommerces
+    )
+    const [refundTiming, setRefundTiming] = useState(0)
+    function getSettings() {
+        const options = {
+            method: 'Get',
+            url: 'https://api.byrever.com/v1/returns/settings',
+            params: {
+                slug: `${
+                    ecommerces && ecommerces.length > 0 ? ecommerces[0] : ''
+                }`
+            }
+        }
+        axios
+            .request(options)
+            .then(function (response: any) {
+                setRefundTiming(response.data.refund.timing)
+            })
+            .catch(function (error: any) {
+                console.error(error)
+            })
+    }
+    useEffect(() => {
+        if (ecommerces && ecommerces.length > 0) {
+            getSettings()
+        }
+    }, [ecommerces])
+
     const { t } = useTranslation()
     const theme = useTheme()
 
@@ -25,7 +56,13 @@ const TopBar: React.FC<TopBarProps> = ({
     }
 
     const totalProcesses = useAppSelector(
+        (store) => store.processesApi.getProcesses.response.rowcount
+    )
+    const totalPendingProcesses = useAppSelector(
         (store) => store.processesApi.getPendingProcesses.response.rowcount
+    )
+    const totalCompletedProcesses = useAppSelector(
+        (store) => store.processesApi.getCompletedProcesses.response.rowcount
     )
 
     const handleChangeTab = (event: any, i: number) => {
@@ -57,6 +94,32 @@ const TopBar: React.FC<TopBarProps> = ({
                             }`
                         }}
                         label={t('topbar_components.all')}
+                        iconPosition="end"
+                        icon={
+                            <SmallTotalDiv
+                                style={{
+                                    backgroundColor: `${
+                                        currentTab === 0
+                                            ? 'aliceblue'
+                                            : theme.colors.grey[5]
+                                    }`
+                                }}
+                            >
+                                <p
+                                    className="text-xs"
+                                    style={{
+                                        color: `${
+                                            currentTab === 0
+                                                ? theme.colors.primary.light
+                                                : theme.colors.grey[0]
+                                        }`
+                                    }}
+                                >
+                                    {totalProcesses &&
+                                        '(' + totalProcesses + ')'}
+                                </p>
+                            </SmallTotalDiv>
+                        }
                     />
                     <Tab
                         style={{
@@ -66,7 +129,11 @@ const TopBar: React.FC<TopBarProps> = ({
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={t('topbar_components.action_needed')}
+                        label={
+                            refundTiming === 3
+                                ? t('topbar_components.action_needed')
+                                : t('topbar_components.in_progress')
+                        }
                         iconPosition="end"
                         icon={
                             <SmallTotalDiv
@@ -88,8 +155,8 @@ const TopBar: React.FC<TopBarProps> = ({
                                         }`
                                     }}
                                 >
-                                    {totalProcesses &&
-                                        '(' + totalProcesses + ')'}
+                                    {totalPendingProcesses &&
+                                        '(' + totalPendingProcesses + ')'}
                                 </p>
                             </SmallTotalDiv>
                         }
@@ -102,7 +169,37 @@ const TopBar: React.FC<TopBarProps> = ({
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={t('topbar_components.accepted')}
+                        label={
+                            refundTiming === 3
+                                ? t('topbar_components.reviewed')
+                                : t('topbar_components.completed')
+                        }
+                        iconPosition="end"
+                        icon={
+                            <SmallTotalDiv
+                                style={{
+                                    backgroundColor: `${
+                                        currentTab === 2
+                                            ? 'aliceblue'
+                                            : theme.colors.grey[5]
+                                    }`
+                                }}
+                            >
+                                <p
+                                    className="text-xs"
+                                    style={{
+                                        color: `${
+                                            currentTab === 2
+                                                ? theme.colors.primary.light
+                                                : theme.colors.grey[0]
+                                        }`
+                                    }}
+                                >
+                                    {totalCompletedProcesses &&
+                                        '(' + totalCompletedProcesses + ')'}
+                                </p>
+                            </SmallTotalDiv>
+                        }
                     />
                 </Tabs>
             </div>

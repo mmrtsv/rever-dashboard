@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
-// TBD: Find how to add responses to calls to mock items mapped
+// TBD: Find how to add responses to calls to mock items mapped or cypress test
 
 describe('Line Items table tests', () => {
     const middlewares = [thunk]

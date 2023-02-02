@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
 import {
     getCompletedLineItems,
     resetLineItemsApiCalls
@@ -9,20 +8,17 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 export function useSearchCompletedLineItems(
     pageNum: number,
     limit: number,
-    freeText: string,
-    selectedEcommerce?: string
+    freeText: string
 ) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.tokenData.token)
 
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
+    )
     const lineItemsApiCompletedLineItems = useAppSelector(
         (store) => store.lineItemsApi.getCompletedLineItems
     )
-    const [completedLineItems, setCompletedLineItems] = useState<
-        ModelsPublicReturnLineItem[] | undefined
-    >([])
-
-    const totalCompleted = lineItemsApiCompletedLineItems.response.rowcount
 
     useEffect(() => {
         if (token)
@@ -47,31 +43,11 @@ export function useSearchCompletedLineItems(
     }, [pageNum, freeText, selectedEcommerce, token, limit])
 
     useEffect(() => {
-        if (lineItemsApiCompletedLineItems.loading === 'succeeded') {
-            if (
-                completedLineItems &&
-                lineItemsApiCompletedLineItems.response.line_items &&
-                pageNum > 0
-            ) {
-                setCompletedLineItems(
-                    completedLineItems.concat(
-                        lineItemsApiCompletedLineItems.response.line_items
-                    )
-                )
-            } else
-                setCompletedLineItems(
-                    lineItemsApiCompletedLineItems.response.line_items
-                )
-            dispatch(resetLineItemsApiCalls())
-        } else if (lineItemsApiCompletedLineItems.loading === 'failed') {
-            dispatch(resetLineItemsApiCalls())
-        }
+        dispatch(resetLineItemsApiCalls())
     }, [
         lineItemsApiCompletedLineItems.response,
         lineItemsApiCompletedLineItems.loading
     ])
-
-    return { completedLineItems, totalCompleted }
 }
 
 export default useSearchCompletedLineItems

@@ -5,6 +5,7 @@ import Pagination from '@/components/PaginationComponent/Pagination'
 import useSearchLineItems from '@/hooks/useSearchLineItems'
 import useSearchPendingLineItems from '@/hooks/useSearchPendingLineItems'
 import useSearchCompletedLineItems from '@/hooks/useSearchCompletedLineItems'
+import { useAppSelector } from '@/redux/hooks'
 
 interface TableProps {
     currentTab: number
@@ -21,26 +22,32 @@ const LineItemsTable: React.FC<TableProps> = ({
 }) => {
     const [Limit, setLimit] = useState<number>(10)
 
-    const { pendingLineItems, totalPending } = useSearchPendingLineItems(
-        actualPage,
-        Limit,
-        freeText
+    // All line items
+    const LineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getLineItems.response
     )
-
-    const { completedLineItems, totalCompleted } = useSearchCompletedLineItems(
-        actualPage,
-        Limit,
-        freeText
-    )
-
-    const { LineItems, totalLineItems } = useSearchLineItems(
-        actualPage,
-        Limit,
-        freeText
-    )
+    const LineItems = LineItemsCall.line_items
+    const totalLineItems = LineItemsCall.rowcount
     const MaxPage = totalLineItems && Math.ceil(totalLineItems / Limit)
+    useSearchLineItems(actualPage, Limit, freeText)
+
+    // Pending line items
+    const PendingLineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getPendingLineItems.response
+    )
+    const pendingLineItems = PendingLineItemsCall.line_items
+    const totalPending = PendingLineItemsCall.rowcount
     const MaxPendingPage = totalPending && Math.ceil(totalPending / Limit)
+    useSearchPendingLineItems(actualPage, Limit, freeText)
+
+    // Completed line items
+    const CompletedLineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getCompletedLineItems.response
+    )
+    const completedLineItems = CompletedLineItemsCall.line_items
+    const totalCompleted = CompletedLineItemsCall.rowcount
     const MaxCompletedPage = totalCompleted && Math.ceil(totalCompleted / Limit)
+    useSearchCompletedLineItems(actualPage, Limit, freeText)
 
     return (
         <TableDiv data-testid="LineItemsTable">
