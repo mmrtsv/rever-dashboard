@@ -92,7 +92,7 @@
         "phone": "Teléfono",
         "address": "Dirección",
         "products": "Productos",
-        "order_details": "Detalles del pedido",
+        "order_details": "Detalles",
         "summary": "Resumen"
     },
     "summary": {

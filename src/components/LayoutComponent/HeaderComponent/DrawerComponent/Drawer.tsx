@@ -9,7 +9,6 @@ import {
     Divider,
     Collapse
 } from '@mui/material'
-import HomeIcon from '@mui/icons-material/Store'
 import ItemsIcon from '@mui/icons-material/Sell'
 import AnalyticsIcon from '@mui/icons-material/BarChart'
 import FinancialsIcon from '@mui/icons-material/Payments'
@@ -19,17 +18,17 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import MenuIcon from '@mui/icons-material/Menu'
 import OrdersIcon from '@mui/icons-material/Rule'
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import LogoWideWhite from '../../../../assets/images/icons/LogoWideWhite.svg'
 import LogoutIcon from '@mui/icons-material/Logout'
+import LogoWideWhite from '@/assets/images/icons/LogoWideWhite.svg'
 import { useTheme } from '@itsrever/design-system'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
-import { toggleSidebar } from '../../../../redux/features/appState/appStateSlice'
+import { useAppSelector, useAppDispatch } from '@/redux/hooks'
+import { toggleSidebar } from '@/redux/features/appState/appStateSlice'
 import { useTranslation } from 'react-i18next'
-import { FlagrEvalPost } from '../../../../services/flagr.api'
+import { FlagrEvalPost } from '@/services/flagr.api'
 import { useAuth0 } from '@auth0/auth0-react'
-import { resetTokenData } from '../../../../redux/features/generalData/tokenDataSlice'
-import Mixpanel from '../../../../mixpanel/Mixpanel'
+import { resetTokenData } from '@/redux/features/generalData/tokenDataSlice'
+import Mixpanel from '@/mixpanel/Mixpanel'
 
 export const drawerWidth = 240
 export const drawerList1 = ['returns', 'items']
@@ -77,8 +76,8 @@ const DrawerComponent = () => {
     }
 
     const handleLogout = () => {
-        logout({ returnTo: window.location.origin })
         dispatch(resetTokenData())
+        logout({ returnTo: window.location.origin })
         Mixpanel.track('Logout')
     }
 
@@ -124,7 +123,7 @@ const DrawerComponent = () => {
                 <img
                     className="cursor-pointer"
                     src={LogoWideWhite}
-                    alt="logo"
+                    alt="ReverLogo"
                 />
                 <IconButton onClick={handleDrawer}>
                     <div
@@ -275,7 +274,7 @@ const DrawerComponent = () => {
                                         <AccountCircle />
                                     </div>
                                 </ListItemIcon>
-                                <h6>{userName[0]}</h6>
+                                <h6 data-testid="UserName">{userName[0]}</h6>
                             </ListItemButton>
                             <ListItemIcon
                                 style={{ cursor: 'pointer' }}

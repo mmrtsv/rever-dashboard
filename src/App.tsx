@@ -15,8 +15,8 @@ const Analytics = lazy(() => import('./pages/Financials.page'))
 const LineItems = lazy(() => import('./pages/LineItems.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
-const Orders = lazy(() => import('./pages/Orders.page'))
-const OrderDetails = lazy(() => import('./pages/OrderDetails.page'))
+const Orders = lazy(() => import('./pages/Processes.page'))
+const OrderDetails = lazy(() => import('./pages/ProcessDetails.page'))
 
 type Props = {
     component: React.ComponentType<any>

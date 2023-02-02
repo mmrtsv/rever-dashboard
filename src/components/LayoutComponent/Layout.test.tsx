@@ -7,7 +7,7 @@ import thunk from 'redux-thunk'
 import Layout from './Layout'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../i18nForTests'
+import i18n from '@/i18nForTests'
 import { ThemeProvider } from '@itsrever/design-system'
 
 describe('Layout Component', () => {

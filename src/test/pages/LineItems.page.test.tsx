@@ -17,7 +17,7 @@ describe('Line Items Page', () => {
     const state = reduxState()
     afterEach(cleanup)
 
-    it('should render the correct elements - Filter , selector, orders table and pagination', () => {
+    it('should render the correct elements - TopBar , search, line items table and pagination', () => {
         const store = mockStore(state)
         render(
             <Router>
@@ -30,9 +30,10 @@ describe('Line Items Page', () => {
                 </Provider>
             </Router>
         )
+        screen.getByTestId('TopBar')
+        screen.getByTestId('SearchIcon')
         screen.getAllByText('Search...')
-        screen.getByTestId('filter')
-        screen.getByTestId('OrdersTable')
+        screen.getByTestId('LineItemsTable')
         screen.getByText('2 total pages')
         screen.getByText('10 / page')
     })

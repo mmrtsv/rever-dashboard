@@ -5,14 +5,14 @@ import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { I18nextProvider } from 'react-i18next'
-import i18n from '../../../i18nForTests'
+import i18n from '@/i18nForTests'
 import { ThemeProvider } from '@itsrever/design-system'
 import Header from './Header'
 
-describe('Header Component', () => {
+describe('Header Component test', () => {
     afterEach(cleanup)
 
-    it('should render the components: BurgerMenu - ReverLogo - LanguageSwitcher - UserMenu', () => {
+    it('should render MenuIcon and LanguageSwitcher when SiderBar closed', () => {
         const state = reduxState(false)
         const mockStore = configureStore()
         const store = mockStore(state)
@@ -28,13 +28,12 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-        screen.getByTestId('BurgerMenuOutsideIcon')
-        screen.getByAltText('logo')
+        // Two Logos
+        expect(screen.getAllByTestId('MenuIcon').length).toBe(2)
         screen.getByTestId('LanguageSwitcher')
-        screen.getByTestId('UserMenu')
     })
 
-    it('should not display the Buger Menu when the drawer is open', () => {
+    it('should render the MenuIcon when SideBar is open', () => {
         const state = reduxState(true)
         const mockStore = configureStore()
         const store = mockStore(state)
@@ -49,13 +48,11 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-        expect(screen.queryByTestId('BurgerMenuOutsideIcon')).toBeNull()
-        screen.getByAltText('logo')
-        screen.getByTestId('LanguageSwitcher')
-        screen.getByTestId('UserMenu')
+        // 1 Logo
+        expect(screen.getAllByTestId('MenuIcon').length).toBe(1)
     })
 
-    it('should dispatch when clicking the Burger Menu', () => {
+    it('should dispatch when clicking the MenuIcon', () => {
         const state = reduxState(false)
         const mockStore = configureStore()
         const store = mockStore(state)
@@ -71,7 +68,8 @@ describe('Header Component', () => {
                 </Provider>
             </Router>
         )
-        fireEvent.click(screen.getByTestId('BurgerMenuOutsideIcon'))
+        const Icons = screen.getAllByTestId('MenuIcon')
+        fireEvent.click(Icons[0])
         const actions = store.getActions()
         expect(actions.length).toBe(1)
     })

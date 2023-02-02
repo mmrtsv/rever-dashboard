@@ -1,13 +1,11 @@
 import React from 'react'
 import { Toolbar, Box } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import UserMenu from './UserMenu'
 import { styled } from '@mui/material/styles'
-import LanguageSwitcher from '../../LanguageSwitcher'
-import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
-import { toggleSidebar } from '../../../redux/features/appState/appStateSlice'
+import MenuIcon from '@mui/icons-material/Menu'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { toggleSidebar } from '@/redux/features/appState/appStateSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
 
@@ -37,7 +35,6 @@ const AppBar = styled(MuiAppBar, {
 const Header = () => {
     const theme = useTheme()
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
 
     const isSidebarOpen = useAppSelector(
         (store) => store.appState.isSidebarOpen
@@ -69,23 +66,17 @@ const Header = () => {
                                 style={{ color: theme.colors.primary.dark }}
                             >
                                 <MenuIcon
-                                    data-testid="BurgerMenuOutsideIcon"
                                     onClick={handleDrawer}
                                     fontSize="large"
                                 />
                             </div>
                         )}
                     </div>
-
                     <LanguageSwitcher />
-                    {/* <div className="mx-2 flex h-full items-center overflow-x-auto ">
-                        <UserMenu />
-                    </div> */}
                 </ReverToolbar>
             </ReverNavbar>
             <DrawerComponent />
         </Box>
-        // <DrawerComponent />
     )
 }
 

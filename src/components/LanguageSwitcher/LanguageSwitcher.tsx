@@ -1,13 +1,7 @@
-import {
-    Button,
-    MenuItem,
-    Popover,
-    ListItemText,
-    Typography
-} from '@mui/material'
 import React, { useState } from 'react'
-import EN from '../../assets/images/languages/EN.svg'
-import ES from '../../assets/images/languages/ES.svg'
+import { Button, MenuItem, Popover } from '@mui/material'
+import EN from '@/assets/images/languages/EN.svg'
+import ES from '@/assets/images/languages/ES.svg'
 import { useTranslation } from 'react-i18next'
 
 export const languageTitles = { en: 'EN', es: 'ES' }
@@ -37,20 +31,13 @@ export const LanguageSwitcher = () => {
             <Button data-testid="LanguageSwitcher" onClick={menuOpen}>
                 <div className="flex items-center">
                     <img className="mx-2" src={language === 'en' ? EN : ES} />
-                    <Typography
-                        fontFamily="Roobert"
-                        fontStyle="normal"
-                        fontWeight="400"
-                        fontSize="16px"
-                        lineHeight="20px"
-                        color="black"
-                    >
+                    <h6 style={{ color: 'black' }}>
                         {
                             languageTitles[
                                 language as keyof typeof languageTitles
                             ]
                         }
-                    </Typography>
+                    </h6>
                 </div>
             </Button>
             <Popover
@@ -69,7 +56,7 @@ export const LanguageSwitcher = () => {
             >
                 {Object.entries(languageLabels).map(([lang, label]) => (
                     <MenuItem key={lang} onClick={() => handleChange(lang)}>
-                        <ListItemText primary={label} />
+                        <h6>{label}</h6>
                     </MenuItem>
                 ))}
             </Popover>

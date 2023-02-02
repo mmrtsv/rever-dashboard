@@ -29,7 +29,7 @@ describe('SelectorComponentTest', () => {
             </Router>
         )
 
-        const children = screen.queryByTestId('filter')
+        const children = screen.queryByTestId('Selector')
         expect(children).toBeNull()
     })
 
@@ -50,7 +50,7 @@ describe('SelectorComponentTest', () => {
             </Router>
         )
 
-        const children = screen.queryByTestId('filter')
+        const children = screen.queryByTestId('Selector')
         expect(children).toBeNull()
     })
 
@@ -70,7 +70,7 @@ describe('SelectorComponentTest', () => {
                 </Provider>
             </Router>
         )
-        screen.getByTestId('filter')
+        screen.getByTestId('Selector')
     })
 
     it('should render the ecommerces list and the all option', () => {
