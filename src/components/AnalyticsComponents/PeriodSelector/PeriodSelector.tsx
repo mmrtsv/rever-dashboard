@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@itsrever/design-system'
 import CalendarIcon from '@mui/icons-material/DateRangeOutlined'
+import moment from 'moment'
 
 interface TopBarProps {
     currentPeriod: number
@@ -12,10 +13,14 @@ const PeriodSelector: React.FC<TopBarProps> = ({
     currentPeriod,
     setCurrentPeriod
 }) => {
+    const dateTo = moment().format('YYYY-MM-DD')
+    const dateFrom30d = moment().subtract(1, 'M').format('YYYY-MM-DD')
+    const dateFrom7d = moment().subtract(7, 'd').format('YYYY-MM-DD')
+
     const theme = useTheme()
     return (
         <div className="flex">
-            <LeftTimeSelector
+            {/* <LeftTimeSelector
                 selected={currentPeriod === 0}
                 onClick={() => setCurrentPeriod(0)}
                 textColor={theme.colors.primary.light}
@@ -24,8 +29,8 @@ const PeriodSelector: React.FC<TopBarProps> = ({
             >
                 <CalendarIcon />
                 <span className="ml-2">Custom</span>
-            </LeftTimeSelector>
-            <TimeSelector
+            </LeftTimeSelector> */}
+            <LeftTimeSelector
                 selected={currentPeriod === 1}
                 onClick={() => setCurrentPeriod(1)}
                 textColor={theme.colors.primary.light}
@@ -33,7 +38,7 @@ const PeriodSelector: React.FC<TopBarProps> = ({
                 borderColor={theme.colors.grey[5]}
             >
                 7D
-            </TimeSelector>
+            </LeftTimeSelector>
             <RightTimeSelector
                 selected={currentPeriod === 2}
                 onClick={() => setCurrentPeriod(2)}

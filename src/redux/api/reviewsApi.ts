@@ -2,8 +2,9 @@ import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from './apiConfiguration'
 import {
-    ReviewsApiCreateReviewRequest,
-    ReviewsApi
+    CreateLineItemReviewsInput,
+    ReviewsApi,
+    ReviewsApiCreateLineItemReviewsRequest
 } from '@itsrever/dashboard-api'
 
 const reviewsApi = new ReviewsApi(undefined, undefined, axiosInstance)
@@ -22,10 +23,10 @@ const initialState: State = {
 
 export const createReview = createAsyncThunk(
     '/createReview',
-    async (args: ReviewsApiCreateReviewRequest) => {
-        const { createReviewInput } = args || {}
-        const createReviewResponse = await reviewsApi.createReview({
-            createReviewInput
+    async (args: ReviewsApiCreateLineItemReviewsRequest) => {
+        const { createLineItemReviewsInput } = args || {}
+        const createReviewResponse = await reviewsApi.createLineItemReviews({
+            createLineItemReviewsInput
         })
         return createReviewResponse
     }

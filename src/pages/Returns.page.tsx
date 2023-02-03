@@ -5,6 +5,7 @@ import TopBar from '../components/AnalyticsComponents/TopBar/TopBar'
 import ReturnsMetrics from '../components/AnalyticsComponents/ReturnsMetrics/ReturnsMetrics'
 import { useTheme } from '@itsrever/design-system'
 import NoAvailable from '../assets/images/noAvailable.png'
+import PeriodSelector from '../components/AnalyticsComponents/PeriodSelector/PeriodSelector'
 
 function Home() {
     const theme = useTheme()
@@ -23,9 +24,10 @@ function Home() {
                         currentPeriod={currentPeriod}
                         setCurrentPeriod={setCurrentPeriod}
                     />
+
                     <AnalyticsDiv>
                         {currentTab === 0 ? (
-                            <ReturnsMetrics />
+                            <ReturnsMetrics currentPeriod={currentPeriod} />
                         ) : (
                             <div>
                                 <h1>Other returns information</h1>

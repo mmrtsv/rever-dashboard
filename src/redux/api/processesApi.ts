@@ -1,7 +1,7 @@
 import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
-    FindPaginatedResults,
+    ApiPaginatedResults,
     ProcessesApi,
     ProcessesApiFindProcessesRequest
 } from '@itsrever/dashboard-api'
@@ -10,7 +10,7 @@ import { axiosInstance } from './apiConfiguration'
 const processesApi = new ProcessesApi(undefined, undefined, axiosInstance)
 
 interface GetProcessesCall extends ApiCallBase {
-    response: FindPaginatedResults
+    response: ApiPaginatedResults
 }
 
 interface State {

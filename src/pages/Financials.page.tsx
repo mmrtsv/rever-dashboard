@@ -12,14 +12,16 @@ function Financials() {
             <GeneralDiv>
                 <MainDiv>
                     <TopDiv>
-                        <h1 className="text-2xl">FINANCIAL STATUS</h1>
-                        <PeriodSelector
+                        <h3 className="text-primary-dark mb-4 text-5xl">
+                            <b>Financial Report</b>
+                        </h3>
+                        {/* <PeriodSelector
                             currentPeriod={currentPeriod}
                             setCurrentPeriod={setCurrentPeriod}
-                        />
+                        /> */}
                     </TopDiv>
                     <AnalyticsDiv>
-                        <FinancialMetrics />
+                        <FinancialMetrics currentPeriod={currentPeriod} />
                     </AnalyticsDiv>
                 </MainDiv>
             </GeneralDiv>

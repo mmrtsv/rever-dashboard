@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@itsrever/design-system'
+import useSearchFinancialReport from '../../../hooks/useSearchFinancialReport'
+import moment from 'moment'
+import { formatPrice } from '../../../utils'
+import { ModelsMoneyFormat } from '@itsrever/dashboard-api'
 
-const FinancialMetrics = () => {
+interface FinancialMetricsProps {
+    currentPeriod: number
+}
+const FinancialMetrics: React.FC<FinancialMetricsProps> = ({
+    currentPeriod
+}) => {
     const theme = useTheme()
+    const dateTo = moment().format('YYYY-MM-DD')
+    const dateFrom30d = moment().subtract(1, 'M').format('YYYY-MM-DD')
+    const dateFrom7d = moment().subtract(7, 'd').format('YYYY-MM-DD')
+    const [dateFrom, setDateFrom] = useState(dateFrom30d)
+    useEffect(() => {
+        if (currentPeriod === 2) {
+            setDateFrom(dateFrom30d)
+        } else {
+            setDateFrom(dateFrom7d)
+        }
+    }, [currentPeriod])
+    const { report } = useSearchFinancialReport()
+    console.log(report)
+    const moneyFormat = report?.money_format
+    const grossSales =
+        moneyFormat && formatPrice(report?.gross_sales || 0, moneyFormat)
+    const discounts =
+        moneyFormat && formatPrice(report?.discounts || 0, moneyFormat)
+    const returns =
+        moneyFormat && formatPrice(report?.returns || 0, moneyFormat)
+    const shipping =
+        moneyFormat && formatPrice(report?.shipping || 0, moneyFormat)
+    const taxes = moneyFormat && formatPrice(report?.taxes || 0, moneyFormat)
+    const reverItems =
+        moneyFormat && formatPrice(report?.rever_items || 0, moneyFormat)
+    const reverTransactions =
+        moneyFormat && formatPrice(report?.rever_transactions || 0, moneyFormat)
+
     return (
         <FinancialDiv>
             <LeftDiv borderColor={theme.colors.grey[3]}>
@@ -11,7 +48,7 @@ const FinancialMetrics = () => {
                     <h4>
                         <b>Concept</b>
                     </h4>
-                    <p>Gross sales Nude Project</p>
+                    <p>Gross sales</p>
                     <p>New sales by REVER</p>
                     <hr className="my-2" />
                     <p>
@@ -35,20 +72,20 @@ const FinancialMetrics = () => {
                     <h4 className="text-center">
                         <b>Value</b>
                     </h4>
-                    <span className="text-end">2,634,948.39 €</span>
-                    <span className="text-end">39,871.46 €</span>
+                    <span className="text-end">{grossSales}</span>
+                    <span className="text-end">{reverTransactions}</span>
                     <hr className="my-2" />
                     <span className="text-end">
                         <b>2,674,819.85 €</b>
                     </span>
-                    <span className="text-end">- 75,722.00 €</span>
-                    <span className="text-end">- 69,296.83 €</span>
+                    <span className="text-end">- {discounts}</span>
+                    <span className="text-end">- {returns}</span>
                     <span className="text-end">- 45,993.80 €</span>
                     <hr className="my-2" />
                     <span className="text-end">
-                        <b>2,483,807.22 €</b>
+                        <b>{shipping}</b>
                     </span>
-                    <span className="text-end">130,511.81 €</span>
+                    <span className="text-end">{taxes}</span>
                     <span className="text-end">510,400.70 €</span>
                     <hr className="my-2" />
                     <span className="text-end">

@@ -524,10 +524,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@itsrever/dashboard-api@^1.0.111":
-  version "1.0.111"
-  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.111/0cbde7dda7d7335451e211ddb7b7f41d9b95ffab#0cbde7dda7d7335451e211ddb7b7f41d9b95ffab"
-  integrity sha512-cSvfqaiisBzr3Yqn5apgHd5IIv6UCF1mjLMgj1tWvqoplp/bt8/YI7ea9aoZ9aJaHNNREs4h4EreFsCakJN1yg==
+"@itsrever/dashboard-api@^1.0.124":
+  version "1.0.124"
+  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.124/7c238ff363d4c5a76744657d7abcd452b2e8c93c#7c238ff363d4c5a76744657d7abcd452b2e8c93c"
+  integrity sha512-2F5W9ViGKrX6U57Q8k1SUOaFBD4iCJJJ8oA87uYecfg9m3qXuoXvh77feEqeycMQ8rAYbN+IPIZP2Vz4hw3lYA==
   dependencies:
     axios "1.2.2"
 
@@ -4134,6 +4134,11 @@ mixpanel-browser@^2.45.0:
   version "2.45.0"
   resolved "https://registry.yarnpkg.com/mixpanel-browser/-/mixpanel-browser-2.45.0.tgz#a2973be5b66e6d2799ef95a1e55b8ad8eede57e8"
   integrity sha512-PQ1DaTk68yyYtLA0iejmzPA9iNDhT4uIZpqZjRTw7HWpYfl123fydHb2laKanaKjm8YDmrGGz3+xZ4Q6joogyg==
+
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 moo@^0.5.1:
   version "0.5.2"

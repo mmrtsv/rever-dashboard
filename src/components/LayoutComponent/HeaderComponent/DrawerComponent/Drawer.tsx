@@ -203,7 +203,11 @@ const DrawerComponent = () => {
                                                     </div>
                                                 )}
                                             </ListItemIcon>
-                                            <p>{t(`drawer_pages.${text}`)}</p>
+                                            <h6 className="text-lg">
+                                                <b>
+                                                    {t(`drawer_pages.${text}`)}
+                                                </b>
+                                            </h6>
                                             {analyticsOpen ? (
                                                 <ExpandLess />
                                             ) : (
@@ -250,9 +254,9 @@ const DrawerComponent = () => {
                                                         </div>
                                                     )}
                                                 </ListItemIcon>
-                                                <p>
+                                                <h6 className="text-lg">
                                                     {t(`drawer_pages.${text}`)}
-                                                </p>
+                                                </h6>
                                             </ListItemButton>
                                         </Collapse>
                                     )}

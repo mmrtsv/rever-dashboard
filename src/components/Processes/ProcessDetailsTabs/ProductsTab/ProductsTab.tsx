@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import {
     ModelsPublicReturnProcess,
     ModelsReturnLineItem,
-    ModelsLineItemReview
+    ModelsLineItemReview,
+    OpsapiModelsLineItemReview
 } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { SelectMenu, SelectItem, Modal, Button } from '@itsrever/design-system'
@@ -15,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-interface Review extends ModelsLineItemReview {
+interface Review extends OpsapiModelsLineItemReview {
     index: number
 }
 
@@ -113,7 +114,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
 
         dispatch(
             createReview({
-                createReviewInput: {
+                createLineItemReviewsInput: {
                     process_id: process?.process_id,
                     reviews: newReviews
                 }

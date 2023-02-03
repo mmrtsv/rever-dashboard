@@ -21,11 +21,13 @@ const TopBar: React.FC<TopBarProps> = ({
     return (
         <TopDiv>
             <div className="flex flex-col">
-                <h1 className="text-2xl">ANALYTICS DASHBOARD</h1>
+                <h3 className="text-primary-dark mb-4 text-5xl">
+                    <b>Analytics dashboard</b>
+                </h3>
                 <h6>Monitor metrics - Check reports</h6>
             </div>
-            <div className="mt-2">
-                <div className="mb-4 flex justify-center">
+            <div className="mt-8">
+                {/* <div className="mb-4 flex justify-center">
                     <Tabs
                         value={currentTab}
                         onChange={(e, i) => setCurrentTab(i)}
@@ -56,7 +58,7 @@ const TopBar: React.FC<TopBarProps> = ({
                             label="Others"
                         />
                     </Tabs>
-                </div>
+                </div> */}
                 <PeriodSelector
                     currentPeriod={currentPeriod}
                     setCurrentPeriod={setCurrentPeriod}
@@ -72,6 +74,7 @@ const TopDiv = styled.div`
     /* display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem; */
+    margin-top: 4rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

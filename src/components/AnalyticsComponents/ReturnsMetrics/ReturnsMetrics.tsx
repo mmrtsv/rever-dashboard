@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@itsrever/design-system'
 import Chart from 'react-apexcharts'
@@ -7,10 +7,70 @@ import ReturnsIcon from '@mui/icons-material/LocalShipping'
 import RDVIcon from '@mui/icons-material/AccountBalance'
 import SalesIcon from '@mui/icons-material/Paid'
 import ArrowUpIcon from '@mui/icons-material/TrendingUp'
+import { useSearchReturnMetrics } from '../../../hooks/useSearchReturnMetrics'
+import { useSearchReturnTypes } from '../../../hooks/useSearchReturnTypes'
+import { formatPrice } from '../../../utils'
+import moment from 'moment'
+import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
 
-const ReturnsMetrics = () => {
+interface ReturnsMetricsProps {
+    currentPeriod: number
+}
+const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     const theme = useTheme()
+    const dateTo = moment().format('YYYY-MM-DD')
+    const dateFrom30d = moment().subtract(1, 'M').format('YYYY-MM-DD')
+    const dateFrom7d = moment().subtract(7, 'd').format('YYYY-MM-DD')
+    const [dateFrom, setDateFrom] = useState(dateFrom30d)
 
+    useEffect(() => {
+        if (currentPeriod === 2) {
+            setDateFrom(dateFrom30d)
+        } else {
+            setDateFrom(dateFrom7d)
+        }
+    }, [currentPeriod])
+
+    const { returnMetrics } = useSearchReturnMetrics(dateFrom, dateTo)
+    const { returnTypes } = useSearchReturnTypes(dateFrom, dateTo)
+    const { returnTypesByDay } = useSearchReturnTypesByDay(dateFrom7d, dateTo)
+
+    const exchangePercentage: number = returnTypes?.exchanges
+        ? Math.round(returnTypes?.exchanges)
+        : 0
+    const refundPercentage = returnTypes?.refunds
+        ? Math.round(returnTypes?.refunds)
+        : 0
+    const storeCreditPercentage = returnTypes?.store_credit
+        ? Math.round(returnTypes?.store_credit)
+        : 0
+
+    const moneyFormat = returnMetrics && returnMetrics?.money_format
+    const totalRdv =
+        returnMetrics &&
+        returnMetrics.rdv &&
+        moneyFormat &&
+        formatPrice(returnMetrics.rdv, moneyFormat)
+    const returns = returnMetrics && returnMetrics.Returns
+    const rdvPercentage =
+        returnMetrics &&
+        returnMetrics.rdv_percentage?.toString().substring(0, 5)
+
+    function getReturns(data: any) {
+        return data.map((item: any) => item.returns)
+    }
+    const returnsByDay = returnTypesByDay && getReturns(returnTypesByDay)
+    function getLast7Days(): string[] {
+        const today = moment().subtract(1, 'days')
+        const last7Days = []
+
+        for (let i = 0; i < 7; i++) {
+            last7Days.push(today.subtract(i, 'days').format('DD MMM'))
+        }
+
+        return last7Days.reverse()
+    }
+    const last7Days = getLast7Days()
     const chartOptions: ApexOptions = {
         chart: {
             animations: {
@@ -27,12 +87,13 @@ const ReturnsMetrics = () => {
                 enabled: true
             }
         },
-        colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
+        // colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
+        colors: ['#1B75EB', '#85B8FF', '#003096'],
         labels: [
-            'Store Credit',
-            'Original Payment Method',
-            'Bank Transfer',
-            'Exchanges'
+            'Exchanges',
+            'Refunds',
+            'Store Credit'
+            // 'Original Payment Method',
         ],
         plotOptions: {
             pie: {
@@ -46,7 +107,7 @@ const ReturnsMetrics = () => {
         // stroke: {
         //     colors: [theme.palette.background.paper]
         // },
-        series: [44, 55, 41, 17],
+        series: [exchangePercentage, refundPercentage, storeCreditPercentage],
         states: {
             hover: {
                 filter: {
@@ -71,31 +132,53 @@ const ReturnsMetrics = () => {
         </div>`
         }
     }
-    const colors = ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096']
-    const labels = [
-        'Store Credit',
-        'Original Payment Method',
-        'Bank Transfer',
-        'Exchanges'
-    ]
-    const series = [15, 12, 43, 30]
+    // const colors = ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096']
+    const colors = ['#1B75EB', '#85B8FF', '#003096']
+    const labels = ['Exchanges', 'Refunds', 'Store Credit']
+    const series = [exchangePercentage, refundPercentage, storeCreditPercentage]
 
     const options2: ApexOptions = {
+        chart: {
+            animations: {
+                speed: 400,
+                animateGradually: {
+                    enabled: false
+                }
+            },
+            fontFamily: 'inherit',
+            foreColor: '#AEDCFF',
+            width: '100%',
+            height: '100%',
+            type: 'area',
+            toolbar: {
+                show: false
+            },
+            zoom: {
+                enabled: false
+            }
+        },
+        colors: ['#AEDCFF'],
+        dataLabels: {
+            enabled: false
+        },
+        fill: {
+            colors: ['#003096']
+        },
+        grid: {
+            show: false,
+            borderColor: '#85B8FF'
+        },
         stroke: {
-            curve: 'smooth'
+            width: 2
         },
         markers: {
             size: 0
         },
         xaxis: {
-            categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            categories: last7Days
         }
     }
-    const series2 = [
-        {
-            data: [30, 40, 25, 50, 49, 21, 70, 51]
-        }
-    ]
+    const series2 = [{ name: 'Returns', data: returnsByDay }]
 
     return (
         <ReturnsDiv>
@@ -113,7 +196,7 @@ const ReturnsMetrics = () => {
                                 color={theme.colors.primary.dark}
                                 className="text-center text-5xl"
                             >
-                                <b>2482</b>
+                                <b>{returns}</b>
                             </Title>
                             <h6 className="text-center">total returns</h6>
                         </div>
@@ -132,7 +215,7 @@ const ReturnsMetrics = () => {
                                 color={theme.colors.primary.dark}
                                 className="text-center text-5xl"
                             >
-                                <b>45%</b>
+                                <b>{rdvPercentage}%</b>
                             </Title>
                             <h6 className="text-center">
                                 of retained dollar value (RDV)
@@ -161,7 +244,7 @@ const ReturnsMetrics = () => {
                                     color={theme.colors.success.main}
                                     className="text-center text-5xl"
                                 >
-                                    <b>39,871.39 €</b>
+                                    <b>{totalRdv}</b>
                                 </Title>
                             </div>
 
@@ -173,14 +256,18 @@ const ReturnsMetrics = () => {
                 </ReverSuccessBox>
             </TopInfo>
             <CompensationsDiv>
-                <ReverBox borderColor={theme.colors.grey[3]}>
+                {/* <ReverBox borderColor={theme.colors.grey[3]}> */}
+                <LineChart>
+                    <LineChartTitle>Returns last 7 days</LineChartTitle>
                     <Chart
                         options={options2}
                         series={series2}
-                        type="line"
-                        width="600"
+                        type="area"
+                        height="420"
+                        width="100%"
                     />
-                </ReverBox>
+                </LineChart>
+                {/* </ReverBox> */}
                 <DonutBox borderColor={theme.colors.grey[3]}>
                     <p className="truncate text-lg font-medium leading-6">
                         Compensations
@@ -229,6 +316,30 @@ const ReturnsMetrics = () => {
 
 export default ReturnsMetrics
 
+const LineChartTitle = styled.h6`
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+    color: #aedcff;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+
+    text-align: center;
+`
+
+const LineChart = styled.div`
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    width: 100%;
+    height: 100%;
+    /* padding: 1rem; */
+    border-radius: 0.5rem;
+    background-color: rgb(30, 41, 59);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+`
 interface BoxProps {
     borderColor?: string
     backgroundColor?: string
@@ -250,12 +361,15 @@ const DonutBox = styled.div<BoxProps>`
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 `
 
-const ReturnsDiv = styled.div``
+const ReturnsDiv = styled.div`
+    /* background-color: red; */
+`
 
 const TopInfo = styled.div`
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
+    width: 100%;
 `
 
 interface IconProps {
@@ -299,5 +413,6 @@ const ReverSuccessBox = styled.div<BoxSuccessProps>`
 
 const CompensationsDiv = styled.div`
     margin-top: 1rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 `
