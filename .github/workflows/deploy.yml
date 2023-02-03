@@ -82,7 +82,7 @@ jobs:
     deploy-prd:
         # Only triggered when successful version tagging
         runs-on: ubuntu-latest
-        needs: [tag-version, docker-build]
+        needs: [tests, tag-version, docker-build]
         steps:
             - name: Trigger deploy workflow
               uses: convictional/trigger-workflow-and-wait@v1.6.0
