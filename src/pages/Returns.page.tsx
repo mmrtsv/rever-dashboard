@@ -93,6 +93,8 @@ const GeneralDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
+    overflow-y: scroll;
 `
 
 const MainDiv = styled.div`

@@ -57,20 +57,18 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
         returnMetrics.rdv_percentage?.toString().substring(0, 5)
 
     function getReturns(data: any) {
-        return data.map((item: any) => item.returns)
+        return data.map((item: any) => item.item_count).reverse()
+    }
+    function getReturnsByDayDays(data: any) {
+        return data
+            .map((item: any) =>
+                moment(item.date, 'YYYY-MM-DD').format('DD MMM')
+            )
+            .reverse()
     }
     const returnsByDay = returnTypesByDay && getReturns(returnTypesByDay)
-    function getLast7Days(): string[] {
-        const today = moment().subtract(1, 'days')
-        const last7Days = []
-
-        for (let i = 0; i < 7; i++) {
-            last7Days.push(today.subtract(i, 'days').format('DD MMM'))
-        }
-
-        return last7Days.reverse()
-    }
-    const last7Days = getLast7Days()
+    const returnsByDayDays =
+        returnTypesByDay && getReturnsByDayDays(returnTypesByDay)
     const chartOptions: ApexOptions = {
         chart: {
             animations: {
@@ -169,13 +167,16 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
             borderColor: '#85B8FF'
         },
         stroke: {
-            width: 2
+            width: 3
         },
         markers: {
             size: 0
         },
         xaxis: {
-            categories: last7Days
+            categories: returnsByDayDays,
+            labels: {
+                show: true
+            }
         }
     }
     const series2 = [{ name: 'Returns', data: returnsByDay }]
@@ -255,10 +256,20 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                     </div>
                 </ReverSuccessBox>
             </TopInfo>
+            <LineChart>
+                <LineChartTitle>Returns</LineChartTitle>
+                <Chart
+                    options={options2}
+                    series={series2}
+                    type="area"
+                    height="250"
+                    // width="100%"
+                />
+            </LineChart>
             <CompensationsDiv>
                 {/* <ReverBox borderColor={theme.colors.grey[3]}> */}
-                <LineChart>
-                    <LineChartTitle>Returns last 7 days</LineChartTitle>
+                {/* <LineChart>
+                    <LineChartTitle>Returns</LineChartTitle>
                     <Chart
                         options={options2}
                         series={series2}
@@ -266,19 +277,13 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                         height="420"
                         width="100%"
                     />
-                </LineChart>
+                </LineChart> */}
                 {/* </ReverBox> */}
                 <DonutBox borderColor={theme.colors.grey[3]}>
                     <p className="truncate text-lg font-medium leading-6">
                         Compensations
                     </p>
-                    <Chart
-                        options={chartOptions}
-                        series={series}
-                        type="donut"
-                        width="400"
-                    />
-                    <div className="m-2">
+                    <DonutInside>
                         <div>
                             {series.map((dataset, i) => (
                                 <>
@@ -307,7 +312,13 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                 </>
                             ))}
                         </div>
-                    </div>
+                        <Chart
+                            options={chartOptions}
+                            series={series}
+                            type="donut"
+                            width="300"
+                        />
+                    </DonutInside>
                 </DonutBox>
             </CompensationsDiv>
         </ReturnsDiv>
@@ -329,12 +340,15 @@ const LineChartTitle = styled.h6`
 `
 
 const LineChart = styled.div`
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
     /* align-items: center; */
     width: 100%;
-    height: 100%;
+    height: fit-content;
     /* padding: 1rem; */
     border-radius: 0.5rem;
     background-color: rgb(30, 41, 59);
@@ -348,9 +362,16 @@ const LegendDot = styled.div<BoxProps>`
     background-color: ${(p) => p.backgroundColor};
     border-color: ${(p) => p.borderColor};
 `
+const DonutInside = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
 const DonutBox = styled.div<BoxProps>`
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
     padding-top: 1rem;
+    padding-bottom: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -362,7 +383,7 @@ const DonutBox = styled.div<BoxProps>`
 `
 
 const ReturnsDiv = styled.div`
-    /* background-color: red; */
+    height: 100%;
 `
 
 const TopInfo = styled.div`
@@ -414,5 +435,6 @@ const ReverSuccessBox = styled.div<BoxSuccessProps>`
 const CompensationsDiv = styled.div`
     margin-top: 1rem;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    padding-bottom: 4rem;
 `

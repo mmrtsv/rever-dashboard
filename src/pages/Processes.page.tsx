@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PageComponent from '@/components/PageComponent'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -16,7 +16,6 @@ function Orders() {
     const [currentTab, setCurrentTab] = useState(0)
     const [ActualPage, setActualPage] = useState<number>(0)
     const [FreeText, setFreeText] = useState<string>('')
-
     const totalOrders = useAppSelector(
         (store) => store.processesApi.getProcesses.response.rowcount
     )

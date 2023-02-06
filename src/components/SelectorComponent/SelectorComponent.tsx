@@ -11,7 +11,6 @@ import {
 import { setSelectedEcommerce } from '../../redux/features/generalData/generalDataSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { useTranslation } from 'react-i18next'
-// import Checkbox from '@mui/material/Checkbox'
 
 interface SelectorProps {
     handleChangeSelectedEcommerce: () => void
@@ -50,10 +49,7 @@ const SelectorComponent: React.FC<SelectorProps> = ({
     return (
         <>
             {ecommerceList && ecommerceList.length > 1 && (
-                <FormControl
-                    data-testid="Selector"
-                    sx={{ width: 200, borderColor: 'white' }}
-                >
+                <FormControl data-testid="Selector" sx={{ width: 200 }}>
                     <InputLabel>{t('selector_component.label')}</InputLabel>
                     <Select
                         value={selectedEcommerce ?? ''}
