@@ -90,7 +90,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/dashboard"
+                            path="/financials"
                             element={<ProtectedRoute component={Analytics} />}
                         />
                         <Route

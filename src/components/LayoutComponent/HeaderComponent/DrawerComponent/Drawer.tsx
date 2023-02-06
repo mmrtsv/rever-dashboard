@@ -29,6 +29,7 @@ import { FlagrEvalPost } from '@/services/flagr.api'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '@/redux/api/userApi'
 import Mixpanel from '@/mixpanel/Mixpanel'
+import SelectorComponent from '@/components/SelectorComponent/SelectorComponent'
 
 export const drawerWidth = 240
 export const drawerList1 = ['returns', 'items']
@@ -49,27 +50,68 @@ const DrawerComponent = () => {
     const isSidebarOpen = useAppSelector(
         (store) => store.generalData.drawerOpen
     )
+    const group = useAppSelector(
+        (store) => store.userApi.getMe.response.user?.group
+    )
 
     const { logout, user } = useAuth0()
     const userName = user?.name?.match(/([^@]+)/) ?? ''
 
     // Feature flag to control if the analytics menu is shown
-    const [showAnalytics, setShowAnalytics] = useState(false)
+    const [showAnalytics, setShowAnalytics] = useState(true)
+    const [showFinancials, setShowFinancials] = useState(false)
+    const [showReturns, setShowReturns] = useState(false)
+    const [drawerList3, setDrawerList3] = useState<Array<string>>([])
+    const updateDrawerList = () => {
+        if (showFinancials || showReturns) {
+            setShowAnalytics(true)
+            const newDrawerList: string[] = []
+            newDrawerList.push('analytics')
+            if (showFinancials) newDrawerList.push('financials')
+            if (showReturns) newDrawerList.push('returns-analytics')
+
+            return newDrawerList
+        } else {
+            setShowAnalytics(false)
+            return []
+        }
+    }
     useEffect(() => {
-        const fetchFlagr = async () => {
+        const updatedList = updateDrawerList()
+        setDrawerList3(updatedList)
+    }, [showFinancials, showReturns])
+    useEffect(() => {
+        const fetchFlagr = async (group: string) => {
             try {
                 const response: any = await FlagrEvalPost({
-                    flagID: 36
+                    flagID: 37,
+                    entityContext: { group: group }
                 })
                 if (response.variantKey) {
-                    setShowAnalytics(response.variantKey === 'on')
+                    setShowFinancials(response.variantKey === 'on')
                 }
             } catch (error: any) {
                 console.error(error)
             }
         }
-        fetchFlagr()
-    }, [])
+        group && fetchFlagr(group)
+    }, [group])
+    useEffect(() => {
+        const fetchFlagr = async (group: string) => {
+            try {
+                const response: any = await FlagrEvalPost({
+                    flagID: 38,
+                    entityContext: { group: group }
+                })
+                if (response.variantKey) {
+                    setShowReturns(response.variantKey === 'on')
+                }
+            } catch (error: any) {
+                console.error(error)
+            }
+        }
+        group && fetchFlagr(group)
+    }, [group])
 
     const handleDrawer = () => {
         dispatch(toggleDrawer())
@@ -80,7 +122,9 @@ const DrawerComponent = () => {
         logout({ returnTo: window.location.origin })
         Mixpanel.track('Logout')
     }
-
+    const handleChangeSelectedEcommerce = () => {
+        //do nothing
+    }
     const navigateMenuOnClick = (text: string) => {
         switch (text) {
             case 'returns':
@@ -90,7 +134,7 @@ const DrawerComponent = () => {
                 navigate('/items')
                 break
             case 'financials':
-                navigate('/dashboard')
+                navigate('/financials')
                 break
             case 'returns-analytics':
                 navigate('/returns-analytics')
@@ -179,7 +223,7 @@ const DrawerComponent = () => {
                     <Divider />
                     {showAnalytics && (
                         <List sx={{ color: theme.colors.common.white }}>
-                            {drawerList2.map((text, i) => (
+                            {drawerList3.map((text, i) => (
                                 <ListItem
                                     key={text}
                                     disablePadding
@@ -241,7 +285,9 @@ const DrawerComponent = () => {
                                                             <FinancialsIcon />
                                                         </div>
                                                     )}
-                                                    {text === 'returns' && (
+
+                                                    {text ===
+                                                        'returns-analytics' && (
                                                         <div
                                                             style={{
                                                                 color: theme
@@ -264,7 +310,17 @@ const DrawerComponent = () => {
                             ))}
                         </List>
                     )}
+                    <Divider />
                 </div>
+                {showAnalytics && (
+                    <div className="align-center flex w-full justify-center">
+                        <SelectorComponent
+                            handleChangeSelectedEcommerce={
+                                handleChangeSelectedEcommerce
+                            }
+                        />
+                    </div>
+                )}
                 <div className="w-full">
                     <List sx={{ color: theme.colors.common.white }}>
                         <ListItem disablePadding>

@@ -50,7 +50,10 @@ const SelectorComponent: React.FC<SelectorProps> = ({
     return (
         <>
             {ecommerceList && ecommerceList.length > 1 && (
-                <FormControl data-testid="Selector" sx={{ width: 200 }}>
+                <FormControl
+                    data-testid="Selector"
+                    sx={{ width: 200, borderColor: 'white' }}
+                >
                     <InputLabel>{t('selector_component.label')}</InputLabel>
                     <Select
                         value={selectedEcommerce ?? ''}

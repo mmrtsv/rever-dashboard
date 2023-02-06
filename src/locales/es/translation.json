@@ -11,7 +11,8 @@
         "orders": "Pedidos",
         "financials": "Finanzas",
         "returns": "Devoluciones",
-        "items": "Artículos"
+        "items": "Artículos",
+        "returns-analytics": "Devoluciones"
     },
     "search_component": {
         "search": "Buscar..."

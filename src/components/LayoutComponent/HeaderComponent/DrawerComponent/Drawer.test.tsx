@@ -128,6 +128,15 @@ function reduxState() {
     return {
         generalData: {
             drawerOpen: true
+        },
+        userApi: {
+            getMe: {
+                response: {
+                    user: {
+                        group: 'nudeproject'
+                    }
+                }
+            }
         }
     }
 }

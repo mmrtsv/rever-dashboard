@@ -33,7 +33,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
 
     const { returnMetrics } = useSearchReturnMetrics(dateFrom, dateTo)
     const { returnTypes } = useSearchReturnTypes(dateFrom, dateTo)
-    const { returnTypesByDay } = useSearchReturnTypesByDay(dateFrom7d, dateTo)
+    const { returnTypesByDay } = useSearchReturnTypesByDay(dateFrom, dateTo)
 
     const exchangePercentage: number = returnTypes?.exchanges
         ? Math.round(returnTypes?.exchanges)

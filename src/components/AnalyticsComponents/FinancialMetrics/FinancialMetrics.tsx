@@ -77,8 +77,8 @@ const FinancialMetrics: React.FC<FinancialMetricsProps> = ({
                     <span className="text-end">
                         <b>2,674,819.85 €</b>
                     </span>
-                    <span className="text-end">- {discounts}</span>
-                    <span className="text-end">- {returns}</span>
+                    <span className="text-end">{discounts}</span>
+                    <span className="text-end">{returns}</span>
                     <span className="text-end">- 45,993.80 €</span>
                     <hr className="my-2" />
                     <span className="text-end">

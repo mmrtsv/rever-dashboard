@@ -11,7 +11,8 @@
         "orders": "Orders",
         "financials": "Finance",
         "returns": "Returns",
-        "items": "Items"
+        "items": "Items",
+        "returns-analytics": "Returns Analytics"
     },
     "search_component": {
         "search": "Search..."
