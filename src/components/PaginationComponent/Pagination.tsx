@@ -112,13 +112,16 @@ const Pagination: React.FC<SearchProps> = ({
                                         ? actualPage - 1
                                         : actualPage + 1
                                     : '2'}
-                                {}
                             </PaginationNumber>
                         )}
 
                         {maxPage >= 3 && (
                             <PaginationNumber
-                                current={actualPage + 1 === maxPage - 1}
+                                current={
+                                    maxPage > 3
+                                        ? actualPage + 1 === maxPage - 1
+                                        : actualPage + 1 === maxPage
+                                }
                                 onClick={(event) =>
                                     setActualPage(
                                         parseInt(
