@@ -58,17 +58,17 @@ describe('Layout Component', () => {
 
 function reduxStateWithLoading(loading: string) {
     return {
-        appState: {
-            isSidebarOpen: false
+        generalData: {
+            drawerOpen: true
         },
         userApi: {
             getMe: {
                 response: {},
                 loading: 'idle'
+            },
+            tokenData: {
+                token: 'XXX'
             }
-        },
-        tokenData: {
-            token: 'XXX'
         },
         processesApi: {
             getProcess: {

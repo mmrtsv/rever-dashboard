@@ -5,6 +5,10 @@ import { formatPrice } from '../../../../utils'
 import { useTheme } from '@itsrever/design-system'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import SwapIcon from '@mui/icons-material/SwapHoriz'
+import SummaryIcon from '@mui/icons-material/PostAdd'
+import ItemsIcon from '@mui/icons-material/Sell'
+import device from '@/utils/device'
 
 interface SummaryProps {
     process?: ModelsPublicReturnProcess
@@ -14,12 +18,22 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
     const theme = useTheme()
     const { t } = useTranslation()
 
+    const customer = process?.customer
+
     const moneyFormat = process?.currency_money_format ?? {}
 
-    const totalRefund = formatPrice(
-        process?.total_refund_amount || 0,
-        moneyFormat
-    )
+    const couponRefundAmount = process?.coupon_refund_amount
+    const giftCardRefundAmount = process?.gift_refund_amount
+    const bankTransferRefundAmount = process?.bank_transfer_refund_amount
+    const originalRefundAmount = process?.original_pm_refund_amount
+
+    const totalRefund =
+        (couponRefundAmount ?? 0) +
+        (giftCardRefundAmount ?? 0) +
+        (bankTransferRefundAmount ?? 0) +
+        (originalRefundAmount ?? 0)
+
+    const finalBalance = formatPrice(totalRefund, moneyFormat)
 
     const totalPrice = () => {
         let totalPrice = 0
@@ -33,14 +47,196 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
         return totalPrice
     }
 
-    const couponRefundAmount = process?.coupon_refund_amount
-    const giftCardRefundAmount = process?.gift_refund_amount
-    const bankTransferRefundAmount = process?.bank_transfer_refund_amount
-    const originalRefundAmount = process?.original_pm_refund_amount
+    const newOrderId = process?.exchange_order_number
+    const exchangedItems = process?.line_items?.filter(
+        (litem) => litem.type === 'cost' && litem.pending_purchase === true
+    )
 
     return (
         <MainDiv>
-            <div>
+            <SummaryDiv>
+                <div className="flex items-center">
+                    <SummaryIcon
+                        style={{
+                            color: `${theme.colors.grey[0]}`
+                        }}
+                    />
+                    <h3 className="text-grey-1 ml-2 text-lg">
+                        {t('summary.summary_title')}
+                    </h3>
+                </div>
+                <FinanceSummary>
+                    {typeof finalBalance === 'string' && (
+                        <div className="mt-6 flex w-full justify-between">
+                            <p>{t('summary.total')}</p>
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: formatPrice(
+                                        totalPrice(),
+                                        moneyFormat
+                                    )
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {process?.line_items &&
+                        process?.line_items.map((retLineItem, i) => {
+                            if (
+                                retLineItem.type === 'cost' &&
+                                retLineItem.name &&
+                                retLineItem.total
+                            ) {
+                                return (
+                                    <div
+                                        key={i}
+                                        className="flex w-full justify-between"
+                                    >
+                                        <p>{retLineItem.name}:</p>
+                                        <p
+                                            style={{
+                                                color:
+                                                    retLineItem.total >= 0
+                                                        ? theme.colors.common
+                                                              .black
+                                                        : theme.colors.error
+                                                              .main
+                                            }}
+                                            dangerouslySetInnerHTML={{
+                                                __html: formatPrice(
+                                                    retLineItem.total,
+                                                    moneyFormat
+                                                )
+                                            }}
+                                        ></p>
+                                    </div>
+                                )
+                            }
+                        })}
+
+                    {couponRefundAmount != 0 && (
+                        <div className="flex justify-between">
+                            <p>{t('summary.coupon_amount')}</p>
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: formatPrice(
+                                        couponRefundAmount ?? 0,
+                                        moneyFormat
+                                    )
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {giftCardRefundAmount != 0 && (
+                        <div className="flex justify-between">
+                            <p>{t('summary.gift_card_amount')}</p>
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: formatPrice(
+                                        giftCardRefundAmount ?? 0,
+                                        moneyFormat
+                                    )
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {bankTransferRefundAmount != 0 && (
+                        <div className="flex justify-between">
+                            <p>{t('summary.bank_transfer_amount')}</p>
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: formatPrice(
+                                        bankTransferRefundAmount ?? 0,
+                                        moneyFormat
+                                    )
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {originalRefundAmount != 0 && (
+                        <div className="flex w-full justify-between">
+                            <p>{t('summary.OPM_amount')}</p>
+                            <p
+                                dangerouslySetInnerHTML={{
+                                    __html: formatPrice(
+                                        originalRefundAmount ?? 0,
+                                        moneyFormat
+                                    )
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {typeof finalBalance === 'string' && (
+                        <div className="flex justify-between">
+                            <p>
+                                <b>{t('summary.final_balance')}</b>
+                            </p>
+                            <p
+                                style={{
+                                    color: theme.colors.success.main
+                                }}
+                            >
+                                <b
+                                    dangerouslySetInnerHTML={{
+                                        __html: finalBalance
+                                    }}
+                                />
+                            </p>
+                        </div>
+                    )}
+                </FinanceSummary>
+                {newOrderId && (
+                    <ExchangesDiv>
+                        <div className="flex flex-row items-center">
+                            <SwapIcon
+                                style={{
+                                    color: `${theme.colors.grey[0]}`
+                                }}
+                            />
+                            <h3 className="text-grey-1 ml-2 text-lg">
+                                {t('summary.exchanges_title')}
+                            </h3>
+                        </div>
+                        <div className="mt-6 grid w-fit grid-cols-2 items-center gap-4">
+                            <h6>
+                                <b>{t('summary.new_order_id')}</b>
+                            </h6>
+                            <h6>
+                                <b>{t('summary.email')}</b>
+                            </h6>
+                            <hr
+                                className="col-span-3"
+                                style={{
+                                    border: `0.5px solid ${theme.colors.grey[2]}`
+                                }}
+                            />
+                            <h6>{newOrderId}</h6>
+                            <h6>{customer?.email}</h6>
+                        </div>
+                        <h6 className="mt-6">
+                            <b>{t('summary.new_items')}</b>
+                        </h6>
+                        {exchangedItems?.map((item, i) => {
+                            return <h6 key={i}>{item.name}</h6>
+                        })}
+                    </ExchangesDiv>
+                )}
+            </SummaryDiv>
+            <ItemsDiv>
+                <div className="mb-6 flex items-center">
+                    <ItemsIcon
+                        style={{
+                            color: `${theme.colors.grey[0]}`
+                        }}
+                    />
+                    <h3 className="text-grey-1 ml-2 text-lg">
+                        {t('summary.items_title')}
+                    </h3>
+                </div>
                 {process?.line_items?.map((lineItem, i) => {
                     if (lineItem.type != 'cost') {
                         return (
@@ -48,126 +244,7 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
                         )
                     }
                 })}
-            </div>
-            <FinanceSummary>
-                {typeof totalRefund === 'string' && (
-                    <div className="mt-6 flex w-full justify-between">
-                        <p>{t('summary.total')}</p>
-                        <p
-                            dangerouslySetInnerHTML={{
-                                __html: formatPrice(totalPrice(), moneyFormat)
-                            }}
-                        />
-                    </div>
-                )}
-
-                {process?.line_items &&
-                    process?.line_items.map((retLineItem, i) => {
-                        if (
-                            retLineItem.type === 'cost' &&
-                            retLineItem.name &&
-                            retLineItem.total
-                        ) {
-                            return (
-                                <div
-                                    key={i}
-                                    className="flex w-full justify-between"
-                                >
-                                    <p>{retLineItem.name}:</p>
-                                    <p
-                                        style={{
-                                            color:
-                                                retLineItem.total >= 0
-                                                    ? theme.colors.common.black
-                                                    : theme.colors.error.main
-                                        }}
-                                        dangerouslySetInnerHTML={{
-                                            __html: formatPrice(
-                                                retLineItem.total,
-                                                moneyFormat
-                                            )
-                                        }}
-                                    ></p>
-                                </div>
-                            )
-                        }
-                    })}
-
-                {couponRefundAmount != 0 && (
-                    <div className="flex justify-between">
-                        <p>{t('summary.coupon_amount')}</p>
-                        <p
-                            dangerouslySetInnerHTML={{
-                                __html: formatPrice(
-                                    couponRefundAmount ?? 0,
-                                    moneyFormat
-                                )
-                            }}
-                        />
-                    </div>
-                )}
-
-                {giftCardRefundAmount != 0 && (
-                    <div className="flex justify-between">
-                        <p>{t('summary.gift_card_amount')}</p>
-                        <p
-                            dangerouslySetInnerHTML={{
-                                __html: formatPrice(
-                                    giftCardRefundAmount ?? 0,
-                                    moneyFormat
-                                )
-                            }}
-                        />
-                    </div>
-                )}
-
-                {bankTransferRefundAmount != 0 && (
-                    <div className="flex justify-between">
-                        <p>{t('summary.bank_transfer_amount')}</p>
-                        <p
-                            dangerouslySetInnerHTML={{
-                                __html: formatPrice(
-                                    bankTransferRefundAmount ?? 0,
-                                    moneyFormat
-                                )
-                            }}
-                        />
-                    </div>
-                )}
-
-                {originalRefundAmount != 0 && (
-                    <div className="flex w-full justify-between">
-                        <p>{t('summary.OPM_amount')}</p>
-                        <p
-                            dangerouslySetInnerHTML={{
-                                __html: formatPrice(
-                                    originalRefundAmount ?? 0,
-                                    moneyFormat
-                                )
-                            }}
-                        />
-                    </div>
-                )}
-
-                {typeof totalRefund === 'string' && (
-                    <div className="flex justify-between">
-                        <p>
-                            <b>{t('summary.final_balance')}</b>
-                        </p>
-                        <p
-                            style={{
-                                color: theme.colors.success.main
-                            }}
-                        >
-                            <b
-                                dangerouslySetInnerHTML={{
-                                    __html: totalRefund
-                                }}
-                            />
-                        </p>
-                    </div>
-                )}
-            </FinanceSummary>
+            </ItemsDiv>
         </MainDiv>
     )
 }
@@ -175,14 +252,40 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
 export default Summary
 
 const MainDiv = styled.div`
-    display: flex;
-    justify-content: space-between;
     padding: 2rem;
-    background-color: #eee;
+    background-color: rgb(238, 238, 238);
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    @media ${device.md} {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 `
 
 const FinanceSummary = styled.div`
     width: 100%;
-    margin-left: 1rem;
+    padding-right: 1rem;
+    @media ${device.md} {
+        margin-top: 0rem;
+    }
+`
+
+const ItemsDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    @media ${device.md} {
+        margin-left: 2rem;
+        margin-top: 0;
+    }
+    @media ${device.lg} {
+        margin-left: 4rem;
+    }
+`
+
+const SummaryDiv = styled.div``
+
+const ExchangesDiv = styled.div`
+    margin-top: 3rem;
 `

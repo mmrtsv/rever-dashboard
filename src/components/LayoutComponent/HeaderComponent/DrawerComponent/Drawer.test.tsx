@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
-import { afterEach, describe, it, expect } from 'vitest'
+import { afterEach, describe, it, expect, vi } from 'vitest'
 import configureStore from 'redux-mock-store'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -126,8 +126,8 @@ describe('Drawer Component tests', () => {
 
 function reduxState() {
     return {
-        appState: {
-            isSideBarOpen: true
+        generalData: {
+            drawerOpen: true
         }
     }
 }

@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles'
 import MenuIcon from '@mui/icons-material/Menu'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { toggleSidebar } from '@/redux/features/appState/appStateSlice'
+import { toggleDrawer } from '@/redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
 
@@ -37,11 +37,11 @@ const Header = () => {
     const dispatch = useAppDispatch()
 
     const isSidebarOpen = useAppSelector(
-        (store) => store.appState.isSidebarOpen
+        (store) => store.generalData.drawerOpen
     )
 
     const handleDrawer = () => {
-        dispatch(toggleSidebar())
+        dispatch(toggleDrawer())
     }
 
     return (
@@ -80,6 +80,8 @@ const Header = () => {
     )
 }
 
+export default Header
+
 const ReverNavbar = styled(AppBar)`
     display: flex;
     position: relative;
@@ -94,5 +96,3 @@ const ReverToolbar = styled(Toolbar)`
         min-height: 4rem;
     }
 `
-
-export default Header

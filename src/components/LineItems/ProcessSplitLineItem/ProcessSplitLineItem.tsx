@@ -6,8 +6,12 @@ import { Link } from 'react-router-dom'
 import NoAvailable from '../../../assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import { Sizes } from '@/utils/device'
-import { useTranslation } from 'react-i18next'
-import { getDate } from '@/utils'
+import {
+    ShippingStatuses,
+    RefundTimings,
+    RefundPaymentMethods,
+    ReturnStatus
+} from '@/redux/features/generalData/generalDataSlice'
 
 export interface ProcessSplitLineItemProps {
     lineItem: ModelsPublicReturnLineItem
@@ -15,7 +19,6 @@ export interface ProcessSplitLineItemProps {
     last?: boolean
     printedOrderId?: string
     customerName?: string
-    dateReturn?: number
     lastKnownShippingStatus?: number
     orderStatus?: number
     refundTiming?: number
@@ -28,12 +31,9 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     printedOrderId,
     customerName,
     lastKnownShippingStatus,
-    dateReturn,
     orderStatus,
     refundTiming
 }) => {
-    const { i18n } = useTranslation()
-
     let imgSrc = NoAvailable
     if (lineItem.product_image_url)
         imgSrc = lineItem.product_image_url ?? NoAvailable
@@ -53,14 +53,11 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
         shippingStatus = lastKnownShippingStatus
     }
 
-    const returnDate = lineItem.return_process?.started_at?.seconds
-        ? getDate(lineItem?.return_process?.started_at?.seconds, i18n.language)
-        : dateReturn
-        ? getDate(dateReturn, i18n.language)
-        : 'XX/XX/XXXX'
-
     const showReviewStatus =
-        shippingStatus === 3 && refundTiming === 3 && orderStatus === 2
+        shippingStatus === ShippingStatuses.InWarehouse &&
+        refundTiming === RefundTimings.OnItemVerified &&
+        orderStatus === ReturnStatus.Completed &&
+        lineItem.refund_payment_method === RefundPaymentMethods.Original
 
     let reviewStatus = 0
     if (lineItem.reviews && lineItem.reviews?.length > 0) {
@@ -80,7 +77,6 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
         >
             <Link to={`/details/${lineItem.rever_id}`}>
                 <Box>
-                    <DissapearText>{returnDate}</DissapearText>
                     <TextBoxes>{customerPrintedOrderId}</TextBoxes>
                     <div className="flex justify-center">
                         <img
@@ -119,10 +115,10 @@ const Box = styled.div`
         align-items: center;
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
     @media (min-width: ${Sizes.lg}) {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
     }
 `
 

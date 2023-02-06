@@ -8,6 +8,12 @@ import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
 import { getDate } from '@/utils'
+import {
+    ShippingStatuses,
+    RefundTimings,
+    ReturnStatus,
+    RefundPaymentMethods
+} from '@/redux/features/generalData/generalDataSlice'
 
 export interface LineItemProps {
     lineItem: ModelsPublicReturnLineItem
@@ -62,7 +68,10 @@ const LineItem: React.FC<LineItemProps> = ({
         : 'XX/XX/XXXX'
 
     const showReviewStatus =
-        shippingStatus === 3 && refundTiming === 3 && orderStatus === 2
+        shippingStatus === ShippingStatuses.InWarehouse &&
+        refundTiming === RefundTimings.OnItemVerified &&
+        orderStatus === ReturnStatus.Completed &&
+        lineItem.refund_payment_method === RefundPaymentMethods.Original
 
     let reviewStatus = 0
     if (lineItem.reviews && lineItem.reviews?.length > 0) {

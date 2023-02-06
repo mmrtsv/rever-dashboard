@@ -6,7 +6,14 @@ export enum RefundActions {
     ToReturn
 }
 
-export enum RefundPaymentMethod {
+export enum ReturnStatus {
+    Running,
+    Failed,
+    Completed,
+    OnHold
+}
+
+export enum RefundPaymentMethods {
     NoPaymentMethod,
     BankTransfer,
     Original,
@@ -14,13 +21,20 @@ export enum RefundPaymentMethod {
     GiftCard
 }
 
-export enum ReturnMethod {
+export enum RefundTimings {
+    NoTiming,
+    OnStartReturnProcess,
+    OnItemSent,
+    OnItemVerified
+}
+
+export enum ReturnMethods {
     NoReturnMethod,
     HomePickup,
     CollectionPoint
 }
 
-export enum ShippingStatus {
+export enum ShippingStatuses {
     NoShippingStatus,
     Created,
     Collected,
@@ -31,10 +45,12 @@ export enum ShippingStatus {
 
 interface State {
     selectedEcommerce?: string
+    drawerOpen: boolean
 }
 
 const initialState: State = {
-    selectedEcommerce: undefined
+    selectedEcommerce: undefined,
+    drawerOpen: window.innerWidth >= 900
 }
 
 const generalDataSlice = createSlice({
@@ -43,9 +59,12 @@ const generalDataSlice = createSlice({
     reducers: {
         setSelectedEcommerce(state, action) {
             state.selectedEcommerce = action.payload
+        },
+        toggleDrawer(state) {
+            state.drawerOpen = !state.drawerOpen
         }
     }
 })
 
-export const { setSelectedEcommerce } = generalDataSlice.actions
+export const { setSelectedEcommerce, toggleDrawer } = generalDataSlice.actions
 export default generalDataSlice.reducer

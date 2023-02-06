@@ -13,8 +13,8 @@ import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 describe('Process Split Line Item tests', () => {
     afterEach(cleanup)
 
-    it('should display the correct information when screen >= 900px', () => {
-        const item: ModelsPublicReturnLineItem = lineItem()
+    it('should display the correct information when screen', () => {
+        const item: ModelsPublicReturnLineItem = lineItem(1)
         render(
             <Router>
                 <I18nextProvider i18n={i18n}>
@@ -22,7 +22,6 @@ describe('Process Split Line Item tests', () => {
                 </I18nextProvider>
             </Router>
         )
-        screen.getByText('January 31, 2023')
         screen.getByText('ES-179615')
         screen.getByAltText('ProductImage')
         screen.getByText('BEAR HOOD - XS')
@@ -35,8 +34,9 @@ describe('Process Split Line Item tests', () => {
         // last_known_shipping_status = "IN_WAREHOUSE"
         // refund_timing = "ON_ITEM_VERIFIED"
         // status = "COMPLETED"
+        // refundMethod = OriginalPM
 
-        const item: ModelsPublicReturnLineItem = lineItem()
+        const item: ModelsPublicReturnLineItem = lineItem(2)
 
         render(
             <Router>
@@ -55,7 +55,7 @@ describe('Process Split Line Item tests', () => {
     })
 })
 
-function lineItem(): ModelsPublicReturnLineItem {
+function lineItem(refundMethod: number): ModelsPublicReturnLineItem {
     const lineItem: ModelsPublicReturnLineItem = {
         action: 1,
         comment: '',
@@ -65,7 +65,7 @@ function lineItem(): ModelsPublicReturnLineItem {
         product: undefined,
         product_id: '7368369995937',
         quantity: 1,
-        refund_payment_method: 1,
+        refund_payment_method: refundMethod,
         return_process: {
             customer_printed_order_id: 'ES-179615',
             customer: {

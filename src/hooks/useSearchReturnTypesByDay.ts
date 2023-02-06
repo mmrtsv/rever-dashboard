@@ -8,7 +8,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchReturnTypesByDay(from: string, to: string) {
     const dispatch = useAppDispatch()
-    const token = useAppSelector((state) => state.tokenData.token)
+    const token = useAppSelector((state) => state.userApi.token)
 
     const ecommercesList = useAppSelector(
         (store) => store.userApi.getMe.response.user?.ecommerces

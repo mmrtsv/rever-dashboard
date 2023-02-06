@@ -51,12 +51,11 @@ describe('Process test', () => {
         screen.getByText('Gift card refund amount:')
         screen.getByText('Bank transfer refund amount:')
         screen.getByText('Original payment method refund amount:')
-        screen.getByText('10,00 €')
+        expect(screen.getAllByText('10,00 €').length).toBe(2)
         expect(screen.getAllByText('0,00 €').length).toBe(3)
 
         // Final balance
         screen.getByText('Final balance:')
-        screen.getByText('15,00 €')
     })
 })
 

@@ -6,7 +6,7 @@ import LoadingComponent from './components/Loading/Loading'
 import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAppDispatch } from './redux/hooks'
-import { setTokenData } from './redux/features/generalData/tokenDataSlice'
+import { setTokenData } from './redux/api/userApi'
 import { axiosInstance } from './redux/api/apiConfiguration'
 import Mixpanel from './mixpanel/Mixpanel'
 

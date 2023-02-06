@@ -77,8 +77,8 @@ describe('Header Component test', () => {
 
 function reduxState(open: boolean) {
     return {
-        appState: {
-            isSidebarOpen: open
+        generalData: {
+            drawerOpen: open
         }
     }
 }

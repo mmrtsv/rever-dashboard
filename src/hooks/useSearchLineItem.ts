@@ -4,7 +4,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchLineItem(reverID: string) {
     const dispatch = useAppDispatch()
-    const token = useAppSelector((state) => state.tokenData.token)
+    const token = useAppSelector((state) => state.userApi.token)
 
     const lineItemsApiLineItem = useAppSelector(
         (store) => store.lineItemsApi.getLineItem

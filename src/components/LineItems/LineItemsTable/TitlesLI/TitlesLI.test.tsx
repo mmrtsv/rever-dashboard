@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '@/i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 
-// TBD: test visibility on screen width -> Cypress
+// TBD: test visibility on screen width -> Cypress?
 
 describe('Line Item Titles tests', () => {
     afterEach(cleanup)

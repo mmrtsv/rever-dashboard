@@ -3,12 +3,10 @@ import styled from 'styled-components'
 import {
     ModelsPublicReturnProcess,
     ModelsReturnLineItem,
-    ModelsLineItemReview,
-    OpsapiModelsLineItemReview
+    ModelsLineItemReview
 } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { SelectMenu, SelectItem, Modal, Button } from '@itsrever/design-system'
-import ArrowDown from '@mui/icons-material/ArrowDownward'
 import SuccessAnimation from '@/assets/Lottie/ComingSoon/Success'
 import { ProcessSplitLineItem } from '@/components/LineItems'
 import { createReview, resetReviewsApiCalls } from '@/redux/api/reviewsApi'
@@ -16,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
-interface Review extends OpsapiModelsLineItemReview {
+interface Review extends ModelsLineItemReview {
     index: number
 }
 
@@ -125,11 +123,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
     return (
         <ProductsBox data-testid="LineItems" className=" p-8">
             {!needsReview && (
-                <div className="grid w-full grid-cols-3 p-4 md:grid-cols-5 lg:grid-cols-7">
-                    <DissapearingH6M className="flex items-center justify-center">
-                        <b className="mr-2">{t('order_details.date')}</b>
-                        <ArrowDown />
-                    </DissapearingH6M>
+                <div className="grid w-full grid-cols-3 p-4 md:grid-cols-4 lg:grid-cols-6">
                     <h6 className="text-grey-1 text-center">
                         <b>{t('order_details.order_id')}</b>
                     </h6>
@@ -167,7 +161,6 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                                     ' ' +
                                     customer?.last_name
                                 }
-                                dateReturn={process.started_at?.seconds}
                                 first={i === 0}
                                 last={i === mappedProducts.length - 1}
                             />

@@ -5,7 +5,7 @@ import { ReportsReportResponse } from '@itsrever/dashboard-api'
 
 export function useSearchFinancialReport() {
     const dispatch = useAppDispatch()
-    const token = useAppSelector((state) => state.tokenData.token)
+    const token = useAppSelector((state) => state.userApi.token)
 
     const ecommercesList = useAppSelector(
         (store) => store.userApi.getMe.response.user?.ecommerces

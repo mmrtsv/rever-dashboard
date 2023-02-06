@@ -8,6 +8,10 @@ import { useTheme } from '@itsrever/design-system'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
+import {
+    ShippingStatuses,
+    RefundTimings
+} from '@/redux/features/generalData/generalDataSlice'
 
 interface ProcessDetailsProps {
     process?: ModelsPublicReturnProcess
@@ -29,7 +33,13 @@ const DetailsTab: React.FC<ProcessDetailsProps> = ({ process }) => {
             ? 0
             : 1
 
-    const showReviewStatus = process?.refund_timing === 3
+    const originalPM = process?.line_items?.some(
+        (litem) => litem.refund_payment_method === 2
+    )
+    const showReviewStatus =
+        process?.refund_timing === RefundTimings.OnItemVerified &&
+        process.last_known_shipping_status === ShippingStatuses.InWarehouse &&
+        originalPM
 
     return (
         <ProductDetailsDiv>

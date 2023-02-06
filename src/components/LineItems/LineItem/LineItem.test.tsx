@@ -13,8 +13,8 @@ import { I18nextProvider } from 'react-i18next'
 describe('Line Item test', () => {
     afterEach(cleanup)
 
-    it('should display the correct information when screen >= 900', () => {
-        const item: ModelsPublicReturnLineItem = lineItem()
+    it('should display the correct information', () => {
+        const item: ModelsPublicReturnLineItem = lineItem(1)
 
         render(
             <Router>
@@ -50,8 +50,9 @@ describe('Line Item test', () => {
         // last_known_shipping_status = "IN_WAREHOUSE"
         // refund_timing = "ON_ITEM_VERIFIED"
         // status = "COMPLETED"
+        // Item paid with opm
 
-        const item: ModelsPublicReturnLineItem = lineItem()
+        const item: ModelsPublicReturnLineItem = lineItem(2)
 
         render(
             <Router>
@@ -70,7 +71,7 @@ describe('Line Item test', () => {
     })
 })
 
-function lineItem(): ModelsPublicReturnLineItem {
+function lineItem(refundMethod: number): ModelsPublicReturnLineItem {
     const lineItem: ModelsPublicReturnLineItem = {
         action: 1,
         comment: '',
@@ -80,7 +81,7 @@ function lineItem(): ModelsPublicReturnLineItem {
         product: undefined,
         product_id: '7368369995937',
         quantity: 1,
-        refund_payment_method: 1,
+        refund_payment_method: refundMethod,
         return_process: {
             customer_printed_order_id: 'ES-179615',
             customer: {

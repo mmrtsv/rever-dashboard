@@ -6,9 +6,9 @@ import NoAvailable from '../assets/images/noAvailable.png'
 import { useTranslation } from 'react-i18next'
 import { getDate, formatPrice } from '../utils'
 import {
-    ReturnMethod,
+    ReturnMethods,
     RefundActions,
-    ShippingStatus
+    ShippingStatuses
 } from '../redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import device from '../utils/device'
@@ -49,7 +49,7 @@ function RetLineItemDetails() {
     if (
         LineItem?.return_process?.last_known_shipping_status &&
         LineItem?.return_process?.last_known_shipping_status ===
-            ShippingStatus.InWarehouse
+            ShippingStatuses.InWarehouse
     )
         status = 'COMPLETED'
     else status = 'PENDING'
@@ -197,10 +197,10 @@ function RetLineItemDetails() {
                                 </span>
                                 <div className="mt-4 text-center">
                                     {typeOfReturn ===
-                                    ReturnMethod.NoReturnMethod
+                                    ReturnMethods.NoReturnMethod
                                         ? 'No Payment Method'
                                         : typeOfReturn ===
-                                          ReturnMethod.HomePickup
+                                          ReturnMethods.HomePickup
                                         ? 'Home Pickup'
                                         : 'Collection Point'}
                                 </div>

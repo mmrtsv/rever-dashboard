@@ -5,6 +5,8 @@ import { LanguageSwitcher, languageLabels } from './LanguageSwitcher'
 import i18n from '@/i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 
+// TBD Should change language when option clicked
+
 describe('Language Switcher Component tests', () => {
     afterEach(cleanup)
 
@@ -43,6 +45,4 @@ describe('Language Switcher Component tests', () => {
             screen.getByText(label[1])
         })
     })
-
-    // TBD Should change language when option clicked
 })

@@ -11,7 +11,7 @@ export function useSearchPendingProcesses(
     freeText: string
 ) {
     const dispatch = useAppDispatch()
-    const token = useAppSelector((state) => state.tokenData.token)
+    const token = useAppSelector((state) => state.userApi.token)
 
     const processesApiGetProcesses = useAppSelector(
         (store) => store.processesApi.getPendingProcesses

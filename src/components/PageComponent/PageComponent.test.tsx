@@ -29,8 +29,8 @@ describe('Page Component test', () => {
 
 function reduxState() {
     return {
-        appState: {
-            isSidebarOpen: true
+        generalData: {
+            drawerOpen: true
         }
     }
 }

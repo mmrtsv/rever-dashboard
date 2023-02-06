@@ -4,7 +4,6 @@ import { useTheme } from '@itsrever/design-system'
 import useSearchFinancialReport from '../../../hooks/useSearchFinancialReport'
 import moment from 'moment'
 import { formatPrice } from '../../../utils'
-import { ModelsMoneyFormat } from '@itsrever/dashboard-api'
 
 interface FinancialMetricsProps {
     currentPeriod: number

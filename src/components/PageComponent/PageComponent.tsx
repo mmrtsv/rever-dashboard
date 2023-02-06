@@ -12,7 +12,7 @@ type Props = {
 const PageComponent: React.FC<Props> = ({ children }) => {
     const theme = useTheme()
     const isSidebarOpen = useAppSelector(
-        (store) => store.appState.isSidebarOpen
+        (store) => store.generalData.drawerOpen
     )
 
     return (

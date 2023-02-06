@@ -52,7 +52,10 @@ describe('Details tab tests', () => {
         screen.getByText('Barcelona, 08029, Spain')
     })
 
-    it('should render the review status when refund timing === 3', () => {
+    it('should render the review status when conditions are met', () => {
+        // last_known_shipping_status = IN_WAREHOUSE
+        // Refund timing = ON ITEM VERIFIED
+        // At least 1 item is paid with original Pm
         const process = mockOrder(3)
 
         render(
@@ -103,7 +106,7 @@ function mockOrder(refundTiming: number): ModelsPublicReturnProcess {
                     'https://cdn.shopify.com/s/files/1/0007/5192/7347/products/013603_bf_7ca0bb3e-99aa-4bea-89e5-ce07916c5dfb.jpg?v=1579616399',
                 product_return_reason: 'NOT_AS_EXPECTED',
                 quantity: 1,
-                refund_payment_method: 1,
+                refund_payment_method: 2,
                 return_reason: 3,
                 rever_id: 'retl_2KE2bS2QzVOQfxhemJzl2LRt1Dh',
                 sku: 'P30x40-00-013603',

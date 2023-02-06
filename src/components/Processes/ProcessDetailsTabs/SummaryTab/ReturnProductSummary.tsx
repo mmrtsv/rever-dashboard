@@ -19,10 +19,10 @@ const ReturnProductSummary: React.FC<ReturnProductSummaryProps> = (
     return (
         <div
             data-testid="RetProductSummary"
-            className="relative ml-4 flex w-[297px] flex-col pt-4 md:w-[374px] lg:w-[400px] xl:w-[600px] xl:pt-8"
+            className="flex w-fit flex-col  items-center"
         >
             <ProductPreview lineItem={lineItem} />
-            <div className="mt-2 mb-4">
+            <div className="mt-2 mb-4 w-full">
                 <span className="text-grey-2 text-xs">
                     {itemToExchange
                         ? t('summary.reason_exchange')
@@ -34,7 +34,7 @@ const ReturnProductSummary: React.FC<ReturnProductSummaryProps> = (
                     </span>
                 )}
             </div>
-            <hr />
+            <hr className="mb-4 w-full" />
         </div>
     )
 }

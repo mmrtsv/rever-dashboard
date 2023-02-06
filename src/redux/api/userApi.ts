@@ -11,10 +11,12 @@ interface GetMeCall extends ApiCallBase {
 
 interface State {
     getMe: GetMeCall
+    token: string | undefined
 }
 
 const initialState: State = {
-    getMe: initialApiState
+    getMe: initialApiState,
+    token: undefined
 }
 
 export const getMe = createAsyncThunk('/getMe', async () => {
@@ -31,6 +33,12 @@ const authApiSlice = createSlice({
                 ...initialApiState,
                 response: state.getMe.response
             }
+        },
+        setTokenData(state, action) {
+            state.token = action.payload
+        },
+        resetTokenData(state) {
+            state.token = undefined
         }
     },
     extraReducers: (builder) => {
@@ -48,5 +56,6 @@ const authApiSlice = createSlice({
     }
 })
 
-export const { resetAuthApiCalls } = authApiSlice.actions
+export const { resetAuthApiCalls, setTokenData, resetTokenData } =
+    authApiSlice.actions
 export default authApiSlice.reducer

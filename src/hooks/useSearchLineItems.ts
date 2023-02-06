@@ -8,7 +8,7 @@ export function useSearchLineItems(
     freeText: string
 ) {
     const dispatch = useAppDispatch()
-    const token = useAppSelector((state) => state.tokenData.token)
+    const token = useAppSelector((state) => state.userApi.token)
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )

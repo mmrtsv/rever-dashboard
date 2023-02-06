@@ -106,6 +106,12 @@
         "final_balance": "Saldo final: ",
         "reason_exchange": "Motivo del intercambio: ",
         "reason_refund": "Motivo del reembolso: ",
-        "quantity": "Cantidad: "
+        "quantity": "Cantidad: ",
+        "exchanges_title": "Cambios",
+        "new_order_id": "Nuevo ID de pedido",
+        "email": "Correo electrónico",
+        "new_items": "Nuevos artículos",
+        "summary_title": "Resumen",
+        "items_title": "Artículos"
     }
 }

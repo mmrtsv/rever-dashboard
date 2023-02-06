@@ -23,11 +23,11 @@ import LogoWideWhite from '@/assets/images/icons/LogoWideWhite.svg'
 import { useTheme } from '@itsrever/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@/redux/hooks'
-import { toggleSidebar } from '@/redux/features/appState/appStateSlice'
+import { toggleDrawer } from '@/redux/features/generalData/generalDataSlice'
 import { useTranslation } from 'react-i18next'
 import { FlagrEvalPost } from '@/services/flagr.api'
 import { useAuth0 } from '@auth0/auth0-react'
-import { resetTokenData } from '@/redux/features/generalData/tokenDataSlice'
+import { resetTokenData } from '@/redux/api/userApi'
 import Mixpanel from '@/mixpanel/Mixpanel'
 
 export const drawerWidth = 240
@@ -47,7 +47,7 @@ const DrawerComponent = () => {
     const [analyticsOpen, setAnalyticsOpen] = useState(true)
 
     const isSidebarOpen = useAppSelector(
-        (store) => store.appState.isSidebarOpen
+        (store) => store.generalData.drawerOpen
     )
 
     const { logout, user } = useAuth0()
@@ -72,7 +72,7 @@ const DrawerComponent = () => {
     }, [])
 
     const handleDrawer = () => {
-        dispatch(toggleSidebar())
+        dispatch(toggleDrawer())
     }
 
     const handleLogout = () => {

@@ -106,6 +106,12 @@
         "final_balance": "Final balance: ",
         "reason_exchange": "Reason for exchange: ",
         "reason_refund": "Reason for refund: ",
-        "quantity": "Quantity: "
+        "quantity": "Quantity: ",
+        "exchanges_title": "Exchanges",
+        "new_order_id": "New Order ID",
+        "email": "Email",
+        "new_items": "New Items",
+        "summary_title": "Summary",
+        "items_title": "Items"
     }
 }
