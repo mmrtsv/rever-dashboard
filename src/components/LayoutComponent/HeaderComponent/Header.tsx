@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { toggleDrawer } from '@/redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
-import SelectorComponent from '@/components/SelectorComponent/SelectorComponent'
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean
@@ -32,10 +31,6 @@ const AppBar = styled(MuiAppBar, {
         })
     })
 }))
-
-// const handleChangeSelectedEcommerce = () => {
-//     //do nothing
-// }
 
 const Header = () => {
     const theme = useTheme()

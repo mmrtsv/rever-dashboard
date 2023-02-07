@@ -9,7 +9,10 @@ import SwapIcon from '@mui/icons-material/SwapHoriz'
 import SummaryIcon from '@mui/icons-material/PostAdd'
 import ItemsIcon from '@mui/icons-material/Sell'
 import device from '@/utils/device'
-import { RefundTimings, ReturnStatus } from '@/redux/features/generalData/generalDataSlice'
+import {
+    RefundTimings,
+    ReturnStatus
+} from '@/redux/features/generalData/generalDataSlice'
 
 interface SummaryProps {
     process?: ModelsPublicReturnProcess
@@ -23,8 +26,9 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
 
     const moneyFormat = process?.currency_money_format ?? {}
 
-    const updatedSummary = process?.refund_timing === RefundTimings.OnItemVerified // ON_ITEM_VERIFIED
-        && process?.status === ReturnStatus.Completed
+    const updatedSummary =
+        process?.refund_timing === RefundTimings.OnItemVerified && // ON_ITEM_VERIFIED
+        process?.status === ReturnStatus.Completed
 
     let lineItems = process?.line_items
     let couponRefundAmount = process?.coupon_refund_amount

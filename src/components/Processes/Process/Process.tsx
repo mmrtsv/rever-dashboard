@@ -4,10 +4,15 @@ import ReviewStatus from '../ProcessReviewStatus/ProcessReviewStatus'
 import ShippingStatus from '../../ShippingStatus'
 import { Link } from 'react-router-dom'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
-import { Sizes } from '../../../utils/device'
+import { Sizes } from '@/utils/device'
 import { useTranslation } from 'react-i18next'
-import { useAppSelector } from '../../../redux/hooks'
-import { getDate } from '../../../utils'
+import { useAppSelector } from '@/redux/hooks'
+import { getDate } from '@/utils'
+import {
+    ShippingStatuses,
+    RefundTimings,
+    ReturnStatus
+} from '@/redux/features/generalData/generalDataSlice'
 
 export interface ProcessProps {
     Process: ModelsPublicReturnProcess
@@ -36,10 +41,10 @@ const Process: React.FC<ProcessProps> = ({ Process, first, last }) => {
         (litem) => litem.refund_payment_method === 2
     )
     const showReviewStatus =
-        Process.last_known_shipping_status === 3 &&
-        Process.refund_timing === 3 &&
-        Process.status != 1 &&
-        Process.status != 3 &&
+        Process.last_known_shipping_status === ShippingStatuses.InWarehouse &&
+        Process.refund_timing === RefundTimings.OnItemVerified &&
+        Process.status != ReturnStatus.Failed &&
+        Process.status != ReturnStatus.OnHold &&
         originalPM
 
     const reviewStatus = Process.status === 0 ? 0 : 1

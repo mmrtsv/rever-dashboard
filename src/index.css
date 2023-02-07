@@ -411,10 +411,4 @@
     div#root {
         height: 100%;
     }
-
-    body::after {
-        content: '';
-        display: block;
-        height: 48px; /* Set same as footer's height */
-    }
 }

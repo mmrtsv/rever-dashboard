@@ -19,6 +19,11 @@ import { createReview, resetReviewsApiCalls } from '@/redux/api/reviewsApi'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import {
+    ShippingStatuses,
+    RefundTimings,
+    ReturnStatus
+} from '@/redux/features/generalData/generalDataSlice'
 
 interface Review extends ModelsLineItemReview {
     index: number
@@ -62,9 +67,9 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
         (p) => p.refund_payment_method === 2
     )
     const needsReview =
-        process?.last_known_shipping_status === 3 &&
-        process.refund_timing === 3 &&
-        process.status === 0 &&
+        process?.last_known_shipping_status === ShippingStatuses.InWarehouse &&
+        process.refund_timing === RefundTimings.OnItemVerified &&
+        process.status === ReturnStatus.Running &&
         originalPM
 
     const [reviews, setReviews] = useState<Array<Review>>([])
