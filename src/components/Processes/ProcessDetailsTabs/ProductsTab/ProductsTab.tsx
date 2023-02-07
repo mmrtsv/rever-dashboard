@@ -6,7 +6,13 @@ import {
     ModelsLineItemReview
 } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
-import { SelectMenu, SelectItem, Modal, Button } from '@itsrever/design-system'
+import {
+    SelectMenu,
+    SelectItem,
+    Modal,
+    Button,
+    toast
+} from '@itsrever/design-system'
 import SuccessAnimation from '@/assets/Lottie/ComingSoon/Success'
 import { ProcessSplitLineItem } from '@/components/LineItems'
 import { createReview, resetReviewsApiCalls } from '@/redux/api/reviewsApi'
@@ -93,6 +99,10 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
     const [success, setSuccess] = useState(false)
     useEffect(() => {
         if (createReviewStatus.loading === 'succeeded') {
+            toast({
+                variant: 'success',
+                text: t('review_toast.success')
+            })
             setSuccess(true)
             setTimeout(() => {
                 setSuccess(false)
@@ -100,6 +110,10 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
             }, 2000)
             dispatch(resetReviewsApiCalls())
         } else if (createReviewStatus.loading === 'failed') {
+            toast({
+                variant: 'error',
+                text: t('review_toast.error')
+            })
             dispatch(resetReviewsApiCalls())
         }
     }, [createReviewStatus.loading, createReviewStatus.response])

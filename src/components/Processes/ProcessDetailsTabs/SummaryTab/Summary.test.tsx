@@ -7,6 +7,7 @@ import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '@/i18nForTests'
 import { ThemeProvider } from '@itsrever/design-system'
+import { RefundTimings, ReturnStatus } from '@/redux/features/generalData/generalDataSlice'
 
 describe('Process test', () => {
     afterEach(cleanup)
@@ -52,6 +53,41 @@ describe('Process test', () => {
         screen.getByText('Bank transfer refund amount:')
         screen.getByText('Original payment method refund amount:')
         expect(screen.getAllByText('10,00 €').length).toBe(2)
+        expect(screen.getAllByText('0,00 €').length).toBe(3)
+
+        // Final balance
+        screen.getByText('Final balance:')
+    })
+
+    it('should display the finance summary with the approved items, if timing is ON_ITEM_VERIFIED and status is completed', () => {
+        const process: ModelsPublicReturnProcess = mockOrderWithUpdatedSummary()
+
+        render(
+            <Router>
+                <ThemeProvider>
+                    <I18nextProvider i18n={i18n}>
+                        <Summary process={process} />
+                    </I18nextProvider>
+                </ThemeProvider>
+            </Router>
+        )
+        // Just 1 approved item
+        expect(screen.getAllByTestId('RetProductSummary').length).toBe(1)
+
+        // Total refund
+        screen.getByText('Total refund:')
+        screen.getByText('14,35 €') // sum of approved line items
+
+        // Costs
+        screen.getByText('Shipping cost:')
+        screen.getByText('5,00 €')
+
+        // Refunds to methods
+        screen.getByText('Coupon refund amount:')
+        screen.getByText('Gift card refund amount:')
+        screen.getByText('Bank transfer refund amount:')
+        screen.getByText('Original payment method refund amount:')
+        expect(screen.getAllByText('6,00 €').length).toBe(2)
         expect(screen.getAllByText('0,00 €').length).toBe(3)
 
         // Final balance
@@ -142,4 +178,19 @@ function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
             }
         ]
     }
+}
+
+function mockOrderWithUpdatedSummary(): ModelsPublicReturnProcess {
+    let process = mockOrder(RefundTimings.OnItemVerified)
+    process.status = ReturnStatus.Completed
+    
+    if (process?.line_items !== undefined) {
+        process.approved_line_items = [
+            process.line_items[0],
+            process.line_items[2]
+        ]
+    }
+    process.executed_bank_transfer = 600
+    process.total_refund_amount = 935
+    return process
 }

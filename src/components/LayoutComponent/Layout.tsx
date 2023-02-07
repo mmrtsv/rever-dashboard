@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from './HeaderComponent/Header'
 import LoadingModal from '../Loading/LoadingModal'
+import { Toaster } from '@itsrever/design-system'
 import { useAppSelector } from '@/redux/hooks'
 import useSearchMe from '@/hooks/useSearchMe'
 
@@ -77,6 +78,7 @@ const Layout = () => {
         <>
             <Header />
             <LoadingModal loading={isLoading} />
+            <Toaster />
             <Outlet />
         </>
     )

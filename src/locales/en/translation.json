@@ -114,5 +114,9 @@
         "new_items": "New Items",
         "summary_title": "Summary",
         "items_title": "Items"
+    },
+    "review_toast": {
+        "success": "We have registered your review! The 'Accepted' item(s) will be refunded",
+        "error": "Something went wrong... Please try again later"
     }
 }

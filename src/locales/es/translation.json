@@ -114,5 +114,9 @@
         "new_items": "Nuevos artículos",
         "summary_title": "Resumen",
         "items_title": "Artículos"
+    },
+    "review_toast": {
+        "success": "¡Hemos registrado la revisión! Reembolsaremos los artículos aceptados",
+        "error": "Algo ha ido mal... Por favor, inténtalo más tarde"
     }
 }

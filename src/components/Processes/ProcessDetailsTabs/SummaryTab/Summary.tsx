@@ -9,6 +9,7 @@ import SwapIcon from '@mui/icons-material/SwapHoriz'
 import SummaryIcon from '@mui/icons-material/PostAdd'
 import ItemsIcon from '@mui/icons-material/Sell'
 import device from '@/utils/device'
+import { RefundTimings, ReturnStatus } from '@/redux/features/generalData/generalDataSlice'
 
 interface SummaryProps {
     process?: ModelsPublicReturnProcess
@@ -22,10 +23,22 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
 
     const moneyFormat = process?.currency_money_format ?? {}
 
-    const couponRefundAmount = process?.coupon_refund_amount
-    const giftCardRefundAmount = process?.gift_refund_amount
-    const bankTransferRefundAmount = process?.bank_transfer_refund_amount
-    const originalRefundAmount = process?.original_pm_refund_amount
+    const updatedSummary = process?.refund_timing === RefundTimings.OnItemVerified // ON_ITEM_VERIFIED
+        && process?.status === ReturnStatus.Completed
+
+    let lineItems = process?.line_items
+    let couponRefundAmount = process?.coupon_refund_amount
+    let giftCardRefundAmount = process?.gift_refund_amount
+    let bankTransferRefundAmount = process?.bank_transfer_refund_amount
+    let originalRefundAmount = process?.original_pm_refund_amount
+
+    if (updatedSummary) {
+        lineItems = process?.approved_line_items
+        couponRefundAmount = process?.executed_coupon
+        giftCardRefundAmount = process?.executed_gift
+        bankTransferRefundAmount = process?.executed_bank_transfer
+        originalRefundAmount = process?.executed_original_pm
+    }
 
     const totalRefund =
         (couponRefundAmount ?? 0) +
@@ -37,8 +50,8 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
 
     const totalPrice = () => {
         let totalPrice = 0
-        if (process?.line_items) {
-            process?.line_items.forEach((lineItem) => {
+        if (lineItems) {
+            lineItems.forEach((lineItem) => {
                 if (lineItem.type === 'product' && lineItem.total) {
                     totalPrice += lineItem.total
                 }
@@ -48,7 +61,7 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
     }
 
     const newOrderId = process?.exchange_order_number
-    const exchangedItems = process?.line_items?.filter(
+    const exchangedItems = lineItems?.filter(
         (litem) => litem.type === 'cost' && litem.pending_purchase === true
     )
 
@@ -80,8 +93,8 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
                         </div>
                     )}
 
-                    {process?.line_items &&
-                        process?.line_items.map((retLineItem, i) => {
+                    {lineItems &&
+                        lineItems.map((retLineItem, i) => {
                             if (
                                 retLineItem.type === 'cost' &&
                                 retLineItem.name &&
@@ -237,7 +250,7 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
                         {t('summary.items_title')}
                     </h3>
                 </div>
-                {process?.line_items?.map((lineItem, i) => {
+                {lineItems?.map((lineItem, i) => {
                     if (lineItem.type != 'cost') {
                         return (
                             <ReturnProductSummary LineItem={lineItem} key={i} />
