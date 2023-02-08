@@ -12,11 +12,15 @@ import { useSearchReturnTypes } from '../../../hooks/useSearchReturnTypes'
 import { formatPrice } from '../../../utils'
 import moment from 'moment'
 import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
+import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
+import countries from '../../../utils/countries.json'
+import { useTranslation } from 'react-i18next'
 
 interface ReturnsMetricsProps {
     currentPeriod: number
 }
 const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
+    const i18n = useTranslation()
     const theme = useTheme()
     const dateTo = moment().format('YYYY-MM-DD')
     const dateFrom30d = moment().subtract(1, 'M').format('YYYY-MM-DD')
@@ -34,6 +38,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     const { returnMetrics } = useSearchReturnMetrics(dateFrom, dateTo)
     const { returnTypes } = useSearchReturnTypes(dateFrom, dateTo)
     const { returnTypesByDay } = useSearchReturnTypesByDay(dateFrom, dateTo)
+    const { returnsByCountry } = useSearchReturnsByCountry(dateFrom, dateTo)
 
     const exchangePercentage: number = returnTypes?.exchanges
         ? Math.round(returnTypes?.exchanges)
@@ -130,7 +135,119 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
         </div>`
         }
     }
-    // const colors = ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096']
+    const colorsCountries1 = ['#1B75EB']
+    const colorsCountries2 = ['#1B75EB', '#85B8FF']
+    const colorsCountries3 = ['#1B75EB', '#85B8FF', '#AEDCFF']
+    const colorsCountries4 = ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096']
+    const colorsCountries5 = [
+        '#1B75EB',
+        '#85B8FF',
+        '#AEDCFF',
+        '#003096',
+        '#467bed'
+    ]
+
+    function getColorsCountries(countries: any) {
+        switch (countries !== undefined && countries.length) {
+            case 1:
+                return colorsCountries1
+            case 2:
+                return colorsCountries2
+            case 3:
+                return colorsCountries3
+            case 4:
+                return colorsCountries4
+            case 5:
+                return colorsCountries5
+            default:
+                return colorsCountries5
+        }
+    }
+
+    function translateCountryName(countryCode: string, i18nLanguage: string) {
+        const country = countries.countries.find((c) => c.code === countryCode)
+        if (!country) {
+            return ''
+        }
+        return i18nLanguage === 'es' ? country.name_es : country.name_en
+    }
+
+    const translatedCountries =
+        returnsByCountry &&
+        returnsByCountry.map((c) => {
+            return {
+                count: c.count,
+                country:
+                    c.country &&
+                    translateCountryName(c.country, i18n.i18n.language),
+                percentage: c.percentage
+            }
+        })
+
+    const seriesCountries = returnsByCountry?.map((item: any) => {
+        return Math.round(item.percentage)
+    })
+
+    const labelsCountries = translatedCountries?.map((item: any) => {
+        return item.country
+    })
+    const chartOptionsCountries: ApexOptions = {
+        chart: {
+            animations: {
+                speed: 400,
+                animateGradually: {
+                    enabled: false
+                }
+            },
+            fontFamily: 'inherit',
+            foreColor: 'inherit',
+            height: '100%',
+            type: 'donut',
+            sparkline: {
+                enabled: true
+            }
+        },
+        // colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
+        colors: seriesCountries && getColorsCountries(seriesCountries),
+        labels: labelsCountries && labelsCountries,
+        plotOptions: {
+            pie: {
+                customScale: 0.9,
+                expandOnClick: false,
+                donut: {
+                    size: '70%'
+                }
+            }
+        },
+        // stroke: {
+        //     colors: [theme.palette.background.paper]
+        // },
+        series: [exchangePercentage, refundPercentage, storeCreditPercentage],
+        states: {
+            hover: {
+                filter: {
+                    type: 'none'
+                }
+            },
+            active: {
+                filter: {
+                    type: 'none'
+                }
+            }
+        },
+        tooltip: {
+            enabled: true,
+            fillSeriesColor: false,
+            theme: 'dark',
+            custom: ({ seriesIndex, w }) =>
+                `<div class="flex items-center h-16 min-h-16 max-h-16 px-12">
+            <div class="w-12 h-12 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
+            <div class="ml-8 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
+            <div class="ml-8 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
+        </div>`
+        }
+    }
+
     const colors = ['#1B75EB', '#85B8FF', '#003096']
     const labels = ['Exchanges', 'Refunds', 'Store Credit']
     const series = [exchangePercentage, refundPercentage, storeCreditPercentage]
@@ -179,7 +296,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
             }
         }
     }
-    const series2 = [{ name: 'Returns', data: returnsByDay }]
+    const series2 = [{ name: 'Returned items', data: returnsByDay }]
 
     return (
         <ReturnsDiv>
@@ -257,7 +374,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                 </ReverSuccessBox>
             </TopInfo>
             <LineChart>
-                <LineChartTitle>Returns</LineChartTitle>
+                <LineChartTitle>Returned items</LineChartTitle>
                 <Chart
                     options={options2}
                     series={series2}
@@ -267,23 +384,68 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                 />
             </LineChart>
             <CompensationsDiv>
-                {/* <ReverBox borderColor={theme.colors.grey[3]}> */}
-                {/* <LineChart>
-                    <LineChartTitle>Returns</LineChartTitle>
-                    <Chart
-                        options={options2}
-                        series={series2}
-                        type="area"
-                        height="420"
-                        width="100%"
-                    />
-                </LineChart> */}
-                {/* </ReverBox> */}
                 <DonutBox borderColor={theme.colors.grey[3]}>
-                    <p className="truncate text-lg font-medium leading-6">
-                        Compensations
-                    </p>
                     <DonutInside>
+                        <p className="truncate text-lg font-medium leading-6">
+                            Countries
+                        </p>
+                        {seriesCountries && (
+                            <Chart
+                                options={chartOptionsCountries}
+                                series={seriesCountries}
+                                type="donut"
+                                width="300"
+                            />
+                        )}
+                        <div>
+                            {seriesCountries &&
+                                seriesCountries.map((dataset, i) => (
+                                    <>
+                                        <div
+                                            className="mx-4 grid grid-cols-2 py-1"
+                                            key={i}
+                                        >
+                                            <div className="flex items-center">
+                                                <LegendDot
+                                                    className="h-4 w-4 rounded-full"
+                                                    backgroundColor={
+                                                        seriesCountries &&
+                                                        getColorsCountries(
+                                                            seriesCountries
+                                                        )[i]
+                                                    }
+                                                />
+                                                <p className="ml-4 truncate">
+                                                    {labelsCountries &&
+                                                        labelsCountries[i]}
+                                                </p>
+                                            </div>
+
+                                            <p
+                                                className="text-right"
+                                                color="text.secondary"
+                                            >
+                                                {dataset}%
+                                            </p>
+                                        </div>
+                                        {i ===
+                                        seriesCountries.length - 1 ? null : (
+                                            <hr />
+                                        )}
+                                    </>
+                                ))}
+                        </div>
+                    </DonutInside>
+                    <DonutInside>
+                        <p className="truncate text-lg font-medium leading-6">
+                            Compensation methods
+                        </p>
+                        <Chart
+                            options={chartOptions}
+                            series={series}
+                            type="donut"
+                            width="300"
+                        />
                         <div>
                             {series.map((dataset, i) => (
                                 <>
@@ -312,12 +474,6 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                 </>
                             ))}
                         </div>
-                        <Chart
-                            options={chartOptions}
-                            series={series}
-                            type="donut"
-                            width="300"
-                        />
                     </DonutInside>
                 </DonutBox>
             </CompensationsDiv>
@@ -363,18 +519,23 @@ const LegendDot = styled.div<BoxProps>`
     border-color: ${(p) => p.borderColor};
 `
 const DonutInside = styled.div`
+    padding: 1rem;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    height: 100%;
 `
 const DonutBox = styled.div<BoxProps>`
+    width: 100%;
+
     /* margin-left: 1rem; */
     padding-top: 1rem;
     padding-bottom: 1rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-around;
     border-radius: 0.5rem;
     border: 1px solid;
     border-color: ${(p) => p.borderColor};
@@ -384,6 +545,7 @@ const DonutBox = styled.div<BoxProps>`
 
 const ReturnsDiv = styled.div`
     height: 100%;
+    width: 100%;
 `
 
 const TopInfo = styled.div`
@@ -434,7 +596,7 @@ const ReverSuccessBox = styled.div<BoxSuccessProps>`
 
 const CompensationsDiv = styled.div`
     margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+    display: flex;
+    flex-direction: row;
     padding-bottom: 4rem;
 `

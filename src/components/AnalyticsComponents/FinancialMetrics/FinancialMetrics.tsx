@@ -24,7 +24,7 @@ const FinancialMetrics: React.FC<FinancialMetricsProps> = ({
         }
     }, [currentPeriod])
     const { report } = useSearchFinancialReport()
-    console.log(report)
+
     const moneyFormat = report?.money_format
     const grossSales =
         moneyFormat && formatPrice(report?.gross_sales || 0, moneyFormat)

@@ -9,7 +9,9 @@ import {
     ReportsApiFindReturnTypesByDayRequest,
     ProcessessapiDbReturnStatsByDay,
     ReportsApiFindReturnsMetricsRequest,
-    ReportsMainMetricsResponse
+    ReportsMainMetricsResponse,
+    ReportsApiFindReturnsByCountryRequest,
+    ProcessessapiDbReturnsByCountry
 } from '@itsrever/dashboard-api'
 import { axiosInstance } from './apiConfiguration'
 
@@ -27,19 +29,24 @@ interface GetReturnTypesByDayCall extends ApiCallBase {
 interface GetReturnsMetricsCall extends ApiCallBase {
     response: ReportsMainMetricsResponse
 }
+interface GetReturnsByCountryCall extends ApiCallBase {
+    response: ProcessessapiDbReturnsByCountry[]
+}
 
 interface State {
     getReport: GetReportCall
     getReturnTypes: GetReturnTypesCall
     getReturnTypesByDay: GetReturnTypesByDayCall
     getReturnsMetrics: GetReturnsMetricsCall
+    getReturnsByCountry: GetReturnsByCountryCall
 }
 
 const initialState: State = {
     getReport: initialApiState,
     getReturnTypes: initialApiState,
     getReturnTypesByDay: initialApiState,
-    getReturnsMetrics: initialApiState
+    getReturnsMetrics: initialApiState,
+    getReturnsByCountry: initialApiState
 }
 
 const defaultValueReports: ReportsApiFindReportsRequest = {
@@ -61,6 +68,12 @@ const defaultValueReturnByDay: ReportsApiFindReturnTypesByDayRequest = {
 }
 
 const defaultValueReturnMetrics: ReportsApiFindReturnsMetricsRequest = {
+    ecommerceId: '',
+    from: undefined,
+    to: undefined
+}
+
+const defaultValueReturnByCountry: ReportsApiFindReturnsByCountryRequest = {
     ecommerceId: '',
     from: undefined,
     to: undefined
@@ -116,6 +129,19 @@ export const getReturnTypesByDay = createAsyncThunk(
     }
 )
 
+export const getReturnsByCountry = createAsyncThunk(
+    '/getReturnsByCountry',
+    async (args: ReportsApiFindReturnsByCountryRequest) => {
+        const { ecommerceId, from, to } = args || defaultValueReturnByCountry
+        const getReturnsByCountry = await reportsApi.findReturnsByCountry({
+            ecommerceId,
+            from,
+            to
+        })
+        return getReturnsByCountry.data
+    }
+)
+
 const reportSlice = createSlice({
     name: 'reportsApi',
     initialState,
@@ -136,6 +162,10 @@ const reportSlice = createSlice({
             state.getReturnsMetrics = {
                 ...initialApiState,
                 response: state.getReturnsMetrics.response
+            }
+            state.getReturnsByCountry = {
+                ...initialApiState,
+                response: state.getReturnsByCountry.response
             }
         }
     },
@@ -187,6 +217,18 @@ const reportSlice = createSlice({
         builder.addCase(getReturnTypesByDay.rejected, (state, action) => {
             state.getReturnTypesByDay.loading = 'failed'
             state.getReturnTypesByDay.error = action.error
+        })
+        // Get Returns By Country
+        builder.addCase(getReturnsByCountry.pending, (state) => {
+            state.getReturnsByCountry.loading = 'pending'
+        })
+        builder.addCase(getReturnsByCountry.fulfilled, (state, action) => {
+            state.getReturnsByCountry.loading = 'succeeded'
+            state.getReturnsByCountry.response = action.payload
+        })
+        builder.addCase(getReturnsByCountry.rejected, (state, action) => {
+            state.getReturnsByCountry.loading = 'failed'
+            state.getReturnsByCountry.error = action.error
         })
     }
 })
