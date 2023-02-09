@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { Tabs, Tab } from '@mui/material'
 import { useTheme } from '@itsrever/design-system'
 import PeriodSelector from '../PeriodSelector/PeriodSelector'
+import device from '@/utils/device'
 
 interface TopBarProps {
     currentTab: number
@@ -74,8 +75,12 @@ const TopDiv = styled.div`
     /* display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem; */
-    margin-top: 4rem;
+    padding-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    @media ${device.lg} {
+        padding-top: 3rem;
+    }
 `

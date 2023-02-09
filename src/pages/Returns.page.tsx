@@ -95,17 +95,23 @@ const GeneralDiv = styled.div`
     align-items: center;
     height: 100%;
     overflow-y: scroll;
+    width: 100%;
 `
 
 const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-left: 7%;
+    padding-right: 7%;
 `
 
 const AnalyticsDiv = styled.div`
     margin-top: 1rem;
     display: flex;
     justify-content: center;
+    width: 100%;
 `
 
 interface BoxProps {
