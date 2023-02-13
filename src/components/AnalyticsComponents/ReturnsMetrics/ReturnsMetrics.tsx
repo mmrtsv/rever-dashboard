@@ -16,6 +16,7 @@ import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
 import countries from '../../../utils/countries.json'
 import { useTranslation } from 'react-i18next'
 import device from '@/utils/device'
+import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
 
 interface ReturnsMetricsProps {
     currentPeriod: number
@@ -298,189 +299,209 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
         }
     }
     const series2 = [{ name: 'Returned items', data: returnsByDay }]
-
     return (
-        <ReturnsDiv>
-            <TopInfo>
-                <ReverSuccessBox
-                    bordBottomColor={theme.colors.primary.dark}
-                    borderColor={theme.colors.grey[3]}
-                >
-                    <div className="flex w-full">
-                        <IconDiv color={theme.colors.primary.dark}>
-                            <ReturnsIcon />
-                        </IconDiv>
-                        <div className="flex w-full flex-col">
-                            <Title
-                                color={theme.colors.primary.dark}
-                                className="text-center"
-                            >
-                                <b>{returns}</b>
-                            </Title>
-                            <Subtitle className="text-center">
-                                total returns
-                            </Subtitle>
-                        </div>
-                    </div>
-                </ReverSuccessBox>
-                <ReverSuccessBox
-                    bordBottomColor={theme.colors.primary.dark}
-                    borderColor={theme.colors.grey[3]}
-                >
-                    <div className="flex w-full">
-                        <IconDiv color={theme.colors.primary.dark}>
-                            <RDVIcon />
-                        </IconDiv>
-                        <div className="flex w-full flex-col">
-                            <Title
-                                color={theme.colors.primary.dark}
-                                className="text-center"
-                            >
-                                <b>{rdvPercentage}%</b>
-                            </Title>
-                            <Subtitle className="text-center">
-                                of retained dollar value (RDV)
-                            </Subtitle>
-                        </div>
-                    </div>
-                </ReverSuccessBox>
-                <ReverSuccessBox
-                    bordBottomColor={theme.colors.success.main}
-                    borderColor={theme.colors.grey[3]}
-                >
-                    <div className="flex w-full">
-                        <IconDiv color={theme.colors.success.main}>
-                            <SalesIcon />
-                        </IconDiv>
-
-                        <div className="ml-2 flex w-full flex-col">
-                            <div className="flex items-center justify-center">
-                                <IconDiv
-                                    className="mr-2"
-                                    color={theme.colors.success.main}
-                                >
-                                    <ArrowUpIcon />
+        <>
+            {seriesCountries ? (
+                <ReturnsDiv>
+                    <TopInfo>
+                        <ReverSuccessBox
+                            bordBottomColor={theme.colors.primary.dark}
+                            borderColor={theme.colors.grey[3]}
+                        >
+                            <div className="flex w-full">
+                                <IconDiv color={theme.colors.primary.dark}>
+                                    <ReturnsIcon />
                                 </IconDiv>
-                                <Title
-                                    color={theme.colors.success.main}
-                                    className="text-center"
-                                >
-                                    <b>{totalRdv}</b>
-                                </Title>
+                                <div className="flex w-full flex-col">
+                                    <Title
+                                        color={theme.colors.primary.dark}
+                                        className="text-center"
+                                    >
+                                        <b>{returns}</b>
+                                    </Title>
+                                    <Subtitle className="text-center">
+                                        total returns
+                                    </Subtitle>
+                                </div>
                             </div>
+                        </ReverSuccessBox>
+                        <ReverSuccessBox
+                            bordBottomColor={theme.colors.primary.dark}
+                            borderColor={theme.colors.grey[3]}
+                        >
+                            <div className="flex w-full">
+                                <IconDiv color={theme.colors.primary.dark}>
+                                    <RDVIcon />
+                                </IconDiv>
+                                <div className="flex w-full flex-col">
+                                    <Title
+                                        color={theme.colors.primary.dark}
+                                        className="text-center"
+                                    >
+                                        <b>{rdvPercentage}%</b>
+                                    </Title>
+                                    <Subtitle className="text-center">
+                                        of retained dollar value (RDV)
+                                    </Subtitle>
+                                </div>
+                            </div>
+                        </ReverSuccessBox>
+                        <ReverSuccessBox
+                            bordBottomColor={theme.colors.success.main}
+                            borderColor={theme.colors.grey[3]}
+                        >
+                            <div className="flex w-full">
+                                <IconDiv color={theme.colors.success.main}>
+                                    <SalesIcon />
+                                </IconDiv>
 
-                            <Subtitle className="text-center">
-                                of new sales generated
-                            </Subtitle>
-                        </div>
-                    </div>
-                </ReverSuccessBox>
-            </TopInfo>
-            <LineChart>
-                <LineChartTitle>Returned items</LineChartTitle>
-                <Chart
-                    options={options2}
-                    series={series2}
-                    type="area"
-                    height="250"
-                    // width="100%"
-                />
-            </LineChart>
-            <CompensationsDiv>
-                <DonutBox borderColor={theme.colors.grey[3]}>
-                    <DonutInside>
-                        <p className="truncate text-lg font-medium leading-6">
-                            Countries
-                        </p>
-                        {seriesCountries && (
-                            <Chart
-                                options={chartOptionsCountries}
-                                series={seriesCountries}
-                                type="donut"
-                                width="300"
-                            />
-                        )}
-                        <div>
-                            {seriesCountries &&
-                                seriesCountries.map((dataset, i) => (
-                                    <>
-                                        <div
-                                            className="mx-4 grid grid-cols-2 py-1"
-                                            key={i}
+                                <div className="ml-2 flex w-full flex-col">
+                                    <div className="flex items-center justify-center">
+                                        <IconDiv
+                                            className="mr-2"
+                                            color={theme.colors.success.main}
                                         >
-                                            <div className="flex items-center">
-                                                <LegendDot
-                                                    className="h-4 w-4 rounded-full"
-                                                    backgroundColor={
-                                                        seriesCountries &&
-                                                        getColorsCountries(
-                                                            seriesCountries
-                                                        )[i]
-                                                    }
-                                                />
-                                                <p className="ml-4 truncate">
-                                                    {labelsCountries &&
-                                                        labelsCountries[i]}
+                                            <ArrowUpIcon />
+                                        </IconDiv>
+                                        <Title
+                                            color={theme.colors.success.main}
+                                            className="text-center"
+                                        >
+                                            <b>{totalRdv}</b>
+                                        </Title>
+                                    </div>
+
+                                    <Subtitle className="text-center">
+                                        of new sales generated
+                                    </Subtitle>
+                                </div>
+                            </div>
+                        </ReverSuccessBox>
+                    </TopInfo>
+                    <LineChart>
+                        <LineChartTitle>Returned items</LineChartTitle>
+                        <Chart
+                            options={options2}
+                            series={series2}
+                            type="area"
+                            height="250"
+                            // width="100%"
+                        />
+                    </LineChart>
+                    <CompensationsDiv>
+                        <DonutBox borderColor={theme.colors.grey[3]}>
+                            <DonutInside>
+                                <p className="truncate text-lg font-medium leading-6">
+                                    Countries
+                                </p>
+                                {seriesCountries && (
+                                    <Chart
+                                        options={chartOptionsCountries}
+                                        series={seriesCountries}
+                                        type="donut"
+                                        width="300"
+                                    />
+                                )}
+                                <div>
+                                    {seriesCountries &&
+                                        seriesCountries.map((dataset, i) => (
+                                            <>
+                                                <div
+                                                    className="mx-4 grid grid-cols-2 py-1"
+                                                    key={i}
+                                                >
+                                                    <div className="flex items-center">
+                                                        <LegendDot
+                                                            className="h-4 w-4 rounded-full"
+                                                            backgroundColor={
+                                                                seriesCountries &&
+                                                                getColorsCountries(
+                                                                    seriesCountries
+                                                                )[i]
+                                                            }
+                                                        />
+                                                        <p className="ml-4 truncate">
+                                                            {labelsCountries &&
+                                                                labelsCountries[
+                                                                    i
+                                                                ]}
+                                                        </p>
+                                                    </div>
+
+                                                    <p
+                                                        className="text-right"
+                                                        color="text.secondary"
+                                                    >
+                                                        {dataset}%
+                                                    </p>
+                                                </div>
+                                                {i ===
+                                                seriesCountries.length -
+                                                    1 ? null : (
+                                                    <hr />
+                                                )}
+                                            </>
+                                        ))}
+                                </div>
+                            </DonutInside>
+                            <DonutInside>
+                                <p className="truncate text-lg font-medium leading-6">
+                                    Compensation methods
+                                </p>
+                                <Chart
+                                    options={chartOptions}
+                                    series={series}
+                                    type="donut"
+                                    width="300"
+                                />
+                                <div>
+                                    {series.map((dataset, i) => (
+                                        <>
+                                            <div
+                                                className="mx-4 grid grid-cols-2 py-1"
+                                                key={i}
+                                            >
+                                                <div className="flex items-center">
+                                                    <LegendDot
+                                                        className="h-4 w-4 rounded-full"
+                                                        backgroundColor={
+                                                            colors[i]
+                                                        }
+                                                    />
+                                                    <p className="ml-4 truncate">
+                                                        {labels[i]}
+                                                    </p>
+                                                </div>
+
+                                                <p
+                                                    className="text-right"
+                                                    color="text.secondary"
+                                                >
+                                                    {dataset}%
                                                 </p>
                                             </div>
-
-                                            <p
-                                                className="text-right"
-                                                color="text.secondary"
-                                            >
-                                                {dataset}%
-                                            </p>
-                                        </div>
-                                        {i ===
-                                        seriesCountries.length - 1 ? null : (
-                                            <hr />
-                                        )}
-                                    </>
-                                ))}
-                        </div>
-                    </DonutInside>
-                    <DonutInside>
-                        <p className="truncate text-lg font-medium leading-6">
-                            Compensation methods
-                        </p>
-                        <Chart
-                            options={chartOptions}
-                            series={series}
-                            type="donut"
-                            width="300"
-                        />
-                        <div>
-                            {series.map((dataset, i) => (
-                                <>
-                                    <div
-                                        className="mx-4 grid grid-cols-2 py-1"
-                                        key={i}
-                                    >
-                                        <div className="flex items-center">
-                                            <LegendDot
-                                                className="h-4 w-4 rounded-full"
-                                                backgroundColor={colors[i]}
-                                            />
-                                            <p className="ml-4 truncate">
-                                                {labels[i]}
-                                            </p>
-                                        </div>
-
-                                        <p
-                                            className="text-right"
-                                            color="text.secondary"
-                                        >
-                                            {dataset}%
-                                        </p>
-                                    </div>
-                                    {i === series.length - 1 ? null : <hr />}
-                                </>
-                            ))}
-                        </div>
-                    </DonutInside>
-                </DonutBox>
-            </CompensationsDiv>
-        </ReturnsDiv>
+                                            {i === series.length - 1 ? null : (
+                                                <hr />
+                                            )}
+                                        </>
+                                    ))}
+                                </div>
+                            </DonutInside>
+                        </DonutBox>
+                    </CompensationsDiv>
+                </ReturnsDiv>
+            ) : (
+                <div>
+                    <Title
+                        color={theme.colors.primary.dark}
+                        className="mt-20 text-center"
+                    >
+                        Reports not found
+                    </Title>
+                    <NotFoundReports />
+                </div>
+            )}
+        </>
     )
 }
 
