@@ -496,7 +496,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                         color={theme.colors.primary.dark}
                         className="mt-20 text-center"
                     >
-                        Reports not found
+                        No returns in the period
                     </Title>
                     <NotFoundReports />
                 </div>
