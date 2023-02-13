@@ -15,6 +15,7 @@ import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
 import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
 import countries from '../../../utils/countries.json'
 import { useTranslation } from 'react-i18next'
+import device from '@/utils/device'
 
 interface ReturnsMetricsProps {
     currentPeriod: number
@@ -312,11 +313,13 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                         <div className="flex w-full flex-col">
                             <Title
                                 color={theme.colors.primary.dark}
-                                className="text-center text-5xl"
+                                className="text-center"
                             >
                                 <b>{returns}</b>
                             </Title>
-                            <h6 className="text-center">total returns</h6>
+                            <Subtitle className="text-center">
+                                total returns
+                            </Subtitle>
                         </div>
                     </div>
                 </ReverSuccessBox>
@@ -331,13 +334,13 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                         <div className="flex w-full flex-col">
                             <Title
                                 color={theme.colors.primary.dark}
-                                className="text-center text-5xl"
+                                className="text-center"
                             >
                                 <b>{rdvPercentage}%</b>
                             </Title>
-                            <h6 className="text-center">
+                            <Subtitle className="text-center">
                                 of retained dollar value (RDV)
-                            </h6>
+                            </Subtitle>
                         </div>
                     </div>
                 </ReverSuccessBox>
@@ -360,15 +363,15 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                 </IconDiv>
                                 <Title
                                     color={theme.colors.success.main}
-                                    className="text-center text-5xl"
+                                    className="text-center"
                                 >
                                     <b>{totalRdv}</b>
                                 </Title>
                             </div>
 
-                            <h6 className="text-center">
+                            <Subtitle className="text-center">
                                 of new sales generated
-                            </h6>
+                            </Subtitle>
                         </div>
                     </div>
                 </ReverSuccessBox>
@@ -528,12 +531,10 @@ const DonutInside = styled.div`
 `
 const DonutBox = styled.div<BoxProps>`
     width: 100%;
-
-    /* margin-left: 1rem; */
     padding-top: 1rem;
     padding-bottom: 1rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column-reverse;
     align-items: center;
     justify-content: space-around;
     border-radius: 0.5rem;
@@ -541,6 +542,12 @@ const DonutBox = styled.div<BoxProps>`
     border-color: ${(p) => p.borderColor};
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    @media ${device.md} {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
 `
 
 const ReturnsDiv = styled.div`
@@ -549,18 +556,40 @@ const ReturnsDiv = styled.div`
 `
 
 const TopInfo = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media ${device.md} {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+    }
 `
 
 interface IconProps {
     color: string
 }
 
+const Subtitle = styled.h6`
+    font-size: 12px;
+    @media ${device.lg} {
+        font-size: 14px;
+    }
+    @media ${device.xl} {
+        font-size: 16px;
+    }
+`
 const Title = styled.h3<IconProps>`
     color: ${(p) => p.color};
+    font-size: 24px;
+    @media ${device.lg} {
+        font-size: 36px;
+    }
+    @media ${device.xl} {
+        font-size: 48px;
+    }
 `
 
 const IconDiv = styled.div<IconProps>`
@@ -569,22 +598,12 @@ const IconDiv = styled.div<IconProps>`
     color: ${(p) => p.color};
 `
 
-const ReverBox = styled.div<BoxProps>`
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid;
-    border-color: ${(p) => p.borderColor};
-    background-color: #fff;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-`
-
 interface BoxSuccessProps {
     borderColor: string
     bordBottomColor: string
 }
 
 const ReverSuccessBox = styled.div<BoxSuccessProps>`
-    padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid;
     border-color: ${(p) => p.borderColor};
@@ -592,6 +611,20 @@ const ReverSuccessBox = styled.div<BoxSuccessProps>`
     border-bottom-color: ${(p) => p.bordBottomColor};
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    padding: 0.35rem;
+    margin-bottom: 1rem;
+    @media ${device.md} {
+        padding: 0.55rem;
+        margin-bottom: 0rem;
+    }
+    @media ${device.lg} {
+        padding: 0.85rem;
+        margin-bottom: 0rem;
+    }
+    @media ${device.xl} {
+        padding: 1rem;
+        margin-bottom: 0rem;
+    }
 `
 
 const CompensationsDiv = styled.div`

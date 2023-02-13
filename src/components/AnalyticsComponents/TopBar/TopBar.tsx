@@ -22,9 +22,9 @@ const TopBar: React.FC<TopBarProps> = ({
     return (
         <TopDiv>
             <div className="flex flex-col">
-                <h3 className="text-primary-dark mb-4 text-5xl">
+                <Title className="text-primary-dark">
                     <b>Analytics dashboard</b>
-                </h3>
+                </Title>
                 <h6>Monitor metrics - Check reports</h6>
             </div>
             <div className="mt-8">
@@ -70,11 +70,17 @@ const TopBar: React.FC<TopBarProps> = ({
 }
 
 export default TopBar
-
+const Title = styled.h3`
+    margin-bottom: 1rem;
+    font-size: 38px;
+    @media ${device.sm} {
+        font-size: 42px;
+    }
+    @media ${device.md} {
+        font-size: 48px;
+    }
+`
 const TopDiv = styled.div`
-    /* display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem; */
     padding-top: 2rem;
     display: flex;
     justify-content: space-between;
