@@ -3,19 +3,20 @@ import _ from '../../../@lodash/@lodash'
 import styled from 'styled-components'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import { SuccessIcon } from '@itsrever/design-system'
+import { useTranslation } from 'react-i18next'
 
 export const ReviewStatuses = [
     {
         enum: 0,
-        name: 'PENDING',
-        color: '#9F2B68', //F8BB3D
-        text: 'Action required'
+        name: 'ACTION REQUIRED',
+        color: '#9F2B68',
+        text: 'action_required'
     },
     {
         enum: 1,
         name: 'REVIEWED',
         color: '#00b0a6',
-        text: 'Reviewed'
+        text: 'reviewed'
     }
 ]
 
@@ -24,6 +25,8 @@ interface ShippingStatusProps {
 }
 
 const ReviewStatus: React.FC<ShippingStatusProps> = ({ status }) => {
+    const { t } = useTranslation()
+
     return (
         <StatusDiv>
             {status === 0 ? (
@@ -50,7 +53,11 @@ const ReviewStatus: React.FC<ShippingStatusProps> = ({ status }) => {
                     color: `${_.find(ReviewStatuses, { enum: status })?.color}`
                 }}
             >
-                {_.find(ReviewStatuses, { enum: status })?.text}
+                {t(
+                    `process_review_status.${
+                        _.find(ReviewStatuses, { enum: status })?.text
+                    }`
+                )}
             </p>
         </StatusDiv>
     )

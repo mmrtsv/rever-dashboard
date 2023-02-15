@@ -6,10 +6,10 @@ import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@itsrever/design-system'
 import thunk from 'redux-thunk'
-import i18n from '../../i18nForTests'
+import i18n from '../i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 
-import OrderDetails from '../../pages/ProcessDetails.page'
+import OrderDetails from '../pages/ProcessDetails.page'
 
 describe('Process Details Page testing', () => {
     const middlewares = [thunk]

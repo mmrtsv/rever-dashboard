@@ -4,43 +4,44 @@ import styled from 'styled-components'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import Transit from '@mui/icons-material/AirlineStops'
 import { SuccessIcon, ErrorIcon } from '@itsrever/design-system'
+import { useTranslation } from 'react-i18next'
 
 export const ShippingStatuses = [
     {
         enum: 0,
         name: 'NO_SHIPPING_STATUS',
         color: '#B3B3B3',
-        text: 'No status'
+        text: 'no_status'
     },
     {
         enum: 1,
         name: 'CREATED',
         color: '#63a2f4',
-        text: 'Created'
+        text: 'created'
     },
     {
         enum: 2,
         name: 'COLLECTED',
         color: '#ffd580',
-        text: 'Collected'
+        text: 'collected'
     },
     {
         enum: 3,
         name: 'IN_WAREHOUSE',
         color: '#00b0a6',
-        text: 'In warehouse'
+        text: 'in_warehouse'
     },
     {
         enum: 4,
         name: 'ERROR',
         color: '#ff5962',
-        text: 'Error'
+        text: 'error'
     },
     {
         enum: 5,
         name: 'CANCELED',
         color: '#ff5962',
-        text: 'Cancelled'
+        text: 'canceled'
     }
 ]
 
@@ -49,6 +50,7 @@ interface ShippingStatusProps {
 }
 
 const ShippingStatus: React.FC<ShippingStatusProps> = ({ status }) => {
+    const { t } = useTranslation()
     return (
         <StatusDiv>
             {status === 0 ? (
@@ -101,7 +103,11 @@ const ShippingStatus: React.FC<ShippingStatusProps> = ({ status }) => {
                     }`
                 }}
             >
-                {_.find(ShippingStatuses, { enum: status })?.text}
+                {t(
+                    `shipping_status.${
+                        _.find(ShippingStatuses, { enum: status })?.text
+                    }`
+                )}
             </p>
         </StatusDiv>
     )

@@ -10,7 +10,6 @@ import { setTokenData } from './redux/api/userApi'
 import { axiosInstance } from './redux/api/apiConfiguration'
 import Mixpanel from './mixpanel/Mixpanel'
 
-const LoginPage = lazy(() => import('./auth/Login.page'))
 const Analytics = lazy(() => import('./pages/Financials.page'))
 const LineItems = lazy(() => import('./pages/LineItems.page'))
 const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
@@ -73,7 +72,6 @@ function App() {
         <Router>
             <Suspense fallback={<LoadingComponent loading={true} />}>
                 <Routes>
-                    <Route path="/login" element={<LoginPage />} />
                     <Route element={<Layout />}>
                         <Route
                             path="/"

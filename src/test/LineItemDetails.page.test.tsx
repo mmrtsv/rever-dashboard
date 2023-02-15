@@ -7,10 +7,10 @@ import { Provider } from 'react-redux'
 import { ThemeProvider } from '@itsrever/design-system'
 import thunk from 'redux-thunk'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import i18n from '../../i18nForTests'
+import i18n from '../i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 
-import LineItemDetails from '../../pages/LineItemDetails.page'
+import LineItemDetails from '../pages/LineItemDetails.page'
 
 describe('Line Items Details Page', () => {
     const LineItem: ModelsPublicReturnLineItem = {

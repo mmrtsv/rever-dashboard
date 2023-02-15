@@ -26,7 +26,7 @@ describe('Process Split Line Item tests', () => {
         screen.getByAltText('ProductImage')
         screen.getByText('BEAR HOOD - XS')
         screen.getByText('Oskar Lozano')
-        screen.getByText('In warehouse')
+        screen.getByText('In Warehouse')
     })
 
     it('should display the review status when conditions are met', () => {

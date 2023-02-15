@@ -1,9 +1,20 @@
 {
-    "login_page": {
-        "sign_in": "Iniciar sesión",
-        "username": "Usuario",
-        "password": "Contraseña",
-        "button_submit": "Iniciar sesión"
+    "line_item_review_status": {
+        "accepted": "Aceptado",
+        "declined": "Rechazado",
+        "missing": "Perdido"
+    },
+    "process_review_status": {
+        "action_required": "Acción Requerida",
+        "reviewed": "Revisado"
+    },
+    "shipping_status": {
+        "no_status": "Etiqueta Pendiente",
+        "created": "Etiqueta Creada",
+        "collected": "Recogido",
+        "in_warehouse": "Recibido",
+        "error": "Error",
+        "canceled": "Cancelado"
     },
     "drawer_pages": {
         "home": "Inicio",

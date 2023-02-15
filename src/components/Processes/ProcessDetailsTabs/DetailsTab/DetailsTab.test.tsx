@@ -32,7 +32,7 @@ describe('Details tab tests', () => {
 
         screen.getByText('Status')
         screen.getByTestId('SuccessIcon')
-        screen.getByText('In warehouse')
+        screen.getByText('In Warehouse')
 
         expect(screen.queryByText('Review status')).toBeNull()
         expect(screen.queryByText('Reviewed')).toBeNull()

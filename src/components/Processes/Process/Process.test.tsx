@@ -35,7 +35,7 @@ describe('Process test', () => {
         screen.getByText('Amics de les arts')
         screen.getByText('1 item')
         screen.getByText('Philip Swalus')
-        screen.getByText('In warehouse')
+        screen.getByText('In Warehouse')
     })
 
     it('should display the correct information when ecommercesList < 2', () => {
@@ -58,7 +58,7 @@ describe('Process test', () => {
         expect(screen.queryByText('Amics de les arts')).toBeNull()
         screen.getByText('1 item')
         screen.getByText('Philip Swalus')
-        screen.getByText('In warehouse')
+        screen.getByText('In Warehouse')
     })
 
     it('should display review status when conditions met', () => {

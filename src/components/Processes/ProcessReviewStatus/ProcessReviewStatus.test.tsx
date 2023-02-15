@@ -23,7 +23,7 @@ describe('Process Review Status tests', () => {
         )
         // ACTION REQUIRED
         screen.getByTestId('AccessTimeIcon')
-        screen.getByText('Action required')
+        screen.getByText('Action Required')
 
         // REVIEWED
         screen.getByTestId('SuccessIcon')

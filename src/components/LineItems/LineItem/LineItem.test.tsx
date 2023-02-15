@@ -42,7 +42,7 @@ describe('Line Item test', () => {
         screen.getByText('Oskar Lozano')
 
         // Shipping Status
-        screen.getByText('In warehouse')
+        screen.getByText('In Warehouse')
     })
 
     it('should display the review status when conditions are met', () => {

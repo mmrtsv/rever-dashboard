@@ -35,10 +35,10 @@ const FinancialMetrics: React.FC<FinancialMetricsProps> = ({
     const shipping =
         moneyFormat && formatPrice(report?.shipping || 0, moneyFormat)
     const taxes = moneyFormat && formatPrice(report?.taxes || 0, moneyFormat)
-    const reverItems =
-        moneyFormat && formatPrice(report?.rever_items || 0, moneyFormat)
-    const reverTransactions =
-        moneyFormat && formatPrice(report?.rever_transactions || 0, moneyFormat)
+    // const reverItems =
+    //     moneyFormat && formatPrice(report?. || 0, moneyFormat)
+    // const reverTransactions =
+    //     moneyFormat && formatPrice(report?.rever_transactions || 0, moneyFormat)
 
     return (
         <FinancialDiv>
@@ -72,7 +72,7 @@ const FinancialMetrics: React.FC<FinancialMetricsProps> = ({
                         <b>Value</b>
                     </h4>
                     <span className="text-end">{grossSales}</span>
-                    <span className="text-end">{reverTransactions}</span>
+                    {/* <span className="text-end">{reverTransactions}</span> */}
                     <hr className="my-2" />
                     <span className="text-end">
                         <b>2,674,819.85 €</b>

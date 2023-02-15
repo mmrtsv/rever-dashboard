@@ -3,6 +3,8 @@ import { render, cleanup, screen } from '@testing-library/react'
 import { afterEach, describe, it } from 'vitest'
 import { BrowserRouter as Router } from 'react-router-dom'
 import ShippingStatus, { ShippingStatuses } from './ShippingStatus'
+import i18n from '@/i18nForTests'
+import { I18nextProvider } from 'react-i18next'
 
 describe('Shipping Status test', () => {
     afterEach(cleanup)
@@ -10,16 +12,18 @@ describe('Shipping Status test', () => {
     it('should render the correct shipping status depending on the input', () => {
         render(
             <Router>
-                {ShippingStatuses.map((_, i) => (
-                    <ShippingStatus key={i} status={i} />
-                ))}
+                <I18nextProvider i18n={i18n}>
+                    {ShippingStatuses.map((_, i) => (
+                        <ShippingStatus key={i} status={i} />
+                    ))}
+                </I18nextProvider>
             </Router>
         )
-        screen.getByText('No status')
-        screen.getByText('Created')
+        screen.getByText('Label Pending')
+        screen.getByText('Label Ready')
         screen.getByText('Collected')
-        screen.getByText('In warehouse')
+        screen.getByText('In Warehouse')
         screen.getByText('Error')
-        screen.getByText('Cancelled')
+        screen.getByText('Canceled')
     })
 })
