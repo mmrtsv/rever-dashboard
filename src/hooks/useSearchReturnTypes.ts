@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getReturnTypes, resetReportsApiCalls } from '../redux/api/reportsApi'
+import { getRefundTypes, resetReportsApiCalls } from '../redux/api/reportsApi'
 import { ProcessessapiDbTotalReturnTypes } from '@itsrever/dashboard-api'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
@@ -14,8 +14,8 @@ export function useSearchReturnTypes(from: string, to: string) {
         (store) => store.generalData.selectedEcommerce
     )
 
-    const reportsApiGetReturnTypes = useAppSelector(
-        (store) => store.reportsApi.getReturnTypes
+    const reportsApiGetRefundTypes = useAppSelector(
+        (store) => store.reportsApi.getRefundTypes
     )
     const [returnTypes, setReturnTypes] = useState<
         ProcessessapiDbTotalReturnTypes | undefined
@@ -30,7 +30,7 @@ export function useSearchReturnTypes(from: string, to: string) {
     useEffect(() => {
         if (token && ecommerceId && from && to)
             dispatch(
-                getReturnTypes({
+                getRefundTypes({
                     ecommerceId: ecommerceId,
                     from: from,
                     to: to
@@ -39,13 +39,13 @@ export function useSearchReturnTypes(from: string, to: string) {
     }, [to, from, ecommerceId, token, dispatch])
 
     useEffect(() => {
-        if (reportsApiGetReturnTypes.loading === 'succeeded') {
-            setReturnTypes(reportsApiGetReturnTypes.response)
+        if (reportsApiGetRefundTypes.loading === 'succeeded') {
+            setReturnTypes(reportsApiGetRefundTypes.response)
             dispatch(resetReportsApiCalls())
-        } else if (reportsApiGetReturnTypes.loading === 'failed') {
+        } else if (reportsApiGetRefundTypes.loading === 'failed') {
             dispatch(resetReportsApiCalls())
         }
-    }, [reportsApiGetReturnTypes.response, reportsApiGetReturnTypes.loading])
+    }, [reportsApiGetRefundTypes.response, reportsApiGetRefundTypes.loading])
     return { returnTypes }
 }
 

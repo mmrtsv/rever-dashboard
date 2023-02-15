@@ -35,7 +35,7 @@ interface GetReturnsByCountryCall extends ApiCallBase {
 
 interface State {
     getReport: GetReportCall
-    getReturnTypes: GetReturnTypesCall
+    getRefundTypes: GetReturnTypesCall
     getReturnTypesByDay: GetReturnTypesByDayCall
     getReturnsMetrics: GetReturnsMetricsCall
     getReturnsByCountry: GetReturnsByCountryCall
@@ -43,7 +43,7 @@ interface State {
 
 const initialState: State = {
     getReport: initialApiState,
-    getReturnTypes: initialApiState,
+    getRefundTypes: initialApiState,
     getReturnTypesByDay: initialApiState,
     getReturnsMetrics: initialApiState,
     getReturnsByCountry: initialApiState
@@ -103,8 +103,8 @@ export const getReturnMetrics = createAsyncThunk(
         return getReturnMetrics.data
     }
 )
-export const getReturnTypes = createAsyncThunk(
-    '/getReturnTypes',
+export const getRefundTypes = createAsyncThunk(
+    '/getRefundTypes',
     async (args: ReportsApiFindReturnTypesRequest) => {
         const { ecommerceId, from, to } = args || defaultValueReturnTypes
         const getReturnTypes = await reportsApi.findReturnTypes({
@@ -151,9 +151,9 @@ const reportSlice = createSlice({
                 ...initialApiState,
                 response: state.getReport.response
             }
-            state.getReturnTypes = {
+            state.getRefundTypes = {
                 ...initialApiState,
-                response: state.getReturnTypes.response
+                response: state.getRefundTypes.response
             }
             state.getReturnTypesByDay = {
                 ...initialApiState,
@@ -195,16 +195,16 @@ const reportSlice = createSlice({
             state.getReturnsMetrics.error = action.error
         })
         // Get Return Types
-        builder.addCase(getReturnTypes.pending, (state) => {
-            state.getReturnTypes.loading = 'pending'
+        builder.addCase(getRefundTypes.pending, (state) => {
+            state.getRefundTypes.loading = 'pending'
         })
-        builder.addCase(getReturnTypes.fulfilled, (state, action) => {
-            state.getReturnTypes.loading = 'succeeded'
-            state.getReturnTypes.response = action.payload
+        builder.addCase(getRefundTypes.fulfilled, (state, action) => {
+            state.getRefundTypes.loading = 'succeeded'
+            state.getRefundTypes.response = action.payload
         })
-        builder.addCase(getReturnTypes.rejected, (state, action) => {
-            state.getReturnTypes.loading = 'failed'
-            state.getReturnTypes.error = action.error
+        builder.addCase(getRefundTypes.rejected, (state, action) => {
+            state.getRefundTypes.loading = 'failed'
+            state.getRefundTypes.error = action.error
         })
         // Get Return Types By Day
         builder.addCase(getReturnTypesByDay.pending, (state) => {

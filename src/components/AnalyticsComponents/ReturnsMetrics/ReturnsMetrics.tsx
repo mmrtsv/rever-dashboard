@@ -12,17 +12,18 @@ import { useSearchReturnTypes } from '../../../hooks/useSearchReturnTypes'
 import { formatPrice } from '../../../utils'
 import moment from 'moment'
 import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
-import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
-import countries from '../../../utils/countries.json'
-import { useTranslation } from 'react-i18next'
 import device from '@/utils/device'
+import DonutComponent from './DonutComponent/DonutComponent'
+import countries from '../../../utils/countries.json'
+import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
+import { useTranslation } from 'react-i18next'
 import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
 
 interface ReturnsMetricsProps {
     currentPeriod: number
 }
 const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
-    const i18n = useTranslation()
+    const { i18n } = useTranslation()
     const theme = useTheme()
     const dateTo = moment().format('YYYY-MM-DD')
     const dateFrom30d = moment().subtract(1, 'M').format('YYYY-MM-DD')
@@ -38,19 +39,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     }, [currentPeriod])
 
     const { returnMetrics } = useSearchReturnMetrics(dateFrom, dateTo)
-    const { returnTypes } = useSearchReturnTypes(dateFrom, dateTo)
     const { returnTypesByDay } = useSearchReturnTypesByDay(dateFrom, dateTo)
-    const { returnsByCountry } = useSearchReturnsByCountry(dateFrom, dateTo)
-
-    const exchangePercentage: number = returnTypes?.exchanges
-        ? Math.round(returnTypes?.exchanges)
-        : 0
-    const refundPercentage = returnTypes?.refunds
-        ? Math.round(returnTypes?.refunds)
-        : 0
-    const storeCreditPercentage = returnTypes?.store_credit
-        ? Math.round(returnTypes?.store_credit)
-        : 0
 
     const moneyFormat = returnMetrics && returnMetrics?.money_format
     const totalRdv =
@@ -59,9 +48,6 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
         moneyFormat &&
         formatPrice(returnMetrics.rdv, moneyFormat)
     const returns = returnMetrics && returnMetrics.Returns
-    const rdvPercentage =
-        returnMetrics &&
-        returnMetrics.rdv_percentage?.toString().substring(0, 5)
 
     function getReturns(data: any) {
         return data.map((item: any) => item.item_count).reverse()
@@ -76,183 +62,6 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     const returnsByDay = returnTypesByDay && getReturns(returnTypesByDay)
     const returnsByDayDays =
         returnTypesByDay && getReturnsByDayDays(returnTypesByDay)
-    const chartOptions: ApexOptions = {
-        chart: {
-            animations: {
-                speed: 400,
-                animateGradually: {
-                    enabled: false
-                }
-            },
-            fontFamily: 'inherit',
-            foreColor: 'inherit',
-            height: '100%',
-            type: 'donut',
-            sparkline: {
-                enabled: true
-            }
-        },
-        // colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
-        colors: ['#1B75EB', '#85B8FF', '#003096'],
-        labels: [
-            'Exchanges',
-            'Refunds',
-            'Store Credit'
-            // 'Original Payment Method',
-        ],
-        plotOptions: {
-            pie: {
-                customScale: 0.9,
-                expandOnClick: false,
-                donut: {
-                    size: '70%'
-                }
-            }
-        },
-        // stroke: {
-        //     colors: [theme.palette.background.paper]
-        // },
-        series: [exchangePercentage, refundPercentage, storeCreditPercentage],
-        states: {
-            hover: {
-                filter: {
-                    type: 'none'
-                }
-            },
-            active: {
-                filter: {
-                    type: 'none'
-                }
-            }
-        },
-        tooltip: {
-            enabled: true,
-            fillSeriesColor: false,
-            theme: 'dark',
-            custom: ({ seriesIndex, w }) =>
-                `<div class="flex items-center h-16 min-h-16 max-h-16 px-12">
-            <div class="w-12 h-12 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-            <div class="ml-8 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-            <div class="ml-8 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-        </div>`
-        }
-    }
-    const colorsCountries1 = ['#1B75EB']
-    const colorsCountries2 = ['#1B75EB', '#85B8FF']
-    const colorsCountries3 = ['#1B75EB', '#85B8FF', '#AEDCFF']
-    const colorsCountries4 = ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096']
-    const colorsCountries5 = [
-        '#1B75EB',
-        '#85B8FF',
-        '#AEDCFF',
-        '#003096',
-        '#467bed'
-    ]
-
-    function getColorsCountries(countries: any) {
-        switch (countries !== undefined && countries.length) {
-            case 1:
-                return colorsCountries1
-            case 2:
-                return colorsCountries2
-            case 3:
-                return colorsCountries3
-            case 4:
-                return colorsCountries4
-            case 5:
-                return colorsCountries5
-            default:
-                return colorsCountries5
-        }
-    }
-
-    function translateCountryName(countryCode: string, i18nLanguage: string) {
-        const country = countries.countries.find((c) => c.code === countryCode)
-        if (!country) {
-            return ''
-        }
-        return i18nLanguage === 'es' ? country.name_es : country.name_en
-    }
-
-    const translatedCountries =
-        returnsByCountry &&
-        returnsByCountry.map((c) => {
-            return {
-                count: c.count,
-                country:
-                    c.country &&
-                    translateCountryName(c.country, i18n.i18n.language),
-                percentage: c.percentage
-            }
-        })
-
-    const seriesCountries = returnsByCountry?.map((item: any) => {
-        return Math.round(item.percentage)
-    })
-
-    const labelsCountries = translatedCountries?.map((item: any) => {
-        return item.country
-    })
-    const chartOptionsCountries: ApexOptions = {
-        chart: {
-            animations: {
-                speed: 400,
-                animateGradually: {
-                    enabled: false
-                }
-            },
-            fontFamily: 'inherit',
-            foreColor: 'inherit',
-            height: '100%',
-            type: 'donut',
-            sparkline: {
-                enabled: true
-            }
-        },
-        // colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
-        colors: seriesCountries && getColorsCountries(seriesCountries),
-        labels: labelsCountries && labelsCountries,
-        plotOptions: {
-            pie: {
-                customScale: 0.9,
-                expandOnClick: false,
-                donut: {
-                    size: '70%'
-                }
-            }
-        },
-        // stroke: {
-        //     colors: [theme.palette.background.paper]
-        // },
-        series: [exchangePercentage, refundPercentage, storeCreditPercentage],
-        states: {
-            hover: {
-                filter: {
-                    type: 'none'
-                }
-            },
-            active: {
-                filter: {
-                    type: 'none'
-                }
-            }
-        },
-        tooltip: {
-            enabled: true,
-            fillSeriesColor: false,
-            theme: 'dark',
-            custom: ({ seriesIndex, w }) =>
-                `<div class="flex items-center h-16 min-h-16 max-h-16 px-12">
-            <div class="w-12 h-12 rounded-full" style="background-color: ${w.config.colors[seriesIndex]};"></div>
-            <div class="ml-8 text-md leading-none">${w.config.labels[seriesIndex]}:</div>
-            <div class="ml-8 text-md font-bold leading-none">${w.config.series[seriesIndex]}%</div>
-        </div>`
-        }
-    }
-
-    const colors = ['#1B75EB', '#85B8FF', '#003096']
-    const labels = ['Exchanges', 'Refunds', 'Store Credit']
-    const series = [exchangePercentage, refundPercentage, storeCreditPercentage]
 
     const options2: ApexOptions = {
         chart: {
@@ -299,9 +108,58 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
         }
     }
     const series2 = [{ name: 'Returned items', data: returnsByDay }]
+
+    // Countries info
+    const { returnsByCountry } = useSearchReturnsByCountry(dateFrom, dateTo)
+    const valuesCountries = returnsByCountry?.map((item: any) => {
+        return Math.round(item.percentage)
+    })
+    function translateCountryName(countryCode: string, i18nLanguage: string) {
+        const country = countries.countries.find((c) => c.code === countryCode)
+        if (!country) {
+            return ''
+        }
+        return i18nLanguage === 'es' ? country.name_es : country.name_en
+    }
+    const translatedCountries =
+        returnsByCountry &&
+        returnsByCountry.map((c) => {
+            return {
+                count: c.count,
+                country:
+                    c.country && translateCountryName(c.country, i18n.language),
+                percentage: c.percentage
+            }
+        })
+    const labelsCountries = translatedCountries?.map((item: any) => {
+        return item.country
+    })
+
+    // Compensations info
+    const { returnTypes } = useSearchReturnTypes(dateFrom, dateTo)
+    const labelsCompensations = [
+        'Refunds',
+        'Exchanges',
+        'Original Payment Method',
+        'Store Credit'
+    ]
+
+    let totalCompensation = 0
+    const values =
+        returnTypes &&
+        Object.entries(returnTypes).map((refAmount: [string, number]) => {
+            totalCompensation += refAmount[1]
+            return refAmount[1] * 100
+        })
+    const valuesCompensations = values?.map((v) =>
+        Math.round(v / totalCompensation)
+    )
+    const RDVPercentage = valuesCompensations
+        ? valuesCompensations[0] + valuesCompensations[3]
+        : 0
     return (
         <>
-            {seriesCountries ? (
+            {returnTypesByDay ? (
                 <ReturnsDiv>
                     <TopInfo>
                         <ReverSuccessBox
@@ -338,7 +196,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                         color={theme.colors.primary.dark}
                                         className="text-center"
                                     >
-                                        <b>{rdvPercentage}%</b>
+                                        <b>{RDVPercentage}%</b>
                                     </Title>
                                     <Subtitle className="text-center">
                                         of retained dollar value (RDV)
@@ -390,103 +248,20 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                     </LineChart>
                     <CompensationsDiv>
                         <DonutBox borderColor={theme.colors.grey[3]}>
-                            <DonutInside>
-                                <p className="truncate text-lg font-medium leading-6">
-                                    Countries
-                                </p>
-                                {seriesCountries && (
-                                    <Chart
-                                        options={chartOptionsCountries}
-                                        series={seriesCountries}
-                                        type="donut"
-                                        width="300"
-                                    />
-                                )}
-                                <div>
-                                    {seriesCountries &&
-                                        seriesCountries.map((dataset, i) => (
-                                            <>
-                                                <div
-                                                    className="mx-4 grid grid-cols-2 py-1"
-                                                    key={i}
-                                                >
-                                                    <div className="flex items-center">
-                                                        <LegendDot
-                                                            className="h-4 w-4 rounded-full"
-                                                            backgroundColor={
-                                                                seriesCountries &&
-                                                                getColorsCountries(
-                                                                    seriesCountries
-                                                                )[i]
-                                                            }
-                                                        />
-                                                        <p className="ml-4 truncate">
-                                                            {labelsCountries &&
-                                                                labelsCountries[
-                                                                    i
-                                                                ]}
-                                                        </p>
-                                                    </div>
-
-                                                    <p
-                                                        className="text-right"
-                                                        color="text.secondary"
-                                                    >
-                                                        {dataset}%
-                                                    </p>
-                                                </div>
-                                                {i ===
-                                                seriesCountries.length -
-                                                    1 ? null : (
-                                                    <hr />
-                                                )}
-                                            </>
-                                        ))}
-                                </div>
-                            </DonutInside>
-                            <DonutInside>
-                                <p className="truncate text-lg font-medium leading-6">
-                                    Compensation methods
-                                </p>
-                                <Chart
-                                    options={chartOptions}
-                                    series={series}
-                                    type="donut"
-                                    width="300"
+                            {returnsByCountry && (
+                                <DonutComponent
+                                    title="Countries"
+                                    labels={labelsCountries}
+                                    values={valuesCountries}
                                 />
-                                <div>
-                                    {series.map((dataset, i) => (
-                                        <>
-                                            <div
-                                                className="mx-4 grid grid-cols-2 py-1"
-                                                key={i}
-                                            >
-                                                <div className="flex items-center">
-                                                    <LegendDot
-                                                        className="h-4 w-4 rounded-full"
-                                                        backgroundColor={
-                                                            colors[i]
-                                                        }
-                                                    />
-                                                    <p className="ml-4 truncate">
-                                                        {labels[i]}
-                                                    </p>
-                                                </div>
-
-                                                <p
-                                                    className="text-right"
-                                                    color="text.secondary"
-                                                >
-                                                    {dataset}%
-                                                </p>
-                                            </div>
-                                            {i === series.length - 1 ? null : (
-                                                <hr />
-                                            )}
-                                        </>
-                                    ))}
-                                </div>
-                            </DonutInside>
+                            )}
+                            {returnTypes && (
+                                <DonutComponent
+                                    title="Compensation methods"
+                                    labels={labelsCompensations}
+                                    values={valuesCompensations}
+                                />
+                            )}
                         </DonutBox>
                     </CompensationsDiv>
                 </ReturnsDiv>
@@ -534,22 +309,12 @@ const LineChart = styled.div`
     background-color: rgb(30, 41, 59);
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 `
+
 interface BoxProps {
     borderColor?: string
     backgroundColor?: string
 }
-const LegendDot = styled.div<BoxProps>`
-    background-color: ${(p) => p.backgroundColor};
-    border-color: ${(p) => p.borderColor};
-`
-const DonutInside = styled.div`
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-`
+
 const DonutBox = styled.div<BoxProps>`
     width: 100%;
     padding-top: 1rem;
