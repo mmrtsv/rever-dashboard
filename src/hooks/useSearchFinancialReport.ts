@@ -3,7 +3,7 @@ import { getReport, resetReportsApiCalls } from '../redux/api/reportsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { ReportsReportResponse } from '@itsrever/dashboard-api'
 
-export function useSearchFinancialReport() {
+export function useSearchFinancialReport(month: string, year: number) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
 
@@ -27,15 +27,15 @@ export function useSearchFinancialReport() {
     const [report, setReport] = useState<ReportsReportResponse | undefined>()
 
     useEffect(() => {
-        if (token && ecommerceId)
+        if (token && ecommerceId && month && year)
             dispatch(
                 getReport({
                     ecommerceId,
-                    month: '12',
-                    year: 2022
+                    month: month,
+                    year: year
                 })
             )
-    }, [ecommerceId, token])
+    }, [ecommerceId, token, month, year])
 
     useEffect(() => {
         if (reportsApiGetReport.loading === 'succeeded') {

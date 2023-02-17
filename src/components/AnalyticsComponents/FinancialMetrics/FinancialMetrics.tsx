@@ -4,156 +4,166 @@ import { useTheme } from '@itsrever/design-system'
 import useSearchFinancialReport from '../../../hooks/useSearchFinancialReport'
 import moment from 'moment'
 import { formatPrice } from '../../../utils'
+import device from '@/utils/device'
+import { ReportsReportResponse } from '@itsrever/dashboard-api'
 
 interface FinancialMetricsProps {
-    currentPeriod: number
+    report: ReportsReportResponse | undefined
 }
-const FinancialMetrics: React.FC<FinancialMetricsProps> = ({
-    currentPeriod
-}) => {
+const FinancialMetrics: React.FC<FinancialMetricsProps> = ({ report }) => {
     const theme = useTheme()
-    const dateTo = moment().format('YYYY-MM-DD')
-    const dateFrom30d = moment().subtract(1, 'M').format('YYYY-MM-DD')
-    const dateFrom7d = moment().subtract(7, 'd').format('YYYY-MM-DD')
-    const [dateFrom, setDateFrom] = useState(dateFrom30d)
-    useEffect(() => {
-        if (currentPeriod === 2) {
-            setDateFrom(dateFrom30d)
-        } else {
-            setDateFrom(dateFrom7d)
-        }
-    }, [currentPeriod])
-    const { report } = useSearchFinancialReport()
+
+    // const { report } = useSearchFinancialReport('12', 2022)
 
     const moneyFormat = report?.money_format
     const grossSales =
         moneyFormat && formatPrice(report?.gross_sales || 0, moneyFormat)
     const discounts =
         moneyFormat && formatPrice(report?.discounts || 0, moneyFormat)
-    const returns =
+    const returnsToOpm =
         moneyFormat && formatPrice(report?.returns || 0, moneyFormat)
+
+    const netSales =
+        moneyFormat &&
+        formatPrice(
+            (report?.gross_sales || 0) +
+                (report?.discounts || 0) +
+                (report?.returns || 0),
+            moneyFormat
+        )
+
     const shipping =
         moneyFormat && formatPrice(report?.shipping || 0, moneyFormat)
     const taxes = moneyFormat && formatPrice(report?.taxes || 0, moneyFormat)
-    // const reverItems =
-    //     moneyFormat && formatPrice(report?. || 0, moneyFormat)
-    // const reverTransactions =
-    //     moneyFormat && formatPrice(report?.rever_transactions || 0, moneyFormat)
-
+    const returnsByRever =
+        moneyFormat &&
+        formatPrice(
+            (report?.rever_returns || 0) + (report?.rever_opm || 0),
+            moneyFormat
+        )
+    const totalNetSales =
+        moneyFormat &&
+        formatPrice(
+            (report?.gross_sales || 0) +
+                (report?.discounts || 0) +
+                (report?.returns || 0) +
+                (report?.shipping || 0) +
+                (report?.taxes || 0) +
+                (report?.rever_returns || 0) +
+                (report?.rever_opm || 0),
+            moneyFormat
+        )
+    const reverSales =
+        moneyFormat && formatPrice(report?.rever_net_sales || 0, moneyFormat)
     return (
-        <FinancialDiv>
-            <LeftDiv borderColor={theme.colors.grey[3]}>
-                <div className="mr-8 flex flex-col">
-                    <h4>
-                        <b>Concept</b>
-                    </h4>
-                    <p>Gross sales</p>
-                    <p>New sales by REVER</p>
-                    <hr className="my-2" />
-                    <p>
-                        <b>Gross sales</b>
-                    </p>
-                    <p>Discounts</p>
-                    <p>Returns (Shopify)</p>
-                    <p>Returns (Rever)</p>
-                    <hr className="my-2" />
-                    <p>
-                        <b>Net sales</b>
-                    </p>
-                    <p>Shipping</p>
-                    <p>Taxes</p>
-                    <hr className="my-2" />
-                    <p>
-                        <b>Total sales</b>
-                    </p>
-                </div>
-                <div className="mr-8 flex flex-col">
-                    <h4 className="text-center">
-                        <b>Value</b>
-                    </h4>
-                    <span className="text-end">{grossSales}</span>
-                    {/* <span className="text-end">{reverTransactions}</span> */}
-                    <hr className="my-2" />
-                    <span className="text-end">
-                        <b>2,674,819.85 €</b>
-                    </span>
-                    <span className="text-end">{discounts}</span>
-                    <span className="text-end">{returns}</span>
-                    <span className="text-end">- 45,993.80 €</span>
-                    <hr className="my-2" />
-                    <span className="text-end">
-                        <b>{shipping}</b>
-                    </span>
-                    <span className="text-end">{taxes}</span>
-                    <span className="text-end">510,400.70 €</span>
-                    <hr className="my-2" />
-                    <span className="text-end">
-                        <b>3,124,719.73 €</b>
-                    </span>
-                </div>
-                <div>
-                    <h4>
-                        <b>Description</b>
-                    </h4>
-                    <CustomP color={theme.colors.grey[1]}>
-                        Gross sales excluding REVER exchanges
-                    </CustomP>
-                    <CustomP color={theme.colors.grey[1]}>
-                        Sales that come through REVER exchanges
-                    </CustomP>
-                    <hr className="my-2" />
-                    <CustomP color={theme.colors.grey[1]}>
-                        Total gross sales (matches Shopify)
-                    </CustomP>
-                    <CustomP color={theme.colors.grey[1]}>
-                        Discounts used (including Store Credit from REVER)
-                    </CustomP>
-                    <CustomP color={theme.colors.grey[1]}>
-                        All the discounts manually processed in Shopify
-                    </CustomP>
-                    <CustomP color={theme.colors.grey[1]}>
-                        All the returns made through REVER
-                    </CustomP>
-                    <hr className="my-2" />
-                    <CustomP color={theme.colors.grey[1]}>Net sales</CustomP>
-                    <CustomP color={theme.colors.grey[1]}>
-                        Total shipping costs
-                    </CustomP>
-                    <CustomP color={theme.colors.grey[1]}>Total taxes</CustomP>
-                    <hr className="my-2" />
-                    <CustomP color={theme.colors.grey[1]}>Total sales</CustomP>
-                </div>
-            </LeftDiv>
-        </FinancialDiv>
+        <MainDiv borderColor={theme.colors.grey[3]}>
+            <GridDiv2>
+                <h4>
+                    <b>Concept</b>
+                </h4>
+                <h4 className="text-end">
+                    <b>Value</b>
+                </h4>
+                <h4>
+                    <b>Description</b>
+                </h4>
+
+                <p>Gross sales</p>
+                <span className="text-end">{grossSales}</span>
+                <p className="text-grey-2">Gross sales from Shopify</p>
+
+                <p>Discounts</p>
+                <span className="text-end">{discounts}</span>
+                <p className="text-grey-2">Discounts applied from Shopify</p>
+
+                <p>Refunds to original payment method</p>
+                <span className="text-end">{returnsToOpm}</span>
+                <p className="text-grey-2 ">
+                    Gross returns from Shopify coming from original payment
+                    method, manual refunds or cancellations
+                </p>
+                <hr className="col-span-3 m-0" />
+                <h4>
+                    <b>Net sales</b>
+                </h4>
+                <span className="text-end">
+                    <b>{netSales}</b>
+                </span>
+                <p className="text-grey-2 ">Net sales from Shopify</p>
+
+                <p>Shipping costs</p>
+                <span className="text-end">{shipping}</span>
+                <p className="text-grey-2 ">Shipping costs from Shopify</p>
+
+                <p>Taxes</p>
+                <span className="text-end">{taxes}</span>
+                <p className="text-grey-2 ">Total taxes from Shopify</p>
+
+                <p>Returns by REVER</p>
+                <span className="text-primary-dark text-end">
+                    {returnsByRever}
+                </span>
+                <p className="text-grey-2 ">
+                    Total returns by REVER - Bank transfers, promo codes, gift
+                    cards and exchanges.
+                </p>
+                <hr className="col-span-3" />
+                <h4>
+                    <b>Total Net sales</b>
+                </h4>
+                <span className="text-end">
+                    <b>{totalNetSales}</b>
+                </span>
+                <p className="text-grey-2 ">The total of Net sales</p>
+                <p>Coming from REVER</p>
+                <span className="text-primary-dark text-end">{reverSales}</span>
+                <p className="text-grey-2">
+                    Part of total net sales generated by Exchanges, Promo codes
+                    or Gift cards from REVER
+                </p>
+            </GridDiv2>
+        </MainDiv>
     )
 }
 
 export default FinancialMetrics
 
-const FinancialDiv = styled.div`
-    display: flex;
-    justify-content: center;
-`
-
 interface BoxProps {
     borderColor: string
 }
 
-const LeftDiv = styled.div<BoxProps>`
-    display: flex;
-    justify-content: stretch;
-    padding: 1.5rem;
+const GridDiv2 = styled.div`
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 3fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 5px 40px;
+    grid-template-areas:
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .'
+        '. . .';
+    width: 100%;
+`
+
+const MainDiv = styled.div<BoxProps>`
     border-radius: 0.5rem;
     border: 1px solid;
     border-color: ${(p) => p.borderColor};
+    padding: 1.5rem;
     background-color: #fff;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    width: 100%;
 `
 
-interface PProps {
-    color: string
-}
-
-const CustomP = styled.p<PProps>`
-    color: ${(p) => p.color};
+const GridDiv = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+    align-items: center;
+    width: fit-content;
 `

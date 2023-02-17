@@ -1,46 +1,181 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
 import FinancialMetrics from '../components/AnalyticsComponents/FinancialMetrics/FinancialMetrics'
-import PeriodSelector from '../components/AnalyticsComponents/PeriodSelector/PeriodSelector'
+import {
+    OutlinedInput,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    ListItemText,
+    Select,
+    SelectChangeEvent
+} from '@mui/material'
+import { useSearchFinancialReport } from '../hooks/useSearchFinancialReport'
+import { useTheme } from '@itsrever/design-system'
+
+import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
+import device from '@/utils/device'
 
 function Financials() {
-    const [currentPeriod, setCurrentPeriod] = useState(2)
+    const theme = useTheme()
+    const months = [
+        {
+            value: '1',
+            label: 'January'
+        },
+        {
+            value: '2',
+            label: 'February'
+        },
+        {
+            value: '3',
+            label: 'March'
+        },
+        {
+            value: '4',
+            label: 'April'
+        },
+        {
+            value: '5',
+            label: 'May'
+        },
+        {
+            value: '6',
+            label: 'June'
+        },
+        {
+            value: '7',
+            label: 'July'
+        },
+        {
+            value: '8',
+            label: 'August'
+        },
+        {
+            value: '9',
+            label: 'September'
+        },
+        {
+            value: '10',
+            label: 'October'
+        },
+        {
+            value: '11',
+            label: 'November'
+        },
+        { value: '12', label: 'December' }
+    ]
+    const years = ['2022', '2023']
+
+    const [selectedMonth, setSelectedMonth] = useState('12')
+    const [selectedYear, setSelectedYear] = useState('2022')
+
+    const yearToSend = parseInt(selectedYear)
+    const { report } = useSearchFinancialReport(selectedMonth, yearToSend)
+    const [ReportNotFound, setReportNotFound] = useState<boolean>()
+    useEffect(() => {
+        if (
+            (report?.month && parseInt(selectedMonth) != report?.month) ||
+            (report?.year && yearToSend != report?.year)
+        ) {
+            setReportNotFound(true)
+        } else {
+            setReportNotFound(false)
+        }
+    }, [selectedYear, selectedMonth])
 
     return (
         <PageComponent>
-            <GeneralDiv>
-                <MainDiv>
-                    <TopDiv>
-                        <h3 className="text-primary-dark mb-4 text-5xl">
-                            <b>Financial Report</b>
-                        </h3>
-                        {/* <PeriodSelector
-                            currentPeriod={currentPeriod}
-                            setCurrentPeriod={setCurrentPeriod}
-                        /> */}
-                    </TopDiv>
-                    <AnalyticsDiv>
-                        <FinancialMetrics currentPeriod={currentPeriod} />
-                    </AnalyticsDiv>
-                </MainDiv>
-            </GeneralDiv>
+            <MainDiv>
+                <TopDiv>
+                    <h3 className="text-primary-dark mb-4 text-5xl">
+                        <b>Financial Report</b>
+                    </h3>
+                    <div>
+                        <FormControl
+                            data-testid="MonthSelector"
+                            sx={{ width: 200 }}
+                        >
+                            <InputLabel>Month</InputLabel>
+                            <Select
+                                value={selectedMonth}
+                                onChange={(event: SelectChangeEvent) =>
+                                    setSelectedMonth(event.target.value)
+                                }
+                                input={<OutlinedInput label="Selector" />}
+                                MenuProps={{}}
+                            >
+                                {months.map((month) => (
+                                    <MenuItem
+                                        key={month.value}
+                                        value={month.value}
+                                    >
+                                        <ListItemText primary={month.label} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl
+                            data-testid="YearSelector"
+                            sx={{ width: 200, marginLeft: '1rem' }}
+                        >
+                            <InputLabel>Year</InputLabel>
+                            <Select
+                                value={selectedYear}
+                                onChange={(event: SelectChangeEvent) =>
+                                    setSelectedYear(event.target.value)
+                                }
+                                input={<OutlinedInput label="Selector" />}
+                                MenuProps={{}}
+                            >
+                                {years.map((year) => (
+                                    <MenuItem key={year} value={year}>
+                                        <ListItemText primary={year} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </div>
+                </TopDiv>
+                {!ReportNotFound ? (
+                    <FinancialMetrics report={report} />
+                ) : (
+                    <div>
+                        <Title
+                            color={theme.colors.primary.dark}
+                            className="mt-20 text-center"
+                        >
+                            No returns in the period
+                        </Title>
+                        <NotFoundReports />
+                    </div>
+                )}
+            </MainDiv>
         </PageComponent>
     )
 }
 
 export default Financials
+interface IconProps {
+    color: string
+}
 
-const GeneralDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+const Title = styled.h3<IconProps>`
+    color: ${(p) => p.color};
+    font-size: 24px;
+    @media ${device.lg} {
+        font-size: 36px;
+    }
+    @media ${device.xl} {
+        font-size: 48px;
+    }
 `
-
 const MainDiv = styled.div`
     display: flex;
     flex-direction: column;
     padding: 1rem;
+    width: 100%;
 `
 
 const TopDiv = styled.div`
@@ -49,9 +184,4 @@ const TopDiv = styled.div`
     align-items: center;
     margin-top: 1rem;
     margin-bottom: 1rem;
-`
-
-const AnalyticsDiv = styled.div`
-    display: flex;
-    justify-content: center;
 `
