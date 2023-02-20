@@ -162,6 +162,7 @@ const SplitLineItemCard = styled.div<CardProps>`
     background-color: #fff;
     width: 100%;
     cursor: pointer;
+    z-index: 1;
     @media (max-width: ${Sizes.md}) {
         padding: 1rem;
     }

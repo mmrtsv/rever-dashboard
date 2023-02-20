@@ -139,6 +139,15 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
         )
     }
 
+    useEffect(() => {
+        needsReview &&
+            mappedProducts &&
+            mappedProducts.map((item, index) => {
+                item.product_return_reason === 'NOT_RECEIVED' &&
+                    handleChange(item.rever_id, 'APPROVED', index)
+            })
+    }, [needsReview])
+
     return (
         <ProductsBox data-testid="LineItems" className=" p-8">
             {!needsReview && (
@@ -183,7 +192,13 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                                 first={i === 0}
                                 last={i === mappedProducts.length - 1}
                             />
-                            {needsReview && (
+                            {needsReview &&
+                            lineItem.product_return_reason ===
+                                'NOT_RECEIVED' ? (
+                                <></>
+                            ) : needsReview &&
+                              lineItem.product_return_reason !==
+                                  'NOT_RECEIVED' ? (
                                 <>
                                     <MenuDiv>
                                         <SelectMenu
@@ -198,14 +213,24 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                                                     i
                                                 )
                                             }}
+                                            style={{ zIndex: 1000 }}
                                         >
-                                            <SelectItem value="APPROVED">
+                                            <SelectItem
+                                                style={{ zIndex: 1000 }}
+                                                value="APPROVED"
+                                            >
                                                 {t('order_details.approve')}
                                             </SelectItem>
-                                            <SelectItem value="DECLINED">
+                                            <SelectItem
+                                                style={{ zIndex: 1000 }}
+                                                value="DECLINED"
+                                            >
                                                 {t('order_details.decline')}
                                             </SelectItem>
-                                            <SelectItem value="MISSING">
+                                            <SelectItem
+                                                style={{ zIndex: 1000 }}
+                                                value="MISSING"
+                                            >
                                                 {t('order_details.missing')}
                                             </SelectItem>
                                         </SelectMenu>
@@ -264,6 +289,8 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                                         </Modal>
                                     </ModalDiv>
                                 </>
+                            ) : (
+                                <></>
                             )}
                         </ItemsDiv>
                     )
