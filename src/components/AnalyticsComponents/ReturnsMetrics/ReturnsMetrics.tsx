@@ -8,7 +8,6 @@ import RDVIcon from '@mui/icons-material/AccountBalance'
 import SalesIcon from '@mui/icons-material/Paid'
 import ArrowUpIcon from '@mui/icons-material/TrendingUp'
 import { useSearchReturnMetrics } from '../../../hooks/useSearchReturnMetrics'
-import { useSearchReturnTypes } from '../../../hooks/useSearchReturnTypes'
 import { formatPrice } from '../../../utils'
 import moment from 'moment'
 import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
@@ -43,8 +42,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
 
     const moneyFormat = returnMetrics && returnMetrics?.money_format
     const totalRdv =
-        returnMetrics &&
-        returnMetrics.rdv &&
+        returnMetrics?.rdv &&
         moneyFormat &&
         formatPrice(returnMetrics.rdv, moneyFormat)
     const returns = returnMetrics && returnMetrics.Returns
@@ -136,7 +134,6 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     })
 
     // Compensations info
-    const { returnTypes } = useSearchReturnTypes(dateFrom, dateTo)
     const labelsCompensations = [
         'Refunds',
         'Exchanges',
@@ -146,8 +143,8 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
 
     let totalCompensation = 0
     const values =
-        returnTypes &&
-        Object.entries(returnTypes).map((refAmount: [string, number]) => {
+        returnMetrics?.refunds_types &&
+        Object.entries(returnMetrics.refunds_types).map((refAmount: [string, number]) => {
             totalCompensation += refAmount[1]
             return refAmount[1] * 100
         })
@@ -155,7 +152,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
         Math.round(v / totalCompensation)
     )
     const RDVPercentage = valuesCompensations
-        ? valuesCompensations[0] + valuesCompensations[3]
+        ? valuesCompensations[1] + valuesCompensations[3]
         : 0
     return (
         <>
@@ -255,7 +252,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                     values={valuesCountries}
                                 />
                             )}
-                            {returnTypes && (
+                            {returnMetrics?.refunds_types && (
                                 <DonutComponent
                                     title="Compensation methods"
                                     labels={labelsCompensations}

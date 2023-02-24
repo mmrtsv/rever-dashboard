@@ -24,7 +24,6 @@ function Home() {
                         currentPeriod={currentPeriod}
                         setCurrentPeriod={setCurrentPeriod}
                     />
-
                     <AnalyticsDiv>
                         {currentTab === 0 ? (
                             <ReturnsMetrics currentPeriod={currentPeriod} />
