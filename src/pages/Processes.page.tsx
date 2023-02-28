@@ -8,6 +8,7 @@ import { useTheme } from '@itsrever/design-system'
 import TopBar from '../components/Processes/TopBarP/TopBarProcesses'
 import ProcessesTable from '@/components/Processes/ProcessesTable/ProcessesTable'
 import { useAppSelector } from '@/redux/hooks'
+import axios from 'axios'
 
 function Orders() {
     const { t } = useTranslation()
@@ -26,6 +27,35 @@ function Orders() {
         }
         setFreeText(freeText)
     }
+    //Logic for current timings of the process
+    const ecommerces = useAppSelector(
+        (store) => store.userApi.getMe.response.user?.ecommerces
+    )
+    const [refundTiming, setRefundTiming] = useState(0)
+    function getSettings() {
+        const options = {
+            method: 'Get',
+            url: 'https://api.byrever.com/v1/returns/settings',
+            params: {
+                slug: `${
+                    ecommerces && ecommerces.length > 0 ? ecommerces[0] : ''
+                }`
+            }
+        }
+        axios
+            .request(options)
+            .then(function (response: any) {
+                setRefundTiming(response.data.refund.timing)
+            })
+            .catch(function (error: any) {
+                console.error(error)
+            })
+    }
+    useEffect(() => {
+        if (ecommerces && ecommerces.length > 0) {
+            getSettings()
+        }
+    }, [ecommerces])
 
     return (
         <PageComponent>
@@ -34,6 +64,7 @@ function Orders() {
                     setActualPage={setActualPage}
                     currentTab={currentTab}
                     setCurrentTab={setCurrentTab}
+                    refundTiming={refundTiming}
                 />
                 <Main className="flex flex-col overflow-x-auto">
                     <div className="w-fit pt-4 pl-8">
@@ -59,6 +90,7 @@ function Orders() {
                         )}
                     </div>
                     <ProcessesTable
+                        refundTiming={refundTiming}
                         currentTab={currentTab}
                         freeText={FreeText}
                         actualPage={ActualPage}

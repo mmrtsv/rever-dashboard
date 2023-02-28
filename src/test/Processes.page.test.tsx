@@ -59,6 +59,10 @@ function reduxState() {
             getCompletedProcesses: {
                 loading: 'idle',
                 response: { rowcount: 21 }
+            },
+            getActionRequiredProcesses: {
+                loading: 'idle',
+                response: { rowcount: 21 }
             }
         },
         userApi: {

@@ -18,13 +18,15 @@ interface State {
     getProcesses: GetProcessesCall
     getPendingProcesses: GetProcessesCall
     getCompletedProcesses: GetProcessesCall
+    getActionRequiredProcesses: GetProcessesCall
 }
 
 const initialState: State = {
     getProcess: initialApiState,
     getProcesses: initialApiState,
     getPendingProcesses: initialApiState,
-    getCompletedProcesses: initialApiState
+    getCompletedProcesses: initialApiState,
+    getActionRequiredProcesses: initialApiState
 }
 
 const defaultValueProcesses: ProcessesApiFindProcessesRequest = {
@@ -39,7 +41,8 @@ const defaultValueProcesses: ProcessesApiFindProcessesRequest = {
     processId: undefined,
     returnMethod: undefined,
     sortby: undefined,
-    status: undefined
+    status: undefined,
+    returnStatus: undefined
 }
 
 export const getProcess = createAsyncThunk(
@@ -63,9 +66,25 @@ export const getPendingProcesses = createAsyncThunk(
             offset,
             limit,
             ecommerceId,
-            status: 'RUNNING'
+            returnStatus: 'STARTED,COLLECTED'
         })
         return getPendingProcessesResponse.data
+    }
+)
+export const getActionRequiredProcesses = createAsyncThunk(
+    '/getActionRequiredProcesses',
+    async (args: ProcessesApiFindProcessesRequest) => {
+        const { freetext, offset, limit, ecommerceId } =
+            args || defaultValueProcesses
+        const getActionRequiredProcessesResponse =
+            await processesApi.findProcesses({
+                freetext,
+                offset,
+                limit,
+                ecommerceId,
+                returnStatus: 'ACTION_REQUIRED'
+            })
+        return getActionRequiredProcessesResponse.data
     }
 )
 
@@ -79,7 +98,7 @@ export const getCompletedProcesses = createAsyncThunk(
             offset,
             limit,
             ecommerceId,
-            status: 'COMPLETED'
+            returnStatus: 'COMPLETED'
         })
         return getCompletedProcessesResponse.data
     }
@@ -100,7 +119,8 @@ export const getProcesses = createAsyncThunk(
             processId,
             returnMethod,
             sortby,
-            ecommerceId
+            ecommerceId,
+            returnStatus
         } = args || defaultValueProcesses
         const getProcessesResponse = await processesApi.findProcesses({
             customerPrintedOrderId,
@@ -114,7 +134,8 @@ export const getProcesses = createAsyncThunk(
             processId,
             returnMethod,
             sortby,
-            ecommerceId
+            ecommerceId,
+            returnStatus
         })
         return getProcessesResponse.data
     }
@@ -140,6 +161,10 @@ const processesSlice = createSlice({
             state.getCompletedProcesses = {
                 ...initialApiState,
                 response: state.getCompletedProcesses.response
+            }
+            state.getActionRequiredProcesses = {
+                ...initialApiState,
+                response: state.getActionRequiredProcesses.response
             }
         }
     },
@@ -195,6 +220,25 @@ const processesSlice = createSlice({
             state.getCompletedProcesses.loading = 'failed'
             state.getCompletedProcesses.error = action.error
         })
+
+        // Get Action Required Processes
+        builder.addCase(getActionRequiredProcesses.pending, (state) => {
+            state.getActionRequiredProcesses.loading = 'pending'
+        })
+        builder.addCase(
+            getActionRequiredProcesses.fulfilled,
+            (state, action) => {
+                state.getActionRequiredProcesses.loading = 'succeeded'
+                state.getActionRequiredProcesses.response = action.payload
+            }
+        )
+        builder.addCase(
+            getActionRequiredProcesses.rejected,
+            (state, action) => {
+                state.getActionRequiredProcesses.loading = 'failed'
+                state.getActionRequiredProcesses.error = action.error
+            }
+        )
     }
 })
 

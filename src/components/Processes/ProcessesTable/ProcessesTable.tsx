@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import useSearchProcesses from '@/hooks/useSearchProcesses'
 import useSearchCompletedProcesses from '@/hooks/useSearchCompletedProcesses'
 import useSearchPendingProcesses from '@/hooks/useSearchPendingProcesses'
+import useSearchActionRequiredProcesses from '@/hooks/useSearchActionRequiredProcesses'
 import Process from '../Process/Process'
 import Pagination from '@/components/PaginationComponent/Pagination'
 import TitlesP from './TitlesP/TitlesP'
@@ -13,9 +14,14 @@ interface TableProps {
     freeText: string
     actualPage: number
     setActualPage: (page: number) => void
+    refundTiming: number
 }
 
-const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
+const ProcessesTable: React.FC<TableProps> = ({
+    currentTab,
+    freeText,
+    refundTiming
+}) => {
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(10)
 
@@ -37,6 +43,17 @@ const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
     const MaxPagePending =
         totalPendingProcesses && Math.ceil(totalPendingProcesses / Limit)
     useSearchPendingProcesses(ActualPage, Limit, freeText)
+
+    // Action Required processes
+    const ActionRequiredProcessesCall = useAppSelector(
+        (store) => store.processesApi.getActionRequiredProcesses.response
+    )
+    const ActionRequiredProcesses = ActionRequiredProcessesCall.processes
+    const totalActionRequiredProcesses = ActionRequiredProcessesCall.rowcount
+    const MaxPageActionRequired =
+        totalActionRequiredProcesses &&
+        Math.ceil(totalActionRequiredProcesses / Limit)
+    useSearchActionRequiredProcesses(ActualPage, Limit, freeText)
 
     // Completed processes
     const CompletedProcessesCall = useAppSelector(
@@ -72,7 +89,30 @@ const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
                         maxPage={MaxPage ?? 0}
                     />
                 </>
-            ) : currentTab === 1 ? (
+            ) : currentTab === 1 && refundTiming === 3 ? (
+                <>
+                    {ActionRequiredProcesses &&
+                        ActionRequiredProcesses.map((order, i) => {
+                            return (
+                                <Process
+                                    Process={order}
+                                    key={order.process_id}
+                                    first={i === 0}
+                                    last={
+                                        i === ActionRequiredProcesses.length - 1
+                                    }
+                                />
+                            )
+                        })}
+                    <Pagination
+                        actualPage={ActualPage}
+                        setActualPage={setActualPage}
+                        limit={Limit}
+                        setLimit={setLimit}
+                        maxPage={MaxPagePending ?? 0}
+                    />
+                </>
+            ) : currentTab === 1 && refundTiming !== 3 ? (
                 <>
                     {PendingProcesses &&
                         PendingProcesses.map((order, i) => {

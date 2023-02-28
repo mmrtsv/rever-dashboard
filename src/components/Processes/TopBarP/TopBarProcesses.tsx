@@ -5,49 +5,20 @@ import styled from 'styled-components'
 import { useTheme } from '@itsrever/design-system'
 import { useAppSelector } from '@/redux/hooks'
 import { useTranslation } from 'react-i18next'
-import axios from 'axios'
 
 interface TopBarProps {
     setActualPage: (page: number) => void
     currentTab: number
     setCurrentTab: (tab: number) => void
+    refundTiming: number
 }
 
 const TopBar: React.FC<TopBarProps> = ({
     setActualPage,
     currentTab,
-    setCurrentTab
+    setCurrentTab,
+    refundTiming
 }) => {
-    // Logic for tab texts
-    const ecommerces = useAppSelector(
-        (store) => store.userApi.getMe.response.user?.ecommerces
-    )
-    const [refundTiming, setRefundTiming] = useState(0)
-    function getSettings() {
-        const options = {
-            method: 'Get',
-            url: 'https://api.byrever.com/v1/returns/settings',
-            params: {
-                slug: `${
-                    ecommerces && ecommerces.length > 0 ? ecommerces[0] : ''
-                }`
-            }
-        }
-        axios
-            .request(options)
-            .then(function (response: any) {
-                setRefundTiming(response.data.refund.timing)
-            })
-            .catch(function (error: any) {
-                console.error(error)
-            })
-    }
-    useEffect(() => {
-        if (ecommerces && ecommerces.length > 0) {
-            getSettings()
-        }
-    }, [ecommerces])
-
     const { t } = useTranslation()
     const theme = useTheme()
 
@@ -63,6 +34,10 @@ const TopBar: React.FC<TopBarProps> = ({
     )
     const totalCompletedProcesses = useAppSelector(
         (store) => store.processesApi.getCompletedProcesses.response.rowcount
+    )
+    const totalActionRequiredProcesses = useAppSelector(
+        (store) =>
+            store.processesApi.getActionRequiredProcesses.response.rowcount
     )
 
     const handleChangeTab = (event: any, i: number) => {
@@ -155,8 +130,14 @@ const TopBar: React.FC<TopBarProps> = ({
                                         }`
                                     }}
                                 >
-                                    {totalPendingProcesses &&
+                                    {refundTiming !== 3 &&
+                                        totalPendingProcesses &&
                                         '(' + totalPendingProcesses + ')'}
+                                    {refundTiming === 3 &&
+                                        totalActionRequiredProcesses &&
+                                        '(' +
+                                            totalActionRequiredProcesses +
+                                            ')'}
                                 </p>
                             </SmallTotalDiv>
                         }
@@ -169,11 +150,7 @@ const TopBar: React.FC<TopBarProps> = ({
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={
-                            refundTiming === 3
-                                ? t('topbar_components.reviewed')
-                                : t('topbar_components.completed')
-                        }
+                        label={t('topbar_components.completed')}
                         iconPosition="end"
                         icon={
                             <SmallTotalDiv

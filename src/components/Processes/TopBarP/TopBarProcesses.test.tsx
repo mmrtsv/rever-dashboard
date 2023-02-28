@@ -26,6 +26,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={() => null}
                                 setActualPage={() => null}
+                                refundTiming={1}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -80,6 +81,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={() => null}
                                 setActualPage={() => null}
+                                refundTiming={1}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -109,6 +111,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
                                 setActualPage={spyActualPage}
+                                refundTiming={1}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -138,6 +141,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
                                 setActualPage={spyActualPage}
+                                refundTiming={1}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -168,6 +172,10 @@ function reduxState(ecommerces: string[]) {
             getPendingProcesses: {
                 loading: 'idle',
                 response: { rowcount: 45 }
+            },
+            getActionRequiredProcesses: {
+                loading: 'idle',
+                response: { rowcount: 55 }
             },
             getCompletedProcesses: {
                 loading: '',
