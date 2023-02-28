@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReviewStatus from '../ProcessReviewStatus/ProcessReviewStatus'
-import ShippingStatus from '../../ShippingStatus'
+import ProcessReturnStatus from '../ProcessReturnStatus.tsx/ProcessReturnStatus'
 import { Link } from 'react-router-dom'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import { Sizes } from '@/utils/device'
@@ -37,18 +37,6 @@ const Process: React.FC<ProcessProps> = ({ Process, first, last }) => {
         returnDate = getDate(Process.started_at.seconds, i18n.language)
     }
 
-    const originalPM = Process.line_items?.some(
-        (litem) => litem.refund_payment_method === 2
-    )
-    const showReviewStatus =
-        Process.last_known_shipping_status === ShippingStatuses.InWarehouse &&
-        Process.refund_timing === RefundTimings.OnItemVerified &&
-        Process.status != ReturnStatus.Failed &&
-        Process.status != ReturnStatus.OnHold &&
-        originalPM
-
-    const reviewStatus = Process.status === 0 ? 0 : 1
-
     return (
         <ProcessCard
             key={Process.process_id}
@@ -74,13 +62,7 @@ const Process: React.FC<ProcessProps> = ({ Process, first, last }) => {
                             Process.customer?.last_name}
                     </TextBoxes>
                     <StatusBox>
-                        {showReviewStatus ? (
-                            <ReviewStatus status={reviewStatus} />
-                        ) : (
-                            <ShippingStatus
-                                status={Process.last_known_shipping_status}
-                            />
-                        )}
+                        <ProcessReturnStatus status={Process.return_status} />
                     </StatusBox>
                 </Box>
             </Link>

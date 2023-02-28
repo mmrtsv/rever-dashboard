@@ -16,6 +16,13 @@
         "error": "Error",
         "canceled": "Canceled"
     },
+    "return_status": {
+        "started": "Started",
+        "collected": "Collected",
+        "review_required": "Review Required",
+        "error": "Error",
+        "completed": "Completed"
+    },
     "drawer_pages": {
         "home": "Home",
         "analytics": "Analytics",

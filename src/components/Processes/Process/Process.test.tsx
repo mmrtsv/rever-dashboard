@@ -16,7 +16,7 @@ describe('Process test', () => {
     afterEach(cleanup)
 
     it('should display the correct information when ecommercesList > 1', () => {
-        const process: ModelsPublicReturnProcess = mockOrder()
+        const process: ModelsPublicReturnProcess = mockOrder('COMPLETED')
 
         const state = reduxState(['nude', 'artesta'])
         const mockStore = configureStore()
@@ -35,11 +35,11 @@ describe('Process test', () => {
         screen.getByText('Amics de les arts')
         screen.getByText('1 item')
         screen.getByText('Philip Swalus')
-        screen.getByText('In Warehouse')
+        screen.getByText('Completed')
     })
 
     it('should display the correct information when ecommercesList < 2', () => {
-        const process: ModelsPublicReturnProcess = mockOrder()
+        const process: ModelsPublicReturnProcess = mockOrder('COMPLETED')
 
         const state = reduxState(['nude'])
         const mockStore = configureStore()
@@ -58,7 +58,7 @@ describe('Process test', () => {
         expect(screen.queryByText('Amics de les arts')).toBeNull()
         screen.getByText('1 item')
         screen.getByText('Philip Swalus')
-        screen.getByText('In Warehouse')
+        screen.getByText('Completed')
     })
 
     it('should display review status when conditions met', () => {
@@ -67,7 +67,7 @@ describe('Process test', () => {
         // refund_timing = 'ON_ITEM_VERIFIED'
         // status != 'FAILED' && status != 'ON_HOLD'
         // at least 1 item has been refunded with Original PM
-        const process: ModelsPublicReturnProcess = mockOrder(3)
+        const process: ModelsPublicReturnProcess = mockOrder('REVIEW_REQUIRED')
 
         const state = reduxState(['nude'])
         const mockStore = configureStore()
@@ -81,8 +81,7 @@ describe('Process test', () => {
                 </Provider>
             </Router>
         )
-        screen.getByTestId('SuccessIcon')
-        screen.getByText('Reviewed')
+        screen.getByText('Review Required')
     })
 })
 
@@ -105,7 +104,7 @@ function reduxState(ecommerces: string[]) {
     }
 }
 
-function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
+function mockOrder(returnStatus?: string): ModelsPublicReturnProcess {
     return {
         customer_printed_order_id: 'ES-39352',
         customer: {
@@ -116,8 +115,8 @@ function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
         },
         started_at: { nanos: 423817000, seconds: 1675246610 },
         last_known_shipping_status: 3,
-        refund_timing: refundTiming,
         ecommerce_id: 'Amics de les arts',
+        return_status: returnStatus,
         line_items: [
             {
                 action: 2,
