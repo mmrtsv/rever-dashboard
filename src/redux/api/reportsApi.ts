@@ -4,8 +4,6 @@ import {
     ReportsApiFindReportsRequest,
     ReportsApi,
     ReportsReportResponse,
-    ReportsApiFindReturnTypesRequest,
-    ProcessessapiDbTotalReturnTypes,
     ReportsApiFindReturnTypesByDayRequest,
     ProcessessapiDbReturnStatsByDay,
     ReportsApiFindReturnsMetricsRequest,
@@ -20,9 +18,6 @@ const reportsApi = new ReportsApi(undefined, undefined, axiosInstance)
 interface GetReportCall extends ApiCallBase {
     response: ReportsReportResponse
 }
-interface GetReturnTypesCall extends ApiCallBase {
-    response: ProcessessapiDbTotalReturnTypes
-}
 interface GetReturnTypesByDayCall extends ApiCallBase {
     response: ProcessessapiDbReturnStatsByDay[]
 }
@@ -35,7 +30,6 @@ interface GetReturnsByCountryCall extends ApiCallBase {
 
 interface State {
     getReport: GetReportCall
-    getRefundTypes: GetReturnTypesCall
     getReturnTypesByDay: GetReturnTypesByDayCall
     getReturnsMetrics: GetReturnsMetricsCall
     getReturnsByCountry: GetReturnsByCountryCall
@@ -43,7 +37,6 @@ interface State {
 
 const initialState: State = {
     getReport: initialApiState,
-    getRefundTypes: initialApiState,
     getReturnTypesByDay: initialApiState,
     getReturnsMetrics: initialApiState,
     getReturnsByCountry: initialApiState
@@ -53,12 +46,6 @@ const defaultValueReports: ReportsApiFindReportsRequest = {
     ecommerceId: '',
     month: undefined,
     year: undefined
-}
-
-const defaultValueReturnTypes: ReportsApiFindReturnTypesRequest = {
-    ecommerceId: '',
-    from: undefined,
-    to: undefined
 }
 
 const defaultValueReturnByDay: ReportsApiFindReturnTypesByDayRequest = {
@@ -103,18 +90,6 @@ export const getReturnMetrics = createAsyncThunk(
         return getReturnMetrics.data
     }
 )
-export const getRefundTypes = createAsyncThunk(
-    '/getRefundTypes',
-    async (args: ReportsApiFindReturnTypesRequest) => {
-        const { ecommerceId, from, to } = args || defaultValueReturnTypes
-        const getReturnTypes = await reportsApi.findReturnTypes({
-            ecommerceId,
-            from,
-            to
-        })
-        return getReturnTypes.data
-    }
-)
 
 export const getReturnTypesByDay = createAsyncThunk(
     '/getReturnTypesByDay',
@@ -150,10 +125,6 @@ const reportSlice = createSlice({
             state.getReport = {
                 ...initialApiState,
                 response: state.getReport.response
-            }
-            state.getRefundTypes = {
-                ...initialApiState,
-                response: state.getRefundTypes.response
             }
             state.getReturnTypesByDay = {
                 ...initialApiState,
@@ -193,18 +164,6 @@ const reportSlice = createSlice({
         builder.addCase(getReturnMetrics.rejected, (state, action) => {
             state.getReturnsMetrics.loading = 'failed'
             state.getReturnsMetrics.error = action.error
-        })
-        // Get Return Types
-        builder.addCase(getRefundTypes.pending, (state) => {
-            state.getRefundTypes.loading = 'pending'
-        })
-        builder.addCase(getRefundTypes.fulfilled, (state, action) => {
-            state.getRefundTypes.loading = 'succeeded'
-            state.getRefundTypes.response = action.payload
-        })
-        builder.addCase(getRefundTypes.rejected, (state, action) => {
-            state.getRefundTypes.loading = 'failed'
-            state.getRefundTypes.error = action.error
         })
         // Get Return Types By Day
         builder.addCase(getReturnTypesByDay.pending, (state) => {

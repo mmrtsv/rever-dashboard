@@ -144,10 +144,12 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     let totalCompensation = 0
     const values =
         returnMetrics?.refunds_types &&
-        Object.entries(returnMetrics.refunds_types).map((refAmount: [string, number]) => {
-            totalCompensation += refAmount[1]
-            return refAmount[1] * 100
-        })
+        Object.entries(returnMetrics.refunds_types).map(
+            (refAmount: [string, number]) => {
+                totalCompensation += refAmount[1]
+                return refAmount[1] * 100
+            }
+        )
     const valuesCompensations = values?.map((v) =>
         Math.round(v / totalCompensation)
     )
