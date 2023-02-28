@@ -44,8 +44,6 @@ const LineItem: React.FC<LineItemProps> = ({
     if (lineItem.product_image_url)
         imgSrc = lineItem.product_image_url ?? NoAvailable
 
-    const quantity = lineItem.quantity
-
     const customerPrintedOrderId = printedOrderId
         ? printedOrderId
         : lineItem?.return_process?.customer_printed_order_id
@@ -101,11 +99,7 @@ const LineItem: React.FC<LineItemProps> = ({
                             alt="ProductImage"
                         />
                     </div>
-                    <DissapearText data-testid="Quantity">
-                        {quantity}
-                    </DissapearText>
                     <ItemName data-testid="ItemName">{lineItem.name}</ItemName>
-
                     <DissapearText>{customerFullName}</DissapearText>
                     <StatusBox>
                         {showReviewStatus ? (
@@ -132,10 +126,10 @@ const Box = styled.div`
         align-items: center;
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
     @media ${device.lg} {
-        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
     }
 `
 

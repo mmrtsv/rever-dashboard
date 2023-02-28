@@ -6,6 +6,7 @@ import useSearchLineItems from '@/hooks/useSearchLineItems'
 import useSearchPendingLineItems from '@/hooks/useSearchPendingLineItems'
 import useSearchCompletedLineItems from '@/hooks/useSearchCompletedLineItems'
 import { useAppSelector } from '@/redux/hooks'
+import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 
 interface TableProps {
     currentTab: number
@@ -26,7 +27,15 @@ const LineItemsTable: React.FC<TableProps> = ({
     const LineItemsCall = useAppSelector(
         (store) => store.lineItemsApi.getLineItems.response
     )
-    const LineItems = LineItemsCall.line_items
+    const mappedLineItems = LineItemsCall.line_items?.flatMap((litem) => {
+        const items: ModelsPublicReturnLineItem[] = []
+        if (litem.quantity) {
+            for (let i = 0; i < litem.quantity; i++) {
+                items.push(litem)
+            }
+        }
+        return items
+    })
     const totalLineItems = LineItemsCall.rowcount
     const MaxPage = totalLineItems && Math.ceil(totalLineItems / Limit)
     useSearchLineItems(actualPage, Limit, freeText)
@@ -35,7 +44,17 @@ const LineItemsTable: React.FC<TableProps> = ({
     const PendingLineItemsCall = useAppSelector(
         (store) => store.lineItemsApi.getPendingLineItems.response
     )
-    const pendingLineItems = PendingLineItemsCall.line_items
+    const mappedPendingLineItems = PendingLineItemsCall.line_items?.flatMap(
+        (litem) => {
+            const items: ModelsPublicReturnLineItem[] = []
+            if (litem.quantity) {
+                for (let i = 0; i < litem.quantity; i++) {
+                    items.push(litem)
+                }
+            }
+            return items
+        }
+    )
     const totalPending = PendingLineItemsCall.rowcount
     const MaxPendingPage = totalPending && Math.ceil(totalPending / Limit)
     useSearchPendingLineItems(actualPage, Limit, freeText)
@@ -44,7 +63,17 @@ const LineItemsTable: React.FC<TableProps> = ({
     const CompletedLineItemsCall = useAppSelector(
         (store) => store.lineItemsApi.getCompletedLineItems.response
     )
-    const completedLineItems = CompletedLineItemsCall.line_items
+    const mappedCompletedLineItems = CompletedLineItemsCall.line_items?.flatMap(
+        (litem) => {
+            const items: ModelsPublicReturnLineItem[] = []
+            if (litem.quantity) {
+                for (let i = 0; i < litem.quantity; i++) {
+                    items.push(litem)
+                }
+            }
+            return items
+        }
+    )
     const totalCompleted = CompletedLineItemsCall.rowcount
     const MaxCompletedPage = totalCompleted && Math.ceil(totalCompleted / Limit)
     useSearchCompletedLineItems(actualPage, Limit, freeText)
@@ -54,14 +83,14 @@ const LineItemsTable: React.FC<TableProps> = ({
             <TitlesGridLI />
             {currentTab === 0 ? (
                 <>
-                    {LineItems &&
-                        LineItems.map((lineItem, i) => {
+                    {mappedLineItems &&
+                        mappedLineItems.map((lineItem, i) => {
                             return (
                                 <LineItem
                                     lineItem={lineItem}
                                     key={lineItem.rever_id}
                                     first={i === 0}
-                                    last={i === LineItems.length - 1}
+                                    last={i === mappedLineItems.length - 1}
                                 />
                             )
                         })}
@@ -75,14 +104,16 @@ const LineItemsTable: React.FC<TableProps> = ({
                 </>
             ) : currentTab === 1 ? (
                 <>
-                    {pendingLineItems &&
-                        pendingLineItems.map((lineItem, i) => {
+                    {mappedPendingLineItems &&
+                        mappedPendingLineItems.map((lineItem, i) => {
                             return (
                                 <LineItem
                                     lineItem={lineItem}
                                     key={lineItem.rever_id}
                                     first={i === 0}
-                                    last={i === pendingLineItems.length - 1}
+                                    last={
+                                        i === mappedPendingLineItems.length - 1
+                                    }
                                 />
                             )
                         })}
@@ -96,14 +127,17 @@ const LineItemsTable: React.FC<TableProps> = ({
                 </>
             ) : (
                 <>
-                    {completedLineItems &&
-                        completedLineItems.map((lineItem, i) => {
+                    {mappedCompletedLineItems &&
+                        mappedCompletedLineItems.map((lineItem, i) => {
                             return (
                                 <LineItem
                                     lineItem={lineItem}
                                     key={lineItem.rever_id}
                                     first={i === 0}
-                                    last={i === completedLineItems.length - 1}
+                                    last={
+                                        i ===
+                                        mappedCompletedLineItems.length - 1
+                                    }
                                 />
                             )
                         })}

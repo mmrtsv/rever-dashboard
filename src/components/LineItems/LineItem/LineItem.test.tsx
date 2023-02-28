@@ -32,9 +32,6 @@ describe('Line Item test', () => {
         // Image
         screen.getByAltText('ProductImage')
 
-        // Quantity
-        screen.getByText('1')
-
         // Line Item Name
         screen.getByText('BEAR HOOD - XS')
 

@@ -23,7 +23,6 @@ describe('Line Item Titles tests', () => {
         screen.getByTestId('ArrowDownwardIcon')
         screen.getByText('Order ID')
         screen.getByText('Image')
-        screen.getByText('Quantity')
         screen.getByText('Product name')
         screen.getByText('Customer')
         screen.getByText('Status')
