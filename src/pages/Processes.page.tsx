@@ -9,7 +9,6 @@ import TopBar from '../components/Processes/TopBarP/TopBarProcesses'
 import ProcessesTable from '@/components/Processes/ProcessesTable/ProcessesTable'
 import { useAppSelector } from '@/redux/hooks'
 import axios from 'axios'
-
 function Orders() {
     const { t } = useTranslation()
     const theme = useTheme()
@@ -27,11 +26,10 @@ function Orders() {
         }
         setFreeText(freeText)
     }
-    //Logic for current timings of the process
     const ecommerces = useAppSelector(
         (store) => store.userApi.getMe.response.user?.ecommerces
     )
-    const [refundTiming, setRefundTiming] = useState(0)
+    const [reviewFlow, setReviewFlow] = useState('')
     function getSettings() {
         const options = {
             method: 'Get',
@@ -45,7 +43,7 @@ function Orders() {
         axios
             .request(options)
             .then(function (response: any) {
-                setRefundTiming(response.data.refund.timing)
+                setReviewFlow(response.data.review_flow)
             })
             .catch(function (error: any) {
                 console.error(error)
@@ -64,7 +62,7 @@ function Orders() {
                     setActualPage={setActualPage}
                     currentTab={currentTab}
                     setCurrentTab={setCurrentTab}
-                    refundTiming={refundTiming}
+                    reviewFlow={reviewFlow}
                 />
                 <Main className="flex flex-col overflow-x-auto">
                     <div className="w-fit pt-4 pl-8">
@@ -90,7 +88,6 @@ function Orders() {
                         )}
                     </div>
                     <ProcessesTable
-                        refundTiming={refundTiming}
                         currentTab={currentTab}
                         freeText={FreeText}
                         actualPage={ActualPage}

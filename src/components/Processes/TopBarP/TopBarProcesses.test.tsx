@@ -26,7 +26,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={() => null}
                                 setActualPage={() => null}
-                                refundTiming={1}
+                                reviewFlow={'AUTO'}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -81,7 +81,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={() => null}
                                 setActualPage={() => null}
-                                refundTiming={1}
+                                reviewFlow={'AUTO'}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -111,7 +111,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
                                 setActualPage={spyActualPage}
-                                refundTiming={1}
+                                reviewFlow={'AUTO'}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -141,7 +141,7 @@ describe('TopBar Processes tests', () => {
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
                                 setActualPage={spyActualPage}
-                                refundTiming={1}
+                                reviewFlow={'AUTO'}
                             />
                         </I18nextProvider>
                     </Provider>

@@ -10,14 +10,14 @@ interface TopBarProps {
     setActualPage: (page: number) => void
     currentTab: number
     setCurrentTab: (tab: number) => void
-    refundTiming: number
+    reviewFlow: string
 }
 
 const TopBar: React.FC<TopBarProps> = ({
     setActualPage,
     currentTab,
     setCurrentTab,
-    refundTiming
+    reviewFlow
 }) => {
     const { t } = useTranslation()
     const theme = useTheme()
@@ -104,11 +104,7 @@ const TopBar: React.FC<TopBarProps> = ({
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={
-                            refundTiming === 3
-                                ? t('topbar_components.action_needed')
-                                : t('topbar_components.in_progress')
-                        }
+                        label={t('topbar_components.in_progress')}
                         iconPosition="end"
                         icon={
                             <SmallTotalDiv
@@ -130,22 +126,56 @@ const TopBar: React.FC<TopBarProps> = ({
                                         }`
                                     }}
                                 >
-                                    {refundTiming !== 3 &&
-                                        totalPendingProcesses &&
+                                    {totalPendingProcesses &&
                                         '(' + totalPendingProcesses + ')'}
-                                    {refundTiming === 3 &&
-                                        totalActionRequiredProcesses &&
-                                        '(' +
-                                            totalActionRequiredProcesses +
-                                            ')'}
                                 </p>
                             </SmallTotalDiv>
                         }
                     />
+                    {reviewFlow === 'MANUAL' && (
+                        <Tab
+                            style={{
+                                color: `${
+                                    currentTab === 2
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[1]
+                                }`
+                            }}
+                            label={t('topbar_components.action_needed')}
+                            iconPosition="end"
+                            icon={
+                                <SmallTotalDiv
+                                    style={{
+                                        backgroundColor: `${
+                                            currentTab === 2
+                                                ? 'aliceblue'
+                                                : theme.colors.grey[5]
+                                        }`
+                                    }}
+                                >
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color: `${
+                                                currentTab === 2
+                                                    ? theme.colors.primary.light
+                                                    : theme.colors.grey[0]
+                                            }`
+                                        }}
+                                    >
+                                        {totalActionRequiredProcesses &&
+                                            '(' +
+                                                totalActionRequiredProcesses +
+                                                ')'}
+                                    </p>
+                                </SmallTotalDiv>
+                            }
+                        />
+                    )}
                     <Tab
                         style={{
                             color: `${
-                                currentTab === 2
+                                currentTab === 3
                                     ? theme.colors.primary.dark
                                     : theme.colors.grey[1]
                             }`
@@ -156,7 +186,7 @@ const TopBar: React.FC<TopBarProps> = ({
                             <SmallTotalDiv
                                 style={{
                                     backgroundColor: `${
-                                        currentTab === 2
+                                        currentTab === 3
                                             ? 'aliceblue'
                                             : theme.colors.grey[5]
                                     }`
@@ -166,7 +196,7 @@ const TopBar: React.FC<TopBarProps> = ({
                                     className="text-xs"
                                     style={{
                                         color: `${
-                                            currentTab === 2
+                                            currentTab === 3
                                                 ? theme.colors.primary.light
                                                 : theme.colors.grey[0]
                                         }`

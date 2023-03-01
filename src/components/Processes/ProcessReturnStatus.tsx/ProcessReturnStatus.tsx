@@ -19,12 +19,12 @@ export const ShippingStatuses = [
     },
     {
         name: 'REVIEW_REQUIRED',
-        color: '#7e00b0',
+        color: '#9F2B68',
         text: 'review_required'
     },
     {
         name: 'COMPLETED',
-        color: '#00b02f',
+        color: '#00b0a6',
         text: 'completed'
     }
 ]

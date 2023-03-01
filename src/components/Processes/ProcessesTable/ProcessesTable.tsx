@@ -14,14 +14,9 @@ interface TableProps {
     freeText: string
     actualPage: number
     setActualPage: (page: number) => void
-    refundTiming: number
 }
 
-const ProcessesTable: React.FC<TableProps> = ({
-    currentTab,
-    freeText,
-    refundTiming
-}) => {
+const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
     const [ActualPage, setActualPage] = useState<number>(0)
     const [Limit, setLimit] = useState<number>(10)
 
@@ -89,18 +84,16 @@ const ProcessesTable: React.FC<TableProps> = ({
                         maxPage={MaxPage ?? 0}
                     />
                 </>
-            ) : currentTab === 1 && refundTiming === 3 ? (
+            ) : currentTab === 1 ? (
                 <>
-                    {ActionRequiredProcesses &&
-                        ActionRequiredProcesses.map((order, i) => {
+                    {PendingProcesses &&
+                        PendingProcesses.map((order, i) => {
                             return (
                                 <Process
                                     Process={order}
                                     key={order.process_id}
                                     first={i === 0}
-                                    last={
-                                        i === ActionRequiredProcesses.length - 1
-                                    }
+                                    last={i === PendingProcesses.length - 1}
                                 />
                             )
                         })}
@@ -112,16 +105,18 @@ const ProcessesTable: React.FC<TableProps> = ({
                         maxPage={MaxPagePending ?? 0}
                     />
                 </>
-            ) : currentTab === 1 && refundTiming !== 3 ? (
+            ) : currentTab === 2 ? (
                 <>
-                    {PendingProcesses &&
-                        PendingProcesses.map((order, i) => {
+                    {ActionRequiredProcesses &&
+                        ActionRequiredProcesses.map((order, i) => {
                             return (
                                 <Process
                                     Process={order}
                                     key={order.process_id}
                                     first={i === 0}
-                                    last={i === PendingProcesses.length - 1}
+                                    last={
+                                        i === ActionRequiredProcesses.length - 1
+                                    }
                                 />
                             )
                         })}
