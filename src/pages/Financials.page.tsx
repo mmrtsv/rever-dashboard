@@ -16,6 +16,7 @@ import { useTheme } from '@itsrever/design-system'
 
 import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
 import device from '@/utils/device'
+import { useAppSelector } from '@/redux/hooks'
 
 function Financials() {
     const theme = useTheme()
@@ -68,22 +69,24 @@ function Financials() {
     ]
     const years = ['2022', '2023']
 
-    const [selectedMonth, setSelectedMonth] = useState('12')
-    const [selectedYear, setSelectedYear] = useState('2022')
+    const reportsApi = useAppSelector((store) => store.reportsApi)
 
-    const yearToSend = parseInt(selectedYear)
-    const { report } = useSearchFinancialReport(selectedMonth, yearToSend)
+    const [selectedMonth, setSelectedMonth] = useState('1')
+    const [selectedYear, setSelectedYear] = useState('2023')
+
+
+    const { report } = useSearchFinancialReport(
+        parseInt(selectedMonth),
+        parseInt(selectedYear)
+    )
     const [ReportNotFound, setReportNotFound] = useState<boolean>()
     useEffect(() => {
-        if (
-            (report?.month && parseInt(selectedMonth) != report?.month) ||
-            (report?.year && yearToSend != report?.year)
-        ) {
+        if (reportsApi.getReport.loading === 'failed') {
             setReportNotFound(true)
-        } else {
+        } else if (reportsApi.getReport.loading === 'succeeded') {
             setReportNotFound(false)
         }
-    }, [selectedYear, selectedMonth])
+    }, [reportsApi.getReport.loading])
 
     return (
         <PageComponent>

@@ -3,7 +3,7 @@ import { getReport, resetReportsApiCalls } from '../redux/api/reportsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 import { ReportsReportResponse } from '@itsrever/dashboard-api'
 
-export function useSearchFinancialReport(month: string, year: number) {
+export function useSearchFinancialReport(month: number, year: number) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
 
