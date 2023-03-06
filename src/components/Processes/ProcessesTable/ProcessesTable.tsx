@@ -125,7 +125,7 @@ const ProcessesTable: React.FC<TableProps> = ({ currentTab, freeText }) => {
                         setActualPage={setActualPage}
                         limit={Limit}
                         setLimit={setLimit}
-                        maxPage={MaxPagePending ?? 0}
+                        maxPage={MaxPageActionRequired ?? 0}
                     />
                 </>
             ) : (

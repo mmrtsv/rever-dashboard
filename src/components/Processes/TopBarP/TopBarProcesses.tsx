@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
@@ -40,7 +40,7 @@ const TopBar: React.FC<TopBarProps> = ({
             store.processesApi.getActionRequiredProcesses.response.rowcount
     )
 
-    const handleChangeTab = (event: any, i: number) => {
+    const handleChangeTab = (event: React.SyntheticEvent, i: number) => {
         setCurrentTab(i)
         setActualPage(0)
     }
@@ -132,7 +132,7 @@ const TopBar: React.FC<TopBarProps> = ({
                             </SmallTotalDiv>
                         }
                     />
-                    {reviewFlow === 'MANUAL' && (
+                    {reviewFlow === 'MANUAL' ? (
                         <Tab
                             style={{
                                 color: `${
@@ -171,6 +171,8 @@ const TopBar: React.FC<TopBarProps> = ({
                                 </SmallTotalDiv>
                             }
                         />
+                    ) : (
+                        <div />
                     )}
                     <Tab
                         style={{

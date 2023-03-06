@@ -175,7 +175,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
             {mappedProducts &&
                 mappedProducts.map((lineItem, i) => {
                     return (
-                        <ItemsDiv key={lineItem.rever_id}>
+                        <ItemsDiv key={i}>
                             <ProcessSplitLineItem
                                 lineItem={lineItem}
                                 orderStatus={process.status}
