@@ -68,10 +68,12 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
     )
     const needsReview =
         process?.last_known_shipping_status === ShippingStatuses.InWarehouse &&
-        process.refund_timing === RefundTimings.OnItemVerified &&
+        process?.ReviewFlow === 'MANUAL' &&
         process.status === ReturnStatus.Running &&
         originalPM
 
+    //This logic is not correct. It should be:
+    // const needsReview = process?.review_available === true
     const [reviews, setReviews] = useState<Array<Review>>([])
 
     function addOrUpdateReview(
