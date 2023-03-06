@@ -7,7 +7,7 @@ import NoAvailable from '@/assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
-import { getDate } from '@/utils'
+import { checkImage, getDate } from '@/utils'
 import {
     ShippingStatuses,
     RefundTimings,
@@ -41,8 +41,11 @@ const LineItem: React.FC<LineItemProps> = ({
     const { i18n } = useTranslation()
 
     let imgSrc = NoAvailable
-    if (lineItem.product_image_url)
-        imgSrc = lineItem.product_image_url ?? NoAvailable
+    if (lineItem.product_image_url) {
+        imgSrc = checkImage(lineItem.product_image_url)
+            ? lineItem.product_image_url
+            : NoAvailable
+    }
 
     const customerPrintedOrderId = printedOrderId
         ? printedOrderId

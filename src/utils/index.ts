@@ -1,5 +1,14 @@
 import { ModelsMoneyFormat } from '@itsrever/dashboard-api'
 
+export function checkImage(url: string) {
+    const http = new XMLHttpRequest()
+
+    http.open('HEAD', url, false)
+    http.send()
+
+    return http.status != 404
+}
+
 export const getDate = (seconds: number, lng: string): string => {
     const date = new Date(seconds * 1000)
     return date.toLocaleDateString(lng, {

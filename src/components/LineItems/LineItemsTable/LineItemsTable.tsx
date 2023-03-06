@@ -88,7 +88,7 @@ const LineItemsTable: React.FC<TableProps> = ({
                             return (
                                 <LineItem
                                     lineItem={lineItem}
-                                    key={lineItem.rever_id}
+                                    key={i}
                                     first={i === 0}
                                     last={i === mappedLineItems.length - 1}
                                 />
@@ -109,7 +109,7 @@ const LineItemsTable: React.FC<TableProps> = ({
                             return (
                                 <LineItem
                                     lineItem={lineItem}
-                                    key={lineItem.rever_id}
+                                    key={i}
                                     first={i === 0}
                                     last={
                                         i === mappedPendingLineItems.length - 1
@@ -132,7 +132,7 @@ const LineItemsTable: React.FC<TableProps> = ({
                             return (
                                 <LineItem
                                     lineItem={lineItem}
-                                    key={lineItem.rever_id}
+                                    key={i}
                                     first={i === 0}
                                     last={
                                         i ===

@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import useSearchLineItem from '../hooks/useSearchLineItem'
 import NoAvailable from '../assets/images/noAvailable.png'
 import { useTranslation } from 'react-i18next'
-import { getDate, formatPrice } from '../utils'
+import { getDate, formatPrice, checkImage } from '../utils'
 import {
     ReturnMethods,
     RefundActions,
@@ -27,8 +27,11 @@ function RetLineItemDetails() {
     useSearchLineItem(reverID ?? '')
 
     let imgSrc = NoAvailable
-    if (LineItem?.product_image_url)
-        imgSrc = LineItem.product_image_url ?? NoAvailable
+    if (LineItem?.product_image_url) {
+        imgSrc = checkImage(LineItem.product_image_url)
+            ? LineItem.product_image_url
+            : NoAvailable
+    }
 
     const orderNumber = LineItem?.return_process?.customer_printed_order_id
     const customer = LineItem?.return_process?.customer

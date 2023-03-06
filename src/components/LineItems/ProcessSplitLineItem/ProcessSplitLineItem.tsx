@@ -12,6 +12,7 @@ import {
     RefundPaymentMethods,
     ReturnStatus
 } from '@/redux/features/generalData/generalDataSlice'
+import { checkImage } from '@/utils'
 
 export interface ProcessSplitLineItemProps {
     lineItem: ModelsPublicReturnLineItem
@@ -35,8 +36,11 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     refundTiming
 }) => {
     let imgSrc = NoAvailable
-    if (lineItem.product_image_url)
-        imgSrc = lineItem.product_image_url ?? NoAvailable
+    if (lineItem.product_image_url) {
+        imgSrc = checkImage(lineItem.product_image_url)
+            ? lineItem.product_image_url
+            : NoAvailable
+    }
 
     const customerPrintedOrderId = printedOrderId
         ? printedOrderId
