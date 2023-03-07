@@ -29,7 +29,6 @@ const DonutComponent: React.FC<DonutProps> = ({ title, values, labels }) => {
                 enabled: true
             }
         },
-        // colors: ['#1B75EB', '#85B8FF', '#AEDCFF', '#003096'],
         colors: values && colors.slice(0, values.length),
         plotOptions: {
             pie: {
