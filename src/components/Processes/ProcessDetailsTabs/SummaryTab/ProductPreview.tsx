@@ -1,6 +1,6 @@
 import React from 'react'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import { formatPrice, checkImage } from '@/utils'
+import { formatPrice } from '@/utils'
 import { useTranslation } from 'react-i18next'
 import NoAvailable from '@/assets/images/noAvailable.png'
 import styled from 'styled-components'
@@ -14,9 +14,7 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ lineItem }) => {
 
     let imgSrc = NoAvailable
     if (lineItem.product_image_url) {
-        imgSrc = checkImage(lineItem.product_image_url)
-            ? lineItem.product_image_url
-            : NoAvailable
+        imgSrc = lineItem.product_image_url
     }
 
     // product price
