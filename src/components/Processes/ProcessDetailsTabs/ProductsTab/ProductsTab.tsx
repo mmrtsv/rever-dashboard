@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import {
     ModelsPublicReturnProcess,
     ModelsReturnLineItem,
-    ModelsLineItemReview
+    ModelsLineItemReview,
+    OpsapiModelsLineItemReview
 } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import {
@@ -24,8 +25,10 @@ import {
     RefundTimings,
     ReturnStatus
 } from '@/redux/features/generalData/generalDataSlice'
+import { FormControl, Input, InputLabel, TextField } from '@mui/material'
+import { useTheme } from '@itsrever/design-system'
 
-interface Review extends ModelsLineItemReview {
+interface Review extends OpsapiModelsLineItemReview {
     index: number
 }
 
@@ -36,6 +39,7 @@ interface ProductsProps {
 const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
     const navigate = useNavigate()
     const { t } = useTranslation()
+    const theme = useTheme()
     const dispatch = useAppDispatch()
     const createReviewStatus = useAppSelector(
         (state) => state.reviewsApi.createReview
@@ -80,28 +84,75 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
         reviews: Review[],
         line_item_id: string,
         status: string,
-        index: number
+        index: number,
+        reject_reason?: string
     ) {
         let reviewExists = false
         const updatedReviews = reviews.map((review) => {
             if (review.index === index) {
                 reviewExists = true
-                return { ...review, status }
+                if (reject_reason) {
+                    return { ...review, status, reject_reason }
+                } else {
+                    return { ...review, status }
+                }
             }
             return review
         })
         if (!reviewExists) {
-            updatedReviews.push({ line_item_id, status, index })
+            if (reject_reason) {
+                updatedReviews.push({
+                    line_item_id,
+                    status,
+                    index,
+                    reject_reason
+                })
+            } else {
+                updatedReviews.push({
+                    line_item_id,
+                    status,
+                    index
+                })
+            }
         }
         setReviews(updatedReviews)
     }
 
+    const [rejectModal, setRejectModal] = useState(false)
+    const [rejectReview, setRejectReview] = useState<Review | undefined>()
+    const [rejectReason, setRejectReason] = useState('')
+    const handleSubmitReject = () => {
+        rejectReview &&
+            handleChange(
+                rejectReview?.line_item_id,
+                'DECLINED',
+                rejectReview?.index,
+                rejectReason
+            )
+        setRejectModal(false)
+        setRejectReason('')
+        setRejectReview(undefined)
+    }
+
     const handleChange = (
-        id: string | undefined,
+        id: string | undefined | null,
         value: string,
-        index: number
+        index: number,
+        reject_reason?: string
     ) => {
-        id && addOrUpdateReview(reviews, id, value, index)
+        if (value === 'DECLINED' && !reject_reason) {
+            setRejectModal(true)
+            setRejectReview({
+                line_item_id: id,
+                status: value,
+                index,
+                reject_reason: ''
+            })
+        } else if (value === 'DECLINED' && reject_reason) {
+            id && addOrUpdateReview(reviews, id, value, index, reject_reason)
+        } else {
+            id && addOrUpdateReview(reviews, id, value, index)
+        }
     }
     const [success, setSuccess] = useState(false)
     useEffect(() => {
@@ -130,7 +181,6 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
             const { index, ...rest } = item
             return rest
         })
-
         dispatch(
             createReview({
                 createLineItemReviewsInput: {
@@ -179,7 +229,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                             <ProcessSplitLineItem
                                 lineItem={lineItem}
                                 orderStatus={process.status}
-                                refundTiming={process.refund_timing}
+                                reviewFlow={process.ReviewFlow}
                                 lastKnownShippingStatus={
                                     process.last_known_shipping_status
                                 }
@@ -212,7 +262,11 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                                                 handleChange(
                                                     lineItem.rever_id,
                                                     e.currentTarget.value,
-                                                    i
+                                                    i,
+                                                    e.currentTarget.value ===
+                                                        'DECLINED'
+                                                        ? ''
+                                                        : undefined
                                                 )
                                             }}
                                             style={{ zIndex: 1000 }}
@@ -290,6 +344,90 @@ const ProductsTab: React.FC<ProductsProps> = ({ process }) => {
                                             </OptionDiv>
                                         </Modal>
                                     </ModalDiv>
+                                    <div>
+                                        <Modal
+                                            isOpen={rejectModal}
+                                            onRequestClose={() =>
+                                                setRejectModal(false)
+                                            }
+                                        >
+                                            {' '}
+                                            <FormControl
+                                                data-testid="reject"
+                                                sx={{ width: 550 }}
+                                            >
+                                                <TextField
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                        sx: { height: 130 }
+                                                    }}
+                                                    sx={{
+                                                        marginBottom: '1rem',
+                                                        '& label.Mui-focused': {
+                                                            color: theme.colors
+                                                                .common.black
+                                                        },
+                                                        '& .MuiInput-underline:after':
+                                                            {
+                                                                borderBottomColor:
+                                                                    theme.colors
+                                                                        .primary
+                                                                        .dark
+                                                            },
+                                                        '& .MuiOutlinedInput-root':
+                                                            {
+                                                                '& fieldset': {
+                                                                    borderColor:
+                                                                        theme
+                                                                            .colors
+                                                                            .primary
+                                                                            .dark,
+                                                                    backgroundColor:
+                                                                        'transparent'
+                                                                },
+                                                                '&:hover fieldset':
+                                                                    {
+                                                                        borderColor:
+                                                                            theme
+                                                                                .colors
+                                                                                .primary
+                                                                                .dark
+                                                                    },
+                                                                '&.Mui-focused fieldset':
+                                                                    {
+                                                                        borderColor:
+                                                                            theme
+                                                                                .colors
+                                                                                .primary
+                                                                                .dark,
+                                                                        backgroundColor:
+                                                                            'transparent'
+                                                                    }
+                                                            }
+                                                    }}
+                                                    label={t(
+                                                        'order_details.decline_reason'
+                                                    )}
+                                                    value={rejectReason}
+                                                    onChange={(e) =>
+                                                        setRejectReason(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                <Button
+                                                    disabled={
+                                                        rejectReason === ''
+                                                    }
+                                                    onClick={() =>
+                                                        handleSubmitReject()
+                                                    }
+                                                >
+                                                    {t('order_details.submit')}
+                                                </Button>
+                                            </FormControl>
+                                        </Modal>
+                                    </div>
                                 </>
                             ) : (
                                 <></>

@@ -114,7 +114,8 @@
         "address": "Address",
         "products": "Products",
         "order_details": "Details",
-        "summary": "Summary"
+        "summary": "Summary",
+        "decline_reason": "Add a reason for decline"
     },
     "summary": {
         "total": "Total refund: ",

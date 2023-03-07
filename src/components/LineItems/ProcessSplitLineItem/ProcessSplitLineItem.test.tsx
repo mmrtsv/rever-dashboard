@@ -44,7 +44,7 @@ describe('Process Split Line Item tests', () => {
                     <ProcessSplitLineItem
                         key={1}
                         lineItem={item}
-                        refundTiming={3}
+                        reviewFlow="MANUAL"
                         orderStatus={2}
                     />
                 </I18nextProvider>

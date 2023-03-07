@@ -114,7 +114,8 @@
         "address": "Dirección",
         "products": "Productos",
         "order_details": "Detalles",
-        "summary": "Resumen"
+        "summary": "Resumen",
+        "decline_reason": "Añada un motivo de rechazo..."
     },
     "summary": {
         "total": "Reembolso total: ",

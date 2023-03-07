@@ -21,7 +21,7 @@ export interface ProcessSplitLineItemProps {
     customerName?: string
     lastKnownShippingStatus?: number
     orderStatus?: number
-    refundTiming?: number
+    reviewFlow?: string
 }
 
 const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
@@ -32,7 +32,7 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     customerName,
     lastKnownShippingStatus,
     orderStatus,
-    refundTiming
+    reviewFlow
 }) => {
     let imgSrc = NoAvailable
     if (lineItem.product_image_url) {
@@ -56,7 +56,7 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
 
     const showReviewStatus =
         shippingStatus === ShippingStatuses.InWarehouse &&
-        refundTiming === RefundTimings.OnItemVerified &&
+        reviewFlow === 'MANUAL' &&
         orderStatus === ReturnStatus.Completed &&
         lineItem.refund_payment_method === RefundPaymentMethods.Original
 
