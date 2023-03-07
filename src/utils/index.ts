@@ -44,6 +44,16 @@ export const formatPrice = (
         ints = `${Math.trunc(price)}`
         decimals = `${price % 1}`
     }
+    let addSign = false
+    if (ints[0] === '-') {
+        addSign = true
+        ints = ints.substring(1, ints.length)
+    }
+    ints = ints.split('').reverse().join('')
+    ints =
+        ints.match(/.{1,3}/g)?.join(moneyFormat.thousand_separator ?? '') ?? ''
+    ints = ints.split('').reverse().join('')
+    if (addSign) ints = '-' + ints
     if (moneyFormat.visible_number_of_decimals) {
         if (decimals.length > moneyFormat.visible_number_of_decimals) {
             decimals = decimals.substring(
