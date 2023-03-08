@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
@@ -7,29 +7,13 @@ import { useAppSelector } from '@/redux/hooks'
 import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
 interface TopBarProps {
-    setActualPage: (page: number) => void
     currentTab: number
     setCurrentTab: (tab: number) => void
 }
 
-const TopBarLI: React.FC<TopBarProps> = ({
-    setActualPage,
-    currentTab,
-    setCurrentTab
-}) => {
+const TopBarLI: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
     const theme = useTheme()
     const { t } = useTranslation()
-
-    const selectedEcommerce = useAppSelector(
-        (store) => store.generalData.selectedEcommerce
-    )
-    useEffect(() => {
-        resetPages()
-    }, [selectedEcommerce])
-
-    function resetPages() {
-        setActualPage(0)
-    }
 
     const totalLineItems = useAppSelector(
         (store) => store.lineItemsApi.getLineItems.response.rowcount
@@ -41,11 +25,6 @@ const TopBarLI: React.FC<TopBarProps> = ({
         (store) => store.lineItemsApi.getCompletedLineItems.response.rowcount
     )
 
-    const handleChangeTab = (event: any, i: number) => {
-        setCurrentTab(i)
-        setActualPage(0)
-    }
-
     return (
         <HigherDiv data-testid="TopBar">
             <TabsDiv>
@@ -55,7 +34,7 @@ const TopBarLI: React.FC<TopBarProps> = ({
                 <Tabs
                     orientation={'horizontal'}
                     value={currentTab}
-                    onChange={handleChangeTab}
+                    onChange={(_, i) => setCurrentTab(i)}
                     TabIndicatorProps={{
                         sx: {
                             background: theme.colors.primary.dark

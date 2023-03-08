@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { getProcesses, resetProcessesApiCalls } from '../redux/api/processesApi'
+import { getProcesses } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchProcesses(
@@ -12,9 +12,6 @@ export function useSearchProcesses(
 
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
-    )
-    const processesApiGetProcesses = useAppSelector(
-        (store) => store.processesApi.getProcesses
     )
 
     useEffect(() => {
@@ -38,10 +35,6 @@ export function useSearchProcesses(
                 )
             }
     }, [pageNum, limit, freeText, selectedEcommerce, token])
-
-    useEffect(() => {
-        dispatch(resetProcessesApiCalls())
-    }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
 }
 
 export default useSearchProcesses

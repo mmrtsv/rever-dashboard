@@ -23,6 +23,7 @@ const Layout = () => {
         processesApiGP,
         processesApiGPs,
         processesApiGPPs,
+        processesApiGRPs,
         processesApiGCPs
     ] = [
         useAppSelector((store) => store.userApi.getMe.loading),
@@ -40,6 +41,9 @@ const Layout = () => {
             (store) => store.processesApi.getPendingProcesses.loading
         ),
         useAppSelector(
+            (store) => store.processesApi.getReviewRequiredProcesses.loading
+        ),
+        useAppSelector(
             (store) => store.processesApi.getCompletedProcesses.loading
         )
     ]
@@ -53,6 +57,7 @@ const Layout = () => {
             processesApiGP === 'pending' ||
             processesApiGPs === 'pending' ||
             processesApiGPPs === 'pending' ||
+            processesApiGRPs === 'pending' ||
             processesApiGCPs === 'pending'
         ) {
             setIsLoading(true)
@@ -71,6 +76,7 @@ const Layout = () => {
         processesApiGP,
         processesApiGPs,
         processesApiGPPs,
+        processesApiGRPs,
         processesApiGCPs
     ])
 

@@ -14,7 +14,7 @@ describe('Line Item test', () => {
     afterEach(cleanup)
 
     it('should display the correct information', () => {
-        const item: ModelsPublicReturnLineItem = lineItem(1)
+        const item: ModelsPublicReturnLineItem = lineItem('COLLECTED')
 
         render(
             <Router>
@@ -44,22 +44,14 @@ describe('Line Item test', () => {
 
     it('should display the review status when conditions are met', () => {
         // CONDITIONS
-        // last_known_shipping_status = "IN_WAREHOUSE"
-        // refund_timing = "ON_ITEM_VERIFIED"
-        // status = "COMPLETED"
-        // Item paid with opm
+        // return_status = COMPLETED
 
-        const item: ModelsPublicReturnLineItem = lineItem(2)
+        const item: ModelsPublicReturnLineItem = lineItem('COMPLETED')
 
         render(
             <Router>
                 <I18nextProvider i18n={i18n}>
-                    <LineItem
-                        key={1}
-                        lineItem={item}
-                        refundTiming={3}
-                        orderStatus={2}
-                    />
+                    <LineItem key={1} lineItem={item} />
                 </I18nextProvider>
             </Router>
         )
@@ -68,7 +60,7 @@ describe('Line Item test', () => {
     })
 })
 
-function lineItem(refundMethod: number): ModelsPublicReturnLineItem {
+function lineItem(return_status: string): ModelsPublicReturnLineItem {
     const lineItem: ModelsPublicReturnLineItem = {
         action: 1,
         comment: '',
@@ -78,7 +70,7 @@ function lineItem(refundMethod: number): ModelsPublicReturnLineItem {
         product: undefined,
         product_id: '7368369995937',
         quantity: 1,
-        refund_payment_method: refundMethod,
+        refund_payment_method: 1,
         return_process: {
             customer_printed_order_id: 'ES-179615',
             customer: {
@@ -86,7 +78,8 @@ function lineItem(refundMethod: number): ModelsPublicReturnLineItem {
                 last_name: 'Lozano'
             },
             started_at: { nanos: 764216000, seconds: 1675179369 },
-            last_known_shipping_status: 3
+            last_known_shipping_status: 3,
+            return_status: return_status
         },
         return_reason: 7,
         rever_id: 'retl_2IrCxoRm7E2ClFn63JaapvmuPnd',

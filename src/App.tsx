@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/LayoutComponent/Layout'
-import { useTranslation } from 'react-i18next'
 import LoadingComponent from './components/Loading/Loading'
 import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
@@ -22,20 +21,7 @@ type Props = {
     [key: string]: any
 }
 function App() {
-    const { i18n } = useTranslation()
     const dispatch = useAppDispatch()
-
-    // Language selection
-    useEffect(() => {
-        const language = navigator.languages.find((lng) => {
-            if (lng.substring(0, 2) === 'es' || lng.substring(0, 2) === 'en') {
-                return lng
-            }
-        })
-        if (language) {
-            i18n.changeLanguage(language.substring(0, 2))
-        }
-    }, [])
 
     // Authentication
     const { getAccessTokenSilently, user } = useAuth0()

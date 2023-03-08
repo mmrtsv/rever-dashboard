@@ -1,23 +1,14 @@
 import { useEffect } from 'react'
-import {
-    getCompletedLineItems,
-    resetLineItemsApiCalls
-} from '../redux/api/lineItemsApi'
+import { getCompletedLineItems } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchCompletedLineItems(
-    pageNum: number,
-    limit: number,
-    freeText: string
-) {
+export function useSearchCompletedLineItems(pageNum: number, freeText: string) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
+    const limit = useAppSelector((store) => store.generalData.limitPagination)
 
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
-    )
-    const lineItemsApiCompletedLineItems = useAppSelector(
-        (store) => store.lineItemsApi.getCompletedLineItems
     )
 
     useEffect(() => {
@@ -41,13 +32,6 @@ export function useSearchCompletedLineItems(
                 )
             }
     }, [pageNum, freeText, selectedEcommerce, token, limit])
-
-    useEffect(() => {
-        dispatch(resetLineItemsApiCalls())
-    }, [
-        lineItemsApiCompletedLineItems.response,
-        lineItemsApiCompletedLineItems.loading
-    ])
 }
 
 export default useSearchCompletedLineItems

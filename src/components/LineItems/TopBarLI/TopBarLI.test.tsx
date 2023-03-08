@@ -22,11 +22,7 @@ describe('TopBar LI tests', () => {
                 <ThemeProvider>
                     <Provider store={store}>
                         <I18nextProvider i18n={i18n}>
-                            <TopBar
-                                currentTab={0}
-                                setCurrentTab={() => null}
-                                setActualPage={() => null}
-                            />
+                            <TopBar currentTab={0} setCurrentTab={() => null} />
                         </I18nextProvider>
                     </Provider>
                 </ThemeProvider>
@@ -50,11 +46,7 @@ describe('TopBar LI tests', () => {
                 <ThemeProvider>
                     <Provider store={store}>
                         <I18nextProvider i18n={i18n}>
-                            <TopBar
-                                currentTab={0}
-                                setCurrentTab={() => null}
-                                setActualPage={() => null}
-                            />
+                            <TopBar currentTab={0} setCurrentTab={() => null} />
                         </I18nextProvider>
                     </Provider>
                 </ThemeProvider>
@@ -66,13 +58,12 @@ describe('TopBar LI tests', () => {
         screen.getByText('(55)')
     })
 
-    it('should run the function setCurrentTab and setActualPage when a tab is clicked', () => {
+    it('should run the function setCurrentTab when a tab is clicked', () => {
         const state = reduxState([])
         const mockStore = configureStore()
         const store = mockStore(state)
 
         const spyOnChangeTab = vi.fn()
-        const spyActualPage = vi.fn()
 
         render(
             <Router>
@@ -82,7 +73,6 @@ describe('TopBar LI tests', () => {
                             <TopBar
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
-                                setActualPage={spyActualPage}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -92,7 +82,6 @@ describe('TopBar LI tests', () => {
         fireEvent.click(screen.getByText('Pending to receive'))
 
         expect(spyOnChangeTab).toHaveBeenCalled()
-        expect(spyActualPage).toHaveBeenCalled()
     })
 
     it('should render the selector component when ecommerceList.length > 1', () => {
@@ -101,7 +90,6 @@ describe('TopBar LI tests', () => {
         const store = mockStore(state)
 
         const spyOnChangeTab = vi.fn()
-        const spyActualPage = vi.fn()
 
         render(
             <Router>
@@ -111,7 +99,6 @@ describe('TopBar LI tests', () => {
                             <TopBar
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
-                                setActualPage={spyActualPage}
                             />
                         </I18nextProvider>
                     </Provider>

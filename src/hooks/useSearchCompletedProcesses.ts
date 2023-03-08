@@ -1,8 +1,5 @@
 import { useEffect } from 'react'
-import {
-    getCompletedProcesses,
-    resetProcessesApiCalls
-} from '../redux/api/processesApi'
+import { getCompletedProcesses } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchCompletedProcesses(
@@ -13,9 +10,6 @@ export function useSearchCompletedProcesses(
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
 
-    const processesApiGetProcesses = useAppSelector(
-        (store) => store.processesApi.getCompletedProcesses
-    )
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
@@ -41,10 +35,6 @@ export function useSearchCompletedProcesses(
                 )
             }
     }, [pageNum, limit, freeText, selectedEcommerce, token])
-
-    useEffect(() => {
-        dispatch(resetProcessesApiCalls())
-    }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
 }
 
 export default useSearchCompletedProcesses

@@ -1,8 +1,5 @@
 import { useEffect } from 'react'
-import {
-    getPendingLineItems,
-    resetLineItemsApiCalls
-} from '../redux/api/lineItemsApi'
+import { getPendingLineItems } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchPendingLineItems(
@@ -15,9 +12,6 @@ export function useSearchPendingLineItems(
 
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
-    )
-    const lineItemsApiPendingLineItems = useAppSelector(
-        (store) => store.lineItemsApi.getPendingLineItems
     )
 
     useEffect(() => {
@@ -41,13 +35,6 @@ export function useSearchPendingLineItems(
                 )
             }
     }, [pageNum, freeText, selectedEcommerce, token, limit])
-
-    useEffect(() => {
-        dispatch(resetLineItemsApiCalls())
-    }, [
-        lineItemsApiPendingLineItems.response,
-        lineItemsApiPendingLineItems.loading
-    ])
 }
 
 export default useSearchPendingLineItems

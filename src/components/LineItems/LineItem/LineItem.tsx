@@ -8,35 +8,19 @@ import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
 import { getDate } from '@/utils'
-import {
-    ShippingStatuses,
-    RefundTimings,
-    ReturnStatus,
-    RefundPaymentMethods
-} from '@/redux/features/generalData/generalDataSlice'
 
 export interface LineItemProps {
     lineItem: ModelsPublicReturnLineItem
     first?: boolean
     last?: boolean
-    printedOrderId?: string
-    customerName?: string
-    dateReturn?: number
     lastKnownShippingStatus?: number
-    orderStatus?: number
-    refundTiming?: number
 }
 
 const LineItem: React.FC<LineItemProps> = ({
     lineItem,
     first,
     last,
-    printedOrderId,
-    customerName,
-    lastKnownShippingStatus,
-    dateReturn,
-    orderStatus,
-    refundTiming
+    lastKnownShippingStatus
 }) => {
     const { i18n } = useTranslation()
 
@@ -45,15 +29,13 @@ const LineItem: React.FC<LineItemProps> = ({
         imgSrc = lineItem.product_image_url
     }
 
-    const customerPrintedOrderId = printedOrderId
-        ? printedOrderId
-        : lineItem?.return_process?.customer_printed_order_id
+    const customerPrintedOrderId =
+        lineItem?.return_process?.customer_printed_order_id
 
-    const customerFullName = customerName
-        ? customerName
-        : lineItem?.return_process?.customer?.first_name +
-          ' ' +
-          lineItem?.return_process?.customer?.last_name
+    const customerFullName =
+        lineItem?.return_process?.customer?.first_name +
+        ' ' +
+        lineItem?.return_process?.customer?.last_name
 
     let shippingStatus = lineItem.return_process?.last_known_shipping_status
     if (lastKnownShippingStatus != undefined && lastKnownShippingStatus >= 0) {
@@ -62,15 +44,10 @@ const LineItem: React.FC<LineItemProps> = ({
 
     const returnDate = lineItem.return_process?.started_at?.seconds
         ? getDate(lineItem?.return_process?.started_at?.seconds, i18n.language)
-        : dateReturn
-        ? getDate(dateReturn, i18n.language)
         : 'XX/XX/XXXX'
 
     const showReviewStatus =
-        shippingStatus === ShippingStatuses.InWarehouse &&
-        refundTiming === RefundTimings.OnItemVerified &&
-        orderStatus === ReturnStatus.Completed &&
-        lineItem.refund_payment_method === RefundPaymentMethods.Original
+        lineItem.return_process?.return_status === 'COMPLETED'
 
     let reviewStatus = 0
     if (lineItem.reviews && lineItem.reviews?.length > 0) {
@@ -100,8 +77,11 @@ const LineItem: React.FC<LineItemProps> = ({
                             alt="ProductImage"
                         />
                     </div>
-                    <ItemName data-testid="ItemName">{lineItem.name}</ItemName>
-                    <DissapearText>{customerFullName}</DissapearText>
+                    <DissapearText>{lineItem.quantity}</DissapearText>
+                    <DisappearL data-testid="ItemName" className="col-span-2">
+                        {lineItem.name}
+                    </DisappearL>
+                    <DisappearL>{customerFullName}</DisappearL>
                     <StatusBox>
                         {showReviewStatus ? (
                             <ReviewItemStatus status={reviewStatus} />
@@ -130,13 +110,12 @@ const Box = styled.div`
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
     @media ${device.lg} {
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 `
 
-const ItemName = styled.p`
+const DisappearL = styled.p`
     text-align: center;
-    grid-column: span 2 / span 2;
     @media (max-width: 899px) {
         display: none;
     }

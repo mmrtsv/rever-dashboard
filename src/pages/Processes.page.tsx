@@ -28,10 +28,6 @@ function Orders() {
     useEffect(() => {
         resetPages()
     }, [selectedEcommerce])
-
-    const [currentTab, setCurrentTab] = useState(0)
-    const [FreeText, setFreeText] = useState<string>('')
-
     const handleChangeFreeText = (freeText: string) => {
         if (freeText.length === 0 || freeText.length > 2) {
             resetPages()
@@ -45,6 +41,9 @@ function Orders() {
         setActualPageReview(0)
         setActualPageCompl(0)
     }
+
+    const [currentTab, setCurrentTab] = useState(0)
+    const [FreeText, setFreeText] = useState<string>('')
 
     // All Processes
     const [actualPage, setActualPage] = useState<number>(0)

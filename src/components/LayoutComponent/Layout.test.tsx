@@ -83,6 +83,10 @@ function reduxStateWithLoading(loading: string) {
                 response: {},
                 loading: loading
             },
+            getReviewRequiredProcesses: {
+                response: {},
+                loading: loading
+            },
             getCompletedProcesses: {
                 response: {},
                 loading: loading

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { getLineItems, resetLineItemsApiCalls } from '../redux/api/lineItemsApi'
+import { getLineItems } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchLineItems(
@@ -11,9 +11,6 @@ export function useSearchLineItems(
     const token = useAppSelector((state) => state.userApi.token)
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
-    )
-    const lineItemsApiLineItems = useAppSelector(
-        (store) => store.lineItemsApi.getLineItems
     )
 
     useEffect(() => {
@@ -37,10 +34,6 @@ export function useSearchLineItems(
                 )
             }
     }, [pageNum, limit, freeText, selectedEcommerce, token])
-
-    useEffect(() => {
-        dispatch(resetLineItemsApiCalls())
-    }, [lineItemsApiLineItems.response, lineItemsApiLineItems.loading])
 }
 
 export default useSearchLineItems

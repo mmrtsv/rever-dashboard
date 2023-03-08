@@ -1,32 +1,67 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PageComponent from '../components/PageComponent'
 import { useState } from 'react'
 import styled from 'styled-components'
 import FilterComponent from '../components/SearchComponent'
 import { useTranslation } from 'react-i18next'
 import { useTheme } from '@itsrever/design-system'
-import { TopBarLI } from '@/components/LineItems'
+import { TitlesGridLI, TopBarLI } from '@/components/LineItems'
 import LineItemsTable from '@/components/LineItems/LineItemsTable/LineItemsTable'
 import { useAppSelector } from '@/redux/hooks'
+import {
+    useSearchLineItems,
+    useSearchPendingLineItems,
+    useSearchCompletedLineItems
+} from '@/hooks'
 
 function Orders() {
     const { t } = useTranslation()
     const theme = useTheme()
 
-    const [currentTab, setCurrentTab] = useState(0)
-    const [ActualPage, setActualPage] = useState<number>(0)
-    const [FreeText, setFreeText] = useState<string>('')
+    const Limit = useAppSelector((store) => store.generalData.limitPagination)
 
-    const totalLineItems = useAppSelector(
-        (store) => store.lineItemsApi.getLineItems.response.rowcount
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
     )
-
+    useEffect(() => {
+        resetPages()
+    }, [selectedEcommerce])
     const handleChangeFreeText = (freeText: string) => {
         if (freeText.length === 0 || freeText.length > 2) {
-            setActualPage(0)
+            resetPages()
         }
         setFreeText(freeText)
     }
+
+    function resetPages() {
+        setActualPage(0)
+        setActualPagePending(0)
+        setActualPageCompl(0)
+    }
+
+    const [currentTab, setCurrentTab] = useState(0)
+    const [FreeText, setFreeText] = useState<string>('')
+
+    // All items
+    const [actualPage, setActualPage] = useState<number>(0)
+    const LineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getLineItems.response
+    )
+    useSearchLineItems(actualPage, Limit, FreeText)
+
+    // Pending to receive LI
+    const [actualPagePending, setActualPagePending] = useState<number>(0)
+    const PendingLineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getPendingLineItems.response
+    )
+    useSearchPendingLineItems(actualPagePending, Limit, FreeText)
+
+    // Received Line Items
+    const [actualPageCompl, setActualPageCompl] = useState<number>(0)
+    const CompletedLineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getCompletedLineItems.response
+    )
+    useSearchCompletedLineItems(actualPageCompl, FreeText)
 
     return (
         <PageComponent>
@@ -34,7 +69,6 @@ function Orders() {
                 <TopBarLI
                     currentTab={currentTab}
                     setCurrentTab={setCurrentTab}
-                    setActualPage={setActualPage}
                 />
                 <Main className="flex flex-col overflow-x-auto">
                     <div className="w-fit pt-4 pl-8">
@@ -51,21 +85,39 @@ function Orders() {
                                     }}
                                 />
                                 <span className="text-xs">
-                                    {totalLineItems
+                                    {LineItemsCall.rowcount
                                         ? t('orders_table.results') +
-                                          totalLineItems
+                                          LineItemsCall.rowcount
                                         : t('orders_table.results') + '0'}
                                 </span>
                             </>
                         )}
                     </div>
-
-                    <LineItemsTable
-                        currentTab={currentTab}
-                        freeText={FreeText}
-                        actualPage={ActualPage}
-                        setActualPage={setActualPage}
-                    />
+                    <TableDiv data-testid="LineItemsTable">
+                        <TitlesGridLI />
+                        {currentTab === 0 ? (
+                            <LineItemsTable
+                                actualPage={actualPage}
+                                setActualPage={setActualPage}
+                                lineItems={LineItemsCall.line_items}
+                                totalLineItems={LineItemsCall.rowcount}
+                            />
+                        ) : currentTab === 1 ? (
+                            <LineItemsTable
+                                actualPage={actualPagePending}
+                                setActualPage={setActualPagePending}
+                                lineItems={PendingLineItemsCall.line_items}
+                                totalLineItems={PendingLineItemsCall.rowcount}
+                            />
+                        ) : currentTab === 2 ? (
+                            <LineItemsTable
+                                actualPage={actualPageCompl}
+                                setActualPage={setActualPageCompl}
+                                lineItems={CompletedLineItemsCall.line_items}
+                                totalLineItems={CompletedLineItemsCall.rowcount}
+                            />
+                        ) : null}
+                    </TableDiv>
                 </Main>
             </div>
         </PageComponent>
@@ -82,4 +134,10 @@ const Main = styled.div`
     }
     width: 100%;
     background-color: #eee;
+`
+
+const TableDiv = styled.div`
+    margin: 0rem 2rem 2rem 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #eee;
 `
