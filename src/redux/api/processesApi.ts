@@ -18,7 +18,7 @@ interface State {
     getProcesses: GetProcessesCall
     getPendingProcesses: GetProcessesCall
     getCompletedProcesses: GetProcessesCall
-    getActionRequiredProcesses: GetProcessesCall
+    getReviewRequiredProcesses: GetProcessesCall
 }
 
 const initialState: State = {
@@ -26,7 +26,7 @@ const initialState: State = {
     getProcesses: initialApiState,
     getPendingProcesses: initialApiState,
     getCompletedProcesses: initialApiState,
-    getActionRequiredProcesses: initialApiState
+    getReviewRequiredProcesses: initialApiState
 }
 
 const defaultValueProcesses: ProcessesApiFindProcessesRequest = {
@@ -71,20 +71,20 @@ export const getPendingProcesses = createAsyncThunk(
         return getPendingProcessesResponse.data
     }
 )
-export const getActionRequiredProcesses = createAsyncThunk(
-    '/getActionRequiredProcesses',
+export const getReviewRequiredProcesses = createAsyncThunk(
+    '/getReviewRequiredProcesses',
     async (args: ProcessesApiFindProcessesRequest) => {
         const { freetext, offset, limit, ecommerceId } =
             args || defaultValueProcesses
-        const getActionRequiredProcessesResponse =
+        const getReviewRequiredProcessesResponse =
             await processesApi.findProcesses({
                 freetext,
                 offset,
                 limit,
                 ecommerceId,
-                returnStatus: 'ACTION_REQUIRED'
+                returnStatus: 'REVIEW_REQUIRED'
             })
-        return getActionRequiredProcessesResponse.data
+        return getReviewRequiredProcessesResponse.data
     }
 )
 
@@ -162,9 +162,9 @@ const processesSlice = createSlice({
                 ...initialApiState,
                 response: state.getCompletedProcesses.response
             }
-            state.getActionRequiredProcesses = {
+            state.getReviewRequiredProcesses = {
                 ...initialApiState,
-                response: state.getActionRequiredProcesses.response
+                response: state.getReviewRequiredProcesses.response
             }
         }
     },
@@ -222,21 +222,21 @@ const processesSlice = createSlice({
         })
 
         // Get Action Required Processes
-        builder.addCase(getActionRequiredProcesses.pending, (state) => {
-            state.getActionRequiredProcesses.loading = 'pending'
+        builder.addCase(getReviewRequiredProcesses.pending, (state) => {
+            state.getReviewRequiredProcesses.loading = 'pending'
         })
         builder.addCase(
-            getActionRequiredProcesses.fulfilled,
+            getReviewRequiredProcesses.fulfilled,
             (state, action) => {
-                state.getActionRequiredProcesses.loading = 'succeeded'
-                state.getActionRequiredProcesses.response = action.payload
+                state.getReviewRequiredProcesses.loading = 'succeeded'
+                state.getReviewRequiredProcesses.response = action.payload
             }
         )
         builder.addCase(
-            getActionRequiredProcesses.rejected,
+            getReviewRequiredProcesses.rejected,
             (state, action) => {
-                state.getActionRequiredProcesses.loading = 'failed'
-                state.getActionRequiredProcesses.error = action.error
+                state.getReviewRequiredProcesses.loading = 'failed'
+                state.getReviewRequiredProcesses.error = action.error
             }
         )
     }

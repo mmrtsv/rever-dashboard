@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { LineItem, TitlesGridLI } from '@/components/LineItems'
 import Pagination from '@/components/PaginationComponent/Pagination'
@@ -21,7 +21,7 @@ const LineItemsTable: React.FC<TableProps> = ({
     actualPage,
     setActualPage
 }) => {
-    const [Limit, setLimit] = useState<number>(10)
+    const Limit = useAppSelector((store) => store.generalData.limitPagination)
 
     // All line items
     const LineItemsCall = useAppSelector(
@@ -97,8 +97,6 @@ const LineItemsTable: React.FC<TableProps> = ({
                     <Pagination
                         actualPage={actualPage}
                         setActualPage={setActualPage}
-                        limit={Limit}
-                        setLimit={setLimit}
                         maxPage={MaxPage ?? 0}
                     />
                 </>
@@ -120,8 +118,6 @@ const LineItemsTable: React.FC<TableProps> = ({
                     <Pagination
                         actualPage={actualPage}
                         setActualPage={setActualPage}
-                        limit={Limit}
-                        setLimit={setLimit}
                         maxPage={MaxPendingPage ?? 0}
                     />
                 </>
@@ -144,8 +140,6 @@ const LineItemsTable: React.FC<TableProps> = ({
                     <Pagination
                         actualPage={actualPage}
                         setActualPage={setActualPage}
-                        limit={Limit}
-                        setLimit={setLimit}
                         maxPage={MaxCompletedPage ?? 0}
                     />
                 </>

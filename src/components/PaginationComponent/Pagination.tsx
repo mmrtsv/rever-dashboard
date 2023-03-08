@@ -6,23 +6,24 @@ import Select from '@mui/material/Select'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import device, { Sizes } from '../../utils/device'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { setLimitPagination } from '@/redux/features/generalData/generalDataSlice'
 
 interface SearchProps {
     actualPage: number
     setActualPage: (actualPage: number) => void
-    limit: number
-    setLimit: (limit: number) => void
     maxPage: number
 }
 
 const Pagination: React.FC<SearchProps> = ({
     actualPage,
     setActualPage,
-    limit,
-    setLimit,
     maxPage
 }) => {
     const { t } = useTranslation()
+    const dispatch = useAppDispatch()
+
+    const Limit = useAppSelector((store) => store.generalData.limitPagination)
 
     return (
         <>
@@ -35,9 +36,9 @@ const Pagination: React.FC<SearchProps> = ({
                             boxShadow:
                                 '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
                         }}
-                        value={limit}
+                        value={Limit}
                         onChange={(event: any) => {
-                            setLimit(event.target.value)
+                            dispatch(setLimitPagination(event.target.value))
                         }}
                     >
                         <MenuItem value={10}>

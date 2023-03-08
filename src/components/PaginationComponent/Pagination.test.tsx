@@ -3,6 +3,8 @@ import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import { afterEach, describe, it, expect, vi } from 'vitest'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { I18nextProvider } from 'react-i18next'
+import { Provider } from 'react-redux'
+import configureStore from 'redux-mock-store'
 import i18n from '../../i18nForTests'
 import Pagination from './Pagination'
 
@@ -10,22 +12,26 @@ describe('Pagination Component Test', () => {
     afterEach(cleanup)
 
     it('should render the correct amount of pages when there are less than 5', () => {
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
         const pages = [1, 2, 3, 4]
 
         render(
             <Router>
-                <I18nextProvider i18n={i18n}>
-                    {pages.map((page) => (
-                        <Pagination
-                            key={page}
-                            actualPage={1}
-                            setActualPage={() => null}
-                            limit={25}
-                            setLimit={() => null}
-                            maxPage={page}
-                        />
-                    ))}
-                </I18nextProvider>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        {pages.map((page) => (
+                            <Pagination
+                                key={page}
+                                actualPage={1}
+                                setActualPage={() => null}
+                                maxPage={page}
+                            />
+                        ))}
+                    </I18nextProvider>
+                </Provider>
             </Router>
         )
         const ones = screen.getAllByText('1')
@@ -46,17 +52,21 @@ describe('Pagination Component Test', () => {
     })
 
     it('should display 10 - 25 - 50 options when clicking on the limitter', () => {
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
         render(
             <Router>
-                <I18nextProvider i18n={i18n}>
-                    <Pagination
-                        actualPage={1}
-                        setActualPage={() => null}
-                        limit={10}
-                        setLimit={() => null}
-                        maxPage={5}
-                    />
-                </I18nextProvider>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={1}
+                            setActualPage={() => null}
+                            maxPage={5}
+                        />
+                    </I18nextProvider>
+                </Provider>
             </Router>
         )
         const limitter = screen.getAllByRole('button')[0]
@@ -67,20 +77,22 @@ describe('Pagination Component Test', () => {
         expect(optionValues).toEqual(['10', '25', '50'])
     })
 
-    it('should change the limit when an option of the limitter is clicked', () => {
-        const spyOnChange = vi.fn()
+    it('should dispatch the limit when an option of the limitter is clicked', () => {
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
 
         render(
             <Router>
-                <I18nextProvider i18n={i18n}>
-                    <Pagination
-                        actualPage={1}
-                        setActualPage={() => null}
-                        limit={10}
-                        setLimit={spyOnChange}
-                        maxPage={5}
-                    />
-                </I18nextProvider>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={1}
+                            setActualPage={() => null}
+                            maxPage={5}
+                        />
+                    </I18nextProvider>
+                </Provider>
             </Router>
         )
 
@@ -92,24 +104,29 @@ describe('Pagination Component Test', () => {
         const options = screen.getAllByRole('option')
         fireEvent.click(options[1])
 
-        // Check onChange
-        expect(spyOnChange).toHaveBeenCalled()
+        // Check that it has dispatched
+        const actions = store.getActions()
+        expect(actions.length).toBe(1)
     })
 
     it('should change the actual page when a number or arrow is clicked', () => {
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
         const spyOnChange = vi.fn()
 
         render(
             <Router>
-                <I18nextProvider i18n={i18n}>
-                    <Pagination
-                        actualPage={1}
-                        setActualPage={spyOnChange}
-                        limit={25}
-                        setLimit={() => null}
-                        maxPage={5}
-                    />
-                </I18nextProvider>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={1}
+                            setActualPage={spyOnChange}
+                            maxPage={5}
+                        />
+                    </I18nextProvider>
+                </Provider>
             </Router>
         )
         // Click on page number
@@ -122,19 +139,23 @@ describe('Pagination Component Test', () => {
     })
 
     it('should not change the actual page when arrows are clicked on limits', () => {
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
         const spyOnChange = vi.fn()
 
         render(
             <Router>
-                <I18nextProvider i18n={i18n}>
-                    <Pagination
-                        actualPage={0}
-                        setActualPage={spyOnChange}
-                        limit={25}
-                        setLimit={() => null}
-                        maxPage={1}
-                    />
-                </I18nextProvider>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={0}
+                            setActualPage={spyOnChange}
+                            maxPage={1}
+                        />
+                    </I18nextProvider>
+                </Provider>
             </Router>
         )
         // Click on page number
@@ -146,6 +167,10 @@ describe('Pagination Component Test', () => {
     })
 
     it('should not render the limitter when availWidth < 600', () => {
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
         Object.defineProperty(window, 'innerWidth', {
             writable: true,
             configurable: true,
@@ -154,15 +179,15 @@ describe('Pagination Component Test', () => {
 
         render(
             <Router>
-                <I18nextProvider i18n={i18n}>
-                    <Pagination
-                        actualPage={0}
-                        setActualPage={() => null}
-                        limit={25}
-                        setLimit={() => null}
-                        maxPage={1}
-                    />
-                </I18nextProvider>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <Pagination
+                            actualPage={0}
+                            setActualPage={() => null}
+                            maxPage={1}
+                        />
+                    </I18nextProvider>
+                </Provider>
             </Router>
         )
         // limitter still in DOM
@@ -171,3 +196,11 @@ describe('Pagination Component Test', () => {
         expect(limitter.offsetWidth).toBe(0)
     })
 })
+
+function reduxState() {
+    return {
+        generalData: {
+            limitPagination: 10
+        }
+    }
+}

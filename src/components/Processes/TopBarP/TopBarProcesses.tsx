@@ -7,24 +7,13 @@ import { useAppSelector } from '@/redux/hooks'
 import { useTranslation } from 'react-i18next'
 
 interface TopBarProps {
-    setActualPage: (page: number) => void
     currentTab: number
     setCurrentTab: (tab: number) => void
-    reviewFlow: string
 }
 
-const TopBar: React.FC<TopBarProps> = ({
-    setActualPage,
-    currentTab,
-    setCurrentTab,
-    reviewFlow
-}) => {
+const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
     const { t } = useTranslation()
     const theme = useTheme()
-
-    const handleChangeSelectedEcommerce = () => {
-        setActualPage(0)
-    }
 
     const totalProcesses = useAppSelector(
         (store) => store.processesApi.getProcesses.response.rowcount
@@ -37,13 +26,8 @@ const TopBar: React.FC<TopBarProps> = ({
     )
     const totalActionRequiredProcesses = useAppSelector(
         (store) =>
-            store.processesApi.getActionRequiredProcesses.response.rowcount
+            store.processesApi.getReviewRequiredProcesses.response.rowcount
     )
-
-    const handleChangeTab = (event: React.SyntheticEvent, i: number) => {
-        setCurrentTab(i)
-        setActualPage(0)
-    }
 
     return (
         <HigherDiv data-testid="TopBarProcesses">
@@ -53,7 +37,9 @@ const TopBar: React.FC<TopBarProps> = ({
                 </h3>
                 <Tabs
                     value={currentTab}
-                    onChange={handleChangeTab}
+                    onChange={(_, i) => {
+                        setCurrentTab(i)
+                    }}
                     TabIndicatorProps={{
                         sx: {
                             background: theme.colors.primary.dark
@@ -132,7 +118,8 @@ const TopBar: React.FC<TopBarProps> = ({
                             </SmallTotalDiv>
                         }
                     />
-                    {reviewFlow === 'MANUAL' ? (
+                    {totalActionRequiredProcesses &&
+                    totalActionRequiredProcesses > 0 ? (
                         <Tab
                             style={{
                                 color: `${
@@ -213,11 +200,7 @@ const TopBar: React.FC<TopBarProps> = ({
                 </Tabs>
             </div>
             <div>
-                <SelectorComponent
-                    handleChangeSelectedEcommerce={
-                        handleChangeSelectedEcommerce
-                    }
-                />
+                <SelectorComponent />
             </div>
         </HigherDiv>
     )

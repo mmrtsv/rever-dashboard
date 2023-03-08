@@ -122,9 +122,7 @@ const DrawerComponent = () => {
         logout({ returnTo: window.location.origin })
         Mixpanel.track('Logout')
     }
-    const handleChangeSelectedEcommerce = () => {
-        //do nothing
-    }
+
     const navigateMenuOnClick = (text: string) => {
         switch (text) {
             case 'returns':
@@ -314,11 +312,7 @@ const DrawerComponent = () => {
                 </div>
                 {showAnalytics && (
                     <div className="flex w-full justify-center">
-                        <SelectorComponent
-                            handleChangeSelectedEcommerce={
-                                handleChangeSelectedEcommerce
-                            }
-                        />
+                        <SelectorComponent />
                     </div>
                 )}
                 <div className="w-full">

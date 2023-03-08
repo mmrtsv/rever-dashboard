@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import {
-    getActionRequiredProcesses,
+    getReviewRequiredProcesses,
     resetProcessesApiCalls
 } from '../redux/api/processesApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchActionRequiredProcesses(
+export function useSearchReviewRequiredProcesses(
     pageNum: number,
     limit: number,
     freeText: string
@@ -14,7 +14,7 @@ export function useSearchActionRequiredProcesses(
     const token = useAppSelector((state) => state.userApi.token)
 
     const processesApiGetProcesses = useAppSelector(
-        (store) => store.processesApi.getActionRequiredProcesses
+        (store) => store.processesApi.getReviewRequiredProcesses
     )
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
@@ -24,7 +24,7 @@ export function useSearchActionRequiredProcesses(
         if (token)
             if (freeText.length > 2) {
                 dispatch(
-                    getActionRequiredProcesses({
+                    getReviewRequiredProcesses({
                         freetext: freeText,
                         offset: pageNum * limit,
                         limit: limit,
@@ -33,7 +33,7 @@ export function useSearchActionRequiredProcesses(
                 )
             } else if (freeText.length === 0) {
                 dispatch(
-                    getActionRequiredProcesses({
+                    getReviewRequiredProcesses({
                         offset: pageNum * limit,
                         limit: limit,
                         ecommerceId: selectedEcommerce
@@ -47,4 +47,4 @@ export function useSearchActionRequiredProcesses(
     }, [processesApiGetProcesses.response, processesApiGetProcesses.loading])
 }
 
-export default useSearchActionRequiredProcesses
+export default useSearchReviewRequiredProcesses

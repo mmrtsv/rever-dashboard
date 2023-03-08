@@ -12,13 +12,7 @@ import { setSelectedEcommerce } from '../../redux/features/generalData/generalDa
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { useTranslation } from 'react-i18next'
 
-interface SelectorProps {
-    handleChangeSelectedEcommerce: () => void
-}
-
-const SelectorComponent: React.FC<SelectorProps> = ({
-    handleChangeSelectedEcommerce
-}) => {
+const SelectorComponent = () => {
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
 
@@ -43,7 +37,6 @@ const SelectorComponent: React.FC<SelectorProps> = ({
 
     const handleChange = (event: SelectChangeEvent) => {
         dispatch(setSelectedEcommerce(event.target.value))
-        handleChangeSelectedEcommerce()
     }
 
     return (

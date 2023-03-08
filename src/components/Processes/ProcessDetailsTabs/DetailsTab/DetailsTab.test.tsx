@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, cleanup } from '@testing-library/react'
-import { afterEach, describe, it, expect } from 'vitest'
+import { afterEach, describe, it } from 'vitest'
 import DetailsTab from './DetailsTab'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '@/i18nForTests'
@@ -34,9 +34,6 @@ describe('Details tab tests', () => {
         screen.getByTestId('SuccessIcon')
         screen.getByText('In Warehouse')
 
-        expect(screen.queryByText('Review status')).toBeNull()
-        expect(screen.queryByText('Reviewed')).toBeNull()
-
         // Customer info
         screen.getByText('Customer')
 
@@ -50,26 +47,6 @@ describe('Details tab tests', () => {
         screen.getByText('Address')
         screen.getByText('Francesc Macia 3')
         screen.getByText('Barcelona, 08029, Spain')
-    })
-
-    it('should render the review status when conditions are met', () => {
-        // last_known_shipping_status = IN_WAREHOUSE
-        // Refund timing = ON ITEM VERIFIED
-        // At least 1 item is paid with original Pm
-        const process = mockOrder(3)
-
-        render(
-            <Router>
-                <ThemeProvider>
-                    <I18nextProvider i18n={i18n}>
-                        <DetailsTab process={process} />
-                    </I18nextProvider>
-                </ThemeProvider>
-            </Router>
-        )
-        // Order Status
-        screen.getByText('Review status')
-        screen.getByText('Reviewed')
     })
 })
 

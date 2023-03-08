@@ -45,11 +45,13 @@ export enum ShippingStatuses {
 
 interface State {
     selectedEcommerce?: string
+    limitPagination: number
     drawerOpen: boolean
 }
 
 const initialState: State = {
     selectedEcommerce: undefined,
+    limitPagination: 10,
     drawerOpen: window.innerWidth >= 900
 }
 
@@ -60,11 +62,15 @@ const generalDataSlice = createSlice({
         setSelectedEcommerce(state, action) {
             state.selectedEcommerce = action.payload
         },
+        setLimitPagination(state, action) {
+            state.limitPagination = action.payload
+        },
         toggleDrawer(state) {
             state.drawerOpen = !state.drawerOpen
         }
     }
 })
 
-export const { setSelectedEcommerce, toggleDrawer } = generalDataSlice.actions
+export const { setSelectedEcommerce, toggleDrawer, setLimitPagination } =
+    generalDataSlice.actions
 export default generalDataSlice.reducer

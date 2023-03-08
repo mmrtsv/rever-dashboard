@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import ReviewStatus from '../../ProcessReviewStatus/ProcessReviewStatus'
 import ShippingStatus from '../../../ShippingStatus'
 import AccessTime from '@mui/icons-material/AccessTime'
 import FaceIcon from '@mui/icons-material/Face'
@@ -8,10 +7,6 @@ import { useTheme } from '@itsrever/design-system'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
-import {
-    ShippingStatuses,
-    RefundTimings
-} from '@/redux/features/generalData/generalDataSlice'
 
 interface ProcessDetailsProps {
     process?: ModelsPublicReturnProcess
@@ -25,21 +20,6 @@ const DetailsTab: React.FC<ProcessDetailsProps> = ({ process }) => {
     const address = process?.drop_off_address
         ? process.drop_off_address
         : process?.pickup_address
-
-    const reviewStatus =
-        process &&
-        process.line_items &&
-        process.line_items[0].reviews?.length === 0
-            ? 0
-            : 1
-
-    const originalPM = process?.line_items?.some(
-        (litem) => litem.refund_payment_method === 2
-    )
-    const showReviewStatus =
-        process?.refund_timing === RefundTimings.OnItemVerified &&
-        process.last_known_shipping_status === ShippingStatuses.InWarehouse &&
-        originalPM
 
     return (
         <ProductDetailsDiv>
@@ -71,18 +51,6 @@ const DetailsTab: React.FC<ProcessDetailsProps> = ({ process }) => {
                     <ShippingStatus
                         status={process && process.last_known_shipping_status}
                     />
-                    {showReviewStatus && (
-                        <>
-                            <hr
-                                className="col-span-3"
-                                style={{
-                                    border: `0.5px solid ${theme.colors.grey[2]}`
-                                }}
-                            />
-                            <h6>{t('order_details.review_status')}</h6>
-                            <ReviewStatus status={reviewStatus} />
-                        </>
-                    )}
                 </div>
             </div>
             <div>

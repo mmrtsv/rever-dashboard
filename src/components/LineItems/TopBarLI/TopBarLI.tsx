@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
@@ -19,7 +19,15 @@ const TopBarLI: React.FC<TopBarProps> = ({
 }) => {
     const theme = useTheme()
     const { t } = useTranslation()
-    const handleChangeSelectedEcommerce = () => {
+
+    const selectedEcommerce = useAppSelector(
+        (store) => store.generalData.selectedEcommerce
+    )
+    useEffect(() => {
+        resetPages()
+    }, [selectedEcommerce])
+
+    function resetPages() {
         setActualPage(0)
     }
 
@@ -164,11 +172,7 @@ const TopBarLI: React.FC<TopBarProps> = ({
                 </Tabs>
             </TabsDiv>
             <ShowSelector>
-                <SelectorComponent
-                    handleChangeSelectedEcommerce={
-                        handleChangeSelectedEcommerce
-                    }
-                />
+                <SelectorComponent />
             </ShowSelector>
         </HigherDiv>
     )

@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import ReviewStatus from '../ProcessReviewStatus/ProcessReviewStatus'
 import ProcessReturnStatus from '../ProcessReturnStatus.tsx/ProcessReturnStatus'
 import { Link } from 'react-router-dom'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
@@ -8,11 +7,6 @@ import { Sizes } from '@/utils/device'
 import { useTranslation } from 'react-i18next'
 import { useAppSelector } from '@/redux/hooks'
 import { getDate } from '@/utils'
-import {
-    ShippingStatuses,
-    RefundTimings,
-    ReturnStatus
-} from '@/redux/features/generalData/generalDataSlice'
 
 export interface ProcessProps {
     Process: ModelsPublicReturnProcess

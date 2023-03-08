@@ -34,19 +34,12 @@ describe('Processes Page test', () => {
         screen.getByTestId('SearchIcon')
         screen.getAllByText('Search...')
         screen.getAllByTestId('ProcessesTable')
-        screen.getAllByText('2 total pages')
         screen.getByText('10 / page')
     })
 })
 
 function reduxState() {
     return {
-        appState: {
-            isSidebarOpen: false
-        },
-        tokenData: {
-            token: 'xxxx'
-        },
         processesApi: {
             getProcesses: {
                 loading: 'idle',
@@ -60,7 +53,7 @@ function reduxState() {
                 loading: 'idle',
                 response: { rowcount: 21 }
             },
-            getActionRequiredProcesses: {
+            getReviewRequiredProcesses: {
                 loading: 'idle',
                 response: { rowcount: 21 }
             }
@@ -76,7 +69,8 @@ function reduxState() {
             }
         },
         generalData: {
-            selectedEcommerce: 'nude'
+            selectedEcommerce: 'nude',
+            limitPagination: 10
         }
     }
 }

@@ -22,12 +22,7 @@ describe('TopBar Processes tests', () => {
                 <ThemeProvider>
                     <Provider store={store}>
                         <I18nextProvider i18n={i18n}>
-                            <TopBar
-                                currentTab={0}
-                                setCurrentTab={() => null}
-                                setActualPage={() => null}
-                                reviewFlow={'AUTO'}
-                            />
+                            <TopBar currentTab={0} setCurrentTab={() => null} />
                         </I18nextProvider>
                     </Provider>
                 </ThemeProvider>
@@ -37,35 +32,30 @@ describe('TopBar Processes tests', () => {
         screen.getByText('Returns')
         screen.getByText('All')
         screen.getByText('In progress')
+        screen.getByText('Action required')
         screen.getByText('Completed')
         expect(screen.queryByTestId('Selector')).toBeNull()
     })
 
-    // TBD: use when refundtiming is 100% from the process and not settings
-    // it('should render the correct tab titles when refundtiming = ON_ITEM_VERIFIED', () => {
-    //     const state = reduxState([])
-    //     const mockStore = configureStore()
-    //     const store = mockStore(state)
+    it('should not render the Action required tab when no processes with review required', () => {
+        const state = reduxState([], 0)
+        const mockStore = configureStore()
+        const store = mockStore(state)
 
-    //     render(
-    //         <Router>
-    //             <ThemeProvider>
-    //                 <Provider store={store}>
-    //                     <I18nextProvider i18n={i18n}>
-    //                         <TopBar
-    //                             currentTab={0}
-    //                             setCurrentTab={() => null}
-    //                             setActualPage={() => null}
-    //                         />
-    //                     </I18nextProvider>
-    //                 </Provider>
-    //             </ThemeProvider>
-    //         </Router>
-    //     )
-    //     screen.getByText('All')
-    //     screen.getByText('Action required')
-    //     screen.getByText('Reviewed')
-    // })
+        render(
+            <Router>
+                <ThemeProvider>
+                    <Provider store={store}>
+                        <I18nextProvider i18n={i18n}>
+                            <TopBar currentTab={0} setCurrentTab={() => null} />
+                        </I18nextProvider>
+                    </Provider>
+                </ThemeProvider>
+            </Router>
+        )
+
+        expect(screen.queryByText('Action required')).toBeNull()
+    })
 
     it('should render the amount of items on each tab', () => {
         const state = reduxState([])
@@ -77,12 +67,7 @@ describe('TopBar Processes tests', () => {
                 <ThemeProvider>
                     <Provider store={store}>
                         <I18nextProvider i18n={i18n}>
-                            <TopBar
-                                currentTab={0}
-                                setCurrentTab={() => null}
-                                setActualPage={() => null}
-                                reviewFlow={'AUTO'}
-                            />
+                            <TopBar currentTab={0} setCurrentTab={() => null} />
                         </I18nextProvider>
                     </Provider>
                 </ThemeProvider>
@@ -91,7 +76,8 @@ describe('TopBar Processes tests', () => {
 
         screen.getByText('(100)')
         screen.getByText('(45)')
-        // screen.getByText('(55)')
+        screen.getByText('(55)')
+        screen.getByText('(35)')
     })
 
     it('should run the function setCurrentTab and setActualPage when a tab is clicked', () => {
@@ -100,7 +86,6 @@ describe('TopBar Processes tests', () => {
         const store = mockStore(state)
 
         const spyOnChangeTab = vi.fn()
-        const spyActualPage = vi.fn()
 
         render(
             <Router>
@@ -110,8 +95,6 @@ describe('TopBar Processes tests', () => {
                             <TopBar
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
-                                setActualPage={spyActualPage}
-                                reviewFlow={'AUTO'}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -121,7 +104,6 @@ describe('TopBar Processes tests', () => {
         fireEvent.click(screen.getByText('In progress'))
 
         expect(spyOnChangeTab).toHaveBeenCalled()
-        expect(spyActualPage).toHaveBeenCalled()
     })
 
     it('should render the selector component when ecommerceList.length > 1', () => {
@@ -130,7 +112,6 @@ describe('TopBar Processes tests', () => {
         const store = mockStore(state)
 
         const spyOnChangeTab = vi.fn()
-        const spyActualPage = vi.fn()
 
         render(
             <Router>
@@ -140,8 +121,6 @@ describe('TopBar Processes tests', () => {
                             <TopBar
                                 currentTab={0}
                                 setCurrentTab={spyOnChangeTab}
-                                setActualPage={spyActualPage}
-                                reviewFlow={'AUTO'}
                             />
                         </I18nextProvider>
                     </Provider>
@@ -152,7 +131,7 @@ describe('TopBar Processes tests', () => {
     })
 })
 
-function reduxState(ecommerces: string[]) {
+function reduxState(ecommerces: string[], amountRequired?: number) {
     return {
         userApi: {
             getMe: {
@@ -173,9 +152,9 @@ function reduxState(ecommerces: string[]) {
                 loading: 'idle',
                 response: { rowcount: 45 }
             },
-            getActionRequiredProcesses: {
+            getReviewRequiredProcesses: {
                 loading: 'idle',
-                response: { rowcount: 55 }
+                response: { rowcount: amountRequired ?? 35 }
             },
             getCompletedProcesses: {
                 loading: '',

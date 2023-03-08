@@ -98,7 +98,8 @@ function reduxState() {
             }
         },
         generalData: {
-            selectedECommerce: undefined
+            selectedECommerce: undefined,
+            limitPagination: 10
         },
         userApi: {
             token: 'XXX'

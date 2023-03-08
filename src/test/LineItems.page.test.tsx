@@ -41,12 +41,6 @@ describe('Line Items Page', () => {
 
 function reduxState() {
     return {
-        appState: {
-            isSidebarOpen: false
-        },
-        tokenData: {
-            token: 'xxxx'
-        },
         lineItemsApi: {
             getLineItems: {
                 loading: 'idle',
@@ -72,7 +66,8 @@ function reduxState() {
             }
         },
         generalData: {
-            selectedEcommerce: 'nude'
+            selectedEcommerce: 'nude',
+            limitPagination: 10
         }
     }
 }
