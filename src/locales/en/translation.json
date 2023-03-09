@@ -48,7 +48,8 @@
         "completed_title": "COMPLETED"
     },
     "selector_component": {
-        "label": "Filter"
+        "label": "Filter store",
+        "all": "All"
     },
     "select_reason": {
         "WRONG_COLOR": "Wrong color",

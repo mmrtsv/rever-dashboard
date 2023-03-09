@@ -26,9 +26,7 @@ describe('SelectorComponentTest', () => {
                 </Provider>
             </Router>
         )
-
-        const children = screen.queryByTestId('Selector')
-        expect(children).toBeNull()
+        expect(screen.queryByTestId('Selector')).toBeNull()
     })
 
     it('should not render if there is one ecommerce in the group list', () => {
@@ -45,9 +43,7 @@ describe('SelectorComponentTest', () => {
                 </Provider>
             </Router>
         )
-
-        const children = screen.queryByTestId('Selector')
-        expect(children).toBeNull()
+        expect(screen.queryByTestId('Selector')).toBeNull()
     })
 
     it('should render the selector if there is more than one ecommerce', () => {
@@ -81,8 +77,8 @@ describe('SelectorComponentTest', () => {
                 </Provider>
             </Router>
         )
-        const filter = screen.getByRole('button')
-        fireEvent.mouseDown(filter)
+        const filter = screen.getByText('Filter store')
+        fireEvent.click(filter)
         screen.getByText('All')
         screen.getByText('nude')
         screen.getByText('artesta')
@@ -103,7 +99,7 @@ describe('SelectorComponentTest', () => {
         )
 
         const filter = screen.getByRole('button')
-        fireEvent.mouseDown(filter)
+        fireEvent.click(filter)
         fireEvent.click(screen.getByText('nude'))
         const actions = store.getActions()
         expect(actions[0].payload).toBe('nude')

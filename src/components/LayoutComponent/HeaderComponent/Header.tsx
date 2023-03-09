@@ -1,13 +1,14 @@
 import React from 'react'
-import { Toolbar, Box } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import { styled } from '@mui/material/styles'
+import { styled as styledM } from '@mui/material/styles'
+import styled from 'styled-components'
 import MenuIcon from '@mui/icons-material/Menu'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { toggleDrawer } from '@/redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
+import SelectorComponent from '@/components/SelectorComponent/SelectorComponent'
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean
@@ -15,7 +16,7 @@ interface AppBarProps extends MuiAppBarProps {
 
 const drawerWidth = 240
 
-const AppBar = styled(MuiAppBar, {
+const AppBar = styledM(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open'
 })<AppBarProps>(({ theme, open }) => ({
     transition: theme.transitions.create(['margin', 'width'], {
@@ -40,16 +41,8 @@ const Header = () => {
         (store) => store.generalData.drawerOpen
     )
 
-    const handleDrawer = () => {
-        dispatch(toggleDrawer())
-    }
-
     return (
-        <Box
-            data-testid="Header"
-            sx={{ display: 'flex', height: '60px', alignContent: 'center' }}
-        >
-            {' '}
+        <HeaderDiv data-testid="Header">
             <ReverNavbar
                 id="rever-navbar"
                 position="fixed"
@@ -59,41 +52,47 @@ const Header = () => {
                     color: theme.colors.primary.main
                 }}
             >
-                <ReverToolbar>
+                <ToolBar>
                     <div className="flex flex-1 px-1">
                         {!isSidebarOpen && (
-                            <div
-                                className="mr-4"
-                                style={{ color: theme.colors.primary.dark }}
-                            >
+                            <div style={{ color: theme.colors.primary.dark }}>
                                 <MenuIcon
-                                    onClick={handleDrawer}
+                                    onClick={() => dispatch(toggleDrawer())}
                                     fontSize="large"
                                 />
                             </div>
                         )}
                     </div>
+                    <div className="mr-2">
+                        <SelectorComponent />
+                    </div>
                     <LanguageSwitcher />
-                </ReverToolbar>
+                </ToolBar>
             </ReverNavbar>
             <DrawerComponent />
-        </Box>
+        </HeaderDiv>
     )
 }
 
 export default Header
 
-const ReverNavbar = styled(AppBar)`
+const HeaderDiv = styled.div`
+    display: flex;
+    height: 60px;
+    align-content: center;
+    background-color: #fff;
+`
+
+const ToolBar = styled.div`
+    display: flex;
+    padding: 0 1rem 0 1rem;
+    align-items: center;
+    height: 60px;
+`
+
+const ReverNavbar = styledM(AppBar)`
     display: flex;
     position: relative;
     z-index: 20;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-`
-const ReverToolbar = styled(Toolbar)`
-    padding: 0;
-    min-height: 3.8rem;
-    align-items: center;
-    @media (min-width: 900px) {
-        min-height: 4rem;
-    }
 `

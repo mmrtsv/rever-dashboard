@@ -16,7 +16,7 @@
         "error": "Error",
         "canceled": "Cancelado"
     },
-        "return_status": {
+    "return_status": {
         "started": "Iniciado",
         "collected": "Recogido",
         "review_required": "Revisión requerida",
@@ -48,7 +48,8 @@
         "completed_title": "COMPLETADOS"
     },
     "selector_component": {
-        "label": "Filtro"
+        "label": "Filtrar tienda",
+        "all": "Todas"
     },
     "select_reason": {
         "WRONG_COLOR": "Color equivocado",

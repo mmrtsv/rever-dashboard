@@ -11,26 +11,22 @@ export const LanguageSwitcher = () => {
     const { i18n } = useTranslation()
 
     const [language, setLanguage] = useState(i18n.language)
-    const [menu, setMenu] = useState(null)
-
-    const menuOpen = (event: any) => {
-        setMenu(event.currentTarget)
-    }
-    const menuClose = () => {
-        setMenu(null)
-    }
+    const [menu, setMenu] = useState<HTMLElement | null>(null)
 
     const handleChange = (lang: string) => {
         setLanguage(lang)
         i18n.changeLanguage(lang)
-        menuClose()
+        setMenu(null)
     }
 
     return (
         <>
-            <Button data-testid="LanguageSwitcher" onClick={menuOpen}>
+            <Button
+                data-testid="LanguageSwitcher"
+                onClick={(e) => setMenu(e.currentTarget)}
+            >
                 <div className="flex items-center">
-                    <img className="mx-2" src={language === 'en' ? EN : ES} />
+                    <img className="mr-2" src={language === 'en' ? EN : ES} />
                     <h6 style={{ color: 'black' }}>
                         {
                             languageTitles[
@@ -43,7 +39,7 @@ export const LanguageSwitcher = () => {
             <Popover
                 data-testid="Popover"
                 open={Boolean(menu)}
-                onClose={menuClose}
+                onClose={() => setMenu(null)}
                 anchorEl={menu}
                 anchorOrigin={{
                     vertical: 'bottom',

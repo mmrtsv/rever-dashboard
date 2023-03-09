@@ -1,5 +1,4 @@
 import React from 'react'
-import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
 import { useTheme } from '@itsrever/design-system'
@@ -150,20 +149,11 @@ const TopBarLI: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                     />
                 </Tabs>
             </TabsDiv>
-            <ShowSelector>
-                <SelectorComponent />
-            </ShowSelector>
         </HigherDiv>
     )
 }
 
 export default TopBarLI
-
-const ShowSelector = styled.div`
-    @media (max-width: 599px) {
-        display: none;
-    }
-`
 
 const TabsDiv = styled.div``
 

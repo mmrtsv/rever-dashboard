@@ -29,7 +29,6 @@ import { FlagrEvalPost } from '@/services/flagr.api'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '@/redux/api/userApi'
 import Mixpanel from '@/mixpanel/Mixpanel'
-import SelectorComponent from '@/components/SelectorComponent/SelectorComponent'
 
 export const drawerWidth = 240
 export const drawerList1 = ['returns', 'items']
@@ -310,11 +309,6 @@ const DrawerComponent = () => {
                     )}
                     <Divider />
                 </div>
-                {showAnalytics && (
-                    <div className="flex w-full justify-center">
-                        <SelectorComponent />
-                    </div>
-                )}
                 <div className="w-full">
                     <List sx={{ color: theme.colors.common.white }}>
                         <ListItem disablePadding>

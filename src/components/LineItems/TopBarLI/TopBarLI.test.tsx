@@ -12,7 +12,7 @@ import { ThemeProvider } from '@itsrever/design-system'
 describe('TopBar LI tests', () => {
     afterEach(cleanup)
 
-    it('should render the title, the tabs and not the selector when ecommerceList.length < 2', () => {
+    it('should render the title, the tabs', () => {
         const state = reduxState([])
         const mockStore = configureStore()
         const store = mockStore(state)
@@ -33,7 +33,6 @@ describe('TopBar LI tests', () => {
         screen.getByText('All')
         screen.getByText('Pending to receive')
         screen.getByText('Received')
-        expect(screen.queryByTestId('Selector')).toBeNull()
     })
 
     it('should render the amount of items on each tab', () => {
@@ -82,30 +81,6 @@ describe('TopBar LI tests', () => {
         fireEvent.click(screen.getByText('Pending to receive'))
 
         expect(spyOnChangeTab).toHaveBeenCalled()
-    })
-
-    it('should render the selector component when ecommerceList.length > 1', () => {
-        const state = reduxState(['nudeproject', 'artesta'])
-        const mockStore = configureStore()
-        const store = mockStore(state)
-
-        const spyOnChangeTab = vi.fn()
-
-        render(
-            <Router>
-                <ThemeProvider>
-                    <Provider store={store}>
-                        <I18nextProvider i18n={i18n}>
-                            <TopBar
-                                currentTab={0}
-                                setCurrentTab={spyOnChangeTab}
-                            />
-                        </I18nextProvider>
-                    </Provider>
-                </ThemeProvider>
-            </Router>
-        )
-        screen.getByTestId('Selector')
     })
 })
 

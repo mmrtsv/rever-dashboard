@@ -73,9 +73,66 @@ describe('Header Component test', () => {
         const actions = store.getActions()
         expect(actions.length).toBe(1)
     })
+
+    it('should not render the ecommerce selector when ecommerceList.length < 2', () => {
+        const state = reduxState(false)
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <Header />
+                        </ThemeProvider>
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        expect(screen.queryByTestId('Selector')).toBeNull()
+    })
+
+    it('should not render the ecommerce selector when ecommerceList.length < 2', () => {
+        const state = reduxState(false)
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <Header />
+                        </ThemeProvider>
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        expect(screen.queryByTestId('Selector')).toBeNull()
+    })
+
+    it('should render the ecommerce selector when ecommerceList.length > 1', () => {
+        const state = reduxState(false, ['nude', 'artesta'])
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <Header />
+                        </ThemeProvider>
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        screen.getByTestId('Selector')
+    })
 })
 
-function reduxState(open: boolean) {
+function reduxState(open: boolean, ecommerceList?: string[]) {
     return {
         generalData: {
             drawerOpen: open
@@ -84,7 +141,8 @@ function reduxState(open: boolean) {
             getMe: {
                 response: {
                     user: {
-                        group: 'nudeproject'
+                        group: 'nudeproject',
+                        ecommerces: ecommerceList
                     }
                 }
             }

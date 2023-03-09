@@ -12,7 +12,7 @@ import { ThemeProvider } from '@itsrever/design-system'
 describe('TopBar Processes tests', () => {
     afterEach(cleanup)
 
-    it('should render the title, the tabs and not the selector when ecommerceList.length < 2', () => {
+    it('should render the title, the tabs', () => {
         const state = reduxState([])
         const mockStore = configureStore()
         const store = mockStore(state)
@@ -34,7 +34,6 @@ describe('TopBar Processes tests', () => {
         screen.getByText('In progress')
         screen.getByText('Action required')
         screen.getByText('Completed')
-        expect(screen.queryByTestId('Selector')).toBeNull()
     })
 
     it('should not render the Action required tab when no processes with review required', () => {
@@ -104,30 +103,6 @@ describe('TopBar Processes tests', () => {
         fireEvent.click(screen.getByText('In progress'))
 
         expect(spyOnChangeTab).toHaveBeenCalled()
-    })
-
-    it('should render the selector component when ecommerceList.length > 1', () => {
-        const state = reduxState(['nudeproject', 'artesta'])
-        const mockStore = configureStore()
-        const store = mockStore(state)
-
-        const spyOnChangeTab = vi.fn()
-
-        render(
-            <Router>
-                <ThemeProvider>
-                    <Provider store={store}>
-                        <I18nextProvider i18n={i18n}>
-                            <TopBar
-                                currentTab={0}
-                                setCurrentTab={spyOnChangeTab}
-                            />
-                        </I18nextProvider>
-                    </Provider>
-                </ThemeProvider>
-            </Router>
-        )
-        screen.getByTestId('Selector')
     })
 })
 

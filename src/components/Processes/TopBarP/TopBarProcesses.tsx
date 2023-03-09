@@ -1,5 +1,4 @@
 import React from 'react'
-import SelectorComponent from '../../SelectorComponent/SelectorComponent'
 import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
 import { useTheme } from '@itsrever/design-system'
@@ -198,9 +197,6 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                         }
                     />
                 </Tabs>
-            </div>
-            <div>
-                <SelectorComponent />
             </div>
         </HigherDiv>
     )
