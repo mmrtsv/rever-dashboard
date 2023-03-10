@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import ReportIcon from '@mui/icons-material/Report'
 import Transit from '@mui/icons-material/AirlineStops'
 import { SuccessIcon, ErrorIcon } from '@itsrever/design-system'
 import { useTranslation } from 'react-i18next'
@@ -48,7 +49,7 @@ const ProcessReturnStatus: React.FC<ProcessReturnStatusProps> = ({
                     }}
                 />
             ) : status === 'COLLECTED' ? (
-                <AccessTimeIcon
+                <Transit
                     style={{
                         color: `${
                             _.find(ShippingStatuses, { name: status })?.color
@@ -56,7 +57,7 @@ const ProcessReturnStatus: React.FC<ProcessReturnStatusProps> = ({
                     }}
                 />
             ) : status === 'REVIEW_REQUIRED' ? (
-                <Transit
+                <ReportIcon
                     style={{
                         color: `${
                             _.find(ShippingStatuses, { name: status })?.color

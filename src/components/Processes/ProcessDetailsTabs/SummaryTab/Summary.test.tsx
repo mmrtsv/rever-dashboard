@@ -6,37 +6,44 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '@/i18nForTests'
+import { Provider } from 'react-redux'
+import configureStore from 'redux-mock-store'
 import { ThemeProvider } from '@itsrever/design-system'
-import { RefundTimings, ReturnStatus } from '@/redux/features/generalData/generalDataSlice'
 
 describe('Process test', () => {
     afterEach(cleanup)
 
     it('should display all the line items in the process in RetProductLineItems', () => {
-        const process: ModelsPublicReturnProcess = mockOrder()
-
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
         render(
             <Router>
-                <ThemeProvider>
-                    <I18nextProvider i18n={i18n}>
-                        <Summary process={process} />
-                    </I18nextProvider>
-                </ThemeProvider>
+                <Provider store={store}>
+                    <ThemeProvider>
+                        <I18nextProvider i18n={i18n}>
+                            <Summary />
+                        </I18nextProvider>
+                    </ThemeProvider>
+                </Provider>
             </Router>
         )
         expect(screen.getAllByTestId('RetProductSummary').length).toBe(2)
     })
 
     it('should display the finance summary with: total price, costs, refunds to methods and final balance', () => {
-        const process: ModelsPublicReturnProcess = mockOrder()
-
+        const state = reduxState()
+        const mockStore = configureStore()
+        const store = mockStore(state)
         render(
             <Router>
-                <ThemeProvider>
-                    <I18nextProvider i18n={i18n}>
-                        <Summary process={process} />
-                    </I18nextProvider>
-                </ThemeProvider>
+                <Provider store={store}>
+                    <ThemeProvider>
+                        <I18nextProvider i18n={i18n}>
+                            <Summary />
+                        </I18nextProvider>
+                    </ThemeProvider>
+                </Provider>
             </Router>
         )
         // Total refund
@@ -59,16 +66,19 @@ describe('Process test', () => {
         screen.getByText('Final balance:')
     })
 
-    it('should display the finance summary with the approved items, if timing is ON_ITEM_VERIFIED and status is completed', () => {
-        const process: ModelsPublicReturnProcess = mockOrderWithUpdatedSummary()
-
+    it('should display the finance summary with the approved items if return_status is completed', () => {
+        const state = reduxState('COMPLETED')
+        const mockStore = configureStore()
+        const store = mockStore(state)
         render(
             <Router>
-                <ThemeProvider>
-                    <I18nextProvider i18n={i18n}>
-                        <Summary process={process} />
-                    </I18nextProvider>
-                </ThemeProvider>
+                <Provider store={store}>
+                    <ThemeProvider>
+                        <I18nextProvider i18n={i18n}>
+                            <Summary />
+                        </I18nextProvider>
+                    </ThemeProvider>
+                </Provider>
             </Router>
         )
         // Just 1 approved item
@@ -95,21 +105,23 @@ describe('Process test', () => {
     })
 })
 
-function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
+function reduxState(returnStatus?: string) {
     return {
-        customer_printed_order_id: 'ES-39352',
-        customer: {
-            email: 'philipswalus@gmail.com',
-            first_name: 'Philip',
-            last_name: 'Swalus',
-            rever_id: 'cust_2KE2bR5GqvDlEhaSYpLyDooKfnh'
-        },
-        started_at: { nanos: 423817000, seconds: 1675246610 },
-        last_known_shipping_status: 3,
-        refund_timing: refundTiming,
+        processesApi: {
+            getProcess: {
+                response: {
+                    processes: [mockProcess(returnStatus)]
+                }
+            }
+        }
+    }
+}
+
+function mockProcess(returnStatus?: string): ModelsPublicReturnProcess {
+    return {
+        return_status: returnStatus,
         bank_transfer_refund_amount: 1000,
-        total_refund_amount: 1500,
-        ecommerce_id: 'Amics de les arts',
+        total_refund_amount: returnStatus ? 935 : 1500,
         currency_money_format: {
             amount_multiplied_by: 100,
             currency: 'EUR',
@@ -120,30 +132,47 @@ function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
             thousand_separator: '.',
             visible_number_of_decimals: 2
         },
-        line_items: [
+        executed_bank_transfer: 600,
+        approved_line_items: [
             {
                 action: 2,
                 comment: '',
                 id: '',
                 name: 'Line Item 1',
-                pending_purchase: false,
-                product: undefined,
-                product_id: '4433969250375',
                 product_image_url:
                     'https://cdn.shopify.com/s/files/1/0007/5192/7347/products/013603_bf_7ca0bb3e-99aa-4bea-89e5-ce07916c5dfb.jpg?v=1579616399',
                 product_return_reason: 'NOT_AS_EXPECTED',
                 quantity: 1,
-                refund_payment_method: 1,
-                return_reason: 3,
-                rever_id: 'retl_2KE2bS2QzVOQfxhemJzl2LRt1Dh',
-                sku: 'P30x40-00-013603',
                 subtotal: 1346,
                 total: 1435,
                 total_discounts: 160,
                 total_taxes: 249,
                 type: 'product',
                 unit_price: 1346,
-                variant_id: '31639769448519',
+                variant_name: 'Sin marco / 30x40 / No'
+            },
+            {
+                type: 'cost',
+                name: 'Shipping cost',
+                total: 500
+            }
+        ],
+        line_items: [
+            {
+                action: 2,
+                comment: '',
+                id: '',
+                name: 'Line Item 1',
+                product_image_url:
+                    'https://cdn.shopify.com/s/files/1/0007/5192/7347/products/013603_bf_7ca0bb3e-99aa-4bea-89e5-ce07916c5dfb.jpg?v=1579616399',
+                product_return_reason: 'NOT_AS_EXPECTED',
+                quantity: 1,
+                subtotal: 1346,
+                total: 1435,
+                total_discounts: 160,
+                total_taxes: 249,
+                type: 'product',
+                unit_price: 1346,
                 variant_name: 'Sin marco / 30x40 / No'
             },
             {
@@ -178,19 +207,4 @@ function mockOrder(refundTiming?: number): ModelsPublicReturnProcess {
             }
         ]
     }
-}
-
-function mockOrderWithUpdatedSummary(): ModelsPublicReturnProcess {
-    let process = mockOrder(RefundTimings.OnItemVerified)
-    process.status = ReturnStatus.Completed
-    
-    if (process?.line_items !== undefined) {
-        process.approved_line_items = [
-            process.line_items[0],
-            process.line_items[2]
-        ]
-    }
-    process.executed_bank_transfer = 600
-    process.total_refund_amount = 935
-    return process
 }

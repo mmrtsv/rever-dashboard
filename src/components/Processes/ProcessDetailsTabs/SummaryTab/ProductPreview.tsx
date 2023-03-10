@@ -1,6 +1,5 @@
 import React from 'react'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import { formatPrice } from '@/utils'
 import { useTranslation } from 'react-i18next'
 import NoAvailable from '@/assets/images/noAvailable.png'
 import styled from 'styled-components'
@@ -17,18 +16,6 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ lineItem }) => {
         imgSrc = lineItem.product_image_url
     }
 
-    // product price
-    let productPrice = undefined
-    if (
-        lineItem?.total &&
-        lineItem.quantity &&
-        lineItem.return_process?.currency_money_format
-    )
-        productPrice = formatPrice(
-            Math.round(lineItem.total / lineItem.quantity),
-            lineItem.return_process?.currency_money_format
-        )
-
     return (
         <MainDiv data-testid="ProductPreview">
             <div className="h-fit w-16">
@@ -36,12 +23,6 @@ export const ProductPreview: React.FC<ProductPreviewProps> = ({ lineItem }) => {
             </div>
             <div className="mr-6 ml-4">
                 <p className="text-xs">{lineItem.name}</p>
-                {productPrice && (
-                    <p
-                        className="mt-0.5"
-                        dangerouslySetInnerHTML={{ __html: productPrice }}
-                    />
-                )}
                 {lineItem.quantity && (
                     <>
                         <span className="text-grey-2 text-xs">

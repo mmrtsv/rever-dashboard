@@ -5,38 +5,45 @@ import ProcessSplitLineItem from './ProcessSplitLineItem'
 import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '@/i18nForTests'
 import { I18nextProvider } from 'react-i18next'
-import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
+import {
+    ModelsMoneyFormat,
+    ModelsPublicReturnLineItem
+} from '@itsrever/dashboard-api'
 
 // TBD: Test navigation
-// TBD: Add Cypress visibility tests : screen >= 900px & 600px <= screen < 900 & screen < 600
 
 describe('Process Split Line Item tests', () => {
     afterEach(cleanup)
 
-    it('should display the correct information when screen', () => {
-        const item: ModelsPublicReturnLineItem = lineItem(1)
+    it('should display the correct information', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 599
+        })
+
+        const item: ModelsPublicReturnLineItem = lineItem()
         render(
             <Router>
                 <I18nextProvider i18n={i18n}>
-                    <ProcessSplitLineItem lineItem={item} />
+                    <ProcessSplitLineItem
+                        lineItem={item}
+                        moneyFormat={moneyFormat()}
+                    />
                 </I18nextProvider>
             </Router>
         )
-        screen.getByText('ES-179615')
         screen.getByAltText('ProductImage')
-        screen.getByText('BEAR HOOD - XS')
-        screen.getByText('Oskar Lozano')
+        screen.getByText('59,00 €')
         screen.getByText('In Warehouse')
+        screen.getByText('BEAR HOOD - XS')
     })
 
     it('should display the review status when conditions are met', () => {
         // CONDITIONS
-        // last_known_shipping_status = "IN_WAREHOUSE"
-        // refund_timing = "ON_ITEM_VERIFIED"
-        // status = "COMPLETED"
-        // refundMethod = OriginalPM
+        // process.return_status = COMPLETED
 
-        const item: ModelsPublicReturnLineItem = lineItem(2)
+        const item: ModelsPublicReturnLineItem = lineItem()
 
         render(
             <Router>
@@ -44,8 +51,8 @@ describe('Process Split Line Item tests', () => {
                     <ProcessSplitLineItem
                         key={1}
                         lineItem={item}
-                        reviewFlow="MANUAL"
-                        orderStatus={2}
+                        returnStatus={'COMPLETED'}
+                        moneyFormat={moneyFormat()}
                     />
                 </I18nextProvider>
             </Router>
@@ -55,35 +62,27 @@ describe('Process Split Line Item tests', () => {
     })
 })
 
-function lineItem(refundMethod: number): ModelsPublicReturnLineItem {
+function moneyFormat() {
+    const mf: ModelsMoneyFormat = {
+        amount_multiplied_by: 100,
+        currency_symbol: '€',
+        decimal_separator: ',',
+        visible_number_of_decimals: 2
+    }
+    return mf
+}
+
+function lineItem(): ModelsPublicReturnLineItem {
     const lineItem: ModelsPublicReturnLineItem = {
+        reviews: [{ status: 'APPROVED' }],
         action: 1,
-        comment: '',
-        id: '',
         name: 'BEAR HOOD - XS',
-        pending_purchase: false,
-        product: undefined,
-        product_id: '7368369995937',
         quantity: 1,
-        refund_payment_method: refundMethod,
         return_process: {
-            customer_printed_order_id: 'ES-179615',
-            customer: {
-                first_name: 'Oskar',
-                last_name: 'Lozano'
-            },
             started_at: { nanos: 764216000, seconds: 1675179369 },
             last_known_shipping_status: 3
         },
-        return_reason: 7,
-        rever_id: 'retl_2IrCxoRm7E2ClFn63JaapvmuPnd',
-        sku: '1119-XS',
-        subtotal: 4876,
         total: 5900,
-        total_discounts: 0,
-        total_taxes: 1024,
-        type: 'product',
-        unit_price: 4876,
         variant_id: '41927678361761',
         variant_name: 'XS'
     }

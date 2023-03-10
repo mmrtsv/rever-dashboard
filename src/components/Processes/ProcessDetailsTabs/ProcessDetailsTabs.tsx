@@ -17,57 +17,64 @@ const ProcessDetailTabs: React.FC<TabProps> = ({
     const theme = useTheme()
 
     return (
-        <TabsDiv>
-            <Tabs
-                value={currentTab}
-                onChange={(e, i) => setCurrentTab(i)}
-                TabIndicatorProps={{
-                    sx: {
-                        background: theme.colors.primary.dark
-                    }
-                }}
-            >
-                <Tab
-                    style={{
-                        color: `${
-                            currentTab === 0
-                                ? theme.colors.primary.dark
-                                : theme.colors.grey[1]
-                        }`,
-                        borderTopLeftRadius: '2rem'
+        <MainDiv>
+            <TabsDiv>
+                <Tabs
+                    value={currentTab}
+                    onChange={(e, i) => setCurrentTab(i)}
+                    TabIndicatorProps={{
+                        sx: {
+                            background: theme.colors.primary.dark
+                        }
                     }}
-                    label={t('order_details.products')}
-                />
-                <Tab
-                    style={{
-                        color: `${
-                            currentTab === 1
-                                ? theme.colors.primary.dark
-                                : theme.colors.grey[1]
-                        }`
-                    }}
-                    label={t('order_details.order_details')}
-                />
-                <Tab
-                    style={{
-                        color: `${
-                            currentTab === 2
-                                ? theme.colors.primary.dark
-                                : theme.colors.grey[1]
-                        }`
-                    }}
-                    label={t('order_details.summary')}
-                />
-            </Tabs>
-        </TabsDiv>
+                >
+                    <Tab
+                        style={{
+                            color: `${
+                                currentTab === 0
+                                    ? theme.colors.primary.dark
+                                    : theme.colors.grey[1]
+                            }`,
+                            borderTopLeftRadius: '2rem'
+                        }}
+                        label={t('order_details.products')}
+                    />
+                    <Tab
+                        style={{
+                            color: `${
+                                currentTab === 1
+                                    ? theme.colors.primary.dark
+                                    : theme.colors.grey[1]
+                            }`
+                        }}
+                        label={t('order_details.order_details')}
+                    />
+                    <Tab
+                        style={{
+                            color: `${
+                                currentTab === 2
+                                    ? theme.colors.primary.dark
+                                    : theme.colors.grey[1]
+                            }`
+                        }}
+                        label={t('order_details.summary')}
+                    />
+                </Tabs>
+            </TabsDiv>
+        </MainDiv>
     )
 }
 
 export default ProcessDetailTabs
 
-const TabsDiv = styled.div`
-    border-bottom: solid 1px #ccc;
+const MainDiv = styled.div`
     background-color: #eee;
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
+`
+
+const TabsDiv = styled.div`
+    background-color: #fff;
+    padding-top: 0.3rem;
+    border-bottom: solid 1px #ccc;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
 `

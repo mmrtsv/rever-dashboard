@@ -11,31 +11,34 @@ import { getDate } from '../utils'
 import { useAppSelector } from '@/redux/hooks'
 
 import ProductsTab from '@/components/Processes/ProcessDetailsTabs/ProductsTab/ProductsTab'
+import device from '@/utils/device'
 
 function ProcessDetails() {
     const { i18n } = useTranslation()
 
+    // Find process
     const processID = window.location.pathname.split('/').pop()
-
-    const response = useAppSelector(
-        (store) => store.processesApi.getProcess.response.processes
-    )
-    let Process
-    if (response && response.length > 0) Process = response[0]
     useSearchProcess(processID ?? '')
     const [currentTab, setCurrentTab] = useState(0)
 
+    const responseProcess = useAppSelector(
+        (store) => store.processesApi.getProcess.response.processes
+    )
+    const process =
+        responseProcess && responseProcess?.length > 0
+            ? responseProcess[0]
+            : undefined
     const returnDate =
-        Process?.started_at?.seconds &&
-        getDate(Process?.started_at?.seconds, i18n.language)
+        process?.started_at?.seconds &&
+        getDate(process?.started_at?.seconds, i18n.language)
 
     return (
         <PageComponent>
-            <Main className="flex flex-col overflow-x-auto bg-white">
+            <Main>
                 <TopDiv>
                     <Title data-testid="ProcessID" className="mt-6">
                         <b className="text-xl">
-                            {Process && Process.customer_printed_order_id}
+                            {process && process.customer_printed_order_id}
                         </b>
                         <LocalShippingOutlinedIcon className="ml-2" />
                     </Title>
@@ -47,11 +50,11 @@ function ProcessDetails() {
                         setCurrentTab={setCurrentTab}
                     />
                     {currentTab === 0 ? (
-                        <ProductsTab process={Process} />
+                        <ProductsTab />
                     ) : currentTab === 1 ? (
-                        <DetailsTab process={Process} />
+                        <DetailsTab />
                     ) : (
-                        <Summary process={Process} />
+                        <Summary />
                     )}
                 </CardDiv>
             </Main>
@@ -62,13 +65,20 @@ function ProcessDetails() {
 export default ProcessDetails
 
 const TopDiv = styled.div`
-    width: 100%;
-    background-color: #fff;
+    background-color: #eee;
     padding-bottom: 2rem;
+    width: 100%;
 `
 
 const CardDiv = styled.div`
     flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `
 
 const Title = styled.h6`
@@ -82,10 +92,10 @@ const Title = styled.h6`
 const Main = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    align-items: center;
     height: 100%;
-    overflow-y: scroll;
-    ::-webkit-scrollbar {
-        display: none;
+    @media ${device.xl} {
+        margin-left: 2rem;
+        margin-right: 2rem;
     }
 `

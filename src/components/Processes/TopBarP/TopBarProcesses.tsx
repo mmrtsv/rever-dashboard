@@ -81,42 +81,46 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                             </SmallTotalDiv>
                         }
                     />
-                    <Tab
-                        style={{
-                            color: `${
-                                currentTab === 1
-                                    ? theme.colors.primary.dark
-                                    : theme.colors.grey[1]
-                            }`
-                        }}
-                        label={t('topbar_components.in_progress')}
-                        iconPosition="end"
-                        icon={
-                            <SmallTotalDiv
-                                style={{
-                                    backgroundColor: `${
-                                        currentTab === 1
-                                            ? 'aliceblue'
-                                            : theme.colors.grey[5]
-                                    }`
-                                }}
-                            >
-                                <p
-                                    className="text-xs"
+                    {totalPendingProcesses && totalPendingProcesses > 0 ? (
+                        <Tab
+                            style={{
+                                color: `${
+                                    currentTab === 1
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[1]
+                                }`
+                            }}
+                            label={t('topbar_components.in_progress')}
+                            iconPosition="end"
+                            icon={
+                                <SmallTotalDiv
                                     style={{
-                                        color: `${
+                                        backgroundColor: `${
                                             currentTab === 1
-                                                ? theme.colors.primary.light
-                                                : theme.colors.grey[0]
+                                                ? 'aliceblue'
+                                                : theme.colors.grey[5]
                                         }`
                                     }}
                                 >
-                                    {totalPendingProcesses &&
-                                        '(' + totalPendingProcesses + ')'}
-                                </p>
-                            </SmallTotalDiv>
-                        }
-                    />
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color: `${
+                                                currentTab === 1
+                                                    ? theme.colors.primary.light
+                                                    : theme.colors.grey[0]
+                                            }`
+                                        }}
+                                    >
+                                        {totalPendingProcesses &&
+                                            '(' + totalPendingProcesses + ')'}
+                                    </p>
+                                </SmallTotalDiv>
+                            }
+                        />
+                    ) : (
+                        <div />
+                    )}
                     {totalActionRequiredProcesses &&
                     totalActionRequiredProcesses > 0 ? (
                         <Tab
@@ -160,42 +164,46 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                     ) : (
                         <div />
                     )}
-                    <Tab
-                        style={{
-                            color: `${
-                                currentTab === 3
-                                    ? theme.colors.primary.dark
-                                    : theme.colors.grey[1]
-                            }`
-                        }}
-                        label={t('topbar_components.completed')}
-                        iconPosition="end"
-                        icon={
-                            <SmallTotalDiv
-                                style={{
-                                    backgroundColor: `${
-                                        currentTab === 3
-                                            ? 'aliceblue'
-                                            : theme.colors.grey[5]
-                                    }`
-                                }}
-                            >
-                                <p
-                                    className="text-xs"
+                    {totalCompletedProcesses && totalCompletedProcesses > 0 ? (
+                        <Tab
+                            style={{
+                                color: `${
+                                    currentTab === 3
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[1]
+                                }`
+                            }}
+                            label={t('topbar_components.completed')}
+                            iconPosition="end"
+                            icon={
+                                <SmallTotalDiv
                                     style={{
-                                        color: `${
+                                        backgroundColor: `${
                                             currentTab === 3
-                                                ? theme.colors.primary.light
-                                                : theme.colors.grey[0]
+                                                ? 'aliceblue'
+                                                : theme.colors.grey[5]
                                         }`
                                     }}
                                 >
-                                    {totalCompletedProcesses &&
-                                        '(' + totalCompletedProcesses + ')'}
-                                </p>
-                            </SmallTotalDiv>
-                        }
-                    />
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color: `${
+                                                currentTab === 3
+                                                    ? theme.colors.primary.light
+                                                    : theme.colors.grey[0]
+                                            }`
+                                        }}
+                                    >
+                                        {totalCompletedProcesses &&
+                                            '(' + totalCompletedProcesses + ')'}
+                                    </p>
+                                </SmallTotalDiv>
+                            }
+                        />
+                    ) : (
+                        <div />
+                    )}
                 </Tabs>
             </div>
         </HigherDiv>

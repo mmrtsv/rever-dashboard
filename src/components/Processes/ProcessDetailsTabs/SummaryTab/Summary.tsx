@@ -1,5 +1,4 @@
 import React from 'react'
-import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import ReturnProductSummary from './ReturnProductSummary'
 import { formatPrice } from '../../../../utils'
 import { useTheme } from '@itsrever/design-system'
@@ -7,28 +6,27 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import SwapIcon from '@mui/icons-material/SwapHoriz'
 import SummaryIcon from '@mui/icons-material/PostAdd'
-import ItemsIcon from '@mui/icons-material/Sell'
+import ItemsIcon from '@mui/icons-material/SellOutlined'
 import device from '@/utils/device'
-import {
-    RefundTimings,
-    ReturnStatus
-} from '@/redux/features/generalData/generalDataSlice'
+import { useAppSelector } from '@/redux/hooks'
 
-interface SummaryProps {
-    process?: ModelsPublicReturnProcess
-}
-
-const Summary: React.FC<SummaryProps> = ({ process }) => {
+const Summary = () => {
     const theme = useTheme()
     const { t } = useTranslation()
+
+    const responseProcess = useAppSelector(
+        (store) => store.processesApi.getProcess.response.processes
+    )
+    const process =
+        responseProcess && responseProcess?.length > 0
+            ? responseProcess[0]
+            : undefined
 
     const customer = process?.customer
 
     const moneyFormat = process?.currency_money_format ?? {}
 
-    const updatedSummary =
-        process?.refund_timing === RefundTimings.OnItemVerified && // ON_ITEM_VERIFIED
-        process?.status === ReturnStatus.Completed
+    const updatedSummary = process?.return_status === 'COMPLETED'
 
     let lineItems = process?.line_items
     let couponRefundAmount = process?.coupon_refund_amount
@@ -96,7 +94,6 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
                             />
                         </div>
                     )}
-
                     {lineItems &&
                         lineItems.map((retLineItem, i) => {
                             if (
@@ -255,7 +252,11 @@ const Summary: React.FC<SummaryProps> = ({ process }) => {
                     </h3>
                 </div>
                 {lineItems?.map((lineItem, i) => {
-                    if (lineItem.type != 'cost') {
+                    if (
+                        lineItem.type != 'cost' &&
+                        lineItem.quantity &&
+                        lineItem.quantity > 0
+                    ) {
                         return (
                             <ReturnProductSummary LineItem={lineItem} key={i} />
                         )
@@ -270,7 +271,7 @@ export default Summary
 
 const MainDiv = styled.div`
     padding: 2rem;
-    background-color: rgb(238, 238, 238);
+    background-color: #fff;
     height: 100%;
     display: flex;
     flex-direction: column;

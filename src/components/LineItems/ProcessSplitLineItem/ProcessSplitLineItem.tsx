@@ -4,61 +4,37 @@ import ShippingStatus from '@/components/ShippingStatus'
 import { LineItemStatus } from '../LineItemStatus'
 import { Link } from 'react-router-dom'
 import NoAvailable from '../../../assets/images/noAvailable.png'
-import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import { Sizes } from '@/utils/device'
 import {
-    ShippingStatuses,
-    RefundTimings,
-    RefundPaymentMethods,
-    ReturnStatus
-} from '@/redux/features/generalData/generalDataSlice'
+    ModelsMoneyFormat,
+    ModelsPublicReturnLineItem
+} from '@itsrever/dashboard-api'
+import { formatPrice } from '@/utils'
+import { Sizes } from '@/utils/device'
 
 export interface ProcessSplitLineItemProps {
     lineItem: ModelsPublicReturnLineItem
-    first?: boolean
-    last?: boolean
-    printedOrderId?: string
-    customerName?: string
+    moneyFormat: ModelsMoneyFormat
     lastKnownShippingStatus?: number
-    orderStatus?: number
-    reviewFlow?: string
+    returnStatus?: string
 }
 
 const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     lineItem,
-    first,
-    last,
-    printedOrderId,
-    customerName,
+    moneyFormat,
     lastKnownShippingStatus,
-    orderStatus,
-    reviewFlow
+    returnStatus
 }) => {
     let imgSrc = NoAvailable
     if (lineItem.product_image_url) {
         imgSrc = lineItem.product_image_url
     }
 
-    const customerPrintedOrderId = printedOrderId
-        ? printedOrderId
-        : lineItem?.return_process?.customer_printed_order_id
-
-    const customerFullName = customerName
-        ? customerName
-        : lineItem?.return_process?.customer?.first_name +
-          ' ' +
-          lineItem?.return_process?.customer?.last_name
-
     let shippingStatus = lineItem.return_process?.last_known_shipping_status
     if (lastKnownShippingStatus != undefined && lastKnownShippingStatus >= 0) {
         shippingStatus = lastKnownShippingStatus
     }
 
-    const showReviewStatus =
-        shippingStatus === ShippingStatuses.InWarehouse &&
-        reviewFlow === 'MANUAL' &&
-        orderStatus === ReturnStatus.Completed &&
-        lineItem.refund_payment_method === RefundPaymentMethods.Original
+    const showReviewStatus = returnStatus === 'COMPLETED'
 
     let reviewStatus = 0
     if (lineItem.reviews && lineItem.reviews?.length > 0) {
@@ -69,16 +45,18 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
                 ? 1
                 : 2
     }
+
+    let productPrice = undefined
+    if (lineItem?.total && lineItem.quantity)
+        productPrice = formatPrice(
+            Math.round(lineItem.total / lineItem.quantity),
+            moneyFormat
+        )
+
     return (
-        <SplitLineItemCard
-            key={lineItem.rever_id}
-            className="cursor-pointer"
-            first={first}
-            last={last}
-        >
+        <SplitLineItemCard key={lineItem.rever_id} className="cursor-pointer">
             <Link to={`/details/${lineItem.rever_id}`}>
                 <Box>
-                    <TextBoxes>{customerPrintedOrderId}</TextBoxes>
                     <div className="flex justify-center">
                         <img
                             className="h-14 w-auto"
@@ -87,10 +65,7 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
                         />
                     </div>
                     <ItemName data-testid="itemName">{lineItem.name}</ItemName>
-
-                    <DissapearText data-testid="Name">
-                        {customerFullName}
-                    </DissapearText>
+                    <Price>{productPrice}</Price>
                     <StatusBox>
                         {showReviewStatus ? (
                             <LineItemStatus status={reviewStatus} />
@@ -106,38 +81,33 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
 
 export default ProcessSplitLineItem
 
-const Box = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: center;
-    width: 100%;
-    @media (min-width: ${Sizes.md}) {
-        display: grid;
-        align-items: center;
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-    @media (min-width: ${Sizes.lg}) {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-`
-
-const ItemName = styled.p`
-    text-align: center;
-    grid-column: span 2 / span 2;
-    @media (max-width: 899px) {
-        display: none;
-    }
-`
-const DissapearText = styled.p`
+const Price = styled.p`
     text-align: center;
     @media (max-width: 599px) {
         display: none;
     }
 `
-const TextBoxes = styled.p`
-    text-align: center;
+
+const Box = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    @media (min-width: ${Sizes.md}) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        display: grid;
+        align-items: center;
+        width: 100%;
+        display: grid;
+    }
+`
+
+const ItemName = styled.p`
+    grid-column: span 2 / span 2;
+    @media (max-width: 899px) {
+        display: none;
+    }
 `
 
 const StatusBox = styled.div`
@@ -146,22 +116,11 @@ const StatusBox = styled.div`
     justify-content: center;
 `
 
-interface CardProps {
-    first?: boolean
-    last?: boolean
-}
-
-const SplitLineItemCard = styled.div<CardProps>`
-    padding: 1rem;
-    border-top-left-radius: ${(p) => (p.first ? '0.5rem' : '')};
-    border-top-right-radius: ${(p) => (p.first ? '0.5rem' : '')};
-    border-bottom-left-radius: ${(p) => (p.last ? '0.5rem' : '')};
-    border-bottom-right-radius: ${(p) => (p.last ? '0.5rem' : '')};
-    border: 1px solid #eee;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
+const SplitLineItemCard = styled.div`
     width: 100%;
+    padding: 1rem;
+    border-top: 1px solid #ccc;
+    background-color: #fff;
     cursor: pointer;
     z-index: 1;
     @media (max-width: ${Sizes.md}) {
