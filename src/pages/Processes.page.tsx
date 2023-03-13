@@ -77,7 +77,7 @@ function Orders() {
         <PageComponent>
             <div className="flex h-full flex-col">
                 <TopBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-                <Main className="flex flex-col overflow-x-auto">
+                <Main className="overflow-x-auto">
                     <div className="w-fit pt-4 pl-8">
                         <FilterComponent
                             freeText={FreeText}
@@ -142,6 +142,8 @@ export default Orders
 
 const Main = styled.div`
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     ::-webkit-scrollbar {
         display: none;

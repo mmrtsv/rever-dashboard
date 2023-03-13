@@ -24,7 +24,11 @@ interface Review extends OpsapiModelsLineItemReview {
     index: number
 }
 
-const ProductsTab = () => {
+interface ProductsProps {
+    reviewMode: boolean
+}
+
+const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
@@ -38,10 +42,6 @@ const ProductsTab = () => {
             ? responseProcess[0]
             : undefined
 
-    // State to handle when it's possible to review
-    // const [reviewMode, setReviewMode] = useState<boolean>(
-    //     process?.return_status === 'REVIEW_REQUIRED'
-    // )
     // Map line items to print real items
     const products =
         process && process.line_items?.filter((item) => item.type === 'product')
@@ -65,8 +65,6 @@ const ProductsTab = () => {
     const createReviewStatus = useAppSelector(
         (state) => state.reviewsApi.createReview
     )
-
-    const needsReview = process?.return_status === 'REVIEW_REQUIRED'
 
     //This logic is not correct. It should be:
     // const needsReview = process?.review_available === true
@@ -181,13 +179,13 @@ const ProductsTab = () => {
     }
 
     useEffect(() => {
-        needsReview &&
+        reviewMode &&
             mappedProducts &&
             mappedProducts.map((item, index) => {
                 item.product_return_reason === 'NOT_RECEIVED' &&
                     handleChange(item.rever_id, 'APPROVED', index)
             })
-    }, [needsReview])
+    }, [reviewMode])
 
     return (
         <ProductsBox data-testid="LineItems">
@@ -222,7 +220,7 @@ const ProductsTab = () => {
                                         }
                                     />
                                 </div>
-                                {needsReview &&
+                                {reviewMode &&
                                     lineItem.product_return_reason !=
                                         'NOT_RECEIVED' && (
                                         <>
@@ -361,7 +359,7 @@ const ProductsTab = () => {
                             </ItemsDiv>
                         )
                     })}
-                {needsReview && (
+                {reviewMode && (
                     <div className="mt-4 flex w-full justify-center md:mt-8">
                         <Button
                             disabled={reviews.length !== mappedProducts?.length}
@@ -391,7 +389,6 @@ const TitlesDiv = styled.div`
 
 const ProductsBox = styled.div`
     height: 100%;
-    background-color: #fff;
 `
 
 const DissapearingH6L = styled.h6`

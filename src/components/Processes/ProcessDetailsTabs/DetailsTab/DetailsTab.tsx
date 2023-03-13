@@ -217,7 +217,6 @@ const ProductDetailsDiv = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #fff;
     @media ${device.lg} {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));

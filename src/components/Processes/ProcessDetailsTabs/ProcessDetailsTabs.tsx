@@ -69,6 +69,7 @@ export default ProcessDetailTabs
 
 const MainDiv = styled.div`
     background-color: #eee;
+    width: 100%;
 `
 
 const TabsDiv = styled.div`

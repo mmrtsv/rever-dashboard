@@ -6,9 +6,11 @@ import DetailTabs from '../components/Processes/ProcessDetailsTabs/ProcessDetail
 import DetailsTab from '../components/Processes/ProcessDetailsTabs/DetailsTab/DetailsTab'
 import Summary from '../components/Processes/ProcessDetailsTabs/SummaryTab/Summary'
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
+import EditIcon from '@mui/icons-material/Edit'
 import { useTranslation } from 'react-i18next'
 import { getDate } from '../utils'
 import { useAppSelector } from '@/redux/hooks'
+import { Button } from '@itsrever/design-system'
 
 import ProductsTab from '@/components/Processes/ProcessDetailsTabs/ProductsTab/ProductsTab'
 import device from '@/utils/device'
@@ -32,31 +34,53 @@ function ProcessDetails() {
         process?.started_at?.seconds &&
         getDate(process?.started_at?.seconds, i18n.language)
 
+    // State to handle when it's possible to review
+    const [reviewMode, setReviewMode] = useState<boolean>(
+        process?.return_status === 'REVIEW_REQUIRED'
+    )
+
+    const handleClickReview = () => {
+        setReviewMode(true)
+    }
+
     return (
         <PageComponent>
             <Main>
                 <TopDiv>
-                    <Title data-testid="ProcessID" className="mt-6">
-                        <b className="text-xl">
-                            {process && process.customer_printed_order_id}
-                        </b>
-                        <LocalShippingOutlinedIcon className="ml-2" />
-                    </Title>
-                    <Title className="mt-2">{returnDate}</Title>
+                    <div>
+                        <Title data-testid="ProcessID">
+                            <b className="text-xl">
+                                {process && process.customer_printed_order_id}
+                            </b>
+                            <LocalShippingOutlinedIcon className="ml-2" />
+                        </Title>
+                        <Title className="mt-2">{returnDate}</Title>
+                    </div>
+                    {/* process?.review_available && */}
+                    {process?.ReviewFlow === 'MANUAL' &&
+                        process.return_status != 'COMPLETED' &&
+                        !reviewMode && (
+                            <Button
+                                onClick={handleClickReview}
+                                iconLeft={<EditIcon />}
+                            >
+                                Review
+                            </Button>
+                        )}
                 </TopDiv>
-                <CardDiv>
-                    <DetailTabs
-                        currentTab={currentTab}
-                        setCurrentTab={setCurrentTab}
-                    />
+                <DetailTabs
+                    currentTab={currentTab}
+                    setCurrentTab={setCurrentTab}
+                />
+                <TabsDiv>
                     {currentTab === 0 ? (
-                        <ProductsTab />
+                        <ProductsTab reviewMode={reviewMode} />
                     ) : currentTab === 1 ? (
                         <DetailsTab />
                     ) : (
                         <Summary />
                     )}
-                </CardDiv>
+                </TabsDiv>
             </Main>
         </PageComponent>
     )
@@ -65,26 +89,32 @@ function ProcessDetails() {
 export default ProcessDetails
 
 const TopDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #eee;
-    padding-bottom: 2rem;
+    padding: 1.5rem 1rem 2rem 1rem;
     width: 100%;
+    @media ${device.md} {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 `
 
-const CardDiv = styled.div`
+const TabsDiv = styled.div`
     flex-grow: 1;
-    width: 100%;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     ::-webkit-scrollbar {
         display: none;
     }
+    width: 100%;
+    background-color: #fff;
 `
 
 const Title = styled.h6`
-    margin-left: 2rem;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: flex-start;
 `

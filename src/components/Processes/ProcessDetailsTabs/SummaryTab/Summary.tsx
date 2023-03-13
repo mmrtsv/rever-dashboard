@@ -271,7 +271,6 @@ export default Summary
 
 const MainDiv = styled.div`
     padding: 2rem;
-    background-color: #fff;
     height: 100%;
     display: flex;
     flex-direction: column;
