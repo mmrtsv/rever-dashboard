@@ -150,7 +150,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
     }
 
     return (
-        <ProductsBox data-testid="LineItems">
+        <ProductsBox>
             <div className="p-8">
                 {returnedProducts && returnedProducts.length > 0 && (
                     <>

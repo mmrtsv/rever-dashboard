@@ -39,16 +39,12 @@ function ProcessDetails() {
         process?.return_status === 'REVIEW_REQUIRED'
     )
 
-    const handleClickReview = () => {
-        setReviewMode(true)
-    }
-
     return (
         <PageComponent>
             <Main>
                 <TopDiv>
                     <div>
-                        <Title data-testid="ProcessID">
+                        <Title>
                             <b className="text-xl">
                                 {process && process.customer_printed_order_id}
                             </b>
@@ -58,7 +54,7 @@ function ProcessDetails() {
                     </div>
                     {process?.review_available && !reviewMode && (
                         <Button
-                            onClick={handleClickReview}
+                            onClick={() => setReviewMode(true)}
                             iconLeft={<EditIcon />}
                         >
                             {t('process_details.review')}

@@ -8,57 +8,74 @@ import { ThemeProvider } from '@itsrever/design-system'
 import thunk from 'redux-thunk'
 import i18n from '../i18nForTests'
 import { I18nextProvider } from 'react-i18next'
-
-import OrderDetails from '../pages/ProcessDetails.page'
+import ProcessDetails from '@/pages/ProcessDetails.page'
+import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 
 describe('Process Details Page testing', () => {
     const middlewares = [thunk]
     const mockStore = configureStore(middlewares)
     afterEach(cleanup)
 
-    it('should render the correct elements - TopBar, tabs, products, order details and summary', () => {
+    it('should render the correct elements - TopBar, tabs, products', () => {
         const state = reduxState()
         const store = mockStore(state)
         render(
             <Router>
                 <Provider store={store}>
                     <I18nextProvider i18n={i18n}>
-                        <ThemeProvider>{/* <OrderDetails /> */}</ThemeProvider>
+                        <ThemeProvider>
+                            <ProcessDetails />
+                        </ThemeProvider>
                     </I18nextProvider>
                 </Provider>
             </Router>
         )
         //Top Bar
-        // screen.getByTestId('LocalShippingOutlinedIcon')
-        // screen.getByTestId('OrderID')
+        screen.getByTestId('LocalShippingOutlinedIcon')
+        screen.getByText('ABC123')
 
         // Tabs
-        // screen.getByText('Products')
-        // screen.getByText('Order details')
-        // screen.getByText('Summary')
+        screen.getByText('Products')
+        screen.getByText('Details')
+        screen.getByText('Summary')
 
         // Products
-        // screen.getByTestId('LineItems')
+        screen.getByText('Line Item 1')
+    })
 
-        // screen.getByRole('heading', { name: '' })
-        // screen.getByRole('heading', { name: 'CUSTOMER INFORMATION' })
-        // screen.getByText('Address')
-        // screen.getByTestId('LineItems')
+    it('should render the start review button if process.reviewavailable', () => {
+        const state = reduxState(true)
+        const store = mockStore(state)
+        render(
+            <Router>
+                <Provider store={store}>
+                    <I18nextProvider i18n={i18n}>
+                        <ThemeProvider>
+                            <ProcessDetails />
+                        </ThemeProvider>
+                    </I18nextProvider>
+                </Provider>
+            </Router>
+        )
+        // Button
+        screen.getByTestId('EditIcon')
+        screen.getByText('Review')
     })
 })
 
-function reduxState() {
+function reduxState(reviewAvail?: boolean) {
     return {
-        appState: {
-            isSidebarOpen: false
-        },
-        tokenData: {
-            token: 'xxxx'
+        reviewsApi: {
+            createReview: {
+                loading: 'idle'
+            }
         },
         processesApi: {
             getProcess: {
                 loading: 'idle',
-                response: {}
+                response: {
+                    processes: [mockProcess(reviewAvail)]
+                }
             }
         },
         userApi: {
@@ -68,8 +85,29 @@ function reduxState() {
             }
         },
         generalData: {
-            group: 'nudeproject',
-            ecommerceList: ['nudeproject']
+            drawerOpen: false
         }
+    }
+}
+
+function mockProcess(reviewAvail?: boolean): ModelsPublicReturnProcess {
+    return {
+        customer_printed_order_id: 'ABC123',
+        review_available: reviewAvail ? reviewAvail : false,
+        return_status: 'COMPLETED',
+        line_items: [
+            {
+                name: 'Line Item 1',
+                product_return_reason: 'NOT_AS_EXPECTED',
+                quantity: 1,
+                type: 'product',
+                reviews: []
+            },
+            {
+                type: 'cost',
+                name: 'Shipping cost',
+                total: 500
+            }
+        ]
     }
 }
