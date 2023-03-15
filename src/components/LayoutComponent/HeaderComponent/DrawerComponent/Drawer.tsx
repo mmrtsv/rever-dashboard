@@ -21,25 +21,24 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LogoWideWhite from '@/assets/images/icons/LogoWideWhite.svg'
 import { useTheme } from '@itsrever/design-system'
-import { useNavigate } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@/redux/hooks'
 import { toggleDrawer } from '@/redux/features/generalData/generalDataSlice'
 import { useTranslation } from 'react-i18next'
-import { FlagrEvalPost } from '@/services/flagr.api'
 import { useAuth0 } from '@auth0/auth0-react'
 import { resetTokenData } from '@/redux/api/userApi'
 import Mixpanel from '@/mixpanel/Mixpanel'
+import DrawerItem from './DrawerItem/DrawerItem'
+import { FlagrEvalPost } from '@/services/flagr.api'
 
 export const drawerWidth = 240
 export const drawerList1 = ['returns', 'items']
-export const drawerList2 = ['analytics', 'financials', 'returns']
+export const drawerList2 = ['analytics', 'financials', 'returns-analytics']
 
 export interface DrawerProps {
     showAnalytics: boolean
 }
 
 const DrawerComponent = () => {
-    const navigate = useNavigate()
     const theme = useTheme()
     const dispatch = useAppDispatch()
     const { t } = useTranslation()
@@ -49,36 +48,26 @@ const DrawerComponent = () => {
     const isSidebarOpen = useAppSelector(
         (store) => store.generalData.drawerOpen
     )
-    const group = useAppSelector(
-        (store) => store.userApi.getMe.response.user?.group
-    )
 
     const { logout, user } = useAuth0()
     const userName = user?.name?.match(/([^@]+)/) ?? ''
 
-    // Feature flag to control if the analytics menu is shown
-    const [showAnalytics, setShowAnalytics] = useState(true)
-    const [showFinancials, setShowFinancials] = useState(false)
-    const [showReturns, setShowReturns] = useState(false)
-    const [drawerList3, setDrawerList3] = useState<Array<string>>([])
-    const updateDrawerList = () => {
-        if (showFinancials || showReturns) {
-            setShowAnalytics(true)
-            const newDrawerList: string[] = []
-            newDrawerList.push('analytics')
-            if (showFinancials) newDrawerList.push('financials')
-            if (showReturns) newDrawerList.push('returns-analytics')
-
-            return newDrawerList
-        } else {
-            setShowAnalytics(false)
-            return []
-        }
+    const handleDrawer = () => {
+        dispatch(toggleDrawer())
     }
-    useEffect(() => {
-        const updatedList = updateDrawerList()
-        setDrawerList3(updatedList)
-    }, [showFinancials, showReturns])
+
+    const handleLogout = () => {
+        dispatch(resetTokenData())
+        logout({ returnTo: window.location.origin })
+        Mixpanel.track('Logout')
+    }
+
+    const group = useAppSelector(
+        (store) => store.userApi.getMe.response.user?.group
+    )
+
+    const [showFinancials, setShowFinancials] = useState(false)
+
     useEffect(() => {
         const fetchFlagr = async (group: string) => {
             try {
@@ -95,51 +84,10 @@ const DrawerComponent = () => {
         }
         group && fetchFlagr(group)
     }, [group])
-    useEffect(() => {
-        const fetchFlagr = async (group: string) => {
-            try {
-                const response: any = await FlagrEvalPost({
-                    flagID: 38,
-                    entityContext: { group: group }
-                })
-                if (response.variantKey) {
-                    setShowReturns(response.variantKey === 'on')
-                }
-            } catch (error: any) {
-                console.error(error)
-            }
-        }
-        group && fetchFlagr(group)
-    }, [group])
 
-    const handleDrawer = () => {
-        dispatch(toggleDrawer())
-    }
-
-    const handleLogout = () => {
-        dispatch(resetTokenData())
-        logout({ returnTo: window.location.origin })
-        Mixpanel.track('Logout')
-    }
-
-    const navigateMenuOnClick = (text: string) => {
-        switch (text) {
-            case 'returns':
-                navigate('/')
-                break
-            case 'items':
-                navigate('/items')
-                break
-            case 'financials':
-                navigate('/financials')
-                break
-            case 'returns-analytics':
-                navigate('/returns-analytics')
-                break
-            default:
-                break
-        }
-    }
+    const drawerList3 = showFinancials
+        ? drawerList2
+        : drawerList2.filter((item) => item !== 'financials')
 
     return (
         <Drawer
@@ -185,128 +133,77 @@ const DrawerComponent = () => {
                                 disablePadding
                                 data-testid={text}
                             >
-                                <ListItemButton
-                                    onClick={() => navigateMenuOnClick(text)}
-                                >
-                                    <ListItemIcon>
-                                        {text === 'returns' && (
-                                            <div
-                                                style={{
-                                                    color: theme.colors.common
-                                                        .white
-                                                }}
-                                            >
-                                                <OrdersIcon />
-                                            </div>
-                                        )}
-                                        {text === 'items' && (
-                                            <div
-                                                style={{
-                                                    color: theme.colors.common
-                                                        .white
-                                                }}
-                                            >
-                                                <ItemsIcon />
-                                            </div>
-                                        )}
-                                    </ListItemIcon>
-                                    <h6 className="text-lg">
-                                        <b>{t(`drawer_pages.${text}`)}</b>
-                                    </h6>
-                                </ListItemButton>
+                                <DrawerItem
+                                    icon={
+                                        text === 'returns' ? (
+                                            <OrdersIcon />
+                                        ) : (
+                                            <ItemsIcon />
+                                        )
+                                    }
+                                    text={text}
+                                />
                             </ListItem>
                         ))}
                     </List>
                     <Divider />
-                    {showAnalytics && (
-                        <List sx={{ color: theme.colors.common.white }}>
-                            {drawerList3.map((text, i) => (
-                                <ListItem
-                                    key={text}
-                                    disablePadding
-                                    data-testid={text}
-                                >
-                                    {i === 0 && (
-                                        <ListItemButton
-                                            onClick={() =>
-                                                setAnalyticsOpen(!analyticsOpen)
-                                            }
-                                        >
-                                            <ListItemIcon>
-                                                {text === 'analytics' && (
-                                                    <div
-                                                        style={{
-                                                            color: theme.colors
-                                                                .common.white
-                                                        }}
-                                                    >
-                                                        <AnalyticsIcon />
-                                                    </div>
-                                                )}
-                                            </ListItemIcon>
-                                            <h6 className="text-lg">
-                                                <b>
-                                                    {t(`drawer_pages.${text}`)}
-                                                </b>
-                                            </h6>
-                                            {analyticsOpen ? (
-                                                <ExpandLess />
-                                            ) : (
-                                                <ExpandMore />
+                    <List sx={{ color: theme.colors.common.white }}>
+                        {drawerList3.map((text, i) => (
+                            <ListItem
+                                key={text}
+                                disablePadding
+                                data-testid={text}
+                            >
+                                {i === 0 && (
+                                    <ListItemButton
+                                        onClick={() =>
+                                            setAnalyticsOpen(!analyticsOpen)
+                                        }
+                                    >
+                                        <ListItemIcon>
+                                            {text === 'analytics' && (
+                                                <div
+                                                    style={{
+                                                        color: theme.colors
+                                                            .common.white
+                                                    }}
+                                                >
+                                                    <AnalyticsIcon />
+                                                </div>
                                             )}
-                                        </ListItemButton>
-                                    )}
-                                    {i > 0 && (
-                                        <Collapse
-                                            in={analyticsOpen}
-                                            timeout="auto"
-                                            unmountOnExit
-                                            sx={{ width: '100%' }}
-                                        >
-                                            <ListItemButton
-                                                sx={{ pl: 4 }}
-                                                onClick={() =>
-                                                    navigateMenuOnClick(text)
-                                                }
-                                            >
-                                                <ListItemIcon>
-                                                    {text === 'financials' && (
-                                                        <div
-                                                            style={{
-                                                                color: theme
-                                                                    .colors
-                                                                    .common
-                                                                    .white
-                                                            }}
-                                                        >
-                                                            <FinancialsIcon />
-                                                        </div>
-                                                    )}
-
-                                                    {text ===
-                                                        'returns-analytics' && (
-                                                        <div
-                                                            style={{
-                                                                color: theme
-                                                                    .colors
-                                                                    .common
-                                                                    .white
-                                                            }}
-                                                        >
-                                                            <ReturnsIcon />
-                                                        </div>
-                                                    )}
-                                                </ListItemIcon>
-                                                <h6 className="text-lg">
-                                                    {t(`drawer_pages.${text}`)}
-                                                </h6>
-                                            </ListItemButton>
-                                        </Collapse>
-                                    )}
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
+                                        </ListItemIcon>
+                                        <h6 className="text-lg">
+                                            <b>{t(`drawer_pages.${text}`)}</b>
+                                        </h6>
+                                        {analyticsOpen ? (
+                                            <ExpandLess />
+                                        ) : (
+                                            <ExpandMore />
+                                        )}
+                                    </ListItemButton>
+                                )}
+                                {i > 0 && (
+                                    <Collapse
+                                        in={analyticsOpen}
+                                        timeout="auto"
+                                        unmountOnExit
+                                        sx={{ width: '100%' }}
+                                    >
+                                        <DrawerItem
+                                            icon={
+                                                text === 'financials' ? (
+                                                    <FinancialsIcon />
+                                                ) : (
+                                                    <ReturnsIcon />
+                                                )
+                                            }
+                                            text={text}
+                                        />
+                                    </Collapse>
+                                )}
+                            </ListItem>
+                        ))}
+                    </List>
                     <Divider />
                 </div>
                 <div className="w-full">
