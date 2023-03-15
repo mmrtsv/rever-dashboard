@@ -128,9 +128,7 @@ const DetailsTab = () => {
                                 : t('order_details.shipping_status')}
                         </TrackingLink>
                     ) : (
-                        <h6 className="overflow-scroll">
-                            {t('order_details.shipping_status')}
-                        </h6>
+                        <h6>-</h6>
                     )}
                     <div className="truncate">
                         <ShippingStatus

@@ -34,7 +34,10 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
         shippingStatus = lastKnownShippingStatus
     }
 
-    const showReviewStatus = returnStatus === 'COMPLETED'
+    const showReviewStatus =
+        returnStatus === 'COMPLETED' &&
+        lineItem.reviews &&
+        lineItem.reviews.length > 0
 
     let reviewStatus = 0
     if (lineItem.reviews && lineItem.reviews?.length > 0) {
@@ -54,7 +57,11 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
         )
 
     return (
-        <SplitLineItemCard key={lineItem.rever_id} className="cursor-pointer">
+        <SplitLineItemCard
+            key={lineItem.rever_id}
+            className="cursor-pointer"
+            data-testid="SplitLineItem"
+        >
             <Link to={`/details/${lineItem.rever_id}`}>
                 <Box>
                     <div className="flex justify-center">

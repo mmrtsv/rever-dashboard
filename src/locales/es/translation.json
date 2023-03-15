@@ -1,4 +1,7 @@
 {
+    "process_details": {
+        "review": "Revisar"
+    },
     "line_item_review_status": {
         "accepted": "Aceptado",
         "declined": "Rechazado",
@@ -105,6 +108,7 @@
         "missing": "Perdido",
         "review": "Revisar",
         "submit": "Enviar revisión",
+        "reject_title": "Motivo de rechazo",
         "total": "Items totales",
         "review_status": "Estado de la revisión",
         "order": "Pedido",
@@ -138,7 +142,8 @@
         "items_title": "Artículos"
     },
     "review_toast": {
-        "success": "¡Hemos registrado la revisión! Reembolsaremos los artículos aceptados",
+        "success1": "¡Hemos registrado la revisión!",
+        "success2": "Reembolsaremos los artículos aceptados",
         "error": "Algo ha ido mal... Por favor, inténtalo más tarde"
     }
 }

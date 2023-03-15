@@ -74,7 +74,6 @@ const MainDiv = styled.div`
 
 const TabsDiv = styled.div`
     background-color: #fff;
-    padding-top: 0.3rem;
     border-bottom: solid 1px #ccc;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;

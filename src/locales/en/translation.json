@@ -1,4 +1,7 @@
 {
+    "process_details": {
+        "review": "Review"
+    },
     "line_item_review_status": {
         "accepted": "Accepted",
         "declined": "Declined",
@@ -105,6 +108,7 @@
         "missing": "Missing",
         "review": "Review",
         "submit": "Submit Review",
+        "reject_title": "Reason for rejection",
         "total": "Total items",
         "review_status": "Review status",
         "order": "Order",
@@ -138,7 +142,8 @@
         "items_title": "Items"
     },
     "review_toast": {
-        "success": "We have registered your review! The 'Accepted' item(s) will be refunded",
+        "success1": "We have registered your review!",
+        "success2": "The accepted item(s) will be refunded",
         "error": "Something went wrong... Please try again later"
     }
 }

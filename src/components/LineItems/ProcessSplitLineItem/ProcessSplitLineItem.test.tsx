@@ -41,7 +41,7 @@ describe('Process Split Line Item tests', () => {
 
     it('should display the review status when conditions are met', () => {
         // CONDITIONS
-        // process.return_status = COMPLETED
+        // process.return_status = COMPLETED && reviews.length > 0
 
         const item: ModelsPublicReturnLineItem = lineItem()
 

@@ -28,7 +28,7 @@ describe('Process detail tabs', () => {
         screen.getByText('Summary')
     })
 
-    it('should render run setCurrentTab when a new tab is clicked', () => {
+    it('should run setCurrentTab when a new tab is clicked', () => {
         const spyOnChangeTab = vi.fn()
 
         render(

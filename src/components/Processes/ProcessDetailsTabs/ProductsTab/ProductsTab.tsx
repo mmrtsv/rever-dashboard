@@ -1,27 +1,54 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import {
     ModelsReturnLineItem,
     OpsapiModelsLineItemReview
 } from '@itsrever/dashboard-api'
-import device from '@/utils/device'
-import {
-    SelectMenu,
-    SelectItem,
-    Modal,
-    Button,
-    toast
-} from '@itsrever/design-system'
+import LostIcon from '@mui/icons-material/SearchOff'
+import ReturnedIcon from '@mui/icons-material/Cached'
+import TitlesSplitLineItem from '@/components/LineItems/ProcessSplitLineItem/TitlesSplitLineItem/TitlesSplitLineItem'
+import { SelectMenu, SelectItem, Button } from '@itsrever/design-system'
 import { ProcessSplitLineItem } from '@/components/LineItems'
-import { createReview, resetReviewsApiCalls } from '@/redux/api/reviewsApi'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from '@/redux/hooks'
 import { useTranslation } from 'react-i18next'
-import { FormControl, TextField } from '@mui/material'
+import { useCreateReviews } from '@/hooks'
 import { useTheme } from '@itsrever/design-system'
+import RejectReasonModal from './RejectReasonModal/RejectReasonModal'
 
-interface Review extends OpsapiModelsLineItemReview {
+export interface Review extends OpsapiModelsLineItemReview {
     index: number
+}
+
+export function addOrUpdateReview(
+    reviews: Review[],
+    setReviews: (reviews: Review[]) => void,
+    index: number,
+    lineItemId: string,
+    value: string,
+    rejectReason?: string
+) {
+    const alreadyReviewed = reviews.some((r) => r.index === index)
+    let newReview: Review = {
+        line_item_id: lineItemId,
+        status: value,
+        index
+    }
+    if (rejectReason) newReview = { ...newReview, reject_reason: rejectReason }
+    if (alreadyReviewed) {
+        const updatedReviews = reviews.map((r) => {
+            if (r.index === index) {
+                return newReview
+            }
+            return r
+        })
+        setReviews(updatedReviews)
+    } else {
+        setReviews([
+            ...reviews.slice(0, index),
+            newReview,
+            ...reviews.slice(index)
+        ])
+    }
 }
 
 interface ProductsProps {
@@ -29,10 +56,8 @@ interface ProductsProps {
 }
 
 const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
-    const navigate = useNavigate()
-    const dispatch = useAppDispatch()
-    const { t } = useTranslation()
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const responseProcess = useAppSelector(
         (store) => store.processesApi.getProcess.response.processes
@@ -42,187 +67,120 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
             ? responseProcess[0]
             : undefined
 
-    // Map line items to print real items
     const products =
         process && process.line_items?.filter((item) => item.type === 'product')
-    const mappedProducts =
+
+    // Returned products
+    const returnedProducts =
         products &&
         products.flatMap((lineItem) => {
             const items: Array<ModelsReturnLineItem> = []
             if (lineItem.quantity && lineItem.reviews) {
                 for (let i = 0; i < lineItem.quantity; i++) {
-                    items.push({
-                        ...lineItem,
-                        reviews: lineItem.reviews[i]
-                            ? [lineItem.reviews[i]]
-                            : []
-                    })
+                    if (lineItem.product_return_reason !== 'NOT_RECEIVED')
+                        items.push({
+                            ...lineItem,
+                            reviews: lineItem.reviews[i]
+                                ? [lineItem.reviews[i]]
+                                : []
+                        })
                 }
             }
             return items
         })
 
-    const createReviewStatus = useAppSelector(
-        (state) => state.reviewsApi.createReview
-    )
-
-    //This logic is not correct. It should be:
-    // const needsReview = process?.review_available === true
-    const [reviews, setReviews] = useState<Array<Review>>([])
-
-    function addOrUpdateReview(
-        reviews: Review[],
-        line_item_id: string,
-        status: string,
-        index: number,
-        reject_reason?: string
-    ) {
-        let reviewExists = false
-        const updatedReviews = reviews.map((review) => {
-            if (review.index === index) {
-                reviewExists = true
-                if (reject_reason) {
-                    return { ...review, status, reject_reason }
-                } else {
-                    return { ...review, status }
+    // Not received products
+    const notReceivedProducts =
+        products &&
+        products.flatMap((lineItem) => {
+            const items: Array<ModelsReturnLineItem> = []
+            if (lineItem.quantity && lineItem.reviews) {
+                for (let i = 0; i < lineItem.quantity; i++) {
+                    if (lineItem.product_return_reason === 'NOT_RECEIVED')
+                        items.push({
+                            ...lineItem,
+                            reviews: lineItem.reviews[i]
+                                ? [lineItem.reviews[i]]
+                                : []
+                        })
                 }
             }
-            return review
+            return items
         })
-        if (!reviewExists) {
-            if (reject_reason) {
-                updatedReviews.push({
-                    line_item_id,
-                    status,
-                    index,
-                    reject_reason
-                })
-            } else {
-                updatedReviews.push({
-                    line_item_id,
-                    status,
-                    index
-                })
-            }
-        }
-        setReviews(updatedReviews)
-    }
 
-    const [rejectModal, setRejectModal] = useState(false)
-    const [rejectReview, setRejectReview] = useState<Review | undefined>()
-    const [rejectReason, setRejectReason] = useState('')
-    const handleSubmitReject = () => {
-        rejectReview &&
-            handleChange(
-                rejectReview?.line_item_id,
-                'DECLINED',
-                rejectReview?.index,
-                rejectReason
-            )
-        setRejectModal(false)
-        setRejectReason('')
-        setRejectReview(undefined)
-    }
+    const [reviews, setReviews] = useState<Array<Review>>([])
+    const [rejectModalOpen, setRejectModalOpen] = useState(-1)
 
     const handleChange = (
-        id: string | undefined | null,
+        lineItemId: string | undefined | null,
         value: string,
-        index: number,
-        reject_reason?: string
+        index: number
     ) => {
-        if (value === 'DECLINED' && !reject_reason) {
-            setRejectModal(true)
-            setRejectReview({
-                line_item_id: id,
-                status: value,
-                index,
-                reject_reason: ''
-            })
-        } else if (value === 'DECLINED' && reject_reason) {
-            id && addOrUpdateReview(reviews, id, value, index, reject_reason)
+        if (value.includes('DECLINED')) {
+            setRejectModalOpen(index)
         } else {
-            id && addOrUpdateReview(reviews, id, value, index)
+            addOrUpdateReview(
+                reviews,
+                setReviews,
+                index,
+                lineItemId ?? '',
+                value
+            )
         }
     }
-    useEffect(() => {
-        if (createReviewStatus.loading === 'succeeded') {
-            toast({
-                variant: 'success',
-                text: t('review_toast.success')
-            })
-            setTimeout(() => {
-                navigate('/')
-            }, 2000)
-            dispatch(resetReviewsApiCalls())
-        } else if (createReviewStatus.loading === 'failed') {
-            toast({
-                variant: 'error',
-                text: t('review_toast.error')
-            })
-            dispatch(resetReviewsApiCalls())
-        }
-    }, [createReviewStatus.loading, createReviewStatus.response])
+
+    const { createNewReview } = useCreateReviews()
 
     const handleSubmitReview = () => {
-        const newReviews = reviews.map((item) => {
+        const reviewsApiFormat = reviews.map((item) => {
             const { index, ...rest } = item
             return rest
         })
-        dispatch(
-            createReview({
-                createLineItemReviewsInput: {
-                    process_id: process?.process_id,
-                    reviews: newReviews
+        const notReceivedItemsReviews: OpsapiModelsLineItemReview[] =
+            notReceivedProducts?.map((litem) => {
+                return {
+                    line_item_id: litem.rever_id,
+                    status: 'APPROVED'
                 }
-            })
+            }) ?? []
+        createNewReview(
+            process?.process_id ?? '',
+            reviewsApiFormat.concat(notReceivedItemsReviews)
         )
     }
-
-    useEffect(() => {
-        reviewMode &&
-            mappedProducts &&
-            mappedProducts.map((item, index) => {
-                item.product_return_reason === 'NOT_RECEIVED' &&
-                    handleChange(item.rever_id, 'APPROVED', index)
-            })
-    }, [reviewMode])
 
     return (
         <ProductsBox data-testid="LineItems">
             <div className="p-8">
-                <TitlesDiv>
-                    <h6 className="text-grey-1 text-center">
-                        <b>{t('order_details.image')}</b>
-                    </h6>
-                    <DissapearingH6L className="text-grey-1 col-span-2">
-                        <b>{t('order_details.product_name')}</b>
-                    </DissapearingH6L>
-                    <h6 className="text-grey-1 text-center">
-                        <b>{t('order_details.price')}</b>
-                    </h6>
-                    <h6 className="text-grey-1 text-center">
-                        <b>{t('order_details.status')}</b>
-                    </h6>
-                </TitlesDiv>
-                {mappedProducts &&
-                    mappedProducts.map((lineItem, i) => {
-                        return (
-                            <ItemsDiv key={i}>
-                                <div className="w-full md:max-w-[70%]">
-                                    <ProcessSplitLineItem
-                                        lineItem={lineItem}
-                                        moneyFormat={
-                                            process.currency_money_format ?? {}
-                                        }
-                                        returnStatus={process.return_status}
-                                        lastKnownShippingStatus={
-                                            process.last_known_shipping_status
-                                        }
-                                    />
-                                </div>
-                                {reviewMode &&
-                                    lineItem.product_return_reason !=
-                                        'NOT_RECEIVED' && (
+                {returnedProducts && returnedProducts.length > 0 && (
+                    <>
+                        <TitlesSplitLineItem
+                            title={'Returned items'}
+                            icon={
+                                <ReturnedIcon
+                                    style={{
+                                        color: `${theme.colors.grey[0]}`
+                                    }}
+                                />
+                            }
+                        />
+                        {returnedProducts.map((lineItem, i) => {
+                            return (
+                                <ItemsDiv key={i}>
+                                    <div className="w-full md:max-w-[70%]">
+                                        <ProcessSplitLineItem
+                                            lineItem={lineItem}
+                                            moneyFormat={
+                                                process.currency_money_format ??
+                                                {}
+                                            }
+                                            returnStatus={process.return_status}
+                                            lastKnownShippingStatus={
+                                                process.last_known_shipping_status
+                                            }
+                                        />
+                                    </div>
+                                    {reviewMode && (
                                         <>
                                             <MenuDiv>
                                                 <SelectMenu
@@ -236,12 +194,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                                                             lineItem.rever_id,
                                                             e.currentTarget
                                                                 .value,
-                                                            i,
-                                                            e.currentTarget
-                                                                .value ===
-                                                                'DECLINED'
-                                                                ? ''
-                                                                : undefined
+                                                            i
                                                         )
                                                     }}
                                                 >
@@ -262,111 +215,66 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                                                     </SelectItem>
                                                 </SelectMenu>
                                             </MenuDiv>
-                                            <Modal
-                                                isOpen={rejectModal}
-                                                onRequestClose={() =>
-                                                    setRejectModal(false)
+                                            <RejectReasonModal
+                                                index={i}
+                                                isOpen={rejectModalOpen === i}
+                                                setIsOpen={setRejectModalOpen}
+                                                reviews={reviews}
+                                                setReviews={setReviews}
+                                                lineItemId={
+                                                    lineItem.rever_id ?? ''
                                                 }
-                                            >
-                                                <FormControl
-                                                    data-testid="reject"
-                                                    sx={{ width: 550 }}
-                                                >
-                                                    <TextField
-                                                        InputProps={{
-                                                            disableUnderline:
-                                                                true,
-                                                            sx: {
-                                                                height: 130
-                                                            }
-                                                        }}
-                                                        sx={{
-                                                            marginBottom:
-                                                                '1rem',
-                                                            '& label.Mui-focused':
-                                                                {
-                                                                    color: theme
-                                                                        .colors
-                                                                        .common
-                                                                        .black
-                                                                },
-                                                            '& .MuiInput-underline:after':
-                                                                {
-                                                                    borderBottomColor:
-                                                                        theme
-                                                                            .colors
-                                                                            .primary
-                                                                            .dark
-                                                                },
-                                                            '& .MuiOutlinedInput-root':
-                                                                {
-                                                                    '& fieldset':
-                                                                        {
-                                                                            borderColor:
-                                                                                theme
-                                                                                    .colors
-                                                                                    .primary
-                                                                                    .dark,
-                                                                            backgroundColor:
-                                                                                'transparent'
-                                                                        },
-                                                                    '&:hover fieldset':
-                                                                        {
-                                                                            borderColor:
-                                                                                theme
-                                                                                    .colors
-                                                                                    .primary
-                                                                                    .dark
-                                                                        },
-                                                                    '&.Mui-focused fieldset':
-                                                                        {
-                                                                            borderColor:
-                                                                                theme
-                                                                                    .colors
-                                                                                    .primary
-                                                                                    .dark,
-                                                                            backgroundColor:
-                                                                                'transparent'
-                                                                        }
-                                                                }
-                                                        }}
-                                                        label={t(
-                                                            'order_details.decline_reason'
-                                                        )}
-                                                        value={rejectReason}
-                                                        onChange={(e) =>
-                                                            setRejectReason(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                    <Button
-                                                        disabled={
-                                                            rejectReason === ''
-                                                        }
-                                                        onClick={() =>
-                                                            handleSubmitReject()
-                                                        }
-                                                    >
-                                                        {t(
-                                                            'order_details.submit'
-                                                        )}
-                                                    </Button>
-                                                </FormControl>
-                                            </Modal>
+                                            />
                                         </>
                                     )}
-                            </ItemsDiv>
-                        )
-                    })}
+                                </ItemsDiv>
+                            )
+                        })}
+                    </>
+                )}
                 {reviewMode && (
                     <div className="mt-4 flex w-full justify-center md:mt-8">
                         <Button
-                            disabled={reviews.length !== mappedProducts?.length}
-                            onClick={() => handleSubmitReview()}
+                            disabled={
+                                reviews.length !== returnedProducts?.length
+                            }
+                            onClick={handleSubmitReview}
                         >
                             {t('order_details.submit')}
                         </Button>
+                    </div>
+                )}
+                {notReceivedProducts && notReceivedProducts.length > 0 && (
+                    <div className="mt-6">
+                        <TitlesSplitLineItem
+                            title={'Items not received'}
+                            icon={
+                                <LostIcon
+                                    style={{
+                                        color: `${theme.colors.grey[0]}`
+                                    }}
+                                />
+                            }
+                        />
+                        {notReceivedProducts.map((lineItem, i) => {
+                            return (
+                                <ItemsDiv key={i}>
+                                    <div className="w-full md:max-w-[70%]">
+                                        <ProcessSplitLineItem
+                                            lineItem={lineItem}
+                                            moneyFormat={
+                                                process.currency_money_format ??
+                                                {}
+                                            }
+                                            returnStatus={process.return_status}
+                                            lastKnownShippingStatus={
+                                                process.last_known_shipping_status
+                                            }
+                                        />
+                                    </div>
+                                </ItemsDiv>
+                            )
+                        })}
                     </div>
                 )}
             </div>
@@ -376,25 +284,8 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
 
 export default ProductsTab
 
-const TitlesDiv = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
-    padding: 1rem;
-    @media ${device.md} {
-        max-width: 70%;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-`
-
 const ProductsBox = styled.div`
     height: 100%;
-`
-
-const DissapearingH6L = styled.h6`
-    @media (max-width: 899px) {
-        display: none;
-    }
 `
 
 const MenuDiv = styled.div`

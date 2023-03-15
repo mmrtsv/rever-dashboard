@@ -16,7 +16,7 @@ import ProductsTab from '@/components/Processes/ProcessDetailsTabs/ProductsTab/P
 import device from '@/utils/device'
 
 function ProcessDetails() {
-    const { i18n } = useTranslation()
+    const { i18n, t } = useTranslation()
 
     // Find process
     const processID = window.location.pathname.split('/').pop()
@@ -56,17 +56,14 @@ function ProcessDetails() {
                         </Title>
                         <Title className="mt-2">{returnDate}</Title>
                     </div>
-                    {/* process?.review_available && */}
-                    {process?.ReviewFlow === 'MANUAL' &&
-                        process.return_status != 'COMPLETED' &&
-                        !reviewMode && (
-                            <Button
-                                onClick={handleClickReview}
-                                iconLeft={<EditIcon />}
-                            >
-                                Review
-                            </Button>
-                        )}
+                    {process?.review_available && !reviewMode && (
+                        <Button
+                            onClick={handleClickReview}
+                            iconLeft={<EditIcon />}
+                        >
+                            {t('process_details.review')}
+                        </Button>
+                    )}
                 </TopDiv>
                 <DetailTabs
                     currentTab={currentTab}

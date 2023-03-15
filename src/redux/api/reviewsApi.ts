@@ -2,7 +2,6 @@ import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { axiosInstance } from './apiConfiguration'
 import {
-    CreateLineItemReviewsInput,
     ReviewsApi,
     ReviewsApiCreateLineItemReviewsRequest
 } from '@itsrever/dashboard-api'
@@ -10,7 +9,7 @@ import {
 const reviewsApi = new ReviewsApi(undefined, undefined, axiosInstance)
 
 interface CreateReviewCall extends ApiCallBase {
-    response: any
+    response: null
 }
 
 interface State {
@@ -38,8 +37,7 @@ const reviewsApiSlice = createSlice({
     reducers: {
         resetReviewsApiCalls: (state) => {
             state.createReview = {
-                ...initialApiState,
-                response: state.createReview.response
+                ...initialApiState
             }
         }
     },
@@ -47,9 +45,8 @@ const reviewsApiSlice = createSlice({
         builder.addCase(createReview.pending, (state) => {
             state.createReview.loading = 'pending'
         })
-        builder.addCase(createReview.fulfilled, (state, action) => {
+        builder.addCase(createReview.fulfilled, (state) => {
             state.createReview.loading = 'succeeded'
-            state.createReview.response = action.payload
         })
         builder.addCase(createReview.rejected, (state, action) => {
             state.createReview.loading = 'failed'
