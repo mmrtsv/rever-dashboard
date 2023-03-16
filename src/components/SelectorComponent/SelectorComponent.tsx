@@ -20,6 +20,7 @@ const SelectorComponent = () => {
     )
 
     const handleChange = (name: string | undefined) => {
+        localStorage.setItem('selectedEcommerce', name ?? '')
         dispatch(setSelectedEcommerce(name))
         setMenu(null)
     }

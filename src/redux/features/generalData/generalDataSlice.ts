@@ -50,7 +50,7 @@ interface State {
 }
 
 const initialState: State = {
-    selectedEcommerce: undefined,
+    selectedEcommerce: localStorage.getItem('selectedEcommerce') ?? undefined,
     limitPagination: 10,
     drawerOpen: window.innerWidth >= 900
 }

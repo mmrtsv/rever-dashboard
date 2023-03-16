@@ -2,6 +2,8 @@ import { initialApiState, ApiCallBase } from './apiConfiguration'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { MeUserResponse, AuthApi } from '@itsrever/dashboard-api'
 import { axiosInstance } from './apiConfiguration'
+import { setSelectedEcommerce } from '../features/generalData/generalDataSlice'
+import { useAppDispatch } from '../hooks'
 
 const authApi = new AuthApi(undefined, undefined, axiosInstance)
 
@@ -21,6 +23,12 @@ const initialState: State = {
 
 export const getMe = createAsyncThunk('/getMe', async () => {
     const getMeResponse = await authApi.me()
+    const ecom = localStorage.getItem('selectedEcommerce') ?? undefined
+    if (ecom && !getMeResponse.data.user?.ecommerces?.includes(ecom)) {
+        const dispatch = useAppDispatch()
+        localStorage.removeItem('selectedEcommerce')
+        dispatch(setSelectedEcommerce(undefined))
+    }
     return getMeResponse.data
 })
 

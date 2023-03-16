@@ -39,6 +39,14 @@ function ProcessDetails() {
         process?.return_status === 'REVIEW_REQUIRED'
     )
 
+    const returnedItems =
+        process?.line_items &&
+        process.line_items.some(
+            (litem) => litem.product_return_reason !== 'NOT_RECEIVED'
+        )
+    const showReviewButton =
+        !reviewMode && process?.review_available && returnedItems
+
     return (
         <PageComponent>
             <Main>
@@ -52,7 +60,7 @@ function ProcessDetails() {
                         </Title>
                         <Title className="mt-2">{returnDate}</Title>
                     </div>
-                    {process?.review_available && !reviewMode && (
+                    {showReviewButton && (
                         <Button
                             onClick={() => setReviewMode(true)}
                             iconLeft={<EditIcon />}
