@@ -20,7 +20,8 @@ const SelectorComponent = () => {
     )
 
     const handleChange = (name: string | undefined) => {
-        localStorage.setItem('selectedEcommerce', name ?? '')
+        if (name) localStorage.setItem('selectedEcommerce', name)
+        else localStorage.removeItem('selectedEcommerce')
         dispatch(setSelectedEcommerce(name))
         setMenu(null)
     }
