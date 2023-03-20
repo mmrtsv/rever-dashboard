@@ -13,7 +13,7 @@ describe('TopBar LI tests', () => {
     afterEach(cleanup)
 
     it('should render the title, the tabs', () => {
-        const state = reduxState([])
+        const state = reduxState(10)
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -32,11 +32,12 @@ describe('TopBar LI tests', () => {
         screen.getByText('Returned items')
         screen.getByText('All')
         screen.getByText('Pending to receive')
+        screen.getByText('Action required')
         screen.getByText('Received')
     })
 
     it('should render the amount of items on each tab', () => {
-        const state = reduxState([])
+        const state = reduxState(10)
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -54,11 +55,12 @@ describe('TopBar LI tests', () => {
 
         screen.getByText('(100)')
         screen.getByText('(45)')
+        screen.getByText('(10)')
         screen.getByText('(55)')
     })
 
     it('should run the function setCurrentTab when a tab is clicked', () => {
-        const state = reduxState([])
+        const state = reduxState(10)
         const mockStore = configureStore()
         const store = mockStore(state)
 
@@ -82,15 +84,34 @@ describe('TopBar LI tests', () => {
 
         expect(spyOnChangeTab).toHaveBeenCalled()
     })
+
+    it('should  not render a tab if the rowcount is 0', () => {
+        const state = reduxState(0)
+        const mockStore = configureStore()
+        const store = mockStore(state)
+
+        render(
+            <Router>
+                <ThemeProvider>
+                    <Provider store={store}>
+                        <I18nextProvider i18n={i18n}>
+                            <TopBar currentTab={0} setCurrentTab={() => null} />
+                        </I18nextProvider>
+                    </Provider>
+                </ThemeProvider>
+            </Router>
+        )
+        expect(screen.queryByText('Action required')).toBeNull()
+    })
 })
 
-function reduxState(ecommerces: string[]) {
+function reduxState(rowcount: number) {
     return {
         userApi: {
             getMe: {
                 response: {
                     user: {
-                        ecommerces: ecommerces
+                        ecommerces: []
                     }
                 },
                 loading: 'idle'
@@ -104,6 +125,10 @@ function reduxState(ecommerces: string[]) {
             getPendingLineItems: {
                 loading: 'idle',
                 response: { rowcount: 45 }
+            },
+            getReviewRequiredLineItems: {
+                loading: 'idle',
+                response: { rowcount: rowcount }
             },
             getLineItems: {
                 loading: '',

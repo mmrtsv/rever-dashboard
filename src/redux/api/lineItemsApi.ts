@@ -17,6 +17,7 @@ interface State {
     getLineItem: GetLineItemsCall
     getLineItems: GetLineItemsCall
     getPendingLineItems: GetLineItemsCall
+    getReviewRequiredLineItems: GetLineItemsCall
     getCompletedLineItems: GetLineItemsCall
 }
 
@@ -24,6 +25,7 @@ const initialState: State = {
     getLineItem: initialApiState,
     getLineItems: initialApiState,
     getPendingLineItems: initialApiState,
+    getReviewRequiredLineItems: initialApiState,
     getCompletedLineItems: initialApiState
 }
 
@@ -38,7 +40,8 @@ const defaultValueLineItems: ProcessesApiFindLineItemsRequest = {
     platform: undefined,
     processId: undefined,
     status: undefined,
-    lineItemsId: undefined
+    lineItemsId: undefined,
+    returnStatus: undefined
 }
 
 export const getLineItem = createAsyncThunk(
@@ -52,34 +55,49 @@ export const getLineItem = createAsyncThunk(
     }
 )
 
-export const getCompletedLineItems = createAsyncThunk(
-    '/getCompletedLineItems',
-    async (args?: ProcessesApiFindLineItemsRequest) => {
-        const { limit, offset, freetext, ecommerceId } =
-            args || defaultValueLineItems
-        const lastKnownShippingStatus = 'IN_WAREHOUSE'
-        const getLineItemsResponse = await lineItemsApi.findLineItems({
-            lastKnownShippingStatus,
-            freetext,
-            limit,
-            offset,
-            ecommerceId
-        })
-        return getLineItemsResponse.data
-    }
-)
 export const getPendingLineItems = createAsyncThunk(
     '/getPendingLineItems',
     async (args?: ProcessesApiFindLineItemsRequest) => {
         const { limit, offset, freetext, ecommerceId } =
             args || defaultValueLineItems
-        const lastKnownShippingStatus = 'NO_SHIPPING_STATUS, CREATED, COLLECTED'
         const getLineItemsResponse = await lineItemsApi.findLineItems({
-            lastKnownShippingStatus,
             freetext,
             limit,
             offset,
-            ecommerceId
+            ecommerceId,
+            returnStatus: 'STARTED,COLLECTED'
+        })
+        return getLineItemsResponse.data
+    }
+)
+
+export const getReviewRequiredLineItems = createAsyncThunk(
+    '/getReviewRequiredLineItems',
+    async (args?: ProcessesApiFindLineItemsRequest) => {
+        const { limit, offset, freetext, ecommerceId } =
+            args || defaultValueLineItems
+        const getLineItemsResponse = await lineItemsApi.findLineItems({
+            freetext,
+            limit,
+            offset,
+            ecommerceId,
+            returnStatus: 'REVIEW_REQUIRED'
+        })
+        return getLineItemsResponse.data
+    }
+)
+
+export const getCompletedLineItems = createAsyncThunk(
+    '/getCompletedLineItems',
+    async (args?: ProcessesApiFindLineItemsRequest) => {
+        const { limit, offset, freetext, ecommerceId } =
+            args || defaultValueLineItems
+        const getLineItemsResponse = await lineItemsApi.findLineItems({
+            freetext,
+            limit,
+            offset,
+            ecommerceId,
+            returnStatus: 'COMPLETED'
         })
         return getLineItemsResponse.data
     }
@@ -98,7 +116,8 @@ export const getLineItems = createAsyncThunk(
             orderId,
             platform,
             processId,
-            status
+            status,
+            returnStatus
         } = args || defaultValueLineItems
         const getLineItemsResponse = await lineItemsApi.findLineItems({
             ecommerceId,
@@ -110,7 +129,8 @@ export const getLineItems = createAsyncThunk(
             orderId,
             platform,
             processId,
-            status
+            status,
+            returnStatus
         })
         return getLineItemsResponse.data
     }
@@ -153,18 +173,37 @@ const lineItemsSlice = createSlice({
             state.getLineItem.error = action.error
         })
 
-        // Line Items
-        builder.addCase(getLineItems.pending, (state) => {
-            state.getLineItems.loading = 'pending'
+        // Pending Line Items
+        builder.addCase(getPendingLineItems.pending, (state) => {
+            state.getPendingLineItems.loading = 'pending'
         })
-        builder.addCase(getLineItems.fulfilled, (state, action) => {
-            state.getLineItems.loading = 'succeeded'
-            state.getLineItems.response = action.payload
+        builder.addCase(getPendingLineItems.fulfilled, (state, action) => {
+            state.getPendingLineItems.loading = 'succeeded'
+            state.getPendingLineItems.response = action.payload
         })
-        builder.addCase(getLineItems.rejected, (state, action) => {
-            state.getLineItems.loading = 'failed'
-            state.getLineItems.error = action.error
+        builder.addCase(getPendingLineItems.rejected, (state, action) => {
+            state.getPendingLineItems.loading = 'failed'
+            state.getPendingLineItems.error = action.error
         })
+
+        // Review Required Line Items
+        builder.addCase(getReviewRequiredLineItems.pending, (state) => {
+            state.getReviewRequiredLineItems.loading = 'pending'
+        })
+        builder.addCase(
+            getReviewRequiredLineItems.fulfilled,
+            (state, action) => {
+                state.getReviewRequiredLineItems.loading = 'succeeded'
+                state.getReviewRequiredLineItems.response = action.payload
+            }
+        )
+        builder.addCase(
+            getReviewRequiredLineItems.rejected,
+            (state, action) => {
+                state.getReviewRequiredLineItems.loading = 'failed'
+                state.getReviewRequiredLineItems.error = action.error
+            }
+        )
 
         // Completed Line Items
         builder.addCase(getCompletedLineItems.pending, (state) => {
@@ -179,17 +218,17 @@ const lineItemsSlice = createSlice({
             state.getCompletedLineItems.error = action.error
         })
 
-        // Pending Line Items
-        builder.addCase(getPendingLineItems.pending, (state) => {
-            state.getPendingLineItems.loading = 'pending'
+        // Line Items
+        builder.addCase(getLineItems.pending, (state) => {
+            state.getLineItems.loading = 'pending'
         })
-        builder.addCase(getPendingLineItems.fulfilled, (state, action) => {
-            state.getPendingLineItems.loading = 'succeeded'
-            state.getPendingLineItems.response = action.payload
+        builder.addCase(getLineItems.fulfilled, (state, action) => {
+            state.getLineItems.loading = 'succeeded'
+            state.getLineItems.response = action.payload
         })
-        builder.addCase(getPendingLineItems.rejected, (state, action) => {
-            state.getPendingLineItems.loading = 'failed'
-            state.getPendingLineItems.error = action.error
+        builder.addCase(getLineItems.rejected, (state, action) => {
+            state.getLineItems.loading = 'failed'
+            state.getLineItems.error = action.error
         })
     }
 })

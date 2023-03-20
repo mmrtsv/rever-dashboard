@@ -11,14 +11,13 @@ import { useAppSelector } from '@/redux/hooks'
 import {
     useSearchLineItems,
     useSearchPendingLineItems,
-    useSearchCompletedLineItems
+    useSearchCompletedLineItems,
+    useSearchReviewRequiredLineItems
 } from '@/hooks'
 
 function Orders() {
     const { t } = useTranslation()
     const theme = useTheme()
-
-    const Limit = useAppSelector((store) => store.generalData.limitPagination)
 
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
@@ -36,6 +35,7 @@ function Orders() {
     function resetPages() {
         setActualPage(0)
         setActualPagePending(0)
+        setActualPageRevReq(0)
         setActualPageCompl(0)
     }
 
@@ -47,14 +47,21 @@ function Orders() {
     const LineItemsCall = useAppSelector(
         (store) => store.lineItemsApi.getLineItems.response
     )
-    useSearchLineItems(actualPage, Limit, FreeText)
+    useSearchLineItems(actualPage, FreeText)
 
     // Pending to receive LI
     const [actualPagePending, setActualPagePending] = useState<number>(0)
     const PendingLineItemsCall = useAppSelector(
         (store) => store.lineItemsApi.getPendingLineItems.response
     )
-    useSearchPendingLineItems(actualPagePending, Limit, FreeText)
+    useSearchPendingLineItems(actualPagePending, FreeText)
+
+    // Review required LI
+    const [actualPageRevReq, setActualPageRevReq] = useState<number>(0)
+    const RevReLineItemsCall = useAppSelector(
+        (store) => store.lineItemsApi.getReviewRequiredLineItems.response
+    )
+    useSearchReviewRequiredLineItems(actualPageRevReq, FreeText)
 
     // Received Line Items
     const [actualPageCompl, setActualPageCompl] = useState<number>(0)
@@ -110,6 +117,13 @@ function Orders() {
                                 totalLineItems={PendingLineItemsCall.rowcount}
                             />
                         ) : currentTab === 2 ? (
+                            <LineItemsTable
+                                actualPage={actualPageRevReq}
+                                setActualPage={setActualPageRevReq}
+                                lineItems={RevReLineItemsCall.line_items}
+                                totalLineItems={RevReLineItemsCall.rowcount}
+                            />
+                        ) : currentTab === 3 ? (
                             <LineItemsTable
                                 actualPage={actualPageCompl}
                                 setActualPage={setActualPageCompl}

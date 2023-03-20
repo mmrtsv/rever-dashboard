@@ -71,6 +71,7 @@ export const getPendingProcesses = createAsyncThunk(
         return getPendingProcessesResponse.data
     }
 )
+
 export const getReviewRequiredProcesses = createAsyncThunk(
     '/getReviewRequiredProcesses',
     async (args: ProcessesApiFindProcessesRequest) => {

@@ -50,6 +50,10 @@ function reduxState() {
                 loading: 'idle',
                 response: { next: '', rowcount: 17, line_items: [] }
             },
+            getReviewRequiredLineItems: {
+                loading: 'idle',
+                response: { next: '', rowcount: 17, line_items: [] }
+            },
             getCompletedLineItems: {
                 loading: 'idle',
                 response: { next: '', rowcount: 17, line_items: [] }

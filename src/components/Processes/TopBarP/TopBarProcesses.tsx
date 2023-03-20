@@ -112,8 +112,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                             }`
                                         }}
                                     >
-                                        {totalPendingProcesses &&
-                                            '(' + totalPendingProcesses + ')'}
+                                        {'(' + totalPendingProcesses + ')'}
                                     </p>
                                 </SmallTotalDiv>
                             }
@@ -153,10 +152,9 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                             }`
                                         }}
                                     >
-                                        {totalActionRequiredProcesses &&
-                                            '(' +
-                                                totalActionRequiredProcesses +
-                                                ')'}
+                                        {'(' +
+                                            totalActionRequiredProcesses +
+                                            ')'}
                                     </p>
                                 </SmallTotalDiv>
                             }
@@ -195,8 +193,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                             }`
                                         }}
                                     >
-                                        {totalCompletedProcesses &&
-                                            '(' + totalCompletedProcesses + ')'}
+                                        {'(' + totalCompletedProcesses + ')'}
                                     </p>
                                 </SmallTotalDiv>
                             }

@@ -91,6 +91,7 @@
         "returned_items": "Returned items",
         "all": "All",
         "pending": "Pending to receive",
+        "review_required": "Action required",
         "received": "Received"
     },
     "order_details": {

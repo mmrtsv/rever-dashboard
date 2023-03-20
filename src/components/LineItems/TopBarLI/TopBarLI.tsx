@@ -20,6 +20,10 @@ const TopBarLI: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
     const totalPending = useAppSelector(
         (store) => store.lineItemsApi.getPendingLineItems.response.rowcount
     )
+    const totalRevReq = useAppSelector(
+        (store) =>
+            store.lineItemsApi.getReviewRequiredLineItems.response.rowcount
+    )
     const totalCompleted = useAppSelector(
         (store) => store.lineItemsApi.getCompletedLineItems.response.rowcount
     )
@@ -76,77 +80,123 @@ const TopBarLI: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                             </SmallTotalDiv>
                         }
                     />
-                    <Tab
-                        style={{
-                            color: `${
-                                currentTab === 1
-                                    ? theme.colors.primary.dark
-                                    : theme.colors.grey[1]
-                            }`
-                        }}
-                        iconPosition="end"
-                        icon={
-                            <SmallTotalDiv
-                                style={{
-                                    backgroundColor: `${
-                                        currentTab === 1
-                                            ? 'aliceblue'
-                                            : theme.colors.grey[5]
-                                    }`
-                                }}
-                            >
-                                <p
-                                    className="text-xs"
+                    {totalPending && totalPending > 0 ? (
+                        <Tab
+                            style={{
+                                color: `${
+                                    currentTab === 1
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[1]
+                                }`
+                            }}
+                            iconPosition="end"
+                            icon={
+                                <SmallTotalDiv
                                     style={{
-                                        color: `${
+                                        backgroundColor: `${
                                             currentTab === 1
-                                                ? theme.colors.primary.light
-                                                : theme.colors.grey[0]
+                                                ? 'aliceblue'
+                                                : theme.colors.grey[5]
                                         }`
                                     }}
                                 >
-                                    {totalPending && '(' + totalPending + ')'}
-                                </p>
-                            </SmallTotalDiv>
-                        }
-                        label={t('topbar_items.pending')}
-                    />
-                    <Tab
-                        style={{
-                            color: `${
-                                currentTab === 2
-                                    ? theme.colors.primary.dark
-                                    : theme.colors.grey[1]
-                            }`
-                        }}
-                        iconPosition="end"
-                        icon={
-                            <SmallTotalDiv
-                                style={{
-                                    backgroundColor: `${
-                                        currentTab === 2
-                                            ? 'aliceblue'
-                                            : theme.colors.grey[5]
-                                    }`
-                                }}
-                            >
-                                <p
-                                    className="text-xs"
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color: `${
+                                                currentTab === 1
+                                                    ? theme.colors.primary.light
+                                                    : theme.colors.grey[0]
+                                            }`
+                                        }}
+                                    >
+                                        {'(' + totalPending + ')'}
+                                    </p>
+                                </SmallTotalDiv>
+                            }
+                            label={t('topbar_items.pending')}
+                        />
+                    ) : (
+                        <div />
+                    )}
+                    {totalRevReq && totalRevReq > 0 ? (
+                        <Tab
+                            style={{
+                                color: `${
+                                    currentTab === 2
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[1]
+                                }`
+                            }}
+                            iconPosition="end"
+                            icon={
+                                <SmallTotalDiv
                                     style={{
-                                        color: `${
+                                        backgroundColor: `${
                                             currentTab === 2
-                                                ? theme.colors.primary.light
-                                                : theme.colors.grey[0]
+                                                ? 'aliceblue'
+                                                : theme.colors.grey[5]
                                         }`
                                     }}
                                 >
-                                    {totalCompleted &&
-                                        '(' + totalCompleted + ')'}
-                                </p>
-                            </SmallTotalDiv>
-                        }
-                        label={t('topbar_items.received')}
-                    />
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color: `${
+                                                currentTab === 2
+                                                    ? theme.colors.primary.light
+                                                    : theme.colors.grey[0]
+                                            }`
+                                        }}
+                                    >
+                                        {'(' + totalRevReq + ')'}
+                                    </p>
+                                </SmallTotalDiv>
+                            }
+                            label={t('topbar_items.review_required')}
+                        />
+                    ) : (
+                        <div />
+                    )}
+                    {totalCompleted && totalCompleted > 0 ? (
+                        <Tab
+                            style={{
+                                color: `${
+                                    currentTab === 3
+                                        ? theme.colors.primary.dark
+                                        : theme.colors.grey[1]
+                                }`
+                            }}
+                            iconPosition="end"
+                            icon={
+                                <SmallTotalDiv
+                                    style={{
+                                        backgroundColor: `${
+                                            currentTab === 3
+                                                ? 'aliceblue'
+                                                : theme.colors.grey[5]
+                                        }`
+                                    }}
+                                >
+                                    <p
+                                        className="text-xs"
+                                        style={{
+                                            color: `${
+                                                currentTab === 3
+                                                    ? theme.colors.primary.light
+                                                    : theme.colors.grey[0]
+                                            }`
+                                        }}
+                                    >
+                                        {'(' + totalCompleted + ')'}
+                                    </p>
+                                </SmallTotalDiv>
+                            }
+                            label={t('topbar_items.received')}
+                        />
+                    ) : (
+                        <div />
+                    )}
                 </Tabs>
             </TabsDiv>
         </HigherDiv>

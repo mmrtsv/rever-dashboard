@@ -91,6 +91,7 @@
         "returned_items": "Artículos devueltos",
         "all": "Todos",
         "pending": "Pendiente de recibir",
+        "review_required": "Acción requerida",
         "received": "Recibido"
     },
     "order_details": {

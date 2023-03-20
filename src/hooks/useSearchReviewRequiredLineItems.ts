@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
-import { getLineItems } from '../redux/api/lineItemsApi'
+import { getReviewRequiredLineItems } from '../redux/api/lineItemsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
-export function useSearchLineItems(pageNum: number, freeText: string) {
+export function useSearchReviewRequiredLineItems(
+    pageNum: number,
+    freeText: string
+) {
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
     const limit = useAppSelector((store) => store.generalData.limitPagination)
@@ -15,23 +18,23 @@ export function useSearchLineItems(pageNum: number, freeText: string) {
         if (token)
             if (freeText.length > 2) {
                 dispatch(
-                    getLineItems({
+                    getReviewRequiredLineItems({
+                        ecommerceId: selectedEcommerce,
                         freetext: freeText,
                         offset: pageNum * limit,
-                        limit: limit,
-                        ecommerceId: selectedEcommerce
+                        limit: limit
                     })
                 )
             } else if (freeText.length === 0) {
                 dispatch(
-                    getLineItems({
+                    getReviewRequiredLineItems({
+                        ecommerceId: selectedEcommerce,
                         offset: pageNum * limit,
-                        limit: limit,
-                        ecommerceId: selectedEcommerce
+                        limit: limit
                     })
                 )
             }
-    }, [pageNum, limit, freeText, selectedEcommerce, token])
+    }, [pageNum, freeText, selectedEcommerce, token, limit])
 }
 
-export default useSearchLineItems
+export default useSearchReviewRequiredLineItems
