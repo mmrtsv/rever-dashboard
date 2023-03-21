@@ -511,10 +511,10 @@
   dependencies:
     axios "1.2.2"
 
-"@itsrever/design-system@^1.0.48":
-  version "1.0.48"
-  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.48/d3b069cea53329570dea9d544fceab809375aa0c#d3b069cea53329570dea9d544fceab809375aa0c"
-  integrity sha512-NtgE+bhpU55Ji2HQK1uLD9kro7DPYiaRfgUCsyTSUKkeqbwHa8CUZN4GbCUKKTZT115Qazyo1Q5h5IfQ9lRurw==
+"@itsrever/design-system@^1.0.53":
+  version "1.0.53"
+  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.53/7a26b5294b24e9e0a56aa29b3d1c9407df5244c0#7a26b5294b24e9e0a56aa29b3d1c9407df5244c0"
+  integrity sha512-EjM2+JTU8fMYC3n2PxbdBpg6ULhZ3p4gx12cJWeJqe92oycS0x5PpX3WFz29X4EgHeY+na7ycrb2OqugO1nFtQ==
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"

@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { useCreateReviews } from '@/hooks'
 import { useTheme } from '@itsrever/design-system'
 import RejectReasonModal from './RejectReasonModal/RejectReasonModal'
+import { RefundTimings } from '@/redux/features/generalData/generalDataSlice'
 
 export interface Review extends OpsapiModelsLineItemReview {
     index: number
@@ -111,6 +112,11 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
     const [reviews, setReviews] = useState<Array<Review>>([])
     const [rejectModalOpen, setRejectModalOpen] = useState(-1)
 
+    const manualReview = process?.ReviewFlow === 'MANUAL'
+    const onlyDeclined =
+        notReceivedProducts?.length === 0 &&
+        !reviews.some((r) => r.status === 'APPROVED')
+
     const handleChange = (
         lineItemId: string | undefined | null,
         value: string,
@@ -129,7 +135,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
         }
     }
 
-    const { createNewReview } = useCreateReviews()
+    const { createNewReview } = useCreateReviews(manualReview, onlyDeclined)
 
     const handleSubmitReview = () => {
         const reviewsApiFormat = reviews.map((item) => {

@@ -60,7 +60,7 @@
     },
     "devDependencies": {
         "@itsrever/dashboard-api": "^1.0.157",
-        "@itsrever/design-system": "^1.0.48",
+        "@itsrever/design-system": "^1.0.53",
         "@itsrever/returns-api-types": "^0.0.84",
         "@testing-library/react": "^13.4.0",
         "@types/mixpanel-browser": "^2.38.0",

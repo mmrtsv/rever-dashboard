@@ -145,6 +145,7 @@
     "review_toast": {
         "success1": "We have registered your review!",
         "success2": "The accepted item(s) will be refunded",
-        "error": "Something went wrong... Please try again later"
+        "error": "Something went wrong... Please try again later",
+        "only_declined": "We will not refund these items"
     }
 }

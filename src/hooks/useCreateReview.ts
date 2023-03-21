@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { createReview, resetReviewsApiCalls } from '@/redux/api/reviewsApi'
 import { OpsapiModelsLineItemReview } from '@itsrever/dashboard-api'
 
-export function useCreateReviews() {
+export function useCreateReviews(manualReview: boolean, onlyDeclined: boolean) {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const { t } = useTranslation()
@@ -31,14 +31,32 @@ export function useCreateReviews() {
 
     useEffect(() => {
         if (createReviewCall.loading === 'succeeded') {
-            toast({
-                variant: 'success',
-                text: t('review_toast.success1')
-            })
-            toast({
-                variant: 'success',
-                text: t('review_toast.success2')
-            })
+            if (manualReview) {
+                if (onlyDeclined) {
+                    toast({
+                        variant: 'info',
+                        text: t('review_toast.success1')
+                    })
+                    toast({
+                        variant: 'info',
+                        text: t('review_toast.only_declined')
+                    })
+                } else {
+                    toast({
+                        variant: 'success',
+                        text: t('review_toast.success1')
+                    })
+                    toast({
+                        variant: 'success',
+                        text: t('review_toast.success2')
+                    })
+                }
+            } else {
+                toast({
+                    variant: 'info',
+                    text: t('review_toast.success1')
+                })
+            }
             setTimeout(() => {
                 navigate('/')
             }, 2000)
