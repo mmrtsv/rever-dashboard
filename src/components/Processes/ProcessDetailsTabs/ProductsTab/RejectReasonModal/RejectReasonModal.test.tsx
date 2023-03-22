@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import i18n from '@/i18nForTests'
 import { I18nextProvider } from 'react-i18next'
 import { ThemeProvider } from '@itsrever/design-system'
-import { Review } from '../ProductsTab'
+import { OpsapiModelsLineItemReview } from '@itsrever/dashboard-api'
 
 describe('Products Tab test', () => {
     afterEach(cleanup)
@@ -20,6 +20,7 @@ describe('Products Tab test', () => {
                             index={0}
                             isOpen={true}
                             setIsOpen={() => null}
+                            setReviewOpen={() => null}
                             reviews={[]}
                             setReviews={() => null}
                             lineItemId="ID"
@@ -43,6 +44,7 @@ describe('Products Tab test', () => {
                             index={0}
                             isOpen={true}
                             setIsOpen={setIsOpen}
+                            setReviewOpen={() => null}
                             reviews={[]}
                             setReviews={() => null}
                             lineItemId="ID"
@@ -65,9 +67,8 @@ describe('Products Tab test', () => {
     it('should call setReviews if closed and item was already reviewed', () => {
         const setReviews = vi.fn()
 
-        const tmp: Review = {
-            line_item_id: 'ID',
-            index: 0
+        const tmp: OpsapiModelsLineItemReview = {
+            line_item_id: 'ID'
         }
         render(
             <Router>
@@ -77,6 +78,7 @@ describe('Products Tab test', () => {
                             index={0}
                             isOpen={true}
                             setIsOpen={() => null}
+                            setReviewOpen={() => null}
                             reviews={[tmp]}
                             setReviews={setReviews}
                             lineItemId="ID"

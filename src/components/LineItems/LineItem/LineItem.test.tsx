@@ -56,7 +56,7 @@ describe('Line Item test', () => {
             </Router>
         )
         screen.getByTestId('SuccessIcon')
-        screen.getByText('Accepted')
+        screen.getByText('Approved')
     })
 })
 

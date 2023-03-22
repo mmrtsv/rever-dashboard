@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {
     ModelsReturnLineItem,
@@ -7,49 +7,33 @@ import {
 import LostIcon from '@mui/icons-material/SearchOff'
 import ReturnedIcon from '@mui/icons-material/Cached'
 import TitlesSplitLineItem from '@/components/LineItems/ProcessSplitLineItem/TitlesSplitLineItem/TitlesSplitLineItem'
-import { SelectMenu, SelectItem, Button } from '@itsrever/design-system'
-import { ProcessSplitLineItem } from '@/components/LineItems'
+import { Button } from '@itsrever/design-system'
+import { LineItemStatus, ProcessSplitLineItem } from '@/components/LineItems'
 import { useAppSelector } from '@/redux/hooks'
 import { useTranslation } from 'react-i18next'
 import { useCreateReviews } from '@/hooks'
 import { useTheme } from '@itsrever/design-system'
 import RejectReasonModal from './RejectReasonModal/RejectReasonModal'
-import { RefundTimings } from '@/redux/features/generalData/generalDataSlice'
-
-export interface Review extends OpsapiModelsLineItemReview {
-    index: number
-}
 
 export function addOrUpdateReview(
-    reviews: Review[],
-    setReviews: (reviews: Review[]) => void,
+    reviews: OpsapiModelsLineItemReview[],
+    setReviews: (reviews: OpsapiModelsLineItemReview[]) => void,
+    setReviewOpen: (open: number) => void,
     index: number,
     lineItemId: string,
     value: string,
     rejectReason?: string
 ) {
-    const alreadyReviewed = reviews.some((r) => r.index === index)
-    let newReview: Review = {
+    let newReview: OpsapiModelsLineItemReview = {
         line_item_id: lineItemId,
-        status: value,
-        index
+        status: value
     }
     if (rejectReason) newReview = { ...newReview, reject_reason: rejectReason }
-    if (alreadyReviewed) {
-        const updatedReviews = reviews.map((r) => {
-            if (r.index === index) {
-                return newReview
-            }
-            return r
-        })
-        setReviews(updatedReviews)
-    } else {
-        setReviews([
-            ...reviews.slice(0, index),
-            newReview,
-            ...reviews.slice(index)
-        ])
-    }
+
+    const newReviews = [...reviews]
+    newReviews[index] = newReview
+    setReviews(newReviews)
+    setReviewOpen(-1)
 }
 
 interface ProductsProps {
@@ -109,7 +93,20 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
             return items
         })
 
-    const [reviews, setReviews] = useState<Array<Review>>([])
+    const emptyReview: OpsapiModelsLineItemReview = {
+        line_item_id: '',
+        status: ''
+    }
+    const [reviews, setReviews] = useState<Array<OpsapiModelsLineItemReview>>(
+        []
+    )
+
+    useEffect(() => {
+        const revs = Array(returnedProducts?.length).fill(emptyReview)
+        setReviews(revs)
+    }, [returnedProducts?.length])
+
+    const [reviewOpen, setReviewOpen] = useState(-1)
     const [rejectModalOpen, setRejectModalOpen] = useState(-1)
 
     const manualReview = process?.ReviewFlow === 'MANUAL'
@@ -128,6 +125,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
             addOrUpdateReview(
                 reviews,
                 setReviews,
+                setReviewOpen,
                 index,
                 lineItemId ?? '',
                 value
@@ -138,10 +136,6 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
     const { createNewReview } = useCreateReviews(manualReview, onlyDeclined)
 
     const handleSubmitReview = () => {
-        const reviewsApiFormat = reviews.map((item) => {
-            const { index, ...rest } = item
-            return rest
-        })
         const notReceivedItemsReviews: OpsapiModelsLineItemReview[] =
             notReceivedProducts?.map((litem) => {
                 return {
@@ -151,7 +145,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
             }) ?? []
         createNewReview(
             process?.process_id ?? '',
-            reviewsApiFormat.concat(notReceivedItemsReviews)
+            reviews.concat(notReceivedItemsReviews)
         )
     }
 
@@ -161,7 +155,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                 {returnedProducts && returnedProducts.length > 0 && (
                     <>
                         <TitlesSplitLineItem
-                            title={'Returned items'}
+                            title={t('process_details.returned_items')}
                             icon={
                                 <ReturnedIcon
                                     style={{
@@ -173,7 +167,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                         {returnedProducts.map((lineItem, i) => {
                             return (
                                 <ItemsDiv key={i}>
-                                    <div className="w-full md:max-w-[70%]">
+                                    <div className="h-full w-full md:max-w-[70%]">
                                         <ProcessSplitLineItem
                                             lineItem={lineItem}
                                             moneyFormat={
@@ -187,51 +181,105 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                                         />
                                     </div>
                                     {reviewMode && (
-                                        <>
-                                            <MenuDiv>
-                                                <SelectMenu
-                                                    menuName="review"
-                                                    label={t(
-                                                        'order_details.review'
-                                                    )}
-                                                    defaultValue="Review"
-                                                    onChange={(e) => {
-                                                        handleChange(
-                                                            lineItem.rever_id,
-                                                            e.currentTarget
-                                                                .value,
-                                                            i
-                                                        )
-                                                    }}
+                                        <MenuDiv>
+                                            {reviewOpen !== i ? (
+                                                <OptionDiv
+                                                    onClick={() =>
+                                                        setReviewOpen(i)
+                                                    }
                                                 >
-                                                    <SelectItem value="APPROVED">
-                                                        {t(
-                                                            'order_details.approve'
+                                                    <Box>
+                                                        {reviews[i].status ? (
+                                                            <LineItemStatus
+                                                                status={
+                                                                    reviews[i]
+                                                                        .status ===
+                                                                    'APPROVED'
+                                                                        ? 0
+                                                                        : reviews[
+                                                                              i
+                                                                          ]
+                                                                              .status ===
+                                                                          'DECLINED'
+                                                                        ? 1
+                                                                        : 2
+                                                                }
+                                                            />
+                                                        ) : (
+                                                            t(
+                                                                'order_details.review'
+                                                            )
                                                         )}
-                                                    </SelectItem>
-                                                    <SelectItem value="DECLINED">
-                                                        {t(
-                                                            'order_details.decline'
-                                                        )}
-                                                    </SelectItem>
-                                                    <SelectItem value="MISSING">
-                                                        {t(
-                                                            'order_details.missing'
-                                                        )}
-                                                    </SelectItem>
-                                                </SelectMenu>
-                                            </MenuDiv>
+                                                    </Box>
+                                                </OptionDiv>
+                                            ) : (
+                                                <>
+                                                    <OptionDiv
+                                                        onClick={() =>
+                                                            handleChange(
+                                                                lineItem.rever_id,
+                                                                'APPROVED',
+                                                                i
+                                                            )
+                                                        }
+                                                    >
+                                                        <Box>
+                                                            <p className="text-center">
+                                                                {t(
+                                                                    'order_details.approve'
+                                                                )}
+                                                            </p>
+                                                        </Box>
+                                                    </OptionDiv>
+                                                    <OptionDiv
+                                                        onClick={() =>
+                                                            handleChange(
+                                                                lineItem.rever_id,
+                                                                'DECLINED',
+                                                                i
+                                                            )
+                                                        }
+                                                    >
+                                                        <Box>
+                                                            <p className="text-center">
+                                                                {t(
+                                                                    'order_details.decline'
+                                                                )}
+                                                            </p>
+                                                        </Box>
+                                                    </OptionDiv>
+                                                    <OptionDiv
+                                                        onClick={() =>
+                                                            handleChange(
+                                                                lineItem.rever_id,
+                                                                'MISSING',
+                                                                i
+                                                            )
+                                                        }
+                                                    >
+                                                        <Box>
+                                                            <p className="text-center">
+                                                                {t(
+                                                                    'order_details.missing'
+                                                                )}
+                                                            </p>
+                                                        </Box>
+                                                    </OptionDiv>
+                                                </>
+                                            )}
+
                                             <RejectReasonModal
                                                 index={i}
                                                 isOpen={rejectModalOpen === i}
                                                 setIsOpen={setRejectModalOpen}
                                                 reviews={reviews}
                                                 setReviews={setReviews}
+                                                setReviewOpen={setReviewOpen}
                                                 lineItemId={
                                                     lineItem.rever_id ?? ''
                                                 }
                                             />
-                                        </>
+                                        </MenuDiv>
                                     )}
                                 </ItemsDiv>
                             )
@@ -241,9 +289,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                 {reviewMode && (
                     <div className="mt-4 flex w-full justify-center md:mt-8">
                         <Button
-                            disabled={
-                                reviews.length !== returnedProducts?.length
-                            }
+                            disabled={reviews.some((r) => !r.status)}
                             onClick={handleSubmitReview}
                         >
                             {t('order_details.submit')}
@@ -253,7 +299,7 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                 {notReceivedProducts && notReceivedProducts.length > 0 && (
                     <div className="mt-6">
                         <TitlesSplitLineItem
-                            title={'Items not received'}
+                            title={t('process_details.not_received')}
                             icon={
                                 <LostIcon
                                     style={{
@@ -295,17 +341,34 @@ const ProductsBox = styled.div`
 `
 
 const MenuDiv = styled.div`
-    height: fit-content;
     width: fit-content;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-left: 1.5rem;
+`
+
+const OptionDiv = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+`
+
+const Box = styled.div`
+    width: 100%;
+    height: fit-content;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.3rem;
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    margin-left: 2rem;
+    padding: 0.31rem;
+    cursor: pointer;
+    &:hover {
+        background-color: #e5e5e5;
+    }
 `
 
 const ItemsDiv = styled.div`
     display: flex;
-    flex-direction: row;
-    align-items: center;
 `

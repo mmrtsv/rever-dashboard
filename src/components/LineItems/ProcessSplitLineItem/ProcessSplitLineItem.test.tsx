@@ -58,7 +58,7 @@ describe('Process Split Line Item tests', () => {
             </Router>
         )
         screen.getByTestId('SuccessIcon')
-        screen.getByText('Accepted')
+        screen.getByText('Approved')
     })
 })
 

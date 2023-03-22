@@ -12,8 +12,8 @@ const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
     const { t } = useTranslation()
     return (
         <>
-            <div className="flex flex-row items-center">
-                {icon && <>{icon}</>}
+            <div className="flex w-fit flex-row items-center">
+                {icon && icon}
                 <h3 className="text-grey-1 ml-2 text-lg">{title && title}</h3>
             </div>
             <TitlesDiv>
@@ -37,7 +37,7 @@ const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
 export default TitlesSplitLineItem
 
 const DissapearingH6L = styled.h6`
-    @media (max-width: 899px) {
+    @media (max-width: 599px) {
         display: none;
     }
 `

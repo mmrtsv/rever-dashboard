@@ -57,11 +57,7 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
         )
 
     return (
-        <SplitLineItemCard
-            key={lineItem.rever_id}
-            className="cursor-pointer"
-            data-testid="SplitLineItem"
-        >
+        <SplitLineItemCard key={lineItem.rever_id} data-testid="SplitLineItem">
             <Link to={`/details/${lineItem.rever_id}`}>
                 <Box>
                     <div className="flex justify-center">
@@ -90,9 +86,6 @@ export default ProcessSplitLineItem
 
 const Price = styled.p`
     text-align: center;
-    @media (max-width: 599px) {
-        display: none;
-    }
 `
 
 const Box = styled.div`
@@ -112,7 +105,7 @@ const Box = styled.div`
 
 const ItemName = styled.p`
     grid-column: span 2 / span 2;
-    @media (max-width: 899px) {
+    @media (max-width: 599px) {
         display: none;
     }
 `

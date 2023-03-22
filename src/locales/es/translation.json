@@ -1,9 +1,11 @@
 {
     "process_details": {
-        "review": "Revisar"
+        "review": "Revisar",
+        "returned_items": "Artículos devueltos",
+        "not_received": "Artículos no recibidos"
     },
     "line_item_review_status": {
-        "accepted": "Aceptado",
+        "approved": "Aceptado",
         "declined": "Rechazado",
         "missing": "Perdido"
     },

@@ -10,7 +10,7 @@ export const ItemStatuses = [
         enum: 0,
         name: 'ACCEPTED',
         color: '#00b0a6',
-        text: 'accepted'
+        text: 'approved'
     },
     {
         enum: 1,

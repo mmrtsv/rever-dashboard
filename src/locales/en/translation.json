@@ -1,9 +1,11 @@
 {
     "process_details": {
-        "review": "Review"
+        "review": "Review",
+        "returned_items": "Returned items",
+        "not_received": "Items not received"
     },
     "line_item_review_status": {
-        "accepted": "Accepted",
+        "approved": "Approved",
         "declined": "Declined",
         "missing": "Missing"
     },

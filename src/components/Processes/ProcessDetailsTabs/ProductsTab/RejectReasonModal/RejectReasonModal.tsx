@@ -4,15 +4,16 @@ import { Modal, Button, toast } from '@itsrever/design-system'
 import { useTheme } from '@itsrever/design-system'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { Review } from '../ProductsTab'
 import { addOrUpdateReview } from '../ProductsTab'
+import { OpsapiModelsLineItemReview } from '@itsrever/dashboard-api'
 
 interface ModalProps {
     index: number
     isOpen: boolean
     setIsOpen: (open: number) => void
-    reviews: Review[]
-    setReviews: (reviews: Review[]) => void
+    reviews: OpsapiModelsLineItemReview[]
+    setReviews: (reviews: OpsapiModelsLineItemReview[]) => void
+    setReviewOpen: (open: number) => void
     lineItemId: string
 }
 
@@ -22,6 +23,7 @@ const RejectReasonModal: React.FC<ModalProps> = ({
     setIsOpen,
     reviews,
     setReviews,
+    setReviewOpen,
     lineItemId
 }) => {
     const { t } = useTranslation()
@@ -30,11 +32,14 @@ const RejectReasonModal: React.FC<ModalProps> = ({
     const rejectReason = useRef<HTMLInputElement>(null)
 
     const handleCloseModal = () => {
-        const alreadyReviewed = reviews.some((r) => r.index === index)
-        if (alreadyReviewed) {
-            const newReviews = reviews.filter((r) => r.index !== index)
-            setReviews(newReviews)
-        }
+        addOrUpdateReview(
+            reviews,
+            setReviews,
+            setReviewOpen,
+            index,
+            lineItemId,
+            ''
+        )
         setIsOpen(-1)
         toast({
             variant: 'error',
@@ -48,6 +53,7 @@ const RejectReasonModal: React.FC<ModalProps> = ({
             addOrUpdateReview(
                 reviews,
                 setReviews,
+                setReviewOpen,
                 index,
                 lineItemId,
                 'DECLINED',

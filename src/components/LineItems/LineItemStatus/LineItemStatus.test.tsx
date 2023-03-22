@@ -25,7 +25,7 @@ describe('Line Item Status tests', () => {
         )
         // ACCEPTED
         screen.getByTestId('SuccessIcon')
-        screen.getByText('Accepted')
+        screen.getByText('Approved')
 
         // DECLINED
         screen.getByTestId('ErrorIcon')
