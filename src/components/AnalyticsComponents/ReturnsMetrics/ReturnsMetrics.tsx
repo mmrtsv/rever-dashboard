@@ -11,19 +11,18 @@ import moment from 'moment'
 import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
 import device from '@/utils/device'
 import DonutComponent from '../DonutComponent/DonutComponent'
+import countries from '../../../utils/countries.json'
 import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
 import { useTranslation } from 'react-i18next'
 import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
 import LineChartComponent from '../LineChartComponent/LineChartComponent'
-import useCountries from '@/hooks/useCountries'
-import { useAppSelector } from '@/redux/hooks'
 
 interface ReturnsMetricsProps {
     currentPeriod: number
 }
 
 const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
-    const { t } = useTranslation()
+    const { i18n } = useTranslation()
     const theme = useTheme()
 
     // Set up date ranges for the page
@@ -44,10 +43,10 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     const returns = returnMetrics && returnMetrics.Returns
 
     const labelsCompensations = [
-        t('returns_analytics.refunds'),
-        t('returns_analytics.exchanges'),
-        t('returns_analytics.opm'),
-        t('returns_analytics.store_credit')
+        'Refunds',
+        'Exchanges',
+        'Original Payment Method',
+        'Store Credit'
     ]
 
     let totalCompensation = 0
@@ -82,15 +81,26 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
     const valuesCountries = returnsByCountry?.map((value) => {
         return Math.round(value.percentage ?? 0)
     })
-    const countries = useAppSelector((s) => s.locationsApi.countries.response)
-    const labelsCountries = returnsByCountry?.map((info) => {
-        const country = countries.find((c) => c.iso === info.country)
-        return info.country === 'OTHER'
-            ? t('returns_analytics.others')
-            : country?.nicename ?? info.country ?? ''
+    function translateCountryName(countryCode: string, i18nLanguage: string) {
+        const country = countries.countries.find((c) => c.code === countryCode)
+        if (!country) {
+            return ''
+        }
+        return i18nLanguage === 'es' ? country.name_es : country.name_en
+    }
+    const translatedCountries =
+        returnsByCountry &&
+        returnsByCountry.map((c) => {
+            return {
+                count: c.count,
+                country:
+                    c.country && translateCountryName(c.country, i18n.language),
+                percentage: c.percentage
+            }
+        })
+    const labelsCountries = translatedCountries?.map((data) => {
+        return data.country ?? ''
     })
-
-    const { loadedC } = useCountries()
 
     return (
         <>
@@ -113,7 +123,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                         <b>{returns}</b>
                                     </Title>
                                     <Subtitle className="text-center">
-                                        {t('returns_analytics.title_returns')}
+                                        total returns
                                     </Subtitle>
                                 </div>
                             </div>
@@ -134,7 +144,7 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                         <b>{RDVPercentage}%</b>
                                     </Title>
                                     <Subtitle className="text-center">
-                                        {t('returns_analytics.title_rdv')}
+                                        of retained dollar value (RDV)
                                     </Subtitle>
                                 </div>
                             </div>
@@ -165,33 +175,29 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                     </div>
 
                                     <Subtitle className="text-center">
-                                        {t('returns_analytics.title_sales')}
+                                        of new sales generated
                                     </Subtitle>
                                 </div>
                             </div>
                         </ReverSuccessBox>
                     </TopInfo>
                     <LineChartComponent
-                        title={t('returns_analytics.title_returned_items')}
+                        title="Returned items"
                         values={itemsReturnedByDay ?? []}
                         days={datesOfReturns ?? []}
                     />
                     <CompensationsDiv>
                         <DonutBox borderColor={theme.colors.grey[3]}>
-                            {returnsByCountry && loadedC && (
+                            {returnsByCountry && (
                                 <DonutComponent
-                                    title={t(
-                                        'returns_analytics.title_countries'
-                                    )}
+                                    title="Countries"
                                     labels={labelsCountries}
                                     values={valuesCountries}
                                 />
                             )}
                             {returnMetrics?.refunds_types && (
                                 <DonutComponent
-                                    title={t(
-                                        'returns_analytics.title_compensations'
-                                    )}
+                                    title="Compensation methods"
                                     labels={labelsCompensations}
                                     values={valuesCompensations}
                                 />
