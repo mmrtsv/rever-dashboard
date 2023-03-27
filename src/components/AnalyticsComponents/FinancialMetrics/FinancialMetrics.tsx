@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import { useTheme } from '@itsrever/design-system'
-import useSearchFinancialReport from '../../../hooks/useSearchFinancialReport'
-import moment from 'moment'
 import { formatPrice } from '../../../utils'
-import device from '@/utils/device'
 import { ReportsReportResponse } from '@itsrever/dashboard-api'
 
 interface FinancialMetricsProps {

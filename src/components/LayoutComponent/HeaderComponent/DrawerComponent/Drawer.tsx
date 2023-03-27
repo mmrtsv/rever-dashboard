@@ -19,6 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import OrdersIcon from '@mui/icons-material/Rule'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
+import Transit from '@mui/icons-material/AirlineStops'
 import LogoWideWhite from '@/assets/images/icons/LogoWideWhite.svg'
 import { useTheme } from '@itsrever/design-system'
 import { useAppSelector, useAppDispatch } from '@/redux/hooks'
@@ -32,7 +33,12 @@ import { FlagrEvalPost } from '@/services/flagr.api'
 
 export const drawerWidth = 240
 export const drawerList1 = ['returns', 'items']
-export const drawerList2 = ['analytics', 'financials', 'returns-analytics']
+export const drawerList2 = [
+    'analytics',
+    'financials',
+    'returns-analytics',
+    'transit-analytics'
+]
 
 export interface DrawerProps {
     showAnalytics: boolean
@@ -67,27 +73,45 @@ const DrawerComponent = () => {
     )
 
     const [showFinancials, setShowFinancials] = useState(false)
+    const [showTransit, setShowTransit] = useState(false)
 
     useEffect(() => {
+        let ignore = false
         const fetchFlagr = async (group: string) => {
             try {
-                const response: any = await FlagrEvalPost({
+                const responseFinancials: any = await FlagrEvalPost({
                     flagID: 37,
                     entityContext: { group: group }
                 })
-                if (response.variantKey) {
-                    setShowFinancials(response.variantKey === 'on')
+                const responseTransit: any = await FlagrEvalPost({
+                    flagID: 100,
+                    entityContext: { group: group }
+                })
+                if (responseFinancials.variantKey) {
+                    setShowFinancials(responseFinancials.variantKey === 'on')
+                }
+                if (responseTransit.variantKey) {
+                    setShowTransit(responseFinancials.variantKey === 'on')
                 }
             } catch (error: any) {
                 console.error(error)
             }
         }
-        group && fetchFlagr(group)
+        if (group && !ignore) fetchFlagr(group)
+        return () => {
+            ignore = true
+        }
     }, [group])
 
-    const drawerList3 = showFinancials
-        ? drawerList2
-        : drawerList2.filter((item) => item !== 'financials')
+    const drawerList3 = drawerList2.filter((elem) => {
+        if (elem === 'financials') {
+            if (showFinancials) return elem
+        } else if (elem === 'transit-analytics') {
+            if (showTransit) return elem
+        } else {
+            return elem
+        }
+    })
 
     return (
         <Drawer
@@ -193,6 +217,9 @@ const DrawerComponent = () => {
                                             icon={
                                                 text === 'financials' ? (
                                                     <FinancialsIcon />
+                                                ) : text ===
+                                                  'transit-analytics' ? (
+                                                    <Transit />
                                                 ) : (
                                                     <ReturnsIcon />
                                                 )

@@ -15,6 +15,7 @@ const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
 const Processes = lazy(() => import('./pages/Processes.page'))
 const ProcessDetails = lazy(() => import('./pages/ProcessDetails.page'))
+const Transit = lazy(() => import('./pages/TransitAnalytics.page'))
 
 type Props = {
     component: React.ComponentType<any>
@@ -64,13 +65,19 @@ function App() {
                             element={<ProtectedRoute component={Processes} />}
                         />
                         <Route
+                            path="/return/:id"
+                            element={
+                                <ProtectedRoute component={ProcessDetails} />
+                            }
+                        />
+                        <Route
                             path="/items"
                             element={<ProtectedRoute component={LineItems} />}
                         />
                         <Route
-                            path="/return/:id"
+                            path="/details/:id"
                             element={
-                                <ProtectedRoute component={ProcessDetails} />
+                                <ProtectedRoute component={LineItemDetails} />
                             }
                         />
                         <Route
@@ -84,10 +91,8 @@ function App() {
                             }
                         />
                         <Route
-                            path="/details/:id"
-                            element={
-                                <ProtectedRoute component={LineItemDetails} />
-                            }
+                            path="/transit-analytics"
+                            element={<ProtectedRoute component={Transit} />}
                         />
                     </Route>
                 </Routes>

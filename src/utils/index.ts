@@ -1,4 +1,7 @@
-import { ModelsMoneyFormat } from '@itsrever/dashboard-api'
+import {
+    ModelsMoneyFormat,
+    ProcessessapiModelsMoneyFormat
+} from '@itsrever/dashboard-api'
 
 export function checkImage(url: string) {
     const http = new XMLHttpRequest()
@@ -20,7 +23,7 @@ export const getDate = (seconds: number, lng: string): string => {
 
 export const formatPrice = (
     price: number,
-    moneyFormat: ModelsMoneyFormat,
+    moneyFormat: ModelsMoneyFormat | ProcessessapiModelsMoneyFormat,
     multiply = true
 ): string => {
     let ints = ''
@@ -77,5 +80,5 @@ export const formatPrice = (
     if (moneyFormat.is_currency_left_position) {
         return `${moneyFormat.currency_symbol}${price}`
     }
-    return `${price}${moneyFormat.currency_symbol}`
+    return `${price}${moneyFormat.currency_symbol ?? ''}`
 }

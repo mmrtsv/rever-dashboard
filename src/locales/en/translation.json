@@ -35,7 +35,8 @@
         "financials": "Finance",
         "returns": "Returns",
         "items": "Items",
-        "returns-analytics": "Returns Analytics"
+        "returns-analytics": "Returns",
+        "transit-analytics": "Transit"
     },
     "search_component": {
         "search": "Search..."
@@ -147,7 +148,21 @@
     "review_toast": {
         "success1": "We have registered your review!",
         "success2": "The accepted item(s) will be refunded",
-        "error": "Something went wrong... Please try again later",
+        "error": "Something went wrong... Please try again later"
+    },
+    "transit_analytics": {
+        "NO_SHIPPING_STATUS": "Pending label",
+        "CREATED": "Label created",
+        "COLLECTED": "Collected",
+        "less-than-7-days": "-1 week",
+        "between-7-14-days": "2 week",
+        "between-15-21-days": "3 weeks",
+        "between-22-30-days": "4 weeks",
+        "more-then-30-days": "+4 weeks",
+        "items_transit": "items in transit",
+        "value_transit": "value in transit",
+        "title_by_country": "Transit by country",
+        "title_by_time": "Time in transit",
         "only_declined": "We will not refund these items"
     }
 }

@@ -224,7 +224,6 @@ export default ReturnsMetrics
 
 interface BoxProps {
     borderColor?: string
-    backgroundColor?: string
 }
 
 const DonutBox = styled.div<BoxProps>`

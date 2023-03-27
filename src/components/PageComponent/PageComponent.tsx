@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import device from '../../utils/device'
 import { useAppSelector } from '../../redux/hooks'
-import { useTheme } from '@itsrever/design-system'
 import { drawerWidth } from '../LayoutComponent/HeaderComponent/DrawerComponent/Drawer'
 
 type Props = {
@@ -10,14 +9,12 @@ type Props = {
 }
 
 const PageComponent: React.FC<Props> = ({ children }) => {
-    const theme = useTheme()
     const isSidebarOpen = useAppSelector(
         (store) => store.generalData.drawerOpen
     )
 
     return (
         <ReverMain
-            bgColor={theme.colors.grey[5]}
             data-testid="PageComponent"
             isSideBarOpen={isSidebarOpen}
             drawerWidth={drawerWidth.toString()}
@@ -31,11 +28,10 @@ export default PageComponent
 
 interface ReverMainProps {
     isSideBarOpen: boolean
-    bgColor: string
     drawerWidth: string
 }
 const ReverMain = styled.div<ReverMainProps>`
-    background-color: #eee;
+    background-color: #f2f2f2; // #eee;
     height: calc(100vh - 60px);
     // over 600px
     @media ${device.lg} {

@@ -79,7 +79,7 @@ const DonutComponent: React.FC<DonutProps> = ({ title, values, labels }) => {
                             <div className="mx-4 grid grid-cols-2 py-1">
                                 <div className="flex items-center">
                                     <LegendDot
-                                        className="h-4 w-4 rounded-full"
+                                        className="rounded-full"
                                         backgroundColor={colors[i]}
                                     />
                                     <p className="ml-4 truncate">
@@ -87,12 +87,7 @@ const DonutComponent: React.FC<DonutProps> = ({ title, values, labels }) => {
                                     </p>
                                 </div>
 
-                                <p
-                                    className="text-right"
-                                    color="text.secondary"
-                                >
-                                    {value}%
-                                </p>
+                                <p className="text-right">{value}%</p>
                             </div>
                             {i === values.length - 1 ? null : <hr />}
                         </div>
@@ -121,4 +116,6 @@ interface LegendProps {
 const LegendDot = styled.div<LegendProps>`
     background-color: ${(p) => p.backgroundColor};
     border-color: ${(p) => p.borderColor};
+    height: 1rem;
+    width: 1rem;
 `

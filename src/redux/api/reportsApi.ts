@@ -9,7 +9,9 @@ import {
     ReportsApiFindReturnsMetricsRequest,
     ReportsMainMetricsResponse,
     ReportsApiFindReturnsByCountryRequest,
-    ProcessessapiDbReturnsByCountry
+    ProcessessapiDbReturnsByCountry,
+    ReportsApiFindInTransitReportsRequest,
+    ProcessessapiApiInTransitReportsResponse
 } from '@itsrever/dashboard-api'
 import { axiosInstance } from './apiConfiguration'
 
@@ -28,18 +30,24 @@ interface GetReturnsByCountryCall extends ApiCallBase {
     response: ProcessessapiDbReturnsByCountry[]
 }
 
+interface GetTransitAnalyticsCall extends ApiCallBase {
+    response: ProcessessapiApiInTransitReportsResponse
+}
+
 interface State {
     getReport: GetReportCall
     getReturnTypesByDay: GetReturnTypesByDayCall
     getReturnsMetrics: GetReturnsMetricsCall
     getReturnsByCountry: GetReturnsByCountryCall
+    getTransitAnalytics: GetTransitAnalyticsCall
 }
 
 const initialState: State = {
     getReport: initialApiState,
     getReturnTypesByDay: initialApiState,
     getReturnsMetrics: initialApiState,
-    getReturnsByCountry: initialApiState
+    getReturnsByCountry: initialApiState,
+    getTransitAnalytics: initialApiState
 }
 
 const defaultValueReports: ReportsApiFindReportsRequest = {
@@ -64,6 +72,10 @@ const defaultValueReturnByCountry: ReportsApiFindReturnsByCountryRequest = {
     ecommerceId: '',
     from: undefined,
     to: undefined
+}
+
+const defaultValuesTransitAnalytics: ReportsApiFindInTransitReportsRequest = {
+    ecommerceId: ''
 }
 
 export const getReport = createAsyncThunk(
@@ -117,6 +129,17 @@ export const getReturnsByCountry = createAsyncThunk(
     }
 )
 
+export const getTransitAnalytics = createAsyncThunk(
+    '/getTransitAnalytics',
+    async (args: ReportsApiFindInTransitReportsRequest) => {
+        const { ecommerceId } = args || defaultValuesTransitAnalytics
+        const getTransitAnalytics = await reportsApi.findInTransitReports({
+            ecommerceId
+        })
+        return getTransitAnalytics.data
+    }
+)
+
 const reportSlice = createSlice({
     name: 'reportsApi',
     initialState,
@@ -137,6 +160,10 @@ const reportSlice = createSlice({
             state.getReturnsByCountry = {
                 ...initialApiState,
                 response: state.getReturnsByCountry.response
+            }
+            state.getTransitAnalytics = {
+                ...initialApiState,
+                response: state.getTransitAnalytics.response
             }
         }
     },
@@ -188,6 +215,18 @@ const reportSlice = createSlice({
         builder.addCase(getReturnsByCountry.rejected, (state, action) => {
             state.getReturnsByCountry.loading = 'failed'
             state.getReturnsByCountry.error = action.error
+        })
+        // Get Transit Analytics
+        builder.addCase(getTransitAnalytics.pending, (state) => {
+            state.getTransitAnalytics.loading = 'pending'
+        })
+        builder.addCase(getTransitAnalytics.fulfilled, (state, action) => {
+            state.getTransitAnalytics.loading = 'succeeded'
+            state.getTransitAnalytics.response = action.payload
+        })
+        builder.addCase(getTransitAnalytics.rejected, (state, action) => {
+            state.getTransitAnalytics.loading = 'failed'
+            state.getTransitAnalytics.error = action.error
         })
     }
 })

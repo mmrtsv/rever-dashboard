@@ -35,7 +35,8 @@
         "financials": "Finanzas",
         "returns": "Devoluciones",
         "items": "Artículos",
-        "returns-analytics": "Devoluciones"
+        "returns-analytics": "Devoluciones",
+        "transit-analytics": "En tránsito"
     },
     "search_component": {
         "search": "Buscar..."
@@ -147,7 +148,21 @@
     "review_toast": {
         "success1": "¡Hemos registrado la revisión correctamente!",
         "success2": "Reembolsaremos los artículos aceptados",
-        "error": "Algo ha ido mal... Por favor, inténtalo más tarde",
+        "error": "Algo ha ido mal... Por favor, inténtalo más tarde"
+    },
+    "transit_analytics": {
+        "NO_SHIPPING_STATUS": "Etiqueta pendiente",
+        "CREATED": "Etiqueta creada",
+        "COLLECTED": "Recogido",
+        "less-than-7-days": "-1 semana",
+        "between-7-14-days": "2 semana",
+        "between-15-21-days": "3 semanas",
+        "between-22-30-days": "4 semanas",
+        "more-then-30-days": "+4 semanas",
+        "items_transit": "artículos en camino",
+        "value_transit": "valor en camino",
+        "title_by_country": "Tránsito por país",
+        "title_by_time": "Tiempo en camino",
         "only_declined": "No reembolsaremos estos artículos"
     }
 }

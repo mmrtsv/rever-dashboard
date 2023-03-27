@@ -84,8 +84,8 @@ const Layout = () => {
         <>
             <Header />
             <LoadingModal loading={isLoading} />
-            <Toaster />
             <Outlet />
+            <Toaster />
         </>
     )
 }
