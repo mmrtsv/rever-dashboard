@@ -58,7 +58,7 @@ const DrawerComponent = () => {
 
     const handleLogout = () => {
         dispatch(resetTokenData())
-        logout({ returnTo: window.location.origin })
+        logout()
         Mixpanel.track('Logout')
     }
 
