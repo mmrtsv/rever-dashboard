@@ -79,7 +79,6 @@
         "eslint-plugin-react-hooks": "^4.4.0",
         "eslint-plugin-tailwindcss": "^3.5.0",
         "i18next": "^21.8.9",
-        "i18next-browser-languagedetector": "^6.1.4",
         "i18next-http-backend": "^1.4.1",
         "jsdom": "^20.0.2",
         "redux-mock-store": "^1.5.4",
