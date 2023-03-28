@@ -164,5 +164,18 @@
         "title_by_country": "Tránsito por país",
         "title_by_time": "Tiempo en camino",
         "only_declined": "No reembolsaremos estos artículos"
+    },
+    "returns_analytics": {
+        "title_returns": "devoluciones",
+        "title_rdv": "de valor retenido (RDV)",
+        "title_sales": "generado en nuevas ventas",
+        "title_returned_items": "Artículos devueltos",
+        "title_countries": "Países",
+        "title_compensations": "Métodos de compensación",
+        "others": "Otros",
+        "refunds": "Reembolsos",
+        "exchanges": "Cambios",
+        "opm": "Método de pago original",
+        "store_credit": "Tarjeta regalo"
     }
 }

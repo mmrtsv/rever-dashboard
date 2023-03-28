@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { getReturnMetrics, resetReportsApiCalls } from '../redux/api/reportsApi'
-import { ReportsMainMetricsResponse } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
+import { getReturnMetrics } from '../redux/api/reportsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchReturnMetrics(from: string, to: string) {
@@ -13,13 +12,6 @@ export function useSearchReturnMetrics(from: string, to: string) {
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
-
-    const reportsApiGetReturnsMetrics = useAppSelector(
-        (store) => store.reportsApi.getReturnsMetrics
-    )
-    const [returnMetrics, setReturnMetrics] = useState<
-        ReportsMainMetricsResponse | undefined
-    >()
 
     const ecommerceId = selectedEcommerce
         ? selectedEcommerce
@@ -37,19 +29,6 @@ export function useSearchReturnMetrics(from: string, to: string) {
                 })
             )
     }, [to, from, ecommerceId, token, dispatch])
-
-    useEffect(() => {
-        if (reportsApiGetReturnsMetrics.loading === 'succeeded') {
-            setReturnMetrics(reportsApiGetReturnsMetrics.response)
-            dispatch(resetReportsApiCalls())
-        } else if (reportsApiGetReturnsMetrics.loading === 'failed') {
-            dispatch(resetReportsApiCalls())
-        }
-    }, [
-        reportsApiGetReturnsMetrics.response,
-        reportsApiGetReturnsMetrics.loading
-    ])
-    return { returnMetrics }
 }
 
 export default useSearchReturnMetrics

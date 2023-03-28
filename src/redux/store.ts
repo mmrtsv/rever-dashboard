@@ -5,6 +5,7 @@ import generalDataReducer from './features/generalData/generalDataSlice'
 import userApiReducer from './api/userApi'
 import reportsApi from './api/reportsApi'
 import reviewsApi from './api/reviewsApi'
+import locationsApi from './api/locationsApi'
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
         generalData: generalDataReducer,
         userApi: userApiReducer,
         reportsApi: reportsApi,
-        reviewsApi: reviewsApi
+        reviewsApi: reviewsApi,
+        locationsApi: locationsApi
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([])
 })

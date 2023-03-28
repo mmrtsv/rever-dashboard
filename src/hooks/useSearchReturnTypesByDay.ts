@@ -1,9 +1,5 @@
-import { useEffect, useState } from 'react'
-import {
-    getReturnTypesByDay,
-    resetReportsApiCalls
-} from '../redux/api/reportsApi'
-import { ProcessessapiDbReturnStatsByDay } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
+import { getReturnTypesByDay } from '../redux/api/reportsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
 
 export function useSearchReturnTypesByDay(from: string, to: string) {
@@ -16,13 +12,6 @@ export function useSearchReturnTypesByDay(from: string, to: string) {
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
-
-    const reportsApiGetReturnTypesByDay = useAppSelector(
-        (store) => store.reportsApi.getReturnTypesByDay
-    )
-    const [returnTypesByDay, setReturnTypesByDay] = useState<
-        Array<ProcessessapiDbReturnStatsByDay> | undefined
-    >()
 
     const ecommerceId = selectedEcommerce
         ? selectedEcommerce
@@ -40,19 +29,6 @@ export function useSearchReturnTypesByDay(from: string, to: string) {
                 })
             )
     }, [to, from, ecommerceId, token, dispatch])
-
-    useEffect(() => {
-        if (reportsApiGetReturnTypesByDay.loading === 'succeeded') {
-            setReturnTypesByDay(reportsApiGetReturnTypesByDay.response)
-            dispatch(resetReportsApiCalls())
-        } else if (reportsApiGetReturnTypesByDay.loading === 'failed') {
-            dispatch(resetReportsApiCalls())
-        }
-    }, [
-        reportsApiGetReturnTypesByDay.response,
-        reportsApiGetReturnTypesByDay.loading
-    ])
-    return { returnTypesByDay }
 }
 
 export default useSearchReturnTypesByDay

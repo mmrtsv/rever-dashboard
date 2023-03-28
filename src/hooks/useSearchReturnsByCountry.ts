@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
-import {
-    getReturnsByCountry,
-    resetReportsApiCalls
-} from '../redux/api/reportsApi'
-import { ProcessessapiDbReturnsByCountry } from '@itsrever/dashboard-api'
+import { useEffect } from 'react'
+import { getReturnsByCountry } from '../redux/api/reportsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import useCountries from './useCountries'
 
 export function useSearchReturnsByCountry(from: string, to: string) {
+    // Countries
+    useCountries()
+    const countries = useAppSelector((s) => s.locationsApi.countries.response)
+
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
 
@@ -17,13 +18,6 @@ export function useSearchReturnsByCountry(from: string, to: string) {
         (store) => store.generalData.selectedEcommerce
     )
 
-    const reportsApiGetReturnsByCountry = useAppSelector(
-        (store) => store.reportsApi.getReturnsByCountry
-    )
-    const [returnsByCountry, setReturnsByCountry] = useState<
-        Array<ProcessessapiDbReturnsByCountry> | undefined
-    >()
-
     const ecommerceId = selectedEcommerce
         ? selectedEcommerce
         : ecommercesList
@@ -31,7 +25,14 @@ export function useSearchReturnsByCountry(from: string, to: string) {
         : ''
 
     useEffect(() => {
-        if (token && ecommerceId && from && to)
+        if (
+            token &&
+            ecommerceId &&
+            from &&
+            to &&
+            countries &&
+            countries.length > 0
+        )
             dispatch(
                 getReturnsByCountry({
                     ecommerceId: ecommerceId,
@@ -39,20 +40,7 @@ export function useSearchReturnsByCountry(from: string, to: string) {
                     to: to
                 })
             )
-    }, [to, from, ecommerceId, token, dispatch])
-
-    useEffect(() => {
-        if (reportsApiGetReturnsByCountry.loading === 'succeeded') {
-            setReturnsByCountry(reportsApiGetReturnsByCountry.response)
-            dispatch(resetReportsApiCalls())
-        } else if (reportsApiGetReturnsByCountry.loading === 'failed') {
-            dispatch(resetReportsApiCalls())
-        }
-    }, [
-        reportsApiGetReturnsByCountry.response,
-        reportsApiGetReturnsByCountry.loading
-    ])
-    return { returnsByCountry }
+    }, [to, from, ecommerceId, token, dispatch, countries])
 }
 
 export default useSearchReturnsByCountry

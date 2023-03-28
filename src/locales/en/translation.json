@@ -164,5 +164,18 @@
         "title_by_country": "Transit by country",
         "title_by_time": "Time in transit",
         "only_declined": "We will not refund these items"
+    },
+    "returns_analytics": {
+        "title_returns": "total returns",
+        "title_rdv": "of retained dollar value (RDV)",
+        "title_sales": "of new sales generated",
+        "title_returned_items": "Returned items",
+        "title_countries": "Countries",
+        "title_compensations": "Compensation methods",
+        "others": "Others",
+        "refunds": "Refunds",
+        "exchanges": "Exchanges",
+        "opm": "Original payment method",
+        "store_credit": "Store Credit"
     }
 }
