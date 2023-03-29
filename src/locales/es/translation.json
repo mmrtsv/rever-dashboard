@@ -1,4 +1,11 @@
 {
+    "refund_methods": {
+        "method0": "Sin método",
+        "method1": "Transferencia bancaria",
+        "method2": "Método de pago original",
+        "method3": "Código promocional",
+        "method4": "Tarjeta regalo"
+    },
     "process_details": {
         "review": "Revisar",
         "returned_items": "Artículos devueltos",
@@ -79,7 +86,6 @@
         "type_return": "Tipo de devolución",
         "type_refund": "Tipo de reembolso",
         "reason": "Razón",
-        "denied_title": "Motivo de rechazo",
         "tracking": "Información de seguimiento"
     },
     "topbar_components": {

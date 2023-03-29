@@ -1,4 +1,11 @@
 {
+    "refund_methods": {
+        "method0": "No payment method",
+        "method1": "Bank transfer",
+        "method2": "Original payment method",
+        "method3": "Promo code",
+        "method4": "Gift card"
+    },
     "process_details": {
         "review": "Review",
         "returned_items": "Returned items",
@@ -79,7 +86,6 @@
         "type_return": "Type of return",
         "type_refund": "Type of refund",
         "reason": "Reason",
-        "denied_title": "Why was it denied",
         "tracking": "Tracking information"
     },
     "topbar_components": {

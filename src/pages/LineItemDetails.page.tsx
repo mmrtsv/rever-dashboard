@@ -70,6 +70,7 @@ function RetLineItemDetails() {
 
     const typeOfReturn = LineItem?.return_process?.return_method
     const typeOfRefund = LineItem?.action
+    const refund = LineItem?.refund_payment_method
     const productReturnReason = LineItem?.product_return_reason
     const trackingId = LineItem?.return_process?.tracking_id
     const trackingUrl = LineItem?.return_process?.tracking_url
@@ -216,7 +217,7 @@ function RetLineItemDetails() {
                                         : typeOfRefund ===
                                           RefundActions.ToExchange
                                         ? 'Exchanged'
-                                        : 'Refund'}
+                                        : t(`refund_methods.method${refund}`)}
                                 </div>
                             </SingleInfo>
                         </OrderInfo>
@@ -252,12 +253,6 @@ function RetLineItemDetails() {
                                         '-'
                                     )}
                                 </div>
-                            </SingleInfo>
-                            <SingleInfo topColor={theme.colors.primary.dark}>
-                                <span className="text-center text-xs">
-                                    {t('details_page.denied_title')}
-                                </span>
-                                <div className="mt-4 text-center">-</div>
                             </SingleInfo>
                         </OrderDetails>
                     </LineItemInfo>
@@ -361,9 +356,6 @@ const LeftArrow = styled.div<GeneralProps>`
         height: 0;
         width: 0;
         position: absolute;
-        /* border-color: rgba(204, 204, 204, 0);
-        border-left-color: #ccc;
-        border-width: 28px; */
         margin-top: -28px;
     }
     &:after {
@@ -402,7 +394,7 @@ const OrderInfo = styled.div`
 const OrderDetails = styled.div`
     margin-top: 2rem;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
 `

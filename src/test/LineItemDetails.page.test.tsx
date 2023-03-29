@@ -84,7 +84,6 @@ describe('Line Items Details Page', () => {
         screen.getByText('Type of refund')
         screen.getByText('Reason')
         screen.getByText('Tracking information')
-        screen.getByText('Why was it denied')
     })
 })
 
