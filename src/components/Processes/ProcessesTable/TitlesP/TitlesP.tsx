@@ -18,27 +18,27 @@ const TitlesP = () => {
                     : 'grid-cols-5'
             } p-4`}
         >
-            <h6 className="text-center">
-                <b className="mr-2">{t('order_details.date')}</b>
+            <p className="text-center">
+                <b className="mr-2">{t('titles_process.date')}</b>
                 <ArrowDown />
-            </h6>
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.order_id')}</b>
-            </h6>
+            </p>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_process.order_id')}</b>
+            </p>
             {ecommercesLength && ecommercesLength > 1 && (
-                <h6 className="text-grey-1 text-center">
-                    <b> {t('order_details.shop')}</b>
-                </h6>
+                <p className="text-grey-1 text-center">
+                    <b> {t('titles_process.shop')}</b>
+                </p>
             )}
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.total')}</b>
-            </h6>
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.customer')}</b>
-            </h6>
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.status')}</b>
-            </h6>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_process.total')}</b>
+            </p>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_process.customer')}</b>
+            </p>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_process.status')}</b>
+            </p>
         </div>
     )
 }

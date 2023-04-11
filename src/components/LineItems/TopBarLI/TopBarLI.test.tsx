@@ -12,7 +12,7 @@ import { ThemeProvider } from '@itsrever/design-system'
 describe('TopBar LI tests', () => {
     afterEach(cleanup)
 
-    it('should render the title, the tabs', () => {
+    it('should render the tabs', () => {
         const state = reduxState(10)
         const mockStore = configureStore()
         const store = mockStore(state)
@@ -28,8 +28,6 @@ describe('TopBar LI tests', () => {
                 </ThemeProvider>
             </Router>
         )
-
-        screen.getByText('Returned items')
         screen.getByText('All')
         screen.getByText('Pending to receive')
         screen.getByText('Action required')

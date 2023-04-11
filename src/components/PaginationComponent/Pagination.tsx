@@ -42,13 +42,13 @@ const Pagination: React.FC<SearchProps> = ({
                         }}
                     >
                         <MenuItem value={10}>
-                            10 {t('orders_table.pagination')}
+                            10 {t('pagination.pagination')}
                         </MenuItem>
                         <MenuItem value={25}>
-                            25 {t('orders_table.pagination')}
+                            25 {t('pagination.pagination')}
                         </MenuItem>
                         <MenuItem value={50}>
-                            50 {t('orders_table.pagination')}
+                            50 {t('pagination.pagination')}
                         </MenuItem>
                     </Select>
                 </Selector>
@@ -178,7 +178,7 @@ const Pagination: React.FC<SearchProps> = ({
             </PaginationBox>
 
             <div className="mt-2 flex justify-center text-xs md:justify-end">
-                {maxPage + t('orders_table.total_page')}
+                {maxPage + t('pagination.total_page')}
             </div>
         </>
     )

@@ -1,10 +1,9 @@
 import React from 'react'
 import ReturnProductSummary from './ReturnProductSummary'
 import { formatPrice } from '../../../../utils'
-import { useTheme } from '@itsrever/design-system'
+import { useTheme, RepeatIcon } from '@itsrever/design-system'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import SwapIcon from '@mui/icons-material/SwapHoriz'
 import SummaryIcon from '@mui/icons-material/PostAdd'
 import ItemsIcon from '@mui/icons-material/SellOutlined'
 import device from '@/utils/device'
@@ -76,9 +75,9 @@ const Summary = () => {
                             color: `${theme.colors.grey[0]}`
                         }}
                     />
-                    <h3 className="text-grey-1 ml-2 text-lg">
+                    <p className="text-grey-1 ml-2 text-lg">
                         {t('summary.summary_title')}
-                    </h3>
+                    </p>
                 </div>
                 <FinanceSummary>
                     {typeof finalBalance === 'string' && (
@@ -206,36 +205,32 @@ const Summary = () => {
                 {newOrderId && (
                     <ExchangesDiv>
                         <div className="flex flex-row items-center">
-                            <SwapIcon
-                                style={{
-                                    color: `${theme.colors.grey[0]}`
-                                }}
-                            />
-                            <h3 className="text-grey-1 ml-2 text-lg">
+                            <RepeatIcon color={theme.colors.grey[0]} />
+                            <p className="text-grey-1 ml-2 text-lg">
                                 {t('summary.exchanges_title')}
-                            </h3>
+                            </p>
                         </div>
                         <div className="mt-6 grid w-fit grid-cols-2 items-center gap-4">
-                            <h6>
+                            <p>
                                 <b>{t('summary.new_order_id')}</b>
-                            </h6>
-                            <h6>
+                            </p>
+                            <p>
                                 <b>{t('summary.email')}</b>
-                            </h6>
+                            </p>
                             <hr
                                 className="col-span-3"
                                 style={{
-                                    border: `0.5px solid ${theme.colors.grey[2]}`
+                                    color: theme.colors.grey[2]
                                 }}
                             />
-                            <h6>{newOrderId}</h6>
-                            <h6>{customer?.email}</h6>
+                            <p>{newOrderId}</p>
+                            <p>{customer?.email}</p>
                         </div>
-                        <h6 className="mt-6">
+                        <p className="mt-6">
                             <b>{t('summary.new_items')}</b>
-                        </h6>
+                        </p>
                         {exchangedItems?.map((item, i) => {
-                            return <h6 key={i}>{item.name}</h6>
+                            return <p key={i}>{item.name}</p>
                         })}
                     </ExchangesDiv>
                 )}
@@ -247,9 +242,9 @@ const Summary = () => {
                             color: `${theme.colors.grey[0]}`
                         }}
                     />
-                    <h3 className="text-grey-1 ml-2 text-lg">
+                    <p className="text-grey-1 ml-2 text-lg">
                         {t('summary.items_title')}
-                    </h3>
+                    </p>
                 </div>
                 {lineItems?.map((lineItem, i) => {
                     if (

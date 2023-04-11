@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from './HeaderComponent/Header'
-import LoadingModal from '../Loading/LoadingModal'
+import LoadingModal from '../components/Loading/LoadingModal'
 import { Toaster } from '@itsrever/design-system'
 import { useAppSelector } from '@/redux/hooks'
-import useSearchMe from '@/hooks/useSearchMe'
+import { useSearchMe } from '@/hooks'
 
 const Layout = () => {
-    // Call me
     const me = useAppSelector((state) => state.userApi.getMe.response)
     useSearchMe()
 
-    // Loading Modal Logic
-    const [isLoading, setIsLoading] = useState(true)
-
     const [
         userApi,
+        reviewsApi,
         lineItemsApiGLI,
         lineItemsApiGLIs,
         lineItemsApiGPLIs,
@@ -27,6 +24,7 @@ const Layout = () => {
         processesApiGCPs
     ] = [
         useAppSelector((store) => store.userApi.getMe.loading),
+        useAppSelector((store) => store.reviewsApi.createReview.loading),
         useAppSelector((store) => store.lineItemsApi.getLineItem.loading),
         useAppSelector((store) => store.lineItemsApi.getLineItems.loading),
         useAppSelector(
@@ -47,9 +45,11 @@ const Layout = () => {
             (store) => store.processesApi.getCompletedProcesses.loading
         )
     ]
-    useEffect(() => {
+
+    const Loading = useMemo(() => {
         if (
             userApi === 'pending' ||
+            reviewsApi === 'pending' ||
             lineItemsApiGLI === 'pending' ||
             lineItemsApiGLIs === 'pending' ||
             lineItemsApiGPLIs === 'pending' ||
@@ -60,14 +60,13 @@ const Layout = () => {
             processesApiGRPs === 'pending' ||
             processesApiGCPs === 'pending'
         ) {
-            setIsLoading(true)
-        } else {
-            if (me) {
-                setIsLoading(false)
-            }
+            return true
         }
+        if (me) return false
+        return true
     }, [
         me,
+        reviewsApi,
         userApi,
         lineItemsApiGLI,
         lineItemsApiGLIs,
@@ -83,7 +82,7 @@ const Layout = () => {
     return (
         <>
             <Header />
-            <LoadingModal loading={isLoading} />
+            <LoadingModal loading={Loading} />
             <Outlet />
             <Toaster />
         </>

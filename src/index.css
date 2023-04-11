@@ -179,10 +179,6 @@
         border: 0;
     }
 
-    /* svg {
-        min-width: fit-content;
-        min-height: fit-content;
-    } */
     @supports (-webkit-backdrop-filter: blur(1px)) {
         svg {
             height: intrinsic;

@@ -9,6 +9,8 @@ import { toggleDrawer } from '@/redux/features/generalData/generalDataSlice'
 import { useTheme } from '@itsrever/design-system'
 import DrawerComponent from './DrawerComponent/Drawer'
 import SelectorComponent from '@/components/SelectorComponent/SelectorComponent'
+import { useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean
@@ -36,10 +38,16 @@ const AppBar = styledM(MuiAppBar, {
 const Header = () => {
     const theme = useTheme()
     const dispatch = useAppDispatch()
+    const { t } = useTranslation()
+    const location = useLocation()
 
     const isSidebarOpen = useAppSelector(
         (store) => store.generalData.drawerOpen
     )
+
+    const finalPathname = location.pathname.includes('/return/')
+        ? '/return'
+        : location.pathname
 
     return (
         <HeaderDiv data-testid="Header">
@@ -53,15 +61,21 @@ const Header = () => {
                 }}
             >
                 <ToolBar>
-                    <div className="flex flex-1 px-1">
+                    <div className="flex flex-1 items-center px-1">
                         {!isSidebarOpen && (
-                            <div style={{ color: theme.colors.primary.dark }}>
+                            <div
+                                className="mr-4"
+                                style={{ color: theme.colors.primary.dark }}
+                            >
                                 <MenuIcon
                                     onClick={() => dispatch(toggleDrawer())}
                                     fontSize="large"
                                 />
                             </div>
                         )}
+                        <h3 className="text-primary-dark">
+                            {t(`page_titles.${finalPathname}`)}
+                        </h3>
                     </div>
                     <div className="mr-2">
                         <SelectorComponent />
@@ -77,22 +91,21 @@ const Header = () => {
 export default Header
 
 const HeaderDiv = styled.div`
-    display: flex;
-    height: 60px;
-    align-content: center;
-    background-color: #fff;
+    overflow-x: auto;
+    height: 80px;
+    border-bottom: solid 1px #ccc;
 `
 
 const ToolBar = styled.div`
     display: flex;
-    padding: 0 1rem 0 1rem;
     align-items: center;
-    height: 60px;
+    height: 80px;
 `
 
 const ReverNavbar = styledM(AppBar)`
+    overflow: hidden;
     display: flex;
-    position: relative;
     z-index: 20;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    box-shadow: 0 2px 3px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    padding: 0 1rem 0 1rem;
 `

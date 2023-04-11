@@ -15,7 +15,11 @@ describe('FilterComponent Test', () => {
             <Router>
                 <I18nextProvider i18n={i18n}>
                     <ThemeProvider>
-                        <FilterComponent freeText="" setFreeText={() => null} />
+                        <FilterComponent
+                            freeText=""
+                            setFreeText={() => null}
+                            rowCount={0}
+                        />
                     </ThemeProvider>
                 </I18nextProvider>
             </Router>
@@ -31,6 +35,7 @@ describe('FilterComponent Test', () => {
                         <FilterComponent
                             freeText="TEST"
                             setFreeText={() => null}
+                            rowCount={0}
                         />
                     </ThemeProvider>
                 </I18nextProvider>

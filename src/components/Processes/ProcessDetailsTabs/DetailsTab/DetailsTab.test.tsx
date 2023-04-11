@@ -46,7 +46,7 @@ describe('Details tab tests', () => {
 
         // Order Status
         screen.getByTestId('AccessTimeIcon')
-        screen.getByText('Order status')
+        screen.getByText('Statuses')
 
         screen.getByText('Order')
         screen.getByText('ID')

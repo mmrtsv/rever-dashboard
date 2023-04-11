@@ -33,7 +33,7 @@ const DrawerItem: React.FC<ItemProps> = ({ icon, text }) => {
                     </div>
                 </ListItemIcon>
             )}
-            <h6 className="text-lg">{t(`drawer_pages.${text}`)}</h6>
+            <p className="text-lg">{t(`drawer_pages.${text}`)}</p>
         </ListItemButton>
     )
 }

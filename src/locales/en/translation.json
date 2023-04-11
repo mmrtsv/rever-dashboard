@@ -1,4 +1,9 @@
 {
+    "actions": {
+        "method0": "No Action",
+        "method1": "Exchange",
+        "method2": "Return"
+    },
     "refund_methods": {
         "method0": "No payment method",
         "method1": "Bank transfer",
@@ -6,10 +11,10 @@
         "method3": "Promo code",
         "method4": "Gift card"
     },
-    "process_details": {
-        "review": "Review",
-        "returned_items": "Returned items",
-        "not_received": "Items not received"
+    "return_methods": {
+        "method0": "No return method",
+        "method1": "Home pickup",
+        "method2": "Collection point"
     },
     "line_item_review_status": {
         "approved": "Approved",
@@ -35,6 +40,96 @@
         "error": "Error",
         "completed": "Completed"
     },
+    "select_reason": {
+        "WRONG_COLOR": "Wrong color",
+        "NOT_AS_EXPECTED": "Different than expected",
+        "DEFECTIVE": "Defective item",
+        "CHANGED_MY_MIND": "I changed my mind",
+        "WRONG_ITEM": "I received a wrong item",
+        "WRONG_SIZE_TOO_SMALL": "Too small",
+        "WRONG_SIZE_TOO_BIG": "Too large",
+        "NOT_RECEIVED": "I didn't receive my order"
+    },
+
+    "page_titles": {
+        "/": "Returns",
+        "/return": "",
+        "/items": "Returned items",
+        "/financials": "Financial report",
+        "/returns-analytics": "Returns analytics",
+        "/transit-analytics": "Transit information"
+    },
+
+    "titles_process": {
+        "date": "Return date",
+        "order_id": "Order ID",
+        "shop": "Shop",
+        "total": "Total items",
+        "customer": "Customer",
+        "status": "Status"
+    },
+    "process_details_page": {
+        "review": "Review"
+    },
+    "process_details_tabs": {
+        "products": "Products",
+        "order_details": "Details",
+        "summary": "Summary"
+    },
+    "products_tab": {
+        "returned_items": "Returned items",
+        "not_received": "Not received items",
+        "approve": "Approve",
+        "decline": "Decline",
+        "missing": "Missing",
+        "review": "Review",
+        "submit": "Submit Review"
+    },
+    "reject_modal": {
+        "title": "Reason for rejection",
+        "submit": "Submit"
+    },
+    "titles_item": {
+        "image": "Image",
+        "product_name": "Product name",
+        "price": "Price",
+        "action": "Action",
+        "status": "Status"
+    },
+    "item_details": {
+        "back": "Back",
+        "price": "Price:",
+        "reason": "Return reason",
+        "tracking": "Tracking information",
+        "compensation": "Compensation method",
+        "reject_reason": "Reject reason"
+    },
+    "details_tab": {
+        "customer": "Customer",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address",
+        "order_info": "General information",
+        "statuses": "Statuses",
+        "status": "Status",
+        "return_method": "Return method",
+        "order": "Order",
+        "ID": "ID",
+        "shipping_status": "Shipping status",
+        "return_status": "Return status"
+    },
+
+    "titles_li": {
+        "date": "Return date",
+        "order_id": "Order ID",
+        "image": "Image",
+        "quantity": "Quantity",
+        "product_name": "Product name",
+        "customer": "Customer",
+        "status": "Status"
+    },
+
     "drawer_pages": {
         "home": "Home",
         "analytics": "Analytics",
@@ -46,49 +141,18 @@
         "transit-analytics": "Transit"
     },
     "search_component": {
-        "search": "Search..."
+        "search": "Search...",
+        "results": "Results: "
     },
-    "status_card": {
-        "order_id": "Order ID: "
-    },
-    "orders_table": {
-        "results": "Results: ",
+    "pagination": {
         "pagination": "/ page",
         "total_page": " total pages"
-    },
-    "status_page": {
-        "pending_title": "PENDING TO RECEIVE",
-        "completed_title": "COMPLETED"
     },
     "selector_component": {
         "label": "Filter store",
         "all": "All"
     },
-    "select_reason": {
-        "WRONG_COLOR": "Wrong color",
-        "NOT_AS_EXPECTED": "Different than expected",
-        "DEFECTIVE": "Defective item",
-        "CHANGED_MY_MIND": "I changed my mind",
-        "WRONG_ITEM": "I received a wrong item",
-        "WRONG_SIZE_TOO_SMALL": "Too small",
-        "WRONG_SIZE_TOO_BIG": "Too large",
-        "NOT_RECEIVED": "I didn't receive my order"
-    },
-    "details_page": {
-        "email": "Email",
-        "address": "Address",
-        "return_date": "Return date",
-        "stage": "Stage",
-        "condition": "Condition",
-        "pending": "Pending to receive",
-        "completed": "Completed",
-        "amount": "Amount",
-        "type_return": "Type of return",
-        "type_refund": "Type of refund",
-        "reason": "Reason",
-        "tracking": "Tracking information"
-    },
-    "topbar_components": {
+    "topbar_processes": {
         "returns": "Returns",
         "all": "All",
         "action_needed": "Action required",
@@ -102,37 +166,6 @@
         "pending": "Pending to receive",
         "review_required": "Action required",
         "received": "Received"
-    },
-    "order_details": {
-        "date": "Return date",
-        "order_id": "Order ID",
-        "image": "Image",
-        "price": "Price",
-        "product_name": "Product name",
-        "quantity": "Quantity",
-        "status": "Status",
-        "customer": "Customer",
-        "shop": "Shop",
-        "approve": "Approve",
-        "decline": "Decline",
-        "missing": "Missing",
-        "review": "Review",
-        "submit": "Submit Review",
-        "reject_title": "Reason for rejection",
-        "total": "Total items",
-        "review_status": "Review status",
-        "order": "Order",
-        "order_status": "Order status",
-        "return_status": "Return status",
-        "shipping_status": "Shipping status",
-        "name": "Name",
-        "email": "Email",
-        "phone": "Phone",
-        "address": "Address",
-        "products": "Products",
-        "order_details": "Details",
-        "summary": "Summary",
-        "decline_reason": "Add a reason for decline"
     },
     "summary": {
         "total": "Total refund: ",
@@ -154,7 +187,8 @@
     "review_toast": {
         "success1": "We have registered your review!",
         "success2": "The accepted item(s) will be refunded",
-        "error": "Something went wrong... Please try again later"
+        "error": "Something went wrong... Please try again later",
+        "only_declined": "We will not refund these items"
     },
     "transit_analytics": {
         "NO_SHIPPING_STATUS": "Pending label",
@@ -168,8 +202,7 @@
         "items_transit": "items in transit",
         "value_transit": "value in transit",
         "title_by_country": "Transit by country",
-        "title_by_time": "Time in transit",
-        "only_declined": "We will not refund these items"
+        "title_by_time": "Time in transit"
     },
     "returns_analytics": {
         "title_returns": "total returns",

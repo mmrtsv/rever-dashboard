@@ -37,7 +37,7 @@ const ProcessDetailTabs: React.FC<TabProps> = ({
                             }`,
                             borderTopLeftRadius: '2rem'
                         }}
-                        label={t('order_details.products')}
+                        label={t('process_details_tabs.products')}
                     />
                     <Tab
                         style={{
@@ -47,7 +47,7 @@ const ProcessDetailTabs: React.FC<TabProps> = ({
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={t('order_details.order_details')}
+                        label={t('process_details_tabs.order_details')}
                     />
                     <Tab
                         style={{
@@ -57,7 +57,7 @@ const ProcessDetailTabs: React.FC<TabProps> = ({
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={t('order_details.summary')}
+                        label={t('process_details_tabs.summary')}
                     />
                 </Tabs>
             </TabsDiv>

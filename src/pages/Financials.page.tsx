@@ -13,8 +13,6 @@ import {
 } from '@mui/material'
 import { useSearchFinancialReport } from '../hooks/useSearchFinancialReport'
 import { useTheme } from '@itsrever/design-system'
-
-import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
 import device from '@/utils/device'
 import { useAppSelector } from '@/redux/hooks'
 
@@ -74,7 +72,6 @@ function Financials() {
     const [selectedMonth, setSelectedMonth] = useState('1')
     const [selectedYear, setSelectedYear] = useState('2023')
 
-
     const { report } = useSearchFinancialReport(
         parseInt(selectedMonth),
         parseInt(selectedYear)
@@ -92,9 +89,7 @@ function Financials() {
         <PageComponent>
             <MainDiv>
                 <TopDiv>
-                    <h3 className="text-primary-dark mb-4 text-5xl">
-                        <b>Financial Report</b>
-                    </h3>
+                    <div />
                     <div>
                         <FormControl
                             data-testid="MonthSelector"
@@ -151,7 +146,6 @@ function Financials() {
                         >
                             No returns in the period
                         </Title>
-                        <NotFoundReports />
                     </div>
                 )}
             </MainDiv>
@@ -175,6 +169,11 @@ const Title = styled.h3<IconProps>`
     }
 `
 const MainDiv = styled.div`
+    height: 100%;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
     display: flex;
     flex-direction: column;
     padding: 1rem;

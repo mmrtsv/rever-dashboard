@@ -31,7 +31,7 @@ describe('Products Tab test', () => {
         )
         screen.getByText('Reason for rejection')
         screen.getByRole('textbox')
-        screen.getByText('Submit Review')
+        screen.getByText('Submit')
     })
 
     it('should call setIsOpen on close and submit', () => {
@@ -59,7 +59,7 @@ describe('Products Tab test', () => {
         expect(setIsOpen).toHaveBeenCalledTimes(1)
 
         // Submit
-        const submit = screen.getByText('Submit Review')
+        const submit = screen.getByText('Submit')
         fireEvent.click(submit)
         expect(setIsOpen).toBeCalledTimes(2)
     })

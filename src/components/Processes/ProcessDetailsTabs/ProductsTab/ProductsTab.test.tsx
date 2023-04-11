@@ -49,7 +49,7 @@ describe('Products Tab test', () => {
             </Router>
         )
         screen.getByTestId('SearchOffIcon')
-        screen.getByText('Items not received')
+        screen.getByText('Not received items')
     })
 
     it('should render a dropdown for each returned item if reviewMode with 3 different options and submit button', () => {

@@ -53,19 +53,17 @@ function ProcessDetails() {
                 <TopDiv>
                     <div>
                         <Title>
-                            <b className="text-xl">
-                                {process && process.customer_printed_order_id}
-                            </b>
+                            {process && process.customer_printed_order_id}
                             <LocalShippingOutlinedIcon className="ml-2" />
                         </Title>
-                        <Title className="mt-2">{returnDate}</Title>
+                        <p className="mt-2">{returnDate}</p>
                     </div>
                     {showReviewButton && (
                         <Button
                             onClick={() => setReviewMode(true)}
                             iconLeft={<EditIcon />}
                         >
-                            {t('process_details.review')}
+                            {t('process_details_page.review')}
                         </Button>
                     )}
                 </TopDiv>
@@ -93,7 +91,6 @@ const TopDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #eee;
     padding: 1.5rem 1rem 2rem 1rem;
     width: 100%;
     @media ${device.md} {

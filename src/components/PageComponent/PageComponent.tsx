@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import device from '../../utils/device'
 import { useAppSelector } from '../../redux/hooks'
-import { drawerWidth } from '../LayoutComponent/HeaderComponent/DrawerComponent/Drawer'
+import { drawerWidth } from '../../layout/HeaderComponent/DrawerComponent/Drawer'
 
 type Props = {
     children?: React.ReactNode
@@ -32,8 +32,7 @@ interface ReverMainProps {
 }
 const ReverMain = styled.div<ReverMainProps>`
     background-color: #f2f2f2; // #eee;
-    height: calc(100vh - 60px);
-    // over 600px
+    height: calc(100vh - 80px);
     @media ${device.lg} {
         margin-left: ${(props) =>
             props.isSideBarOpen ? `${drawerWidth}px` : 0};

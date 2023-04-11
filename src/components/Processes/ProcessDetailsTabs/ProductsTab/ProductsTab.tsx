@@ -14,6 +14,12 @@ import { useTranslation } from 'react-i18next'
 import { useCreateReviews } from '@/hooks'
 import { useTheme } from '@itsrever/design-system'
 import RejectReasonModal from './RejectReasonModal/RejectReasonModal'
+import LineItemInfo from './ItemDetails/ItemDetails'
+
+export interface SelectedItem {
+    list?: 'returned' | 'not-received'
+    index: number
+}
 
 export function addOrUpdateReview(
     reviews: OpsapiModelsLineItemReview[],
@@ -55,43 +61,32 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
     const products =
         process && process.line_items?.filter((item) => item.type === 'product')
 
-    // Returned products
-    const returnedProducts =
+    const allProducts =
         products &&
         products.flatMap((lineItem) => {
             const items: Array<ModelsReturnLineItem> = []
             if (lineItem.quantity && lineItem.reviews) {
                 for (let i = 0; i < lineItem.quantity; i++) {
-                    if (lineItem.product_return_reason !== 'NOT_RECEIVED')
-                        items.push({
-                            ...lineItem,
-                            reviews: lineItem.reviews[i]
-                                ? [lineItem.reviews[i]]
-                                : []
-                        })
+                    items.push({
+                        ...lineItem,
+                        reviews: lineItem.reviews[i]
+                            ? [lineItem.reviews[i]]
+                            : []
+                    })
                 }
             }
             return items
         })
 
+    // Returned products
+    const returnedProducts = allProducts?.filter(
+        (p) => p.product_return_reason !== 'NOT_RECEIVED'
+    )
+
     // Not received products
-    const notReceivedProducts =
-        products &&
-        products.flatMap((lineItem) => {
-            const items: Array<ModelsReturnLineItem> = []
-            if (lineItem.quantity && lineItem.reviews) {
-                for (let i = 0; i < lineItem.quantity; i++) {
-                    if (lineItem.product_return_reason === 'NOT_RECEIVED')
-                        items.push({
-                            ...lineItem,
-                            reviews: lineItem.reviews[i]
-                                ? [lineItem.reviews[i]]
-                                : []
-                        })
-                }
-            }
-            return items
-        })
+    const notReceivedProducts = allProducts?.filter(
+        (p) => p.product_return_reason === 'NOT_RECEIVED'
+    )
 
     const emptyReview: OpsapiModelsLineItemReview = {
         line_item_id: '',
@@ -149,187 +144,234 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
         )
     }
 
+    const [selectedItem, setSelectedItem] = useState<SelectedItem>({
+        list: undefined,
+        index: -1
+    })
+
     return (
         <ProductsBox>
-            <div className="p-8">
-                {returnedProducts && returnedProducts.length > 0 && (
-                    <>
-                        <TitlesSplitLineItem
-                            title={t('process_details.returned_items')}
-                            icon={
-                                <ReturnedIcon
-                                    style={{
-                                        color: `${theme.colors.grey[0]}`
-                                    }}
-                                />
-                            }
-                        />
-                        {returnedProducts.map((lineItem, i) => {
-                            return (
-                                <ItemsDiv key={i}>
-                                    <div className="h-full w-full md:max-w-[70%]">
-                                        <ProcessSplitLineItem
-                                            lineItem={lineItem}
-                                            moneyFormat={
-                                                process.currency_money_format ??
-                                                {}
-                                            }
-                                            returnStatus={process.return_status}
-                                            lastKnownShippingStatus={
-                                                process.last_known_shipping_status
-                                            }
-                                        />
-                                    </div>
-                                    {reviewMode && (
-                                        <MenuDiv>
-                                            {reviewOpen !== i ? (
-                                                <OptionDiv
-                                                    onClick={() =>
-                                                        setReviewOpen(i)
-                                                    }
-                                                >
-                                                    <Box>
-                                                        {reviews[i].status ? (
-                                                            <LineItemStatus
-                                                                status={
-                                                                    reviews[i]
-                                                                        .status ===
-                                                                    'APPROVED'
-                                                                        ? 0
-                                                                        : reviews[
-                                                                              i
-                                                                          ]
-                                                                              .status ===
-                                                                          'DECLINED'
-                                                                        ? 1
-                                                                        : 2
-                                                                }
-                                                            />
-                                                        ) : (
-                                                            t(
-                                                                'order_details.review'
-                                                            )
-                                                        )}
-                                                    </Box>
-                                                </OptionDiv>
-                                            ) : (
-                                                <>
-                                                    <OptionDiv
-                                                        onClick={() =>
-                                                            handleChange(
-                                                                lineItem.rever_id,
-                                                                'APPROVED',
-                                                                i
-                                                            )
-                                                        }
-                                                    >
-                                                        <Box>
-                                                            <p className="text-center">
-                                                                {t(
-                                                                    'order_details.approve'
-                                                                )}
-                                                            </p>
-                                                        </Box>
-                                                    </OptionDiv>
-                                                    <OptionDiv
-                                                        onClick={() =>
-                                                            handleChange(
-                                                                lineItem.rever_id,
-                                                                'DECLINED',
-                                                                i
-                                                            )
-                                                        }
-                                                    >
-                                                        <Box>
-                                                            <p className="text-center">
-                                                                {t(
-                                                                    'order_details.decline'
-                                                                )}
-                                                            </p>
-                                                        </Box>
-                                                    </OptionDiv>
-                                                    <OptionDiv
-                                                        onClick={() =>
-                                                            handleChange(
-                                                                lineItem.rever_id,
-                                                                'MISSING',
-                                                                i
-                                                            )
-                                                        }
-                                                    >
-                                                        <Box>
-                                                            <p className="text-center">
-                                                                {t(
-                                                                    'order_details.missing'
-                                                                )}
-                                                            </p>
-                                                        </Box>
-                                                    </OptionDiv>
-                                                </>
-                                            )}
-
-                                            <RejectReasonModal
-                                                index={i}
-                                                isOpen={rejectModalOpen === i}
-                                                setIsOpen={setRejectModalOpen}
-                                                reviews={reviews}
-                                                setReviews={setReviews}
-                                                setReviewOpen={setReviewOpen}
-                                                lineItemId={
-                                                    lineItem.rever_id ?? ''
+            {process && selectedItem.index === -1 ? (
+                <>
+                    {returnedProducts && returnedProducts.length > 0 && (
+                        <div className="mb-6">
+                            <TitlesSplitLineItem
+                                title={t('products_tab.returned_items')}
+                                icon={
+                                    <ReturnedIcon
+                                        style={{
+                                            color: `${theme.colors.grey[0]}`
+                                        }}
+                                    />
+                                }
+                            />
+                            {returnedProducts.map((lineItem, i) => {
+                                return (
+                                    <ItemsDiv key={i}>
+                                        <div
+                                            className="h-full w-full md:max-w-[80%]"
+                                            onClick={() => {
+                                                setSelectedItem({
+                                                    list: 'returned',
+                                                    index: i
+                                                })
+                                            }}
+                                        >
+                                            <ProcessSplitLineItem
+                                                lineItem={lineItem}
+                                                moneyFormat={
+                                                    process.currency_money_format ??
+                                                    {}
+                                                }
+                                                returnStatus={
+                                                    process.return_status
+                                                }
+                                                lastKnownShippingStatus={
+                                                    process.last_known_shipping_status
                                                 }
                                             />
-                                        </MenuDiv>
-                                    )}
-                                </ItemsDiv>
-                            )
-                        })}
-                    </>
-                )}
-                {reviewMode && (
-                    <div className="mt-4 flex w-full justify-center md:mt-8">
-                        <Button
-                            disabled={reviews.some((r) => !r.status)}
-                            onClick={handleSubmitReview}
-                        >
-                            {t('order_details.submit')}
-                        </Button>
-                    </div>
-                )}
-                {notReceivedProducts && notReceivedProducts.length > 0 && (
-                    <div className="mt-6">
-                        <TitlesSplitLineItem
-                            title={t('process_details.not_received')}
-                            icon={
-                                <LostIcon
-                                    style={{
-                                        color: `${theme.colors.grey[0]}`
-                                    }}
-                                />
-                            }
-                        />
-                        {notReceivedProducts.map((lineItem, i) => {
-                            return (
-                                <ItemsDiv key={i}>
-                                    <div className="w-full md:max-w-[70%]">
-                                        <ProcessSplitLineItem
-                                            lineItem={lineItem}
-                                            moneyFormat={
-                                                process.currency_money_format ??
-                                                {}
+                                        </div>
+                                        {reviewMode && (
+                                            <MenuDiv>
+                                                {reviewOpen !== i ? (
+                                                    <OptionDiv
+                                                        onClick={() =>
+                                                            setReviewOpen(i)
+                                                        }
+                                                    >
+                                                        <Box>
+                                                            {reviews[i]
+                                                                .status ? (
+                                                                <LineItemStatus
+                                                                    status={
+                                                                        reviews[
+                                                                            i
+                                                                        ]
+                                                                            .status ===
+                                                                        'APPROVED'
+                                                                            ? 0
+                                                                            : reviews[
+                                                                                  i
+                                                                              ]
+                                                                                  .status ===
+                                                                              'DECLINED'
+                                                                            ? 1
+                                                                            : 2
+                                                                    }
+                                                                />
+                                                            ) : (
+                                                                t(
+                                                                    'products_tab.review'
+                                                                )
+                                                            )}
+                                                        </Box>
+                                                    </OptionDiv>
+                                                ) : (
+                                                    <>
+                                                        <OptionDiv
+                                                            onClick={() =>
+                                                                handleChange(
+                                                                    lineItem.rever_id,
+                                                                    'APPROVED',
+                                                                    i
+                                                                )
+                                                            }
+                                                        >
+                                                            <Box>
+                                                                <p className="text-center">
+                                                                    {t(
+                                                                        'products_tab.approve'
+                                                                    )}
+                                                                </p>
+                                                            </Box>
+                                                        </OptionDiv>
+                                                        <OptionDiv
+                                                            onClick={() =>
+                                                                handleChange(
+                                                                    lineItem.rever_id,
+                                                                    'DECLINED',
+                                                                    i
+                                                                )
+                                                            }
+                                                        >
+                                                            <Box>
+                                                                <p className="text-center">
+                                                                    {t(
+                                                                        'products_tab.decline'
+                                                                    )}
+                                                                </p>
+                                                            </Box>
+                                                        </OptionDiv>
+                                                        <OptionDiv
+                                                            onClick={() =>
+                                                                handleChange(
+                                                                    lineItem.rever_id,
+                                                                    'MISSING',
+                                                                    i
+                                                                )
+                                                            }
+                                                        >
+                                                            <Box>
+                                                                <p className="text-center">
+                                                                    {t(
+                                                                        'products_tab.missing'
+                                                                    )}
+                                                                </p>
+                                                            </Box>
+                                                        </OptionDiv>
+                                                    </>
+                                                )}
+
+                                                <RejectReasonModal
+                                                    index={i}
+                                                    isOpen={
+                                                        rejectModalOpen === i
+                                                    }
+                                                    setIsOpen={
+                                                        setRejectModalOpen
+                                                    }
+                                                    reviews={reviews}
+                                                    setReviews={setReviews}
+                                                    setReviewOpen={
+                                                        setReviewOpen
+                                                    }
+                                                    lineItemId={
+                                                        lineItem.rever_id ?? ''
+                                                    }
+                                                />
+                                            </MenuDiv>
+                                        )}
+                                    </ItemsDiv>
+                                )
+                            })}
+                        </div>
+                    )}
+                    {reviewMode && (
+                        <div className="mt-4 flex w-full justify-center md:mt-8">
+                            <Button
+                                disabled={reviews.some((r) => !r.status)}
+                                onClick={handleSubmitReview}
+                            >
+                                {t('products_tab.submit')}
+                            </Button>
+                        </div>
+                    )}
+                    {notReceivedProducts && notReceivedProducts.length > 0 && (
+                        <div>
+                            <TitlesSplitLineItem
+                                title={t('products_tab.not_received')}
+                                icon={
+                                    <LostIcon
+                                        style={{
+                                            color: `${theme.colors.grey[0]}`
+                                        }}
+                                    />
+                                }
+                            />
+                            {notReceivedProducts.map((lineItem, i) => {
+                                return (
+                                    <ItemsDiv key={i}>
+                                        <div
+                                            className="w-full md:max-w-[80%]"
+                                            onClick={() =>
+                                                setSelectedItem({
+                                                    list: 'not-received',
+                                                    index: i
+                                                })
                                             }
-                                            returnStatus={process.return_status}
-                                            lastKnownShippingStatus={
-                                                process.last_known_shipping_status
-                                            }
-                                        />
-                                    </div>
-                                </ItemsDiv>
-                            )
-                        })}
-                    </div>
-                )}
-            </div>
+                                        >
+                                            <ProcessSplitLineItem
+                                                lineItem={lineItem}
+                                                moneyFormat={
+                                                    process.currency_money_format ??
+                                                    {}
+                                                }
+                                                returnStatus={
+                                                    process.return_status
+                                                }
+                                                lastKnownShippingStatus={
+                                                    process.last_known_shipping_status
+                                                }
+                                            />
+                                        </div>
+                                    </ItemsDiv>
+                                )
+                            })}
+                        </div>
+                    )}
+                </>
+            ) : (
+                <LineItemInfo
+                    setSelectedItem={setSelectedItem}
+                    lineItem={
+                        returnedProducts && notReceivedProducts
+                            ? selectedItem.list === 'returned'
+                                ? returnedProducts[selectedItem.index]
+                                : notReceivedProducts[selectedItem.index]
+                            : {}
+                    }
+                />
+            )}
         </ProductsBox>
     )
 }
@@ -338,6 +380,7 @@ export default ProductsTab
 
 const ProductsBox = styled.div`
     height: 100%;
+    padding: 2rem;
 `
 
 const MenuDiv = styled.div`

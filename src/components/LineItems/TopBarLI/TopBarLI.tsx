@@ -3,7 +3,6 @@ import { Tabs, Tab } from '@mui/material'
 import styled from 'styled-components'
 import { useTheme } from '@itsrever/design-system'
 import { useAppSelector } from '@/redux/hooks'
-import device from '@/utils/device'
 import { useTranslation } from 'react-i18next'
 interface TopBarProps {
     currentTab: number
@@ -31,9 +30,6 @@ const TopBarLI: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
     return (
         <HigherDiv data-testid="TopBar">
             <TabsDiv>
-                <h3 className="text-primary-dark  mb-4 mr-2 text-3xl md:text-4xl lg:text-5xl">
-                    <b>{t('topbar_items.returned_items')}</b>
-                </h3>
                 <Tabs
                     orientation={'horizontal'}
                     value={currentTab}
@@ -213,13 +209,6 @@ const HigherDiv = styled.div`
     border-bottom: solid 1px #ccc;
     padding: 0rem 0rem 0rem 1rem;
     background-color: #fff;
-    @media ${device.md} {
-        padding: 2rem 1rem 0rem 1rem;
-    }
-
-    @media ${device.lg} {
-        padding: 3rem 1rem 0rem 1rem;
-    }
 `
 
 const SmallTotalDiv = styled.div`

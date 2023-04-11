@@ -132,7 +132,7 @@ const DrawerComponent = () => {
             anchor="left"
             open={isSidebarOpen}
         >
-            <div className="flex h-[60px] w-full items-center justify-between p-2">
+            <div className="flex h-[80px] w-full items-center justify-between p-2">
                 <img
                     className="cursor-pointer"
                     src={LogoWideWhite}
@@ -196,9 +196,9 @@ const DrawerComponent = () => {
                                                 </div>
                                             )}
                                         </ListItemIcon>
-                                        <h6 className="text-lg">
-                                            <b>{t(`drawer_pages.${text}`)}</b>
-                                        </h6>
+                                        <p className="text-lg">
+                                            {t(`drawer_pages.${text}`)}
+                                        </p>
                                         {analyticsOpen ? (
                                             <ExpandLess />
                                         ) : (
@@ -246,7 +246,7 @@ const DrawerComponent = () => {
                                         <AccountCircle />
                                     </div>
                                 </ListItemIcon>
-                                <h6 data-testid="UserName">{userName[0]}</h6>
+                                <p data-testid="UserName">{userName[0]}</p>
                             </ListItemButton>
                             <ListItemIcon
                                 style={{ cursor: 'pointer' }}

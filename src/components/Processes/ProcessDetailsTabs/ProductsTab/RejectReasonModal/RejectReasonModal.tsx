@@ -75,9 +75,7 @@ const RejectReasonModal: React.FC<ModalProps> = ({
             closeButton={true}
         >
             <StyledForm onSubmit={handleSubmit}>
-                <h6 className="mb-4 text-xl">
-                    {t('order_details.reject_title')}
-                </h6>
+                <h6 className="mb-4 text-xl">{t('reject_modal.title')}</h6>
                 <TextField
                     inputRef={rejectReason}
                     fullWidth
@@ -109,7 +107,7 @@ const RejectReasonModal: React.FC<ModalProps> = ({
                         }
                     }}
                 />
-                <Button type="submit">{t('order_details.submit')}</Button>
+                <Button type="submit">{t('reject_modal.submit')}</Button>
             </StyledForm>
         </Modal>
     )

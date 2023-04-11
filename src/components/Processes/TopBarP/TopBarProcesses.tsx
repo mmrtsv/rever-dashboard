@@ -31,9 +31,6 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
     return (
         <HigherDiv data-testid="TopBarProcesses">
             <div>
-                <h3 className="text-primary-dark mb-4 text-5xl">
-                    <b>{t('topbar_components.returns')}</b>
-                </h3>
                 <Tabs
                     value={currentTab}
                     onChange={(_, i) => {
@@ -53,7 +50,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                     : theme.colors.grey[1]
                             }`
                         }}
-                        label={t('topbar_components.all')}
+                        label={t('topbar_processes.all')}
                         iconPosition="end"
                         icon={
                             <SmallTotalDiv
@@ -90,7 +87,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                         : theme.colors.grey[1]
                                 }`
                             }}
-                            label={t('topbar_components.in_progress')}
+                            label={t('topbar_processes.in_progress')}
                             iconPosition="end"
                             icon={
                                 <SmallTotalDiv
@@ -130,7 +127,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                         : theme.colors.grey[1]
                                 }`
                             }}
-                            label={t('topbar_components.action_needed')}
+                            label={t('topbar_processes.action_needed')}
                             iconPosition="end"
                             icon={
                                 <SmallTotalDiv
@@ -171,7 +168,7 @@ const TopBar: React.FC<TopBarProps> = ({ currentTab, setCurrentTab }) => {
                                         : theme.colors.grey[1]
                                 }`
                             }}
-                            label={t('topbar_components.completed')}
+                            label={t('topbar_processes.completed')}
                             iconPosition="end"
                             icon={
                                 <SmallTotalDiv
@@ -213,14 +210,11 @@ const HigherDiv = styled.div`
     display: flex;
     justify-content: space-between;
     border-bottom: solid 1px #ccc;
-    padding: 3rem 1rem 0rem 1rem;
+    padding-left: 1rem;
     background-color: #fff;
 `
 
 const SmallTotalDiv = styled.div`
-    @media (max-width: 899px) {
-        display: none;
-    }
     border-radius: 0.5rem;
     height: fit-content;
     width: fit-content;

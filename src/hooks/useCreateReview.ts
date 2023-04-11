@@ -31,6 +31,7 @@ export function useCreateReviews(manualReview: boolean, onlyDeclined: boolean) {
 
     useEffect(() => {
         if (createReviewCall.loading === 'succeeded') {
+            dispatch(resetReviewsApiCalls())
             if (manualReview) {
                 if (onlyDeclined) {
                     toast({
@@ -61,12 +62,12 @@ export function useCreateReviews(manualReview: boolean, onlyDeclined: boolean) {
                 navigate('/')
             }, 2000)
         } else if (createReviewCall.loading === 'failed') {
+            dispatch(resetReviewsApiCalls())
             toast({
                 variant: 'error',
                 text: t('review_toast.error')
             })
         }
-        dispatch(resetReviewsApiCalls())
     }, [createReviewCall.loading, createReviewCall.response])
 
     return { createNewReview }

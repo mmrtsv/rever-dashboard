@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Layout from './components/LayoutComponent/Layout'
+import Layout from './layout/Layout'
 import LoadingComponent from './components/Loading/Loading'
 import { useAuth0 } from '@auth0/auth0-react'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
@@ -11,7 +11,6 @@ import Mixpanel from './mixpanel/Mixpanel'
 
 const Analytics = lazy(() => import('./pages/Financials.page'))
 const LineItems = lazy(() => import('./pages/LineItems.page'))
-const LineItemDetails = lazy(() => import('./pages/LineItemDetails.page'))
 const ReturnsAnalytics = lazy(() => import('./pages/Returns.page'))
 const Processes = lazy(() => import('./pages/Processes.page'))
 const ProcessDetails = lazy(() => import('./pages/ProcessDetails.page'))
@@ -73,12 +72,6 @@ function App() {
                         <Route
                             path="/items"
                             element={<ProtectedRoute component={LineItems} />}
-                        />
-                        <Route
-                            path="/details/:id"
-                            element={
-                                <ProtectedRoute component={LineItemDetails} />
-                            }
                         />
                         <Route
                             path="/financials"

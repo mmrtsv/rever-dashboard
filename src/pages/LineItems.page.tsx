@@ -3,8 +3,6 @@ import PageComponent from '../components/PageComponent'
 import { useState } from 'react'
 import styled from 'styled-components'
 import FilterComponent from '../components/SearchComponent'
-import { useTranslation } from 'react-i18next'
-import { useTheme } from '@itsrever/design-system'
 import { TitlesGridLI, TopBarLI } from '@/components/LineItems'
 import LineItemsTable from '@/components/LineItems/LineItemsTable/LineItemsTable'
 import { useAppSelector } from '@/redux/hooks'
@@ -15,10 +13,7 @@ import {
     useSearchReviewRequiredLineItems
 } from '@/hooks'
 
-function Orders() {
-    const { t } = useTranslation()
-    const theme = useTheme()
-
+function LineItems() {
     const selectedEcommerce = useAppSelector(
         (store) => store.generalData.selectedEcommerce
     )
@@ -78,29 +73,14 @@ function Orders() {
                     setCurrentTab={setCurrentTab}
                 />
                 <Main className="flex flex-col overflow-x-auto">
-                    <div className="w-fit pt-4 pl-8">
+                    <div className="w-fit pt-4">
                         <FilterComponent
                             freeText={FreeText}
                             setFreeText={handleChangeFreeText}
+                            rowCount={LineItemsCall.rowcount}
                         />
-                        {FreeText.length > 2 && (
-                            <>
-                                <hr
-                                    className="mt-2"
-                                    style={{
-                                        border: `0.5px solid ${theme.colors.grey[2]}`
-                                    }}
-                                />
-                                <span className="text-xs">
-                                    {LineItemsCall.rowcount
-                                        ? t('orders_table.results') +
-                                          LineItemsCall.rowcount
-                                        : t('orders_table.results') + '0'}
-                                </span>
-                            </>
-                        )}
                     </div>
-                    <TableDiv data-testid="LineItemsTable">
+                    <div data-testid="LineItemsTable">
                         <TitlesGridLI />
                         {currentTab === 0 ? (
                             <LineItemsTable
@@ -131,14 +111,14 @@ function Orders() {
                                 totalLineItems={CompletedLineItemsCall.rowcount}
                             />
                         ) : null}
-                    </TableDiv>
+                    </div>
                 </Main>
             </div>
         </PageComponent>
     )
 }
 
-export default Orders
+export default LineItems
 
 const Main = styled.div`
     flex-grow: 1;
@@ -148,10 +128,5 @@ const Main = styled.div`
     }
     width: 100%;
     background-color: #eee;
-`
-
-const TableDiv = styled.div`
-    margin: 0rem 2rem 2rem 2rem;
-    border-radius: 0.5rem;
-    border: 1px solid #eee;
+    padding: 0rem 2rem 1rem 2rem;
 `

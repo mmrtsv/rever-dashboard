@@ -34,14 +34,14 @@ const SelectorComponent = () => {
                         data-testid="Selector"
                     >
                         <div className="flex items-center">
-                            <CustH6
+                            <CustP
                                 className="mr-2 truncate"
                                 style={{ color: 'black' }}
                             >
                                 {selectedEcommerce
                                     ? selectedEcommerce
                                     : t('selector_component.label')}
-                            </CustH6>
+                            </CustP>
                             <ChevronDownIcon />
                         </div>
                     </CustButton>
@@ -64,7 +64,7 @@ const SelectorComponent = () => {
                                 className="flex-1"
                                 onClick={() => handleChange(undefined)}
                             >
-                                <h6>{t('selector_component.all')}</h6>
+                                <p>{t('selector_component.all')}</p>
                             </MenuItem>
                         </div>
                         {ecommerceList.map((name, i) => (
@@ -72,7 +72,7 @@ const SelectorComponent = () => {
                                 key={i}
                                 onClick={() => handleChange(name)}
                             >
-                                <h6>{name}</h6>
+                                <p>{name}</p>
                             </MenuItem>
                         ))}
                     </Popover>
@@ -90,7 +90,7 @@ const CustButton = styledMui(Button)`
     }
 `
 
-const CustH6 = styled.h6`
+const CustP = styled.p`
     @media (max-width: 599px) {
         max-width: 100px;
     }

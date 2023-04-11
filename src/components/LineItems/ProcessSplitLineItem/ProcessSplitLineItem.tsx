@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import ShippingStatus from '@/components/ShippingStatus'
 import { LineItemStatus } from '../LineItemStatus'
-import { Link } from 'react-router-dom'
 import NoAvailable from '../../../assets/images/noAvailable.png'
 import {
     ModelsMoneyFormat,
@@ -10,6 +9,9 @@ import {
 } from '@itsrever/dashboard-api'
 import { formatPrice } from '@/utils'
 import { Sizes } from '@/utils/device'
+import { RefundActions } from '@/redux/features/generalData/generalDataSlice'
+import { RepeatIcon, CoinIcon } from '@itsrever/design-system'
+import { useTranslation } from 'react-i18next'
 
 export interface ProcessSplitLineItemProps {
     lineItem: ModelsPublicReturnLineItem
@@ -24,6 +26,8 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     lastKnownShippingStatus,
     returnStatus
 }) => {
+    const { t } = useTranslation()
+
     let imgSrc = NoAvailable
     if (lineItem.product_image_url) {
         imgSrc = lineItem.product_image_url
@@ -57,27 +61,37 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
         )
 
     return (
-        <SplitLineItemCard key={lineItem.rever_id} data-testid="SplitLineItem">
-            <Link to={`/details/${lineItem.rever_id}`}>
-                <Box>
-                    <div className="flex justify-center">
-                        <img
-                            className="h-14 w-auto"
-                            src={imgSrc}
-                            alt="ProductImage"
-                        />
-                    </div>
-                    <ItemName data-testid="itemName">{lineItem.name}</ItemName>
-                    <Price>{productPrice}</Price>
-                    <StatusBox>
-                        {showReviewStatus ? (
-                            <LineItemStatus status={reviewStatus} />
-                        ) : (
-                            <ShippingStatus status={shippingStatus} />
-                        )}
-                    </StatusBox>
-                </Box>
-            </Link>
+        <SplitLineItemCard
+            className="hover:bg-grey-5"
+            key={lineItem.rever_id}
+            data-testid="SplitLineItem"
+        >
+            <Box>
+                <div className="flex justify-center">
+                    <img
+                        className="h-14 w-auto"
+                        src={imgSrc}
+                        alt="ProductImage"
+                    />
+                </div>
+                <ItemName data-testid="itemName">{lineItem.name}</ItemName>
+                <Price>{productPrice}</Price>
+                <div className="flex items-center justify-center gap-2">
+                    {lineItem.action === RefundActions.ToExchange ? (
+                        <RepeatIcon color="black" />
+                    ) : (
+                        <CoinIcon color="black" />
+                    )}
+                    <Refund>{t(`actions.method${lineItem.action}`)}</Refund>
+                </div>
+                <StatusBox>
+                    {showReviewStatus ? (
+                        <LineItemStatus status={reviewStatus} />
+                    ) : (
+                        <ShippingStatus status={shippingStatus} />
+                    )}
+                </StatusBox>
+            </Box>
         </SplitLineItemCard>
     )
 }
@@ -88,18 +102,20 @@ const Price = styled.p`
     text-align: center;
 `
 
+const Refund = styled.p`
+    text-align: center;
+`
+
 const Box = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.5rem;
     align-items: center;
     width: 100%;
     @media (min-width: ${Sizes.md}) {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         align-items: center;
         width: 100%;
-        display: grid;
     }
 `
 

@@ -14,8 +14,6 @@ export function useSearchMe() {
     useEffect(() => {
         dispatch(resetAuthApiCalls())
     }, [authApiMe.response, authApiMe.loading])
-
-    return {}
 }
 
 export default useSearchMe

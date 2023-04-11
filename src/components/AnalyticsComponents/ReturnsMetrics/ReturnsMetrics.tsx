@@ -13,7 +13,6 @@ import device from '@/utils/device'
 import DonutComponent from '../DonutComponent/DonutComponent'
 import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
 import { useTranslation } from 'react-i18next'
-import NotFoundReports from '@/assets/Lottie/ComingSoon/NotFoundReports'
 import LineChartComponent from '../LineChartComponent/LineChartComponent'
 import { useAppSelector } from '@/redux/hooks'
 
@@ -121,13 +120,10 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                     <ReturnsIcon />
                                 </IconDiv>
                                 <div className="flex w-full flex-col">
-                                    <Title
-                                        color={theme.colors.primary.dark}
-                                        className="text-center"
-                                    >
+                                    <Title color={theme.colors.primary.dark}>
                                         <b>{returns}</b>
                                     </Title>
-                                    <Subtitle className="text-center">
+                                    <Subtitle>
                                         {t('returns_analytics.title_returns')}
                                     </Subtitle>
                                 </div>
@@ -142,13 +138,10 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                     <RDVIcon />
                                 </IconDiv>
                                 <div className="flex w-full flex-col">
-                                    <Title
-                                        color={theme.colors.primary.dark}
-                                        className="text-center"
-                                    >
+                                    <Title color={theme.colors.primary.dark}>
                                         <b>{RDVPercentage}%</b>
                                     </Title>
-                                    <Subtitle className="text-center">
+                                    <Subtitle>
                                         {t('returns_analytics.title_rdv')}
                                     </Subtitle>
                                 </div>
@@ -173,13 +166,12 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                                         </IconDiv>
                                         <Title
                                             color={theme.colors.success.main}
-                                            className="text-center"
                                         >
                                             <b>{totalRdv}</b>
                                         </Title>
                                     </div>
 
-                                    <Subtitle className="text-center">
+                                    <Subtitle>
                                         {t('returns_analytics.title_sales')}
                                     </Subtitle>
                                 </div>
@@ -216,13 +208,9 @@ const ReturnsMetrics: React.FC<ReturnsMetricsProps> = ({ currentPeriod }) => {
                 </ReturnsDiv>
             ) : (
                 <div>
-                    <Title
-                        color={theme.colors.primary.dark}
-                        className="mt-20 text-center"
-                    >
+                    <Title color={theme.colors.primary.dark} className="mt-20">
                         No returns in the period
                     </Title>
-                    <NotFoundReports />
                 </div>
             )}
         </>
@@ -278,24 +266,12 @@ interface IconProps {
     color: string
 }
 
-const Subtitle = styled.h6`
-    font-size: 12px;
-    @media ${device.lg} {
-        font-size: 14px;
-    }
-    @media ${device.xl} {
-        font-size: 16px;
-    }
+const Subtitle = styled.p`
+    text-align: center;
 `
 const Title = styled.h3<IconProps>`
     color: ${(p) => p.color};
-    font-size: 24px;
-    @media ${device.lg} {
-        font-size: 36px;
-    }
-    @media ${device.xl} {
-        font-size: 48px;
-    }
+    text-align: center;
 `
 
 const IconDiv = styled.div<IconProps>`

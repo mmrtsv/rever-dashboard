@@ -109,6 +109,12 @@ function reduxStateWithLoading(loading: string) {
                 loading: '',
                 response: {}
             }
+        },
+        reviewsApi: {
+            createReview: {
+                loading: '',
+                response: {}
+            }
         }
     }
 }

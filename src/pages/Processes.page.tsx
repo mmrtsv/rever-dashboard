@@ -3,8 +3,6 @@ import PageComponent from '@/components/PageComponent'
 import { useState } from 'react'
 import styled from 'styled-components'
 import FilterComponent from '../components/SearchComponent'
-import { useTranslation } from 'react-i18next'
-import { useTheme } from '@itsrever/design-system'
 import TopBar from '../components/Processes/TopBarP/TopBarProcesses'
 import ProcessesTable from '@/components/Processes/ProcessesTable/ProcessesTable'
 import { useAppSelector } from '@/redux/hooks'
@@ -17,9 +15,6 @@ import {
 } from '@/hooks'
 
 function Orders() {
-    const { t } = useTranslation()
-    const theme = useTheme()
-
     const Limit = useAppSelector((store) => store.generalData.limitPagination)
 
     const selectedEcommerce = useAppSelector(
@@ -57,50 +52,35 @@ function Orders() {
     const PendingProcessesCall = useAppSelector(
         (store) => store.processesApi.getPendingProcesses.response
     )
-    useSearchPendingProcesses(actualPage, Limit, FreeText)
+    useSearchPendingProcesses(actualPagePending, Limit, FreeText)
 
     // Review Required Processes
     const [actualPageReview, setActualPageReview] = useState<number>(0)
     const ReviewProcessesCall = useAppSelector(
         (store) => store.processesApi.getReviewRequiredProcesses.response
     )
-    useSearchReviewRequiredProcesses(actualPage, Limit, FreeText)
+    useSearchReviewRequiredProcesses(actualPageReview, Limit, FreeText)
 
     // Completed Processes
     const [actualPageCompl, setActualPageCompl] = useState<number>(0)
     const ComplProcessesCall = useAppSelector(
         (store) => store.processesApi.getCompletedProcesses.response
     )
-    useSearchCompletedProcesses(actualPage, Limit, FreeText)
+    useSearchCompletedProcesses(actualPageCompl, Limit, FreeText)
 
     return (
         <PageComponent>
             <div className="flex h-full flex-col">
                 <TopBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
                 <Main className="overflow-x-auto">
-                    <div className="w-fit pt-4 pl-8">
+                    <div className="w-fit pt-4">
                         <FilterComponent
                             freeText={FreeText}
                             setFreeText={handleChangeFreeText}
+                            rowCount={ProcessesCall.rowcount}
                         />
-                        {FreeText.length > 2 && (
-                            <>
-                                <hr
-                                    className="mt-2"
-                                    style={{
-                                        border: `0.5px solid ${theme.colors.grey[2]}`
-                                    }}
-                                />
-                                <span className="text-xs">
-                                    {ProcessesCall.rowcount
-                                        ? t('orders_table.results') +
-                                          ProcessesCall.rowcount
-                                        : t('orders_table.results') + '0'}
-                                </span>
-                            </>
-                        )}
                     </div>
-                    <TableDiv data-testid="ProcessesTable">
+                    <div data-testid="ProcessesTable">
                         <TitlesP />
                         {currentTab === 0 ? (
                             <ProcessesTable
@@ -131,7 +111,7 @@ function Orders() {
                                 totalProcesses={ComplProcessesCall.rowcount}
                             />
                         ) : null}
-                    </TableDiv>
+                    </div>
                 </Main>
             </div>
         </PageComponent>
@@ -141,6 +121,7 @@ function Orders() {
 export default Orders
 
 const Main = styled.div`
+    padding: 0rem 2rem 1rem 2rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -149,11 +130,4 @@ const Main = styled.div`
         display: none;
     }
     width: 100%;
-    background-color: #eee;
-`
-
-const TableDiv = styled.div`
-    margin: 0rem 2rem 2rem 2rem;
-    border-radius: 0.5rem;
-    border: 1px solid #eee;
 `

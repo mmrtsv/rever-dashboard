@@ -8,42 +8,42 @@ const TitlesGridLI = () => {
 
     return (
         <div className="grid w-full grid-cols-3 p-4 md:grid-cols-5 lg:grid-cols-8">
-            <DisapearingH6M className="flex items-center justify-center">
-                <b className="mr-2"> {t('order_details.date')}</b>
+            <DisapearingPM className="flex items-center justify-center">
+                <b className="mr-2">{t('titles_li.date')}</b>
                 <ArrowDown />
-            </DisapearingH6M>
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.order_id')}</b>
-            </h6>
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.image')}</b>
-            </h6>
-            <DisapearingH6M className="text-grey-1 text-center">
-                <b>{t('order_details.quantity')}</b>
-            </DisapearingH6M>
-            <DisapearingH6L className="text-grey-1 col-span-2">
-                <b>{t('order_details.product_name')}</b>
-            </DisapearingH6L>
-            <DisapearingH6L className="text-grey-1">
-                <b>{t('order_details.customer')}</b>
-            </DisapearingH6L>
-            <h6 className="text-grey-1 text-center">
-                <b>{t('order_details.status')}</b>
-            </h6>
+            </DisapearingPM>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_li.order_id')}</b>
+            </p>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_li.image')}</b>
+            </p>
+            <DisapearingPM className="text-grey-1 text-center">
+                <b>{t('titles_li.quantity')}</b>
+            </DisapearingPM>
+            <DisapearingPL className="text-grey-1 col-span-2">
+                <b>{t('titles_li.product_name')}</b>
+            </DisapearingPL>
+            <DisapearingPL className="text-grey-1">
+                <b>{t('titles_li.customer')}</b>
+            </DisapearingPL>
+            <p className="text-grey-1 text-center">
+                <b>{t('titles_li.status')}</b>
+            </p>
         </div>
     )
 }
 
 export default TitlesGridLI
 
-const DisapearingH6L = styled.h6`
+const DisapearingPL = styled.p`
     text-align: center;
     @media (max-width: 899px) {
         display: none;
     }
 `
 
-const DisapearingH6M = styled.h6`
+const DisapearingPM = styled.p`
     text-align: center;
     @media (max-width: 599px) {
         display: none;

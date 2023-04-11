@@ -14,21 +14,24 @@ const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
         <>
             <div className="flex w-fit flex-row items-center">
                 {icon && icon}
-                <h3 className="text-grey-1 ml-2 text-lg">{title && title}</h3>
+                <p className="text-grey-1 ml-2 text-lg">{title && title}</p>
             </div>
             <TitlesDiv>
-                <h6 className="text-grey-1 text-center">
-                    <b>{t('order_details.image')}</b>
-                </h6>
-                <DissapearingH6L className="text-grey-1 col-span-2">
-                    <b>{t('order_details.product_name')}</b>
-                </DissapearingH6L>
-                <h6 className="text-grey-1 text-center">
-                    <b>{t('order_details.price')}</b>
-                </h6>
-                <h6 className="text-grey-1 text-center">
-                    <b>{t('order_details.status')}</b>
-                </h6>
+                <p className="text-center">
+                    <b>{t('titles_item.image')}</b>
+                </p>
+                <DissapearingPL className="col-span-2">
+                    <b>{t('titles_item.product_name')}</b>
+                </DissapearingPL>
+                <p className="text-center">
+                    <b>{t('titles_item.price')}</b>
+                </p>
+                <p className="text-center">
+                    <b>{t('titles_item.action')}</b>
+                </p>
+                <p className="text-center">
+                    <b>{t('titles_item.status')}</b>
+                </p>
             </TitlesDiv>
         </>
     )
@@ -36,7 +39,7 @@ const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
 
 export default TitlesSplitLineItem
 
-const DissapearingH6L = styled.h6`
+const DissapearingPL = styled.p`
     @media (max-width: 599px) {
         display: none;
     }
@@ -44,11 +47,11 @@ const DissapearingH6L = styled.h6`
 
 const TitlesDiv = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.5rem;
     padding: 1rem;
     @media ${device.md} {
-        max-width: 70%;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        max-width: 80%;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
     }
 `

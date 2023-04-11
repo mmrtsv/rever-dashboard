@@ -1,4 +1,9 @@
 {
+    "actions": {
+        "method0": "Sin acción",
+        "method1": "Cambio",
+        "method2": "Devolución"
+    },
     "refund_methods": {
         "method0": "Sin método",
         "method1": "Transferencia bancaria",
@@ -6,10 +11,10 @@
         "method3": "Código promocional",
         "method4": "Tarjeta regalo"
     },
-    "process_details": {
-        "review": "Revisar",
-        "returned_items": "Artículos devueltos",
-        "not_received": "Artículos no recibidos"
+    "return_methods": {
+        "method0": "Sin método",
+        "method1": "Recogida a domicilio",
+        "method2": "Punto de recogida"
     },
     "line_item_review_status": {
         "approved": "Aceptado",
@@ -35,6 +40,96 @@
         "error": "Error",
         "completed": "Completado"
     },
+    "select_reason": {
+        "WRONG_COLOR": "Color equivocado",
+        "NOT_AS_EXPECTED": "Diferente de lo esperado",
+        "DEFECTIVE": "Objeto defectuoso",
+        "CHANGED_MY_MIND": "He cambiado de opinión",
+        "WRONG_ITEM": "He recibido un artículo equivocado",
+        "WRONG_SIZE_TOO_SMALL": "Demasiado pequeño",
+        "WRONG_SIZE_TOO_BIG": "Demasiado grande",
+        "NOT_RECEIVED": "No he recibido mi pedido"
+    },
+
+    "page_titles": {
+        "/": "Devoluciones",
+        "/return": "",
+        "/items": "Artículos devueltos",
+        "/financials": "Informe financiero",
+        "/returns-analytics": "Devoluciones",
+        "/transit-analytics": "En tránsito"
+    },
+
+    "titles_process": {
+        "date": "Fecha",
+        "order_id": "ID",
+        "shop": "Tienda",
+        "total": "Artículos",
+        "customer": "Cliente",
+        "status": "Estado"
+    },
+    "process_details_page": {
+        "review": "Revisar"
+    },
+    "process_details_tabs": {
+        "products": "Products",
+        "order_details": "Details",
+        "summary": "Summary"
+    },
+    "products_tab": {
+        "returned_items": "Artículos devueltos",
+        "not_received": "Artículos no recibidos",
+        "approve": "Aprobar",
+        "decline": "Declinar",
+        "missing": "Perdido",
+        "review": "Revisar",
+        "submit": "Enviar revisión"
+    },
+    "reject_modal": {
+        "title": "Motivo de rechazo",
+        "submit": "Enviar"
+    },
+    "titles_item": {
+        "image": "Imagen",
+        "product_name": "Nombre del producto",
+        "price": "Precio",
+        "action": "Acción",
+        "status": "Estado"
+    },
+    "item_details": {
+        "back": "Atrás",
+        "price": "Precio:",
+        "reason": "Motivo de devolución",
+        "tracking": "Información de seguimiento",
+        "compensation": "Método de reembolso",
+        "reject_reason": "Motivo de rechazo"
+    },
+    "details_tab": {
+        "customer": "Cliente",
+        "name": "Nombre",
+        "email": "Email",
+        "phone": "Teléfono",
+        "address": "Dirección",
+        "order_info": "Información general",
+        "statuses": "Estados",
+        "status": "Estado",
+        "return_method": "Método de devolución",
+        "order": "Pedido",
+        "ID": "ID",
+        "shipping_status": "Estado del envío",
+        "return_status": "Devolución"
+    },
+
+    "titles_li": {
+        "date": "Fecha de devolución",
+        "order_id": "ID",
+        "image": "Imagen",
+        "quantity": "Cantidad",
+        "product_name": "Producto",
+        "customer": "Cliente",
+        "status": "Estado"
+    },
+
     "drawer_pages": {
         "home": "Inicio",
         "analytics": "Analítica",
@@ -46,49 +141,18 @@
         "transit-analytics": "En tránsito"
     },
     "search_component": {
-        "search": "Buscar..."
+        "search": "Buscar...",
+        "results": "Resultados: "
     },
-    "status_card": {
-        "order_id": "ID del pedido: "
-    },
-    "orders_table": {
-        "results": "Resultados: ",
+    "pagination": {
         "pagination": "/ página",
         "total_page": " total pages"
-    },
-    "status_page": {
-        "pending_title": "PENDIENTES DE RECIBIR",
-        "completed_title": "COMPLETADOS"
     },
     "selector_component": {
         "label": "Filtrar tienda",
         "all": "Todas"
     },
-    "select_reason": {
-        "WRONG_COLOR": "Color equivocado",
-        "NOT_AS_EXPECTED": "Diferente de lo esperado",
-        "DEFECTIVE": "Objeto defectuoso",
-        "CHANGED_MY_MIND": "He cambiado de opinión",
-        "WRONG_ITEM": "He recibido un artículo equivocado",
-        "WRONG_SIZE_TOO_SMALL": "Demasiado pequeño",
-        "WRONG_SIZE_TOO_BIG": "Demasiado grande",
-        "NOT_RECEIVED": "No he recibido mi pedido"
-    },
-    "details_page": {
-        "email": "Correo electrónico",
-        "address": "Dirección indicada",
-        "return_date": "Fecha de devolución",
-        "stage": "Estado",
-        "condition": "Condición",
-        "pending": "Pendiente de recibir",
-        "completed": "Completado",
-        "amount": "Importe",
-        "type_return": "Tipo de devolución",
-        "type_refund": "Tipo de reembolso",
-        "reason": "Razón",
-        "tracking": "Información de seguimiento"
-    },
-    "topbar_components": {
+    "topbar_processes": {
         "returns": "Devoluciones",
         "all": "Todas",
         "action_needed": "Pendiente de revision",
@@ -102,37 +166,6 @@
         "pending": "Pendiente de recibir",
         "review_required": "Acción requerida",
         "received": "Recibido"
-    },
-    "order_details": {
-        "date": "Fecha devolución",
-        "order_id": "ID",
-        "image": "Imagen",
-        "price": "Precio",
-        "product_name": "Nombre del producto",
-        "quantity": "Cantidad",
-        "status": "Estado",
-        "customer": "Cliente",
-        "shop": "Tienda",
-        "approve": "Aprobar",
-        "decline": "Declinar",
-        "missing": "Perdido",
-        "review": "Revisar",
-        "submit": "Enviar revisión",
-        "reject_title": "Motivo de rechazo",
-        "total": "Items totales",
-        "review_status": "Estado de la revisión",
-        "order": "Pedido",
-        "order_status": "Estado del pedido",
-        "return_status": "Devolución",
-        "shipping_status": "Estado del envío",
-        "name": "Nombre",
-        "email": "Correo electrónico",
-        "phone": "Teléfono",
-        "address": "Dirección",
-        "products": "Productos",
-        "order_details": "Detalles",
-        "summary": "Resumen",
-        "decline_reason": "Añada un motivo de rechazo..."
     },
     "summary": {
         "total": "Reembolso total: ",
@@ -154,7 +187,8 @@
     "review_toast": {
         "success1": "¡Hemos registrado la revisión correctamente!",
         "success2": "Reembolsaremos los artículos aceptados",
-        "error": "Algo ha ido mal... Por favor, inténtalo más tarde"
+        "error": "Algo ha ido mal... Por favor, inténtalo más tarde",
+        "only_declined": "No reembolsaremos estos artículos"
     },
     "transit_analytics": {
         "NO_SHIPPING_STATUS": "Etiqueta pendiente",
@@ -168,8 +202,7 @@
         "items_transit": "artículos en camino",
         "value_transit": "valor en camino",
         "title_by_country": "Tránsito por país",
-        "title_by_time": "Tiempo en camino",
-        "only_declined": "No reembolsaremos estos artículos"
+        "title_by_time": "Tiempo en camino"
     },
     "returns_analytics": {
         "title_returns": "devoluciones",

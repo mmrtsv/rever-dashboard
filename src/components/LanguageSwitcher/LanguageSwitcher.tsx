@@ -27,13 +27,13 @@ export const LanguageSwitcher = () => {
             >
                 <div className="flex items-center">
                     <img className="mr-2" src={language === 'en' ? EN : ES} />
-                    <h6 style={{ color: 'black' }}>
+                    <p style={{ color: 'black' }}>
                         {
                             languageTitles[
                                 language as keyof typeof languageTitles
                             ]
                         }
-                    </h6>
+                    </p>
                 </div>
             </Button>
             <Popover
@@ -52,7 +52,7 @@ export const LanguageSwitcher = () => {
             >
                 {Object.entries(languageLabels).map(([lang, label]) => (
                     <MenuItem key={lang} onClick={() => handleChange(lang)}>
-                        <h6>{label}</h6>
+                        <p>{label}</p>
                     </MenuItem>
                 ))}
             </Popover>

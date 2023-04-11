@@ -66,7 +66,7 @@ const LineItem: React.FC<LineItemProps> = ({
             first={first}
             last={last}
         >
-            <Link to={`/details/${lineItem.rever_id}`}>
+            <Link to={`/return/${lineItem.return_process?.process_id}`}>
                 <Box>
                     <DissapearText>{returnDate}</DissapearText>
                     <TextBoxes>{customerPrintedOrderId}</TextBoxes>
