@@ -195,13 +195,14 @@
         "CREATED": "Etiqueta creada",
         "COLLECTED": "Recogido",
         "less-than-7-days": "-1 semana",
-        "between-7-14-days": "2 semana",
+        "between-7-14-days": "2 semanas",
         "between-15-21-days": "3 semanas",
         "between-22-30-days": "4 semanas",
         "more-then-30-days": "+4 semanas",
         "items_transit": "artículos en camino",
         "value_transit": "valor en camino",
         "title_by_country": "Tránsito por país",
+        "others": "Otros",
         "title_by_time": "Tiempo en camino"
     },
     "returns_analytics": {

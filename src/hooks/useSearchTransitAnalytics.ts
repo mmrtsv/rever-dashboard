@@ -1,8 +1,12 @@
 import { useEffect } from 'react'
 import { getTransitAnalytics } from '@/redux/api/reportsApi'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
+import useCountries from './useCountries'
 
 export function useSearchTransitAnalytics() {
+    useCountries()
+    const countries = useAppSelector((s) => s.locationsApi.countries.response)
+
     const dispatch = useAppDispatch()
     const token = useAppSelector((state) => state.userApi.token)
 
@@ -20,8 +24,9 @@ export function useSearchTransitAnalytics() {
         : ''
 
     useEffect(() => {
-        if (token && ecommerceId) dispatch(getTransitAnalytics({ ecommerceId }))
-    }, [ecommerceId, token])
+        if (token && ecommerceId && countries && countries.length > 0)
+            dispatch(getTransitAnalytics({ ecommerceId }))
+    }, [ecommerceId, token, countries, dispatch])
 }
 
 export default useSearchTransitAnalytics

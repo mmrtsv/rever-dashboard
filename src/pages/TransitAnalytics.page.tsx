@@ -35,10 +35,17 @@ function TransitAnalytics() {
             else return 0
         }) ?? []
 
-    const labelsCountry =
-        transitAnalytics.country_stats?.map((stat) => {
-            return stat.name ?? ''
-        }) ?? []
+    const countries = useAppSelector((s) => s.locationsApi.countries.response)
+    let labelsCountries: string[] = []
+    if (countries) {
+        labelsCountries =
+            transitAnalytics.country_stats?.map((stat) => {
+                const country = countries.find((c) => c.iso === stat.name)
+                return stat.name === 'others'
+                    ? t('returns_analytics.others')
+                    : country?.nicename ?? stat.name ?? ''
+            }) ?? []
+    }
     const valuesCountry =
         transitAnalytics.country_stats?.map((stat) => {
             return stat.total_number_of_items ?? 0
@@ -79,14 +86,16 @@ function TransitAnalytics() {
                             <Title>
                                 <b>{valueInTransit}</b>
                             </Title>
-                            <Subtitle>value in transit</Subtitle>
+                            <Subtitle>
+                                {t('transit_analytics.value_transit')}
+                            </Subtitle>
                         </Card>
                     </TopDiv>
                     <ChartsDiv>
                         <Card>
                             <BarChart
                                 title={t('transit_analytics.title_by_country')}
-                                labels={labelsCountry}
+                                labels={labelsCountries}
                                 values={valuesCountry}
                             />
                         </Card>
@@ -139,8 +148,7 @@ const TopDiv = styled.div`
     gap: 1rem;
 `
 
-const Subtitle = styled.h6`
-    color: #66768e;
+const Subtitle = styled.p`
     font-size: 12px;
     @media ${device.lg} {
         font-size: 14px;
@@ -159,8 +167,8 @@ const Title = styled.h3`
 `
 
 const Card = styled.div`
-    /* border: 1px solid;
-    border-color: rgb(204, 204, 204); */
+    border: 1px solid;
+    border-color: rgb(204, 204, 204);
     border-radius: 0.5rem;
     text-align: center;
     background-color: #fff;

@@ -195,13 +195,14 @@
         "CREATED": "Label created",
         "COLLECTED": "Collected",
         "less-than-7-days": "-1 week",
-        "between-7-14-days": "2 week",
+        "between-7-14-days": "2 weeks",
         "between-15-21-days": "3 weeks",
         "between-22-30-days": "4 weeks",
         "more-then-30-days": "+4 weeks",
         "items_transit": "items in transit",
         "value_transit": "value in transit",
         "title_by_country": "Transit by country",
+        "others": "Others",
         "title_by_time": "Time in transit"
     },
     "returns_analytics": {
