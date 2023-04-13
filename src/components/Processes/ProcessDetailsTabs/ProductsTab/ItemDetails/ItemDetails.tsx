@@ -94,7 +94,9 @@ export const LineItemInfo: React.FC<LItemProps> = ({
             </ItemDiv>
             <InfoDiv>
                 <div>
-                    <p className="mb-2 text-lg">{t('item_details.reason')}</p>
+                    <p className="mb-2">
+                        <b>{t('item_details.reason')}</b>
+                    </p>
                     <p>
                         {productReturnReason
                             ? t(`select_reason.${productReturnReason}`)
@@ -102,7 +104,9 @@ export const LineItemInfo: React.FC<LItemProps> = ({
                     </p>
                 </div>
                 <div>
-                    <p className="mb-2 text-lg">{t('item_details.tracking')}</p>
+                    <p className="mb-2">
+                        <b>{t('item_details.tracking')}</b>
+                    </p>
                     {trackingId && trackingUrl ? (
                         <a
                             className="text-primary-dark break-words"
@@ -117,8 +121,8 @@ export const LineItemInfo: React.FC<LItemProps> = ({
                     )}
                 </div>
                 <div>
-                    <p className="mb-2 text-lg">
-                        {t('item_details.compensation')}
+                    <p className="mb-2">
+                        <b>{t('item_details.compensation')}</b>
                     </p>
                     <p>
                         {compensationMethod === RefundActions.NoAction
@@ -133,7 +137,7 @@ export const LineItemInfo: React.FC<LItemProps> = ({
                     lineItem.reviews.length > 0 &&
                     lineItem.reviews[0].reject_reason && (
                         <div>
-                            <p className="mb-2 text-lg">
+                            <p className="mb-2">
                                 {t('item_details.reject_reason')}
                             </p>
                             <p>{lineItem.reviews[0].reject_reason}</p>
