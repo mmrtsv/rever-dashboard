@@ -54,7 +54,16 @@ const authApiSlice = createSlice({
         })
         builder.addCase(getMe.fulfilled, (state, action) => {
             state.getMe.loading = 'succeeded'
-            state.getMe.response = action.payload
+            const data: MeUserResponse = {
+                ...action.payload,
+                user: {
+                    ...action.payload.user,
+                    ecommerces: action.payload.user?.ecommerces?.sort((a, b) =>
+                        a.localeCompare(b, undefined, { sensitivity: 'base' })
+                    )
+                }
+            }
+            state.getMe.response = data
         })
         builder.addCase(getMe.rejected, (state, action) => {
             state.getMe.loading = 'failed'
