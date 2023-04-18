@@ -49,7 +49,7 @@ jobs:
                   VERSION_TAG=`git describe --tags --abbrev=0 | awk -F. '{OFS="."; $NF+=1; print $0}'`
                   git tag $VERSION_TAG -a -m "Automatic version increment on push"
                   git push origin $VERSION_TAG
-                  echo "{name}=$VERSION_TAG" >> $GITHUB_OUTPUT
+                  echo "version=$VERSION_TAG" >> $GITHUB_OUTPUT
 
     docker-build:
         runs-on: ubuntu-latest
