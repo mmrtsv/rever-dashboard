@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import ShippingStatus from '../../ShippingStatus'
-import ReviewItemStatus from '../LineItemStatus/LineItemStatus'
 import { Link } from 'react-router-dom'
 import NoAvailable from '@/assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
@@ -46,19 +45,6 @@ const LineItem: React.FC<LineItemProps> = ({
         ? getDate(lineItem?.return_process?.started_at?.seconds, i18n.language)
         : 'XX/XX/XXXX'
 
-    const showReviewStatus =
-        lineItem.return_process?.return_status === 'COMPLETED'
-
-    let reviewStatus = 0
-    if (lineItem.reviews && lineItem.reviews?.length > 0) {
-        reviewStatus =
-            lineItem.reviews[0].status === 'APPROVED'
-                ? 0
-                : lineItem.reviews[0].status === 'DECLINED'
-                ? 1
-                : 2
-    }
-
     return (
         <LineItemCard
             key={lineItem.rever_id}
@@ -83,11 +69,7 @@ const LineItem: React.FC<LineItemProps> = ({
                     </DisappearL>
                     <DisappearL>{customerFullName}</DisappearL>
                     <StatusBox>
-                        {showReviewStatus ? (
-                            <ReviewItemStatus status={reviewStatus} />
-                        ) : (
-                            <ShippingStatus status={shippingStatus} />
-                        )}
+                        <ShippingStatus status={shippingStatus} />
                     </StatusBox>
                 </Box>
             </Link>

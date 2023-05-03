@@ -41,23 +41,6 @@ describe('Line Item test', () => {
         // Shipping Status
         screen.getByText('In Warehouse')
     })
-
-    it('should display the review status when conditions are met', () => {
-        // CONDITIONS
-        // return_status = COMPLETED
-
-        const item: ModelsPublicReturnLineItem = lineItem('COMPLETED')
-
-        render(
-            <Router>
-                <I18nextProvider i18n={i18n}>
-                    <LineItem key={1} lineItem={item} />
-                </I18nextProvider>
-            </Router>
-        )
-        screen.getByTestId('SuccessIcon')
-        screen.getByText('Approved')
-    })
 })
 
 function lineItem(return_status: string): ModelsPublicReturnLineItem {
