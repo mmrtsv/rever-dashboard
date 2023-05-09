@@ -138,7 +138,7 @@ export const LineItemInfo: React.FC<LItemProps> = ({
                     lineItem.reviews[0].reject_reason && (
                         <div>
                             <p className="mb-2">
-                                {t('item_details.reject_reason')}
+                                <b>{t('item_details.reject_reason')}</b>
                             </p>
                             <p>{lineItem.reviews[0].reject_reason}</p>
                         </div>
