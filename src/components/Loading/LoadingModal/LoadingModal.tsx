@@ -12,13 +12,17 @@ export const LoadingModal: React.FC<LoadingModalProps> = ({ loading }) => {
     return (
         <>
             {loading && (
-                <Modal isOpen={loading} onRequestClose={() => null}>
+                <Modal
+                    isOpen={loading}
+                    onRequestClose={() => null}
+                    showBorder={false}
+                >
                     <div className="flex items-center">
                         <ClipLoader
                             data-testid="spinner"
                             loading={loading}
                             color={theme.colors.primary.dark}
-                            size="125px"
+                            size="100px"
                         />
                     </div>
                 </Modal>

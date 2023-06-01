@@ -47,8 +47,8 @@
         "vite-tsconfig-paths": "^3.5.1"
     },
     "devDependencies": {
-        "@itsrever/dashboard-api": "^1.0.158",
-        "@itsrever/design-system": "^1.0.53",
+        "@itsrever/dashboard-api": "^1.0.162",
+        "@itsrever/design-system": "^1.0.59",
         "@itsrever/returns-api-types": "^0.0.84",
         "@testing-library/react": "^13.4.0",
         "@types/lodash": "^4.14.192",

@@ -606,17 +606,17 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@itsrever/dashboard-api@^1.0.158":
-  version "1.0.158"
-  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.158/76bc50198729ae401175710f6fec50196b621e94#76bc50198729ae401175710f6fec50196b621e94"
-  integrity sha512-SJv0YHK+dWzSnTJlAbNt2sKvguE6Zq/QXgCahaJh9zb4stQ/eITmXBcXE+q2Cu7jxAIHumInVO59ktj4gWL9EA==
+"@itsrever/dashboard-api@^1.0.162":
+  version "1.0.162"
+  resolved "https://npm.pkg.github.com/download/@itsrever/dashboard-api/1.0.162/d63980424870e5dc1c017cb979844321ce91b560#d63980424870e5dc1c017cb979844321ce91b560"
+  integrity sha512-euG7068DMtoRrR6NMJLAVZ2UjB5Zsy5jgllFv2GLwR+Fm9z4U6nUDk95tlVIvFVTN/MZSm+m6VMsaIFZz3fjEw==
   dependencies:
     axios "1.2.2"
 
-"@itsrever/design-system@^1.0.53":
-  version "1.0.53"
-  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.53/7a26b5294b24e9e0a56aa29b3d1c9407df5244c0#7a26b5294b24e9e0a56aa29b3d1c9407df5244c0"
-  integrity sha512-EjM2+JTU8fMYC3n2PxbdBpg6ULhZ3p4gx12cJWeJqe92oycS0x5PpX3WFz29X4EgHeY+na7ycrb2OqugO1nFtQ==
+"@itsrever/design-system@^1.0.59":
+  version "1.0.59"
+  resolved "https://npm.pkg.github.com/download/@itsrever/design-system/1.0.59/2bba60a8b823a35095fd4c6872d61873d79d416a#2bba60a8b823a35095fd4c6872d61873d79d416a"
+  integrity sha512-LdNSVyIWIG5oPwkLUuNE5ayRqLy+rT8O6BPpZHWLYcS4n0CAzlnhioKbuo6++/L5+b6v7yvi6WxGEhR5R9A7nA==
   dependencies:
     "@emotion/react" "^11.10.4"
     "@emotion/styled" "^11.10.4"
