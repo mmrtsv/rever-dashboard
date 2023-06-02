@@ -59,7 +59,7 @@ export function useCreateReviews(manualReview: boolean, onlyDeclined: boolean) {
                 })
             }
             setTimeout(() => {
-                navigate('/')
+                location.reload()
             }, 2000)
         } else if (createReviewCall.loading === 'failed') {
             dispatch(resetReviewsApiCalls())

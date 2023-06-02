@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next'
 import { getDate } from '../utils'
 import { useAppSelector } from '@/redux/hooks'
 import { Button } from '@itsrever/design-system'
-
 import ProductsTab from '@/components/Processes/ProcessDetailsTabs/ProductsTab/ProductsTab'
 import device from '@/utils/device'
 
