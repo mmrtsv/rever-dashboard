@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
-import device, { Sizes } from '../../utils/device'
+import { moreThan, lessThan } from '@/utils'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { setLimitPagination } from '@/redux/features/generalData/generalDataSlice'
 
@@ -186,7 +186,7 @@ const Pagination: React.FC<SearchProps> = ({
 
 const Selector = styled.div`
     // Not display under 600px
-    @media (max-width: ${Sizes.md}) {
+    @media ${lessThan.md} {
         display: none;
     }
 `
@@ -243,7 +243,7 @@ const PaginationBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    @media ${device.md} {
+    @media ${moreThan.md} {
         justify-content: flex-end;
     }
 `

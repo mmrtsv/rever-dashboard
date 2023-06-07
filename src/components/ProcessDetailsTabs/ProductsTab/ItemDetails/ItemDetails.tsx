@@ -1,13 +1,15 @@
-import { ModelsReturnLineItem } from '@itsrever/dashboard-api'
+import {
+    ModelsPublicReturnProcess,
+    ModelsReturnLineItem
+} from '@itsrever/dashboard-api'
 import styled from 'styled-components'
 import NoAvailable from '@/assets/images/noAvailable.png'
 import { ChevronLeftIcon } from '@itsrever/design-system'
 import { SelectedItem } from '../ProductsTab'
 import { useTranslation } from 'react-i18next'
 import { LineItemStatus } from '@/components/LineItems'
-import { useAppSelector } from '@/redux/hooks'
 import { formatPrice } from '@/utils'
-import { RefundActions } from '@/redux/features/generalData/generalDataSlice'
+import { RefundActions } from '@/utils'
 
 interface LItemProps {
     setSelectedItem: (s: SelectedItem) => void
@@ -20,10 +22,7 @@ export const LineItemInfo: React.FC<LItemProps> = ({
 }) => {
     const { t } = useTranslation()
 
-    const processCall = useAppSelector(
-        (s) => s.processesApi.getProcess.response.processes
-    )
-    const process = processCall && processCall.length > 0 ? processCall[0] : {}
+    const process: ModelsPublicReturnProcess = {}
 
     let imgSrc = NoAvailable
     if (lineItem?.product_image_url) {

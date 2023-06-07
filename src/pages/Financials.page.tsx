@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { useSearchFinancialReport } from '../hooks/useSearchFinancialReport'
 import { useTheme } from '@itsrever/design-system'
-import device from '@/utils/device'
+import { moreThan } from '@/utils'
 import { useAppSelector } from '@/redux/hooks'
 
 function Financials() {
@@ -161,10 +161,10 @@ interface IconProps {
 const Title = styled.h3<IconProps>`
     color: ${(p) => p.color};
     font-size: 24px;
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         font-size: 36px;
     }
-    @media ${device.xl} {
+    @media ${moreThan.xl} {
         font-size: 48px;
     }
 `

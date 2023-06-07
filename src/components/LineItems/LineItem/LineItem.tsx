@@ -4,7 +4,7 @@ import ShippingStatus from '../../ShippingStatus'
 import { Link } from 'react-router-dom'
 import NoAvailable from '@/assets/images/noAvailable.png'
 import { ModelsPublicReturnLineItem } from '@itsrever/dashboard-api'
-import device from '@/utils/device'
+import { moreThan, lessThan } from '@/utils'
 import { useTranslation } from 'react-i18next'
 import { getDate } from '@/utils'
 
@@ -84,27 +84,27 @@ const Box = styled.div`
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     width: 100%;
-    @media ${device.md} {
+    @media ${moreThan.md} {
         display: grid;
         align-items: center;
         width: 100%;
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
     }
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 `
 
 const DisappearL = styled.p`
     text-align: center;
-    @media (max-width: 899px) {
+    @media ${lessThan.lg} {
         display: none;
     }
 `
 const DissapearText = styled.p`
     text-align: center;
-    @media (max-width: 599px) {
+    @media ${lessThan.md} {
         display: none;
     }
 `
@@ -135,7 +135,7 @@ const LineItemCard = styled.div<CardProps>`
     background-color: #fff;
     width: 100%;
     cursor: pointer;
-    @media (max-width: 599px) {
+    @media ${lessThan.md} {
         padding: 1rem;
     }
 `

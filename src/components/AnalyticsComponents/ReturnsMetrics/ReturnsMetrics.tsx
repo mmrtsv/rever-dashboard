@@ -9,7 +9,7 @@ import { useSearchReturnMetrics } from '../../../hooks/useSearchReturnMetrics'
 import { formatPrice } from '../../../utils'
 import moment from 'moment'
 import useSearchReturnTypesByDay from '@/hooks/useSearchReturnTypesByDay'
-import device from '@/utils/device'
+import { moreThan } from '@/utils'
 import DonutComponent from '../DonutComponent/DonutComponent'
 import useSearchReturnsByCountry from '@/hooks/useSearchReturnsByCountry'
 import { useTranslation } from 'react-i18next'
@@ -236,7 +236,7 @@ const DonutBox = styled.div<BoxProps>`
     border-color: ${(p) => p.borderColor};
     background-color: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    @media ${device.md} {
+    @media ${moreThan.md} {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -255,7 +255,7 @@ const TopInfo = styled.div`
     flex-direction: column;
     justify-content: space-between;
 
-    @media ${device.md} {
+    @media ${moreThan.md} {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1rem;
@@ -295,15 +295,15 @@ const ReverSuccessBox = styled.div<BoxSuccessProps>`
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     padding: 0.35rem;
     margin-bottom: 1rem;
-    @media ${device.md} {
+    @media ${moreThan.md} {
         padding: 0.55rem;
         margin-bottom: 0rem;
     }
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         padding: 0.85rem;
         margin-bottom: 0rem;
     }
-    @media ${device.xl} {
+    @media ${moreThan.xl} {
         padding: 1rem;
         margin-bottom: 0rem;
     }

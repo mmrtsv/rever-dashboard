@@ -1,8 +1,6 @@
 import React from 'react'
 import { ApexOptions } from 'apexcharts'
 import Chart from 'react-apexcharts'
-import styled from 'styled-components'
-import device from '@/utils/device'
 
 interface BarChartProps {
     title: string

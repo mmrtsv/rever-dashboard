@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ProcessReturnStatus from '../ProcessReturnStatus.tsx/ProcessReturnStatus'
 import { Link } from 'react-router-dom'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
-import { Sizes } from '@/utils/device'
+import { lessThan } from '@/utils'
 import { useTranslation } from 'react-i18next'
 import { useAppSelector } from '@/redux/hooks'
 import { getDate } from '@/utils'
@@ -107,7 +107,7 @@ const ProcessCard = styled.div<CardProps>`
     background-color: #fff;
     width: 100%;
     cursor: pointer;
-    @media (max-width: ${Sizes.md}) {
+    @media ${lessThan.md} {
         padding: 1rem;
     }
 `

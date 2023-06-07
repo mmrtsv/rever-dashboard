@@ -7,9 +7,8 @@ import {
     ModelsMoneyFormat,
     ModelsPublicReturnLineItem
 } from '@itsrever/dashboard-api'
-import { formatPrice } from '@/utils'
-import { Sizes } from '@/utils/device'
-import { RefundActions } from '@/redux/features/generalData/generalDataSlice'
+import { formatPrice, moreThan, lessThan } from '@/utils'
+import { RefundActions } from '@/utils'
 import { RepeatIcon, CoinIcon } from '@itsrever/design-system'
 import { useTranslation } from 'react-i18next'
 
@@ -112,7 +111,7 @@ const Box = styled.div`
     gap: 0.5rem;
     align-items: center;
     width: 100%;
-    @media (min-width: ${Sizes.md}) {
+    @media ${moreThan.md} {
         grid-template-columns: repeat(6, minmax(0, 1fr));
         align-items: center;
         width: 100%;
@@ -121,7 +120,7 @@ const Box = styled.div`
 
 const ItemName = styled.p`
     grid-column: span 2 / span 2;
-    @media (max-width: 599px) {
+    @media ${lessThan.md} {
         display: none;
     }
 `
@@ -139,7 +138,4 @@ const SplitLineItemCard = styled.div`
     background-color: #fff;
     cursor: pointer;
     z-index: 1;
-    @media (max-width: ${Sizes.md}) {
-        padding: 1rem;
-    }
 `

@@ -48,7 +48,11 @@
         "WRONG_ITEM": "I received a wrong item",
         "WRONG_SIZE_TOO_SMALL": "Too small",
         "WRONG_SIZE_TOO_BIG": "Too large",
-        "NOT_RECEIVED": "I didn't receive my order"
+        "NOT_RECEIVED": "I didn't receive my order",
+        "PRODUCT_DID_NOT_MATCH_DESCRIPTION": "Product did not match description",
+        "OTHER": "Other",
+        "FIT_NOT_AS_EXPECTED": "Fit not as expected",
+        "QUALITY_NOT_AS_EXPECTED": "Quality not as expected"
     },
 
     "page_titles": {

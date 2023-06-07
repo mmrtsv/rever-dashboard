@@ -8,7 +8,6 @@ import { ThemeProvider } from '@itsrever/design-system'
 import thunk from 'redux-thunk'
 import i18n from '../i18nForTests'
 import { I18nextProvider } from 'react-i18next'
-
 import LineItemsPage from '../pages/LineItems.page'
 
 describe('Line Items Page', () => {

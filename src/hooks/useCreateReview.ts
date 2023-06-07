@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { useNavigate } from 'react-router-dom'
 import { toast } from '@itsrever/design-system'
 import { useTranslation } from 'react-i18next'
 import { createReview, resetReviewsApiCalls } from '@/redux/api/reviewsApi'
@@ -8,7 +7,6 @@ import { OpsapiModelsLineItemReview } from '@itsrever/dashboard-api'
 
 export function useCreateReviews(manualReview: boolean, onlyDeclined: boolean) {
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
     const { t } = useTranslation()
 
     const createReviewCall = useAppSelector(

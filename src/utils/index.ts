@@ -3,6 +3,9 @@ import {
     ProcessessapiModelsMoneyFormat
 } from '@itsrever/dashboard-api'
 
+export * from './types'
+export * from './device'
+
 export function checkImage(url: string) {
     const http = new XMLHttpRequest()
 

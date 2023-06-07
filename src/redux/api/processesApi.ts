@@ -14,7 +14,6 @@ interface GetProcessesCall extends ApiCallBase {
 }
 
 interface State {
-    getProcess: GetProcessesCall
     getProcesses: GetProcessesCall
     getPendingProcesses: GetProcessesCall
     getCompletedProcesses: GetProcessesCall
@@ -22,7 +21,6 @@ interface State {
 }
 
 const initialState: State = {
-    getProcess: initialApiState,
     getProcesses: initialApiState,
     getPendingProcesses: initialApiState,
     getCompletedProcesses: initialApiState,
@@ -45,16 +43,13 @@ const defaultValueProcesses: ProcessesApiFindProcessesRequest = {
     returnStatus: undefined
 }
 
-export const getProcess = createAsyncThunk(
-    '/getProcess',
-    async (args: ProcessesApiFindProcessesRequest) => {
-        const { processId } = args || defaultValueProcesses
-        const getProcessResponse = await processesApi.findProcesses({
-            processId
-        })
-        return getProcessResponse.data
-    }
-)
+export async function getProcess(args: ProcessesApiFindProcessesRequest) {
+    const { processId } = args || defaultValueProcesses
+    const getProcessResponse = await processesApi.findProcesses({
+        processId
+    })
+    return getProcessResponse.data
+}
 
 export const getPendingProcesses = createAsyncThunk(
     '/getPendingProcesses',
@@ -147,10 +142,6 @@ const processesSlice = createSlice({
     initialState,
     reducers: {
         resetProcessesApiCalls: (state) => {
-            state.getProcess = {
-                ...initialApiState,
-                response: state.getProcess.response
-            }
             state.getProcesses = {
                 ...initialApiState,
                 response: state.getProcesses.response
@@ -170,19 +161,6 @@ const processesSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // Get Process
-        builder.addCase(getProcess.pending, (state) => {
-            state.getProcess.loading = 'pending'
-        })
-        builder.addCase(getProcess.fulfilled, (state, action) => {
-            state.getProcess.loading = 'succeeded'
-            state.getProcess.response = action.payload
-        })
-        builder.addCase(getProcess.rejected, (state, action) => {
-            state.getProcess.loading = 'failed'
-            state.getProcess.error = action.error
-        })
-
         // Get Processes
         builder.addCase(getProcesses.pending, (state) => {
             state.getProcesses.loading = 'pending'

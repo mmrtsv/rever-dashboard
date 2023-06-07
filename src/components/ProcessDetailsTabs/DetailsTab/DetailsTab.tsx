@@ -1,27 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
-import ShippingStatus from '../../../ShippingStatus'
+import ShippingStatus from '../../ShippingStatus'
 import AccessTime from '@mui/icons-material/AccessTime'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import OrderInfo from '@mui/icons-material/InfoOutlined'
 import { useTheme, CollectionPoint, HomePickup } from '@itsrever/design-system'
-import device from '@/utils/device'
+import { moreThan, lessThan } from '@/utils'
 import { useTranslation } from 'react-i18next'
-import { useAppSelector } from '@/redux/hooks'
-import ProcessReturnStatus from '../../ProcessReturnStatus.tsx/ProcessReturnStatus'
-import { ReturnMethods } from '@/redux/features/generalData/generalDataSlice'
+import ProcessReturnStatus from '../../Processes/ProcessReturnStatus.tsx/ProcessReturnStatus'
+import { ReturnMethods } from '@/utils'
+import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 
-const DetailsTab = () => {
+interface DetailsTabProps {
+    process: ModelsPublicReturnProcess
+}
+
+const DetailsTab: React.FC<DetailsTabProps> = ({ process }) => {
     const theme = useTheme()
     const { t } = useTranslation()
-
-    const responseProcess = useAppSelector(
-        (store) => store.processesApi.getProcess.response.processes
-    )
-    const process =
-        responseProcess && responseProcess?.length > 0
-            ? responseProcess[0]
-            : undefined
 
     const customer = process?.customer
 
@@ -237,7 +233,7 @@ const CustomerTable = styled.div`
 `
 
 const OrderStatusDiv = styled.div`
-    @media (max-width: 899px) {
+    @media ${lessThan.lg} {
         margin-top: 3rem;
     }
 `
@@ -247,7 +243,7 @@ const ProductDetailsDiv = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import PeriodSelector from '../PeriodSelector/PeriodSelector'
-import device from '@/utils/device'
+import { moreThan } from '@/utils'
 
 interface TopBarProps {
     currentPeriod: number
@@ -28,7 +28,7 @@ const TopDiv = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         padding-top: 3rem;
     }
 `

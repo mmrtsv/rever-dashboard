@@ -9,9 +9,9 @@ import locationsApi from './api/locationsApi'
 
 export const store = configureStore({
     reducer: {
+        generalData: generalDataReducer,
         processesApi: processesApiReducer,
         lineItemsApi: lineItemsApiReducer,
-        generalData: generalDataReducer,
         userApi: userApiReducer,
         reportsApi: reportsApi,
         reviewsApi: reviewsApi,

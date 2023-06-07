@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import device from '@/utils/device'
+import { lessThan, moreThan } from '@/utils'
 
 interface TitlesProps {
     title?: string
@@ -40,7 +40,7 @@ const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
 export default TitlesSplitLineItem
 
 const DissapearingPL = styled.p`
-    @media (max-width: 599px) {
+    @media ${lessThan.md} {
         display: none;
     }
 `
@@ -50,7 +50,7 @@ const TitlesDiv = styled.div`
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.5rem;
     padding: 1rem;
-    @media ${device.md} {
+    @media ${moreThan.md} {
         max-width: 80%;
         grid-template-columns: repeat(6, minmax(0, 1fr));
     }

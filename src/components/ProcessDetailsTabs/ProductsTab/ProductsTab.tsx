@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {
+    ModelsPublicReturnProcess,
     ModelsReturnLineItem,
     OpsapiModelsLineItemReview
 } from '@itsrever/dashboard-api'
@@ -9,12 +10,12 @@ import ReturnedIcon from '@mui/icons-material/Cached'
 import TitlesSplitLineItem from '@/components/LineItems/ProcessSplitLineItem/TitlesSplitLineItem/TitlesSplitLineItem'
 import { Button } from '@itsrever/design-system'
 import { LineItemStatus, ProcessSplitLineItem } from '@/components/LineItems'
-import { useAppSelector } from '@/redux/hooks'
 import { useTranslation } from 'react-i18next'
 import { useCreateReviews } from '@/hooks'
 import { useTheme } from '@itsrever/design-system'
 import RejectReasonModal from './RejectReasonModal/RejectReasonModal'
 import LineItemInfo from './ItemDetails/ItemDetails'
+import { LineItemTypes } from '@/utils'
 
 export interface SelectedItem {
     list?: 'returned' | 'not-received'
@@ -42,36 +43,33 @@ export function addOrUpdateReview(
     setReviewOpen(-1)
 }
 
-interface ProductsProps {
+interface ProductsTabProps {
+    process: ModelsPublicReturnProcess
     reviewMode: boolean
 }
 
-const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
+const ProductsTab: React.FC<ProductsTabProps> = ({ process, reviewMode }) => {
     const theme = useTheme()
     const { t } = useTranslation()
 
-    const responseProcess = useAppSelector(
-        (store) => store.processesApi.getProcess.response.processes
-    )
-    const process =
-        responseProcess && responseProcess?.length > 0
-            ? responseProcess[0]
-            : undefined
-
     const products =
-        process && process.line_items?.filter((item) => item.type === 'product')
+        process &&
+        process.line_items?.filter(
+            (item) => item.type === LineItemTypes.Product
+        )
 
     const allProducts =
         products &&
         products.flatMap((lineItem) => {
             const items: Array<ModelsReturnLineItem> = []
-            if (lineItem.quantity && lineItem.reviews) {
+            if (lineItem.quantity) {
                 for (let i = 0; i < lineItem.quantity; i++) {
                     items.push({
                         ...lineItem,
-                        reviews: lineItem.reviews[i]
-                            ? [lineItem.reviews[i]]
-                            : []
+                        reviews:
+                            lineItem.reviews && lineItem.reviews[i]
+                                ? [lineItem.reviews[i]]
+                                : []
                     })
                 }
             }
@@ -200,7 +198,8 @@ const ProductsTab: React.FC<ProductsProps> = ({ reviewMode }) => {
                                                         }
                                                     >
                                                         <Box>
-                                                            {reviews[i]
+                                                            {reviews[i] &&
+                                                            reviews[i]
                                                                 .status ? (
                                                                 <LineItemStatus
                                                                     status={

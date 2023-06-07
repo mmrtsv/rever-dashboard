@@ -1,7 +1,7 @@
 import React from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from '@emotion/styled'
-import device from '@/utils/device'
+import { moreThan } from '@/utils'
 import BarChart from '@/components/AnalyticsComponents/BarChartComponent/BarChart'
 import DonutComponent from '@/components/AnalyticsComponents/DonutComponent/DonutComponent'
 import { useSearchTransitAnalytics } from '@/hooks'
@@ -130,7 +130,7 @@ const MainDiv = styled.div`
 const Container = styled.div`
     flex-grow: 1;
     width: 100%;
-    @media ${device.xl} {
+    @media ${moreThan.xl} {
         max-width: 80%;
     }
 `
@@ -150,10 +150,10 @@ const TopDiv = styled.div`
 
 const Subtitle = styled.p`
     font-size: 12px;
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         font-size: 14px;
     }
-    @media ${device.xl} {
+    @media ${moreThan.xl} {
         font-size: 16px;
     }
 `
@@ -161,7 +161,7 @@ const Subtitle = styled.p`
 const Title = styled.h3`
     color: ${(p) => p.color};
     font-size: 24px;
-    @media ${device.lg} {
+    @media ${moreThan.lg} {
         font-size: 36px;
     }
 `

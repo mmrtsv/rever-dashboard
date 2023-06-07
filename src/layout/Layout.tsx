@@ -13,11 +13,9 @@ const Layout = () => {
     const [
         userApi,
         reviewsApi,
-        lineItemsApiGLI,
         lineItemsApiGLIs,
         lineItemsApiGPLIs,
         lineItemsApiGCLIs,
-        processesApiGP,
         processesApiGPs,
         processesApiGPPs,
         processesApiGRPs,
@@ -25,7 +23,6 @@ const Layout = () => {
     ] = [
         useAppSelector((store) => store.userApi.getMe.loading),
         useAppSelector((store) => store.reviewsApi.createReview.loading),
-        useAppSelector((store) => store.lineItemsApi.getLineItem.loading),
         useAppSelector((store) => store.lineItemsApi.getLineItems.loading),
         useAppSelector(
             (store) => store.lineItemsApi.getPendingLineItems.loading
@@ -33,7 +30,6 @@ const Layout = () => {
         useAppSelector(
             (store) => store.lineItemsApi.getCompletedLineItems.loading
         ),
-        useAppSelector((store) => store.processesApi.getProcess.loading),
         useAppSelector((store) => store.processesApi.getProcesses.loading),
         useAppSelector(
             (store) => store.processesApi.getPendingProcesses.loading
@@ -50,11 +46,9 @@ const Layout = () => {
         if (
             userApi === 'pending' ||
             reviewsApi === 'pending' ||
-            lineItemsApiGLI === 'pending' ||
             lineItemsApiGLIs === 'pending' ||
             lineItemsApiGPLIs === 'pending' ||
             lineItemsApiGCLIs === 'pending' ||
-            processesApiGP === 'pending' ||
             processesApiGPs === 'pending' ||
             processesApiGPPs === 'pending' ||
             processesApiGRPs === 'pending' ||
@@ -68,11 +62,9 @@ const Layout = () => {
         me,
         reviewsApi,
         userApi,
-        lineItemsApiGLI,
         lineItemsApiGLIs,
         lineItemsApiGPLIs,
         lineItemsApiGCLIs,
-        processesApiGP,
         processesApiGPs,
         processesApiGPPs,
         processesApiGRPs,

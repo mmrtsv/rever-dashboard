@@ -14,7 +14,6 @@ interface GetLineItemsCall extends ApiCallBase {
 }
 
 interface State {
-    getLineItem: GetLineItemsCall
     getLineItems: GetLineItemsCall
     getPendingLineItems: GetLineItemsCall
     getReviewRequiredLineItems: GetLineItemsCall
@@ -22,7 +21,6 @@ interface State {
 }
 
 const initialState: State = {
-    getLineItem: initialApiState,
     getLineItems: initialApiState,
     getPendingLineItems: initialApiState,
     getReviewRequiredLineItems: initialApiState,
@@ -43,17 +41,6 @@ const defaultValueLineItems: ProcessesApiFindLineItemsRequest = {
     lineItemsId: undefined,
     returnStatus: undefined
 }
-
-export const getLineItem = createAsyncThunk(
-    '/getLineItem',
-    async (args?: ProcessesApiFindLineItemsRequest) => {
-        const { lineItemsId } = args || defaultValueLineItems
-        const getLineItemResponse = await lineItemsApi.findLineItems({
-            lineItemsId
-        })
-        return getLineItemResponse.data
-    }
-)
 
 export const getPendingLineItems = createAsyncThunk(
     '/getPendingLineItems',
@@ -141,10 +128,6 @@ const lineItemsSlice = createSlice({
     initialState,
     reducers: {
         resetLineItemsApiCalls: (state) => {
-            state.getLineItem = {
-                ...initialApiState,
-                response: state.getLineItem.response
-            }
             state.getLineItems = {
                 ...initialApiState,
                 response: state.getLineItems.response
@@ -160,19 +143,6 @@ const lineItemsSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // Line Item
-        builder.addCase(getLineItem.pending, (state) => {
-            state.getLineItem.loading = 'pending'
-        })
-        builder.addCase(getLineItem.fulfilled, (state, action) => {
-            state.getLineItem.loading = 'succeeded'
-            state.getLineItem.response = action.payload
-        })
-        builder.addCase(getLineItem.rejected, (state, action) => {
-            state.getLineItem.loading = 'failed'
-            state.getLineItem.error = action.error
-        })
-
         // Pending Line Items
         builder.addCase(getPendingLineItems.pending, (state) => {
             state.getPendingLineItems.loading = 'pending'
