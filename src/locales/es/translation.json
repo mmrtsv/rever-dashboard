@@ -1,6 +1,7 @@
 {
     "toast_errors": {
         "no_label": "Este proceso no tiene etiqueta",
+        "presigned_url_404": "Etiqueta no disponible",
         "presigned_url": "La etiqueta no está disponible en este momento"
     },
     "actions": {
@@ -77,6 +78,7 @@
         "status": "Estado"
     },
     "process_details_page": {
+        "download_label": "Descargar etiqueta",
         "review": "Revisar"
     },
     "process_details_tabs": {

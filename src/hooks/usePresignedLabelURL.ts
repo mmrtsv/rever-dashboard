@@ -10,11 +10,18 @@ export function usePresignedURLLabel() {
     async function findPresignedURLLabel(processId: string) {
         if (token) {
             const data = await getPresignedURLLabel({ processId })
-            if (data) {
+            if (typeof data !== 'number' && data) {
                 return data.url
             }
+            if (data === 404) {
+                toast({
+                    text: t('toast_errors.presigned_url_404'),
+                    variant: 'error'
+                })
+                return
+            }
             toast({
-                text: t('toast_errors.presigned_url'),
+                text: t('toast_errors.presigned_url_500'),
                 variant: 'error'
             })
         }

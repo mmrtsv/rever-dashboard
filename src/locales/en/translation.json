@@ -1,7 +1,8 @@
 {
     "toast_errors": {
         "no_label": "This process does not have a label",
-        "presigned_url": "The label is currently unavailable"
+        "presigned_url_404": "Label unavailable",
+        "presigned_url_500": "The label is currently unavailable"
     },
     "actions": {
         "method0": "No Action",
@@ -77,6 +78,7 @@
         "status": "Status"
     },
     "process_details_page": {
+        "download_label": "Download label",
         "review": "Review"
     },
     "process_details_tabs": {

@@ -66,7 +66,9 @@ function ProcessDetails() {
                         onClick={downloadLabel}
                     >
                         <PDFIcon />
-                        <p className="ml-2 mr-8">Download label</p>
+                        <p className="ml-2 mr-8">
+                            {t('process_details_page.download_label')}
+                        </p>
                     </div>
                     {showReviewButton && (
                         <Button

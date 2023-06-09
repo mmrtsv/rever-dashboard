@@ -3,6 +3,7 @@ import {
     LogisticsApiGetPresignedURLLabelRequest
 } from '@itsrever/rever-api'
 import { axiosInstance } from './apiConfiguration'
+import { AxiosError } from 'axios'
 
 const logisticsApi = new LogisticsApi(undefined, undefined, axiosInstance)
 
@@ -15,6 +16,8 @@ export async function getPresignedURLLabel(
             await logisticsApi.getPresignedURLLabel({ processId })
         return getPresignedLabelURLResponse.data
     } catch (error) {
-        console.error(error)
+        const err = error as AxiosError
+        console.error(err)
+        return err.response?.status
     }
 }
