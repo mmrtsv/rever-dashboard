@@ -636,6 +636,13 @@
     url-parse "^1.4.3"
     whatwg-fetch "^3.0.0"
 
+"@itsrever/rever-api@^1.0.20":
+  version "1.0.20"
+  resolved "https://npm.pkg.github.com/download/@itsrever/rever-api/1.0.20/2cbe88b4b4def85c856e11d4a8f4b89011d8fd6f#2cbe88b4b4def85c856e11d4a8f4b89011d8fd6f"
+  integrity sha512-V672EfGfR8ZDZ6jzpqTMlxHMi0ki4RILdj5cE4uFTjzoBlIop5/SoqHL3HE6VMmwTYZC3BXl1KSAVDn3LapoAg==
+  dependencies:
+    axios "1.2.2"
+
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"

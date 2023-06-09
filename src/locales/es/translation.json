@@ -1,4 +1,8 @@
 {
+    "toast_errors": {
+        "no_label": "Este proceso no tiene etiqueta",
+        "presigned_url": "La etiqueta no está disponible en este momento"
+    },
     "actions": {
         "method0": "Sin acción",
         "method1": "Cambio",

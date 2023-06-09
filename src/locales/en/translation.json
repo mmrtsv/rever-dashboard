@@ -1,4 +1,8 @@
 {
+    "toast_errors": {
+        "no_label": "This process does not have a label",
+        "presigned_url": "The label is currently unavailable"
+    },
     "actions": {
         "method0": "No Action",
         "method1": "Exchange",
