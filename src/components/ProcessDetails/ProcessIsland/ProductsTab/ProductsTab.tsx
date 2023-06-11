@@ -165,14 +165,21 @@ const ProductsTab: React.FC<ProductsTabProps> = ({ process }) => {
                     {returnedProducts && returnedProducts.length > 0 && (
                         <div className="mb-6">
                             <div className="mb-6 flex items-center">
-                                <ReturnedIcon
-                                    style={{
-                                        color: `${theme.colors.grey[0]}`
-                                    }}
-                                />
-                                <p className="text-grey-1 ml-2 text-lg">
-                                    {t('products_tab.returned_items')}
-                                </p>
+                                {notReceivedProducts &&
+                                    notReceivedProducts.length > 0 && (
+                                        <>
+                                            <ReturnedIcon
+                                                style={{
+                                                    color: `${theme.colors.grey[0]}`
+                                                }}
+                                            />
+                                            <p className="text-grey-1 ml-2 text-lg">
+                                                {t(
+                                                    'products_tab.returned_items'
+                                                )}
+                                            </p>
+                                        </>
+                                    )}
                                 {showReviewButton && (
                                     <>
                                         <ReviewButton
@@ -246,7 +253,7 @@ const ProductsTab: React.FC<ProductsTabProps> = ({ process }) => {
                                                                 />
                                                             ) : (
                                                                 t(
-                                                                    'products_tab.review'
+                                                                    'products_tab.select'
                                                                 )
                                                             )}
                                                         </Box>
@@ -412,7 +419,7 @@ const ReviewButton = styled.button<ButtonProps>`
 
 const ProductsBox = styled.div`
     height: 100%;
-    padding: 2rem;
+    padding: 1.5rem;
 `
 
 const MenuDiv = styled.div`

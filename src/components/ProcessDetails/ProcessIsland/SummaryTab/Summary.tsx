@@ -58,7 +58,7 @@ export const SummaryTab: React.FC<SummaryProps> = ({ process }) => {
 export default SummaryTab
 
 const MainDiv = styled.div`
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     @media ${moreThan.xl} {

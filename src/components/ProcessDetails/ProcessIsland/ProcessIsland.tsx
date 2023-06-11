@@ -5,34 +5,29 @@ import { Tabs, Tab } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
 import { ProductsTab, SummaryTab } from '.'
-import NumbersIcon from '@mui/icons-material/Numbers'
-import { getDate } from '@/utils'
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
+import { FiPackage } from 'react-icons/fi'
 
 interface TabsProps {
     process: ModelsPublicReturnProcess
 }
 
 const ProcessIsland: React.FC<TabsProps> = ({ process }) => {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const theme = useTheme()
     const [currentTab, setCurrentTab] = useState(0)
-
-    const returnDate =
-        process?.started_at?.seconds &&
-        getDate(process?.started_at?.seconds, i18n.language)
 
     return (
         <div className="col-span-2">
             <MainDiv>
-                <div className="flex items-center pt-6 pl-6">
-                    <NumbersIcon
+                <div className="flex items-center">
+                    <FiPackage
+                        size={25}
                         style={{
                             color: `${theme.colors.grey[0]}`
                         }}
                     />
-                    <p className="text-grey-1 ml-2 text-lg">
-                        {t('summary.order')}
+                    <p className="text-grey-1 ml-2 text-2xl">
+                        {t('summary.items_title')}
                     </p>
                 </div>
 
@@ -89,6 +84,8 @@ const MainDiv = styled.div`
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     display: flex;
+    align-items: center;
+    padding: 1rem 0rem 0rem 1.5rem;
 `
 
 const TabsDiv = styled.div`

@@ -90,7 +90,7 @@
         "approve": "Approve",
         "decline": "Decline",
         "missing": "Missing",
-        "review": "Review",
+        "select": "Select",
         "submit": "Submit Review"
     },
     "reject_modal": {
@@ -189,8 +189,7 @@
         "email": "Email",
         "new_items": "New Items",
         "summary_title": "Summary",
-        "items_title": "Items",
-        "order": "Order"
+        "items_title": "Items"
     },
     "review_toast": {
         "success1": "We have registered your review!",

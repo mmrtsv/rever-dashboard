@@ -90,7 +90,7 @@
         "approve": "Aprobar",
         "decline": "Declinar",
         "missing": "Perdido",
-        "review": "Revisar",
+        "select": "Seleccionar",
         "submit": "Enviar revisión"
     },
     "reject_modal": {
@@ -189,8 +189,7 @@
         "email": "Correo electrónico",
         "new_items": "Nuevos artículos",
         "summary_title": "Resumen",
-        "items_title": "Artículos",
-        "order": "Pedido"
+        "items_title": "Artículos"
     },
     "review_toast": {
         "success1": "¡Hemos registrado la revisión correctamente!",

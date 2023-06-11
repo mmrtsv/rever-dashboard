@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from 'styled-components'
 import { useSearchProcess } from '@/hooks'
