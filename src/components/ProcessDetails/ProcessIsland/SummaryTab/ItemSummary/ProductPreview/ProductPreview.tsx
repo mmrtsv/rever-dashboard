@@ -19,10 +19,7 @@ const ProductPreview: React.FC<ProductPreviewProps> = ({ product }) => {
     const returnReason = product.product_return_reason
 
     return (
-        <div
-            data-testid="ProductPreview"
-            className="flex w-fit flex-col items-center"
-        >
+        <div data-testid="ProductPreview" className="w-fit">
             <Preview>
                 <div className="h-fit w-16">
                     <img src={imgSrc} alt="ProductImage" />

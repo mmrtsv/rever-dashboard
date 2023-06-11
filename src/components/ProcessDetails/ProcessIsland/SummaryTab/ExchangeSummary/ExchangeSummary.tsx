@@ -3,6 +3,7 @@ import { RepeatIcon } from '@itsrever/design-system'
 import styled from 'styled-components'
 import { useTheme } from '@itsrever/design-system'
 import { ModelsReturnLineItem } from '@itsrever/dashboard-api'
+import { moreThan } from '@/utils'
 
 interface ExchangeSummaryProps {
     newOrderId: string
@@ -26,20 +27,16 @@ const ExchangeSummary: React.FC<ExchangeSummaryProps> = ({
                     {t('summary.exchanges_title')}
                 </p>
             </div>
-            <div className="mt-6 grid w-fit grid-cols-2 items-center gap-4">
+            <div className="items center mt-6 flex gap-4">
                 <p>
                     <b>{t('summary.new_order_id')}</b>
                 </p>
+                <p>{newOrderId}</p>
+            </div>
+            <div className="items center mt-4 flex gap-4">
                 <p>
                     <b>{t('summary.email')}</b>
                 </p>
-                <hr
-                    className="col-span-3"
-                    style={{
-                        color: theme.colors.grey[2]
-                    }}
-                />
-                <p>{newOrderId}</p>
                 <p>{email}</p>
             </div>
             <p className="mt-6">
@@ -55,5 +52,8 @@ const ExchangeSummary: React.FC<ExchangeSummaryProps> = ({
 export default ExchangeSummary
 
 const ExchangesDiv = styled.div`
-    margin-top: 3rem;
+    margin-top: 2rem;
+    @media ${moreThan.xl} {
+        margin-top: 0;
+    }
 `

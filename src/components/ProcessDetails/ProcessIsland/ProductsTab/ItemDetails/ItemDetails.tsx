@@ -1,5 +1,5 @@
 import {
-    ModelsPublicReturnProcess,
+    ModelsMoneyFormat,
     ModelsReturnLineItem
 } from '@itsrever/dashboard-api'
 import styled from 'styled-components'
@@ -8,21 +8,20 @@ import { ChevronLeftIcon } from '@itsrever/design-system'
 import { SelectedItem } from '../ProductsTab'
 import { useTranslation } from 'react-i18next'
 import { LineItemStatus } from '@/components/LineItems'
-import { formatPrice } from '@/utils'
-import { RefundActions } from '@/utils'
+import { formatPrice, RefundActions } from '@/utils'
 
 interface LItemProps {
     setSelectedItem: (s: SelectedItem) => void
     lineItem?: ModelsReturnLineItem
+    moneyFormat: ModelsMoneyFormat
 }
 
 export const LineItemInfo: React.FC<LItemProps> = ({
     setSelectedItem,
-    lineItem
+    lineItem,
+    moneyFormat
 }) => {
     const { t } = useTranslation()
-
-    const process: ModelsPublicReturnProcess = {}
 
     let imgSrc = NoAvailable
     if (lineItem?.product_image_url) {
@@ -43,14 +42,11 @@ export const LineItemInfo: React.FC<LItemProps> = ({
                 : 2
     }
 
-    const trackingId = process.tracking_id
-    const trackingUrl = process.tracking_url
-
     let productPrice = undefined
     if (lineItem?.total && lineItem.quantity)
         productPrice = formatPrice(
             Math.round(lineItem.total / lineItem.quantity),
-            process.currency_money_format ?? {}
+            moneyFormat
         )
 
     const compensationMethod = lineItem?.action
@@ -101,23 +97,6 @@ export const LineItemInfo: React.FC<LItemProps> = ({
                             ? t(`select_reason.${productReturnReason}`)
                             : 'No reason catched'}
                     </p>
-                </div>
-                <div>
-                    <p className="mb-2">
-                        <b>{t('item_details.tracking')}</b>
-                    </p>
-                    {trackingId && trackingUrl ? (
-                        <a
-                            className="text-primary-dark break-words"
-                            href={trackingUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            {trackingId}
-                        </a>
-                    ) : (
-                        '-'
-                    )}
                 </div>
                 <div>
                     <p className="mb-2">

@@ -3,34 +3,23 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { lessThan, moreThan } from '@/utils'
 
-interface TitlesProps {
-    title?: string
-    icon?: React.ReactNode
-}
-
-const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
+const TitlesSplitLineItem = () => {
     const { t } = useTranslation()
     return (
-        <>
-            <div className="flex w-fit flex-row items-center">
-                {icon && icon}
-                <p className="text-grey-1 ml-2 text-lg">{title && title}</p>
-            </div>
-            <TitlesDiv>
-                <p className="text-center">
-                    <b>{t('titles_item.image')}</b>
-                </p>
-                <DissapearingPL className="col-span-2">
-                    <b>{t('titles_item.product_name')}</b>
-                </DissapearingPL>
-                <p className="text-center">
-                    <b>{t('titles_item.price')}</b>
-                </p>
-                <p className="text-center">
-                    <b>{t('titles_item.action')}</b>
-                </p>
-            </TitlesDiv>
-        </>
+        <TitlesDiv>
+            <p className="text-center">
+                <b>{t('titles_item.image')}</b>
+            </p>
+            <DissapearingPL className="col-span-2">
+                <b>{t('titles_item.product_name')}</b>
+            </DissapearingPL>
+            <p className="text-center">
+                <b>{t('titles_item.price')}</b>
+            </p>
+            <p className="text-center">
+                <b>{t('titles_item.action')}</b>
+            </p>
+        </TitlesDiv>
     )
 }
 

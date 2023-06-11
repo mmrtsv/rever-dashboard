@@ -1,6 +1,5 @@
 {
     "toast_errors": {
-        "no_label": "This process does not have a label",
         "presigned_url_404": "Label unavailable",
         "presigned_url_500": "The label is currently unavailable"
     },
@@ -190,7 +189,8 @@
         "email": "Email",
         "new_items": "New Items",
         "summary_title": "Summary",
-        "items_title": "Items"
+        "items_title": "Items",
+        "order": "Order"
     },
     "review_toast": {
         "success1": "We have registered your review!",

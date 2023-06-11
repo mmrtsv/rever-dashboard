@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import ItemsIcon from '@mui/icons-material/SellOutlined'
 import { ModelsReturnLineItem } from '@itsrever/dashboard-api'
 import React from 'react'
-import { moreThan } from '@/utils'
 import { ProductPreview } from './ProductPreview'
 
 interface ItemSummaryProps {
@@ -36,16 +35,4 @@ const ItemSummary: React.FC<ItemSummaryProps> = ({ products }) => {
 
 export default ItemSummary
 
-const ItemsDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
-    margin-left: 1rem;
-    @media ${moreThan.md} {
-        margin-left: 2rem;
-        margin-top: 0;
-    }
-    @media ${moreThan.lg} {
-        margin-left: 4rem;
-    }
-`
+const ItemsDiv = styled.div``

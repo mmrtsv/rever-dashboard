@@ -35,23 +35,21 @@ export const SummaryTab: React.FC<SummaryProps> = ({ process }) => {
 
     return (
         <MainDiv>
-            <div>
-                <RefundSummary
-                    products={products}
-                    costs={costs}
-                    moneyFormat={moneyFormat}
-                    bankTransferRefundAmount={bankTransferRefundAmount}
-                    originalRefundAmount={originalRefundAmount}
-                    giftCardRefundAmount={giftCardRefundAmount}
+            <RefundSummary
+                products={products}
+                costs={costs}
+                moneyFormat={moneyFormat}
+                bankTransferRefundAmount={bankTransferRefundAmount}
+                originalRefundAmount={originalRefundAmount}
+                giftCardRefundAmount={giftCardRefundAmount}
+            />
+            {newOrderId && (
+                <ExchangeSummary
+                    newOrderId={newOrderId}
+                    email={email}
+                    exchangedItems={exchangedItems}
                 />
-                {newOrderId && (
-                    <ExchangeSummary
-                        newOrderId={newOrderId}
-                        email={email}
-                        exchangedItems={exchangedItems}
-                    />
-                )}
-            </div>
+            )}
             <ItemSummary products={products} />
         </MainDiv>
     )
@@ -61,11 +59,11 @@ export default SummaryTab
 
 const MainDiv = styled.div`
     padding: 2rem;
-    height: 100%;
     display: flex;
     flex-direction: column;
     @media ${moreThan.xl} {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 3rem;
     }
 `

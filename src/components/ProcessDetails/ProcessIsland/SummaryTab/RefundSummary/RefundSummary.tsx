@@ -54,7 +54,7 @@ const RefundSummary: React.FC<RefundSummaryProps> = ({
     }
 
     return (
-        <>
+        <div className="mb-8">
             <div className="flex items-center">
                 <SummaryIcon
                     style={{
@@ -122,7 +122,7 @@ const RefundSummary: React.FC<RefundSummaryProps> = ({
                     <b>{finalBalance}</b>
                 </p>
             </SummaryLine>
-        </>
+        </div>
     )
 }
 
