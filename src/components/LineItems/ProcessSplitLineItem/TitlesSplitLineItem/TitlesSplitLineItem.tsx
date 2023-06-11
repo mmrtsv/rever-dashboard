@@ -29,9 +29,6 @@ const TitlesSplitLineItem: React.FC<TitlesProps> = ({ title, icon }) => {
                 <p className="text-center">
                     <b>{t('titles_item.action')}</b>
                 </p>
-                <p className="text-center">
-                    <b>{t('titles_item.status')}</b>
-                </p>
             </TitlesDiv>
         </>
     )
@@ -47,11 +44,10 @@ const DissapearingPL = styled.p`
 
 const TitlesDiv = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.5rem;
     padding: 1rem;
     @media ${moreThan.md} {
-        max-width: 80%;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 `

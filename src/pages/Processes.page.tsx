@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import PageComponent from '@/components/PageComponent'
 import { useState } from 'react'
 import styled from 'styled-components'
-import FilterComponent from '../components/SearchComponent'
 import TopBar from '../components/Processes/TopBarP/TopBarProcesses'
 import ProcessesTable from '@/components/Processes/ProcessesTable/ProcessesTable'
 import { useAppSelector } from '@/redux/hooks'
@@ -23,12 +22,6 @@ function Orders() {
     useEffect(() => {
         resetPages()
     }, [selectedEcommerce])
-    const handleChangeFreeText = (freeText: string) => {
-        if (freeText.length === 0 || freeText.length > 2) {
-            resetPages()
-        }
-        setFreeText(freeText)
-    }
 
     function resetPages() {
         setActualPage(0)
@@ -71,15 +64,14 @@ function Orders() {
     return (
         <PageComponent>
             <div className="flex h-full flex-col">
-                <TopBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                <TopBar
+                    currentTab={currentTab}
+                    setCurrentTab={setCurrentTab}
+                    freeText={FreeText}
+                    setFreeText={setFreeText}
+                    resetPages={resetPages}
+                />
                 <Main className="overflow-x-auto">
-                    <div className="w-fit pt-4">
-                        <FilterComponent
-                            freeText={FreeText}
-                            setFreeText={handleChangeFreeText}
-                            rowCount={ProcessesCall.rowcount}
-                        />
-                    </div>
                     <div data-testid="ProcessesTable">
                         <TitlesP />
                         {currentTab === 0 ? (

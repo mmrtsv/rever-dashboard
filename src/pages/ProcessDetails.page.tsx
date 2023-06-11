@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PageComponent from '../components/PageComponent'
 import styled from 'styled-components'
 import { useSearchProcess, usePresignedURLLabel } from '@/hooks'
-import ProcessDetailTabs from '@/components/ProcessDetailsTabs/ProcessDetailsTabs'
+import ProcessIsland from '@/components/ProcessDetails/ProcessIsland/ProcessIsland'
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import PDFIcon from '@mui/icons-material/PictureAsPdfOutlined'
 import EditIcon from '@mui/icons-material/Edit'
@@ -12,6 +12,7 @@ import { Button, toast } from '@itsrever/design-system'
 import { moreThan } from '@/utils/device'
 import { useParams } from 'react-router-dom'
 import LoadingModal from '@/components/Loading/LoadingModal/LoadingModal'
+import { InformationIsland } from '@/components/ProcessDetails/InformationIsland'
 
 function ProcessDetails() {
     const { i18n, t } = useTranslation()
@@ -61,7 +62,7 @@ function ProcessDetails() {
                         </Title>
                         <p className="mt-2">{returnDate}</p>
                     </div>
-                    <div
+                    {/* <div
                         className="flex cursor-pointer items-center"
                         onClick={downloadLabel}
                     >
@@ -69,23 +70,33 @@ function ProcessDetails() {
                         <p className="ml-2 mr-8">
                             {t('process_details_page.download_label')}
                         </p>
-                    </div>
-                    {showReviewButton && (
+                    </div> */}
+                    {/* {showReviewButton && (
                         <Button
                             onClick={() => setReviewMode(true)}
                             iconLeft={<EditIcon />}
                         >
                             {t('process_details_page.review')}
                         </Button>
-                    )}
+                    )} */}
                 </TopDiv>
-                <ProcessDetailTabs process={process} reviewMode={reviewMode} />
+
+                <IslandsDiv>
+                    <ProcessIsland process={process} reviewMode={reviewMode} />
+                    <InformationIsland process={process} />
+                </IslandsDiv>
             </Main>
         </PageComponent>
     )
 }
 
 export default ProcessDetails
+
+const IslandsDiv = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+`
 
 const TopDiv = styled.div`
     display: flex;
@@ -106,10 +117,7 @@ const Title = styled.h6`
 const Main = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
     height: 100%;
-    @media ${moreThan.xl} {
-        margin-left: 2rem;
-        margin-right: 2rem;
-    }
+    margin-left: 1rem;
+    margin-right: 1rem;
 `

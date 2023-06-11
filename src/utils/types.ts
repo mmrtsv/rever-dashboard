@@ -20,7 +20,7 @@ export const ReturnStatus = {
     Started: 'STARTED',
     Collected: 'COLLECTED',
     ReviewRequired: 'REVIEW_REQUIRED',
-    OnHold: 'COMPLETED'
+    Completed: 'COMPLETED'
 }
 
 export const ReviewStatus = {

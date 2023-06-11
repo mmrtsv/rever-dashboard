@@ -8,14 +8,9 @@ import { useTheme } from '@itsrever/design-system'
 interface SearchProps {
     freeText: string
     setFreeText: (freeText: string) => void
-    rowCount: number | undefined
 }
 
-const FilterComponent: React.FC<SearchProps> = ({
-    freeText,
-    setFreeText,
-    rowCount
-}) => {
+const FilterComponent: React.FC<SearchProps> = ({ freeText, setFreeText }) => {
     const { t } = useTranslation()
     const theme = useTheme()
 
@@ -52,7 +47,7 @@ const FilterComponent: React.FC<SearchProps> = ({
                             <SearchIcon
                                 style={{ color: theme.colors.primary.dark }}
                                 fontSize="medium"
-                            />{' '}
+                            />
                             {t('search_component.search')}
                         </p>
                     }
@@ -60,21 +55,6 @@ const FilterComponent: React.FC<SearchProps> = ({
                     onChange={(e) => setFreeText(e.target.value)}
                 />
             </FilterBox>
-            {freeText.length > 2 && (
-                <>
-                    <hr
-                        className="mb-2"
-                        style={{
-                            border: `0.5px solid ${theme.colors.grey[2]}`
-                        }}
-                    />
-                    <p className="text-xs">
-                        {rowCount
-                            ? t('search_component.results') + rowCount
-                            : t('search_component.results') + '0'}
-                    </p>
-                </>
-            )}
         </>
     )
 }

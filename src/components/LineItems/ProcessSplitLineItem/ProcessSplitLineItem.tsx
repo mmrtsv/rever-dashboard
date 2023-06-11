@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import ShippingStatus from '@/components/ShippingStatus'
-import { LineItemStatus } from '../LineItemStatus'
 import NoAvailable from '../../../assets/images/noAvailable.png'
 import {
     ModelsMoneyFormat,
@@ -15,41 +13,17 @@ import { useTranslation } from 'react-i18next'
 export interface ProcessSplitLineItemProps {
     lineItem: ModelsPublicReturnLineItem
     moneyFormat: ModelsMoneyFormat
-    lastKnownShippingStatus?: number
-    returnStatus?: string
 }
 
 const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
     lineItem,
-    moneyFormat,
-    lastKnownShippingStatus,
-    returnStatus
+    moneyFormat
 }) => {
     const { t } = useTranslation()
 
     let imgSrc = NoAvailable
     if (lineItem.product_image_url) {
         imgSrc = lineItem.product_image_url
-    }
-
-    let shippingStatus = lineItem.return_process?.last_known_shipping_status
-    if (lastKnownShippingStatus != undefined && lastKnownShippingStatus >= 0) {
-        shippingStatus = lastKnownShippingStatus
-    }
-
-    const showReviewStatus =
-        returnStatus === 'COMPLETED' &&
-        lineItem.reviews &&
-        lineItem.reviews.length > 0
-
-    let reviewStatus = 0
-    if (lineItem.reviews && lineItem.reviews?.length > 0) {
-        reviewStatus =
-            lineItem.reviews[0].status === 'APPROVED'
-                ? 0
-                : lineItem.reviews[0].status === 'DECLINED'
-                ? 1
-                : 2
     }
 
     let productPrice = undefined
@@ -83,13 +57,6 @@ const ProcessSplitLineItem: React.FC<ProcessSplitLineItemProps> = ({
                     )}
                     <Refund>{t(`actions.method${lineItem.action}`)}</Refund>
                 </div>
-                <StatusBox>
-                    {showReviewStatus ? (
-                        <LineItemStatus status={reviewStatus} />
-                    ) : (
-                        <ShippingStatus status={shippingStatus} />
-                    )}
-                </StatusBox>
             </Box>
         </SplitLineItemCard>
     )
@@ -107,12 +74,12 @@ const Refund = styled.p`
 
 const Box = styled.div`
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.5rem;
     align-items: center;
     width: 100%;
     @media ${moreThan.md} {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         align-items: center;
         width: 100%;
     }
@@ -123,12 +90,6 @@ const ItemName = styled.p`
     @media ${lessThan.md} {
         display: none;
     }
-`
-
-const StatusBox = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
 `
 
 const SplitLineItemCard = styled.div`

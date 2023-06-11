@@ -53,6 +53,20 @@ const ShippingStatus: React.FC<ShippingStatusProps> = ({ status }) => {
     const { t } = useTranslation()
     return (
         <StatusDiv>
+            <p
+                className="mr-2 text-center"
+                style={{
+                    color: `${
+                        _.find(ShippingStatuses, { enum: status })?.color
+                    }`
+                }}
+            >
+                {t(
+                    `shipping_status.${
+                        _.find(ShippingStatuses, { enum: status })?.text
+                    }`
+                )}
+            </p>
             {status === 0 ? (
                 <AccessTimeIcon
                     style={{
@@ -95,20 +109,6 @@ const ShippingStatus: React.FC<ShippingStatusProps> = ({ status }) => {
                     }}
                 />
             )}
-            <p
-                className="ml-2 text-center"
-                style={{
-                    color: `${
-                        _.find(ShippingStatuses, { enum: status })?.color
-                    }`
-                }}
-            >
-                {t(
-                    `shipping_status.${
-                        _.find(ShippingStatuses, { enum: status })?.text
-                    }`
-                )}
-            </p>
         </StatusDiv>
     )
 }

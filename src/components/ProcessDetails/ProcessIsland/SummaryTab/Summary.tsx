@@ -64,7 +64,7 @@ const MainDiv = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    @media ${moreThan.md} {
+    @media ${moreThan.xl} {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }

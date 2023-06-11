@@ -82,9 +82,8 @@
         "review": "Revisar"
     },
     "process_details_tabs": {
-        "products": "Products",
-        "order_details": "Details",
-        "summary": "Summary"
+        "products": "Pedido",
+        "summary": "Resumen"
     },
     "products_tab": {
         "returned_items": "Artículos devueltos",
@@ -120,13 +119,12 @@
         "email": "Email",
         "phone": "Teléfono",
         "address": "Dirección",
-        "order_info": "Información general",
-        "statuses": "Estados",
+        "statuses": "Logística",
         "status": "Estado",
         "return_method": "Método de devolución",
         "order": "Pedido",
-        "ID": "ID",
-        "shipping_status": "Estado del envío",
+        "ID": "Tracking",
+        "shipping_status": "Estado",
         "return_status": "Devolución"
     },
 

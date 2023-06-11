@@ -4,20 +4,20 @@ import { useTheme } from '@itsrever/design-system'
 import { Tabs, Tab } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ModelsPublicReturnProcess } from '@itsrever/dashboard-api'
-import { DetailsTab, ProductsTab, SummaryTab } from '../ProcessDetailsTabs'
+import { ProductsTab, SummaryTab } from '.'
 
 interface TabsProps {
     process: ModelsPublicReturnProcess
     reviewMode: boolean
 }
 
-const ProcessDetailTabs: React.FC<TabsProps> = ({ process, reviewMode }) => {
+const ProcessIsland: React.FC<TabsProps> = ({ process, reviewMode }) => {
     const { t } = useTranslation()
     const theme = useTheme()
     const [currentTab, setCurrentTab] = useState(0)
 
     return (
-        <>
+        <div className="col-span-2">
             <MainDiv>
                 <TabsDiv>
                     <Tabs
@@ -48,16 +48,6 @@ const ProcessDetailTabs: React.FC<TabsProps> = ({ process, reviewMode }) => {
                                         : theme.colors.grey[1]
                                 }`
                             }}
-                            label={t('process_details_tabs.order_details')}
-                        />
-                        <Tab
-                            style={{
-                                color: `${
-                                    currentTab === 2
-                                        ? theme.colors.primary.dark
-                                        : theme.colors.grey[1]
-                                }`
-                            }}
                             label={t('process_details_tabs.summary')}
                         />
                     </Tabs>
@@ -66,17 +56,15 @@ const ProcessDetailTabs: React.FC<TabsProps> = ({ process, reviewMode }) => {
             <InfoDiv>
                 {currentTab === 0 ? (
                     <ProductsTab process={process} reviewMode={reviewMode} />
-                ) : currentTab === 1 ? (
-                    <DetailsTab process={process} />
                 ) : (
                     <SummaryTab process={process} />
                 )}
             </InfoDiv>
-        </>
+        </div>
     )
 }
 
-export default ProcessDetailTabs
+export default ProcessIsland
 
 const MainDiv = styled.div`
     background-color: #eee;
@@ -100,4 +88,6 @@ const InfoDiv = styled.div`
     }
     width: 100%;
     background-color: #fff;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
 `

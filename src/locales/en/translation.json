@@ -82,8 +82,7 @@
         "review": "Review"
     },
     "process_details_tabs": {
-        "products": "Products",
-        "order_details": "Details",
+        "products": "Order",
         "summary": "Summary"
     },
     "products_tab": {
@@ -120,13 +119,12 @@
         "email": "Email",
         "phone": "Phone",
         "address": "Address",
-        "order_info": "General information",
-        "statuses": "Statuses",
+        "statuses": "Logistics",
         "status": "Status",
         "return_method": "Return method",
         "order": "Order",
-        "ID": "ID",
-        "shipping_status": "Shipping status",
+        "ID": "Tracking",
+        "shipping_status": "Status",
         "return_status": "Return status"
     },
 
